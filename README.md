@@ -1,5 +1,7 @@
 # UNDP Cabo Verde #
 
+[![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=master)](https://travis-ci.org/Vizzuality/undp_cabo_verde)
+
 ## Requirements ##
 
   **Ruby version:** mri 2.2.2

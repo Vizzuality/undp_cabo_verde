@@ -8,11 +8,11 @@ addons:
   postgresql: '9.3'
 
 before_script:
-  - psql -c 'create database undp_travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
 
 script: 
-  - RAILS_ENV=test bundle exec rake db:setup --trace
+  - 'bundle exec rake db:create'
+  - 'bundle exec rake db:migrate'
   - 'bundle exec rake'
 
 notifications:
