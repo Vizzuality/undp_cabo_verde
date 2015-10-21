@@ -1,0 +1,23 @@
+language: ruby
+cache: bundler
+
+rvm:
+  - 2.2.2
+
+addons:
+  postgresql: '9.4'
+
+script: 
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - 'bundle exec rake'
+
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database undp_travis_ci_test;' -U postgres
+
+notifications:
+  email:
+    recipients:
+      - sebastian.schkudlara@vizzuality.com
+    on_failure: change
+    on_success: never
