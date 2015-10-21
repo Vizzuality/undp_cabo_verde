@@ -5,14 +5,14 @@ rvm:
   - 2.2.2
 
 addons:
-  postgresql: '9.4'
+  postgresql: '9.3'
 
 before_script:
   - psql -c 'create database undp_travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
 
 script: 
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - RAILS_ENV=test bundle exec rake db:setup --trace
   - 'bundle exec rake'
 
 notifications:
