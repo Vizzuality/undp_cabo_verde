@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  protected
+  private
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
       devise_parameter_sanitizer.for(:sign_up) << [:attribute, :firstname, :lastname]
@@ -57,4 +57,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def after_inactive_sign_up_path_for(resource)
       super(resource)
     end
+
+    def menu_highlight
+      @menu_highlighted = :account
+    end
+
 end

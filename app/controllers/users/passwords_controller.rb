@@ -20,7 +20,7 @@ class Users::PasswordsController < Devise::PasswordsController
     super
   end
 
-  protected
+  private
     def after_resetting_password_path_for(resource)
       super(resource)
     end
@@ -28,6 +28,10 @@ class Users::PasswordsController < Devise::PasswordsController
     # The path used after sending reset password instructions
     def after_sending_reset_password_instructions_path_for(resource_name)
       super(resource_name)
+    end
+
+    def menu_highlight
+      @menu_highlighted = :account
     end
   
 end

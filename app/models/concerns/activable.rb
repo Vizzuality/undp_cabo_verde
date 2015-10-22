@@ -1,4 +1,4 @@
-module Deactivatable
+module Activable
 
   extend ActiveSupport::Concern
 

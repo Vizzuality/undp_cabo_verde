@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    @menu_highlighted = :home
   end
 
   def deactivate
@@ -41,6 +42,10 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def menu_highlight
+      @menu_highlighted = :users
     end
 
 end

@@ -55,3 +55,7 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
 ## DEPLOYMENT ##
 
 ### Heroku ###
+
+## Before creating a pull request
+
+Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde/blob/master/CONTRIBUTING.md).
