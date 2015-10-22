@@ -1,5 +1,7 @@
 require 'cucumber/rails'
 require 'factory_girl'
+require 'email_spec'
+require 'email_spec/cucumber'
 
 ActionController::Base.allow_rescue = false
 

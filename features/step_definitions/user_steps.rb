@@ -6,7 +6,7 @@ Given /^I am authenticated user$/ do
   @user = FactoryGirl.create(:user)
   email = @user.email
   password = @user.password
-  visit '/users/sign_in'
+  visit '/account/login'
   fill_in "user_email", with: email
   fill_in "user_password", with: password
   click_button "Log in"

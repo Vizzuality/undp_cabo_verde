@@ -1,0 +1,7 @@
+- if location.active
+  p= link_to 'Deactivate', deactivate_user_path(location), method: :patch, target: '_self'
+- else
+  p
+    | Deactivated at: 
+    = location.deactivated_at.to_time
+  p= link_to 'Activate', activate_user_path(location), method: :patch, target: '_self'

@@ -1,0 +1,6 @@
+h1= @user.name || 'User'
+
+p
+  | ID: 
+  = @user.id
+p= render 'shared/deactivatable_links', location: @user

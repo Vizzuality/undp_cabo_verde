@@ -28,6 +28,7 @@ group :development, :test do
   gem 'spring'
   gem 'teaspoon-mocha'
   gem 'rspec_api_documentation'
+  gem 'bullet'
 end
 
 group :development do
@@ -43,6 +44,8 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
+  gem 'email_spec'
+  gem 'timecop'
 end
 
 gem 'dotenv-rails'

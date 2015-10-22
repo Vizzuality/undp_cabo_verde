@@ -11,13 +11,15 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
     when /the login page/
-      '/users/sign_in'
+      '/account/login'
     when /the logout page/
-      '/users/sign_out'
+      '/account/logout'
     when /the register page/
-      '/users/sign_up'
+      '/account/register'
     when /the profile edit page for "(.*)"$/
       edit_user_registration_path(User.find_by_email($1))
+    when /the dashboard page/
+      authenticated_root_path
     else
       begin
         page_name =~ /the (.*) page/

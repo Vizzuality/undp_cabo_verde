@@ -4,6 +4,8 @@ FactoryGirl.define do
 
   # Users #
   factory :user, class: User do
+    firstname 'Pepe'
+    lastname 'Moreno'
     email
     password  'password'
     password_confirmation {|u| u.password}

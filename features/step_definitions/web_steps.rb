@@ -19,10 +19,14 @@ When /^(?:|I )press "([^"]*)"(?: within "([^"]*)")?$/ do |button, selector|
   end
 end
 
-When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
-  with_scope(selector) do
-    click_link(link)
-  end
+# When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
+#   with_scope(selector) do
+#     click_link(link)
+#   end
+# end
+
+When /^(?:|I )follow "([^"]*)"$/ do |link|
+  click_link(link)
 end
 
 When /^(?:|I )double click on "([^"]*)"(?: within "([^"]*)")?$/ do |div, selector|
