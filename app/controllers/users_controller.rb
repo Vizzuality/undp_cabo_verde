@@ -3,22 +3,16 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: :dashboard
   before_action :set_user, except: [:index, :dashboard]
+  before_action :user_filters, only: :index
 
   load_and_authorize_resource
   
-  # ToDo: Refactoring
   def index
-    if params[:active].present? && params[:active]['false'].present? && current_user && current_user.admin?
-      @users = User.filter_inactives
-    elsif params[:active].present? && params[:active]['true'].present? && current_user && current_user.admin?
-      @users = User.filter_actives
-    else
-      if current_user && current_user.admin?
-        @users = User.all
-      else
-        @users = User.filter_actives
-      end
-    end
+    @users = if current_user && current_user.admin?
+               User.filter_users(user_filters)
+             else
+               User.filter_actives
+             end
   end
 
   def show
@@ -73,6 +67,10 @@ class UsersController < ApplicationController
   end
 
   private
+    def user_filters
+      params.permit(:active)
+    end
+
     def set_current_user
       @user = current_user
     end
