@@ -1,0 +1,2 @@
+class Person < Actor
+end
