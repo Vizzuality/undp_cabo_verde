@@ -6,6 +6,7 @@ h2
   .form-inputs
     = f.input :firstname
     = f.input :lastname
+    = f.input :institution
     = f.input :email, required: true, autofocus: true
     - if devise_mapping.confirmable? && resource.pending_reconfirmation?
       p

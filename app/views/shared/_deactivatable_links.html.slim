@@ -1,6 +1,6 @@
-- if location.activated?
+- if (can? :activate, location) && location.activated?
   p= link_to 'Deactivate', deactivate_user_path(location), method: :patch
-- else
+- if (can? :deactivate, location) && location.deactivated?
   p
     | Deactivated at: 
     = location.deactivated_at.to_time

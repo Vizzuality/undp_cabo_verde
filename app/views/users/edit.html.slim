@@ -1,18 +1,17 @@
 h1
+  | Edit 
   = @user.name || 'User'
-  | 
+  |
   = " (admin)" if @user.admin?
-
-p= "Firstname: #{@user.firstname}"
-p= "Name: #{@user.lastname}"
-p= "Institution: #{@user.institution}"
 
 - if (can? :make_user, @user) && @user.admin?
   p= link_to 'Make user', make_user_user_path(@user), method: :patch
 - if (can? :make_admin, @user) && !@user.admin?
   p= link_to 'Make admin', make_admin_user_path(@user), method: :patch
 
-- if can? :update, @user
-  p= link_to 'Edit user', edit_user_path(@user)
-- if current_user && current_user.admin?
+= render 'form'
+
+- if current_user.admin?
   p= render 'shared/deactivatable_links', location: @user
+
+= link_to "Back", :back

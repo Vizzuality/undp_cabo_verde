@@ -1,0 +1,9 @@
+= simple_form_for(@user, html: { method: :put }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :firstname
+    = f.input :lastname
+    = f.input :institution
+    = f.input :email, required: true, autofocus: true
+  .form-actions
+    = f.button :submit, "Update"

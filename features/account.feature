@@ -11,6 +11,7 @@ I want to edit account
     When I fill in "user_email" with "test@test.com"
     And I fill in "Firstname" with "Don"
     And I fill in "Lastname" with "Pepito"
+    And I fill in "Institution" with "Columpio"
     And I fill in "user_current_password" with "password"
     And I press "Update"
     Then I should see "Your account has been updated successfully."

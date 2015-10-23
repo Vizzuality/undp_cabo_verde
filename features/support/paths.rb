@@ -20,6 +20,12 @@ module NavigationHelpers
       edit_user_registration_path(User.find_by_email($1))
     when /the dashboard page/
       authenticated_root_path
+    when /the users page with filter active/
+      '/users?active=true'
+    when /the user page for "(.*)"$/
+      user_path(User.find_by_email($1))
+    when /the edit user page for "(.*)"$/
+      edit_user_path(User.find_by_email($1))
     else
       begin
         page_name =~ /the (.*) page/

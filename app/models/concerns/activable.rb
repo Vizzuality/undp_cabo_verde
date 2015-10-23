@@ -28,6 +28,10 @@ module Activable
       self.deactivated_at = Time.now if self.active_changed? && self.deactivated?
     end
 
+    def status
+      self.active? ? "activated" : "deactivated"
+    end
+
     # ToDo deactivate activate dependencies
   end
 

@@ -18,6 +18,7 @@ gem 'simple_form'
 
 # Users
 gem 'devise'
+gem 'cancancan', '~> 1.10'
 
 # API documentation
 gem 'raddocs'

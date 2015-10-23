@@ -9,6 +9,7 @@ I want to register
     And I fill in "* Password" with "qwertyui"
     And I fill in "* Password confirmation" with "qwertyui"
     And I fill in "Firstname" with "Pepe"
+    And I fill in "Institution" with "Columpio"
     And I press "Sign up"
     Then I should be on the home page
     And I should see "Welcome! You have signed up successfully."

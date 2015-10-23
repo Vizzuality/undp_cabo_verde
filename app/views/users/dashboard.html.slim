@@ -1,1 +1,4 @@
-h1= "Hello #{@user.name}"
+h1
+  = "Hello #{@user.name}"
+  | 
+  = "(admin)" if @user.admin?

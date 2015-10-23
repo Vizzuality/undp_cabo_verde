@@ -15,17 +15,18 @@ Rails.application.routes.draw do
     post   'account/register', to: 'users/registrations#create', as: :register 
     post   'account/password', to: 'users/passwords#create',     as: :secret
     post   'account/edit',     to: 'users/registrations#edit',   as: :account_edit
-    delete 'account/logout',   to: 'users/sessions#destroy',     as: :logout
 
     authenticated :user do
       root 'users#dashboard', as: :authenticated_root
     end
 
   end
-
-  resources :users, only: [:index, :show] do
+  
+  resources :users, except: [:destroy, :new, :create] do
     patch 'deactivate', on: :member
     patch 'activate',   on: :member
+    patch 'make_admin', on: :member
+    patch 'make_user',  on: :member
   end
   
   # # API routes

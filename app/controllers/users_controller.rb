@@ -2,17 +2,38 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: :dashboard
-  before_action :set_user, only: [:show, :activate, :deactivate]
+  before_action :set_user, except: [:index, :dashboard]
 
+  load_and_authorize_resource
+  
+  # ToDo: Refactoring
   def index
-    if params[:active].present? && params[:active]['false'].present?
+    if params[:active].present? && params[:active]['false'].present? && current_user && current_user.admin?
       @users = User.filter_inactives
-    else
+    elsif params[:active].present? && params[:active]['true'].present? && current_user && current_user.admin?
       @users = User.filter_actives
+    else
+      if current_user && current_user.admin?
+        @users = User.all
+      else
+        @users = User.filter_actives
+      end
     end
   end
 
   def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to user_path, notice: 'User updated'
+    else
+      @user.errors.messages.not_saved
+      render :edit
+    end
   end
 
   def dashboard
@@ -35,6 +56,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def make_admin
+    if @user.try(:make_admin)
+      redirect_to users_path
+    else
+      redirect_to user_path(@user)
+    end
+  end
+
+  def make_user
+    if @user.try(:make_user)
+      redirect_to users_path
+    else
+      redirect_to user_path(@user)
+    end
+  end
+
   private
     def set_current_user
       @user = current_user
@@ -42,6 +79,10 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit!
     end
 
     def menu_highlight

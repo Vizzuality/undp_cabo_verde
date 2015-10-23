@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
 
   before :each do
-    @user = create(:user)
-    @user_deactivated = create(:user).deactivate
+    @user   = create(:random_user)
+    @user_2 = create(:random_user)
   end
 
-  context "Homepage for authenticated user" do
+  context "For authenticated user" do
 
     before :each do
       sign_in @user
@@ -19,12 +19,27 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(200)
     end
 
-    it "Deactivate user" do
-      get :deactivate, id: @user.id
-      expect(response).to be_redirect
+    it "GET index returns http success" do
+      get :index
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+    it "GET show returns http success" do
+      get :show, id: @user.id
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+    it "GET edit returns http success" do
+      get :edit, id: @user.id
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
+    end
+
+    it "GET edit for xx user returns http success" do
+      get :edit, id: @user_2.id
       expect(response).to have_http_status(302)
-      @user.deactivated?
-      @user.deactivated_at == Time.now
     end
 
   end
@@ -35,14 +50,6 @@ RSpec.describe UsersController, type: :controller do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
-    end
-
-    it "GET deactivated users" do
-      @users = User.filter_inactives
-      get :index, active: false
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
-      expect(@users.size).to eq(1)
     end
 
     it "GET show returns http success" do
