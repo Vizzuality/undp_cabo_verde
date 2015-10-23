@@ -33,4 +33,25 @@ FactoryGirl.define do
     user_id 1
   end
 
+  factory :person, class: Person do
+    title 'Person one'
+    type 'Person'
+    description 'Lorem ipsum...'
+    observation 'Lorem ipsum...'
+  end
+
+  factory :organization, class: Organization do
+    title 'Organization one'
+    type 'Organization'
+    description 'Lorem ipsum...'
+    observation 'Lorem ipsum...'
+  end
+
+  factory :person_actor, class: Actor do
+    title 'Person two'
+    type 'Person'
+    description 'Lorem ipsum...'
+    observation 'Lorem ipsum...'
+  end
+
 end

@@ -8,13 +8,10 @@ RSpec.describe Ability, type: :model do
   end
 
   it { Abilities::AdminUser.should include(CanCan::Ability) }
-  it { Abilities::AdminUser.should respond_to(:new).with(1).argument }
 
   it { Abilities::User.should include(CanCan::Ability) }
-  it { Abilities::User.should respond_to(:new).with(1).argument }
 
   it { Abilities::Guest.should include(CanCan::Ability) }
-  it { Abilities::Guest.should respond_to(:new).with(1).argument }
 
   context "admin" do
     it "can manage objects" do

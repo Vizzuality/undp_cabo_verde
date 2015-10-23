@@ -47,6 +47,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'email_spec'
   gem 'timecop'
+  gem 'codeclimate-test-reporter', require: nil
 end
 
 gem 'dotenv-rails'
