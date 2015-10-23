@@ -1,6 +1,6 @@
 # UNDP Cabo Verde #
 
-[![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=develop)](https://travis-ci.org/Vizzuality/undp_cabo_verde)
+[![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=staging)](https://travis-ci.org/Vizzuality/undp_cabo_verde)
 
 ## Requirements ##
 
