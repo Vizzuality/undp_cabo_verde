@@ -19,3 +19,4 @@ exclude_paths:
 - "features/step_definitions/email_steps.rb"
 - "db/schema.rb"
 - "spec/teaspoon_env.rb"
+- "features/step_definitions/web_steps.rb"
