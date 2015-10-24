@@ -1,5 +1,21 @@
 languages:
   Ruby: true
   JavaScript: true
+engines:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+  bundler-audit:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
+  - "**.js"
+  - "**.jsx"
+  - Gemfile.lock
 exclude_paths:
 - "features/step_definitions/web_steps.rb"
+- "features/step_definitions/email_steps.rb"
+- "db/schema.rb"
+- "spec/teaspoon_env.rb"
