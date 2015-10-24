@@ -50,12 +50,18 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
     rake
   ```
 
+## Before creating a pull request
+
+Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde/blob/master/CONTRIBUTING.md).
+
 ## API ## 
 
 ## DEPLOYMENT ##
 
 ### Heroku ###
 
-## Before creating a pull request
+**Automatic deploys from  staging are enabled**
 
-Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde/blob/master/CONTRIBUTING.md).
+Every push to staging will deploy a new version of this app. Deploys happen automatically: be sure that this branch in GitHub is always in a deployable state and any tests have passed before you push.
+
+Heroku wait for CI to pass before deploy.

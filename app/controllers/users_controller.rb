@@ -37,32 +37,24 @@ class UsersController < ApplicationController
   def deactivate
     if @user.try(:deactivate)
       redirect_to users_path
-    else
-      redirect_to user_path(@user)
     end
   end
 
   def activate
     if @user.try(:activate)
       redirect_to users_path
-    else
-      redirect_to user_path(@user)
     end
   end
 
   def make_admin
     if @user.try(:make_admin)
       redirect_to users_path
-    else
-      redirect_to user_path(@user)
     end
   end
 
   def make_user
     if @user.try(:make_user)
       redirect_to users_path
-    else
-      redirect_to user_path(@user)
     end
   end
 
