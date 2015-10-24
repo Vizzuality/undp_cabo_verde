@@ -13,6 +13,10 @@ RSpec.describe UsersController, type: :controller do
     { firstname: 'newfirst', lastname: 'newlast' }
   end
 
+  let!(:attri_fail) do 
+    { email: '' }
+  end
+
   context "For authenticated user" do
 
     before :each do
