@@ -1,0 +1,15 @@
+h1
+  = @actor.title
+  | 
+  = " (#{@actor.type})"
+
+p
+  = link_to 'Edit actor', edit_actor_path(@actor)
+- if current_user
+  p= render 'shared/deactivatable_links', location: @actor
+
+p
+  = @actor.user.name
+
+p
+  = @actor.description

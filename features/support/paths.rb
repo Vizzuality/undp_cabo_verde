@@ -26,6 +26,12 @@ module NavigationHelpers
       user_path(User.find_by_email($1))
     when /the edit user page for "(.*)"$/
       edit_user_path(User.find_by_email($1))
+    when /the actors page with filter active/
+      '/actors?active=true'
+    when /the actor page for "(.*)"$/
+      actor_path(Actor.find_by_title($1))
+    when /the edit actor page for "(.*)"$/
+      edit_actor_path(Actor.find_by_title($1))
     else
       begin
         page_name =~ /the (.*) page/

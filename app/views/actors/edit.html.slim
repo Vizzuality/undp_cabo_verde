@@ -1,0 +1,11 @@
+h1 Edit Actor
+= simple_form_for @actor do |f|
+  = render partial: f
+  .form-actions
+    = f.button :submit, 'Update'
+
+- if current_user
+  p= render 'shared/deactivatable_links', location: @actor
+
+= link_to "Delete", actor_path(@actor), data: { confirm: "Are you sure?" }, method: :delete
+= link_to "Back", :back
