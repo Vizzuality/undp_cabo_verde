@@ -5,5 +5,28 @@ class Actor < ActiveRecord::Base
   belongs_to :user
 
   validates :title, presence: true
+  validates :type,  presence: true
 
+  def self.filter_actors(filters)
+    actives   = filters[:active]['true']  if filters[:active].present?
+    inactives = filters[:active]['false'] if filters[:active].present?
+
+    actors = if actives.present?
+               filter_actives
+             elsif inactives.present?
+               filter_inactives
+             else
+               all
+             end
+    actors
+  end
+
+  def self.types
+    %w(Person Organization)
+  end
+
+  def underscore
+    to_s.underscore
+  end
+  
 end
