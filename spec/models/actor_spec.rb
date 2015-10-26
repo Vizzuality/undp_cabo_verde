@@ -8,19 +8,19 @@ RSpec.describe Actor, type: :model do
     @organization = create(:organization, user_id: @user.id)
   end
 
-  it "create actoractor" do
+  it "create actor" do
     expect(@person.title).to eq('Person one')
     expect(@organization.title).to eq('Organization one')
   end
 
-  it "order actoractor by name" do
+  it "order actor by name" do
     expect(Actor.order(title: :asc)).to eq([@organization, @person])
     expect(Actor.count).to eq(2)
     expect(Person.count).to eq(1)
     expect(Organization.count).to eq(1)
   end
 
-  it "actor with title validation" do
+  it "actor without title - title validation" do
     @person_reject = Person.new(type: 'Person', title: '', user_id: @user.id)
 
     @person_reject.valid?
@@ -43,6 +43,16 @@ RSpec.describe Actor, type: :model do
 
     expect(@person_actor.title).to eq('test person_actor without description')
     expect(@person_actor.description).to be_nil
+  end
+
+  it "Deactivate activate actor" do
+    @person.deactivate
+    expect(Person.count).to eq(1)
+    expect(Person.filter_inactives.count).to eq(1)
+    expect(@person.deactivated?).to be(true)
+    @person.activate
+    expect(@person.activated?).to be(true)
+    expect(Person.filter_actives.count).to be(1)
   end
 
 end

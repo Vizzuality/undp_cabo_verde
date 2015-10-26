@@ -2,13 +2,14 @@
 
 [![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=develop)](https://travis-ci.org/Vizzuality/undp_cabo_verde) [![Code Climate](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/gpa.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde) [![Test Coverage](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/coverage.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/coverage)
 
-## Requirements ##
+## REQUIREMENTS ##
 
-  **Ruby version:** mri 2.2.2
+  - **Ruby version:** 2.2.2
+  - **PostgreSQL**
 
 ## SETUP ##
 
-Just execute the script file in bin/setup
+**Just execute the script file in `bin/setup**
 
   Depends on UNDP Cabo Verde [repository](https://github.com/Vizzuality/undp_cabo_verde)
 
@@ -50,11 +51,11 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
     rake
   ```
 
-## Before creating a pull request
+## BEFORE CREATING A PULL REQUEST
 
 Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde/blob/master/CONTRIBUTING.md).
 
-## API ## 
+## API ##
 
 ## DEPLOYMENT ##
 

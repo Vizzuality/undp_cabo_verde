@@ -28,6 +28,18 @@ Rails.application.routes.draw do
     patch 'make_admin', on: :member
     patch 'make_user',  on: :member
   end
+
+  resources :actors
+
+  resources :people, controller: 'actors', type: 'Person' do
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
+  end
+
+  resources :organizations, controller: 'actors', type: 'Organization' do
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
+  end
   
   # # API routes
   # namespace :api, defaults: {format: 'json'} do
