@@ -29,9 +29,9 @@ module NavigationHelpers
     when /the actors page with filter active/
       '/actors?active=true'
     when /the actor page for "(.*)"$/
-      actor_path(Actor.find_by_title($1))
+      actor_path(Actor.find_by_name($1))
     when /the edit actor page for "(.*)"$/
-      edit_actor_path(Actor.find_by_title($1))
+      edit_actor_path(Actor.find_by_name($1))
     else
       begin
         page_name =~ /the (.*) page/

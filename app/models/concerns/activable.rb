@@ -29,7 +29,7 @@ module Activable
     end
 
     def status
-      self.active? ? "activated" : "deactivated"
+      self.active? ? 'activated' : 'deactivated'
     end
 
     # ToDo deactivate activate dependencies

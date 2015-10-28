@@ -7,9 +7,10 @@ module Abilities
       can :dashboard, ::User
       can :update,    ::User, id: user.id
 
-      can :manage, ::Actor,        user_id: user.id
-      can :manage, ::Person,       user_id: user.id
-      can :manage, ::Organization, user_id: user.id
+      can :manage, ::Actor,      user_id: user.id
+      can :manage, ::ActorMicro, user_id: user.id
+      can :manage, ::ActorMeso,  user_id: user.id
+      can :manage, ::ActorMacro, user_id: user.id
     end
   end
 end

@@ -48,24 +48,27 @@ FactoryGirl.define do
   end
   
   # Actors
-  factory :person, class: Person do
-    title 'Person one'
-    type 'Person'
-    description 'Lorem ipsum...'
+  factory :person_actor, class: ActorMicro do
+    name 'Person two'
+    type 'ActorMicro'
     observation 'Lorem ipsum...'
   end
 
-  factory :organization, class: Organization do
-    title 'Organization one'
-    type 'Organization'
-    description 'Lorem ipsum...'
+  factory :actor_micro, class: ActorMicro do
+    name 'Person one'
+    type 'ActorMicro'
     observation 'Lorem ipsum...'
   end
 
-  factory :person_actor, class: Actor do
-    title 'Person two'
-    type 'Person'
-    description 'Lorem ipsum...'
+  factory :actor_meso, class: ActorMeso do
+    name 'Department one'
+    type 'ActorMeso'
+    observation 'Lorem ipsum...'
+  end
+
+  factory :actor_macro, class: ActorMacro do
+    name 'Organization one'
+    type 'ActorMacro'
     observation 'Lorem ipsum...'
   end
 

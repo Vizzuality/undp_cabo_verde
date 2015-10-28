@@ -22,6 +22,8 @@ module Undp
     # -- all .rb files in that directory are automatically loaded.
 
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'users')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors_relations')]
     config.included_models = ActiveRecord::Base.descendants.map!(&:name)
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.

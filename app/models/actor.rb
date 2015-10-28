@@ -4,8 +4,8 @@ class Actor < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :title, presence: true
-  validates :type,  presence: true
+  validates :name, presence: true
+  validates :type, presence: true
 
   def self.filter_actors(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
@@ -22,7 +22,19 @@ class Actor < ActiveRecord::Base
   end
 
   def self.types
-    %w(Person Organization)
+    %w(ActorMacro ActorMeso ActorMicro)
+  end
+
+  def macro?
+    type.include?('ActorMacro')
+  end
+
+  def meso?
+    type.include?('ActorMeso')
+  end
+
+  def micro?
+    type.include?('ActorMicro')
   end
 
   def underscore

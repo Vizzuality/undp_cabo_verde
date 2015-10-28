@@ -31,12 +31,17 @@ Rails.application.routes.draw do
 
   resources :actors
 
-  resources :people, controller: 'actors', type: 'Person' do
+  resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
     patch 'activate',   on: :member
     patch 'deactivate', on: :member
   end
 
-  resources :organizations, controller: 'actors', type: 'Organization' do
+  resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
+  end
+
+  resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
     patch 'activate',   on: :member
     patch 'deactivate', on: :member
   end

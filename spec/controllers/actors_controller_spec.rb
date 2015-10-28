@@ -6,12 +6,13 @@ RSpec.describe ActorsController, type: :controller do
     @user   = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
-    @person       = create(:person, user_id: @user.id)
-    @organization = create(:organization, user_id: @user.id, active: false)
+
+    @micro = create(:actor_micro, user_id: @user.id)
+    @macro = create(:actor_macro, user_id: @user.id, active: false)
   end
   
   let!(:attri) do 
-    { title: 'New first', description: 'Lorem ipsum dolor...', active: true }
+    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true }
   end
 
   context "Actors for authenticated user" do
@@ -27,25 +28,25 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it "GET show returns http success" do
-      get :show, id: @organization.id
+      get :show, id: @macro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
     it "GET edit returns http success" do
-      get :edit, id: @person.id
+      get :edit, id: @micro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
     it "update actor" do
-      put :update, id: @organization.id, actor: attri
+      put :update, id: @macro.id, actor: attri
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
     it "delete actor" do
-      delete :destroy, id: @organization.id
+      delete :destroy, id: @macro.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
@@ -61,7 +62,7 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it "GET show returns http success" do
-      get :show, id: @person.id
+      get :show, id: @micro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
@@ -75,13 +76,13 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it "Activate actor" do
-      patch :activate, id: @organization.id, type: 'Organization'
+      patch :activate, id: @macro.id, type: 'ActorMacro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
     it "Deactivate actor" do
-      patch :deactivate, id: @person.id, type: 'Person'
+      patch :deactivate, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
@@ -113,13 +114,13 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it "GET a new actor" do
-      get :new, type: 'Organization'
+      get :new, type: 'ActorMacro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
     it "User should be able to create a new actor" do
-      post :create, actor: {title: 'New first', description: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'Organization'}
+      post :create, actor: {name: 'New first', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)

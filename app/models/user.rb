@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
 
   has_one  :admin_user
   has_many :actors
-  has_many :persons
-  has_many :organizations
+  has_many :actor_micros
+  has_many :actor_mesos
+  has_many :actor_macros
 
   def name
     "#{firstname} #{lastname}"

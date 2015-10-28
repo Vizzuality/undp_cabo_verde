@@ -28,7 +28,6 @@ class ActorsController < ApplicationController
   end
 
   def update
-    @actor = type_class.find(params[:id])
     if @actor.update(actor_params)
       redirect_to actors_path
     else
@@ -86,11 +85,13 @@ class ActorsController < ApplicationController
     end
 
     def set_actor
-      type_class.find(params[:id])
+      @actor = type_class.find(params[:id])
     end
 
     def set_selection
-      @types = type_class.types.map { |a| [a.constantize, a.camelize] }
+      @types = type_class.types
+      @macros = ActorMacro.filter_actives
+      @mesos = ActorMeso.filter_actives
     end
 
     def actor_params

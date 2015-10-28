@@ -6,8 +6,9 @@ module Abilities
       can :read, :all
       can :manage, ::User
       can :manage, ::Actor
-      can :manage, ::Person
-      can :manage, ::Organization
+      can :manage, ::ActorMicro
+      can :manage, ::ActorMeso
+      can :manage, ::ActorMacro
 
       cannot :make_user,               ::User, id: user.id
       cannot [:activate, :deactivate], ::User, id: user.id
