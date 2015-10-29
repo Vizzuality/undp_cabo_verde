@@ -59,6 +59,13 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(302)
     end
 
+    render_views
+
+    it "User should not be able to update user without email" do
+      put :update, id: @user.id, user: attri_fail
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
   end
 
   context "Users" do

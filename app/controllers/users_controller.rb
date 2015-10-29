@@ -25,7 +25,6 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to user_path, notice: 'User updated'
     else
-      @user.errors.messages.not_saved
       render :edit
     end
   end

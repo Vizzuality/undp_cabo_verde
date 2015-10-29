@@ -13,7 +13,11 @@ RSpec.describe ActorsController, type: :controller do
   end
   
   let!(:attri) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true }
+    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: '', operational_filed: '' }
+  end
+
+  let!(:attri_fail) do
+    { name: '' }
   end
 
   context "Actors for authenticated user" do
@@ -47,6 +51,23 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@meso.meso?).to eq(true)
+    end
+    
+    render_views
+
+    it "Validate title for update actor micro" do
+      put :update, id: @micro.id, actor: attri
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
+    it "Validate name for update actor" do
+      put :update, id: @meso.id, actor: attri_fail
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
+    it "Validate operational_field for update actor macro" do
+      put :update, id: @macro.id, actor: attri
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
 
     it "delete actor" do
@@ -129,6 +150,13 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)
+    end
+
+    render_views
+
+    it "User should not be able to create a new actor without name" do
+      post :create, actor: {name: '', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
 
   end

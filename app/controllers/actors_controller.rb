@@ -31,7 +31,6 @@ class ActorsController < ApplicationController
     if @actor.update(actor_params)
       redirect_to actors_path
     else
-      @actor.errors.messages.not_saved
       render :edit
     end
   end
@@ -41,7 +40,6 @@ class ActorsController < ApplicationController
     if @actor.save
       redirect_to actor_path(@actor)
     else
-      @actor.errors.messages.not_saved
       render :new
     end
   end
@@ -95,11 +93,7 @@ class ActorsController < ApplicationController
     end
 
     def actor_params
-      if params[type.underscore.to_sym].nil?  || params[type.underscore.to_sym].empty?
-        return false
-      else
-        return params.require(type.underscore.to_sym).permit!
-      end
+      params.require(type.underscore.to_sym).permit!
     end
 
     def menu_highlight
