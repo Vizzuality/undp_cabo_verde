@@ -34,41 +34,41 @@ ActiveRecord::Schema.define(version: 20151028153403) do
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
   add_index "actors", ["user_id"], name: "index_actors_on_user_id", using: :btree
 
+  create_table "actors_macro_meso_relations", force: :cascade do |t|
+    t.integer  "macro_id"
+    t.integer  "meso_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "actors_macro_meso_relations", ["macro_id"], name: "index_actors_macro_meso_relations_on_macro_id", using: :btree
+  add_index "actors_macro_meso_relations", ["meso_id"], name: "index_actors_macro_meso_relations_on_meso_id", using: :btree
+
+  create_table "actors_macro_micro_relations", force: :cascade do |t|
+    t.integer  "macro_id"
+    t.integer  "micro_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "actors_macro_micro_relations", ["macro_id"], name: "index_actors_macro_micro_relations_on_macro_id", using: :btree
+  add_index "actors_macro_micro_relations", ["micro_id"], name: "index_actors_macro_micro_relations_on_micro_id", using: :btree
+
+  create_table "actors_meso_micro_relations", force: :cascade do |t|
+    t.integer  "meso_id"
+    t.integer  "micro_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "actors_meso_micro_relations", ["meso_id"], name: "index_actors_meso_micro_relations_on_meso_id", using: :btree
+  add_index "actors_meso_micro_relations", ["micro_id"], name: "index_actors_meso_micro_relations_on_micro_id", using: :btree
+
   create_table "admin_users", force: :cascade do |t|
     t.integer "user_id"
   end
 
   add_index "admin_users", ["user_id"], name: "index_admin_users_on_user_id", using: :btree
-
-  create_table "macro_meso_relations", force: :cascade do |t|
-    t.integer  "macro_id"
-    t.integer  "meso_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "macro_meso_relations", ["macro_id"], name: "index_macro_meso_relations_on_macro_id", using: :btree
-  add_index "macro_meso_relations", ["meso_id"], name: "index_macro_meso_relations_on_meso_id", using: :btree
-
-  create_table "macro_micro_relations", force: :cascade do |t|
-    t.integer  "macro_id"
-    t.integer  "micro_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "macro_micro_relations", ["macro_id"], name: "index_macro_micro_relations_on_macro_id", using: :btree
-  add_index "macro_micro_relations", ["micro_id"], name: "index_macro_micro_relations_on_micro_id", using: :btree
-
-  create_table "meso_micro_relations", force: :cascade do |t|
-    t.integer  "meso_id"
-    t.integer  "micro_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "meso_micro_relations", ["meso_id"], name: "index_meso_micro_relations_on_meso_id", using: :btree
-  add_index "meso_micro_relations", ["micro_id"], name: "index_meso_micro_relations_on_micro_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",   null: false

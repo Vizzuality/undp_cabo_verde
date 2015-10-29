@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MacroMicroRelation, type: :model do
+RSpec.describe ActorsMacroMicroRelation, type: :model do
   
   before :each do
     @user  = create(:user)
@@ -15,17 +15,17 @@ RSpec.describe MacroMicroRelation, type: :model do
   it "Create Relation macro_micro" do
     expect(@macro.name).to eq('Organization one')
     expect(@micro.name).to eq('Person one')
-    @relation = MacroMicroRelation.create!(macro_micro_params)
+    @relation = ActorsMacroMicroRelation.create!(macro_micro_params)
     expect(@micro.macros.first.name).to eq('Organization one')
     expect(@macro.micros.first.name).to eq('Person one')
   end
 
   it "Delete Relation macro_meso" do
-    @relation = MacroMicroRelation.create!(macro_micro_params)
+    @relation = ActorsMacroMicroRelation.create!(macro_micro_params)
     expect(@micro.macros.first.name).to eq('Organization one')
     expect(@macro.micros.first.name).to eq('Person one')
     @macro.destroy
-    expect(MacroMesoRelation.count).to eq(0)
+    expect(ActorsMacroMesoRelation.count).to eq(0)
   end
 
 end

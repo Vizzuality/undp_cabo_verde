@@ -1,6 +1,6 @@
-class CreateMesoMicroRelations < ActiveRecord::Migration
+class CreateActorsMesoMicroRelations < ActiveRecord::Migration
   def change
-    create_table :meso_micro_relations do |t|
+    create_table :actors_meso_micro_relations do |t|
       t.integer :meso_id, index: true
       t.integer :micro_id, index: true
 

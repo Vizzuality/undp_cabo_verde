@@ -11,15 +11,15 @@ Then /^I should have two actors$/ do
 end
 
 Then /^I should have one micro_meso$/ do
-  MesoMicroRelation.all.size.should >= 1
+  ActorsMesoMicroRelation.all.size.should >= 1
 end
 
 Then /^I should have one micro_macro$/ do
-  MacroMicroRelation.all.size.should >= 1
+  ActorsMacroMicroRelation.all.size.should >= 1
 end
 
 Then /^I should have one meso_macro$/ do
-  MacroMesoRelation.all.size.should >= 1
+  ActorsMacroMesoRelation.all.size.should >= 1
 end
 
 Given /^actor$/ do

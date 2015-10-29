@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MacroMesoRelation, type: :model do
+RSpec.describe ActorsMacroMesoRelation, type: :model do
   
   before :each do
     @user  = create(:user)
@@ -15,17 +15,17 @@ RSpec.describe MacroMesoRelation, type: :model do
   it "Create Relation macro_meso" do
     expect(@macro.name).to eq('Organization one')
     expect(@meso.name).to eq('Department one')
-    @relation = MacroMesoRelation.create!(macro_meso_params)
+    @relation = ActorsMacroMesoRelation.create!(macro_meso_params)
     expect(@meso.macros.first.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
   end
 
   it "Delete Relation macro_meso" do
-    @relation = MacroMesoRelation.create!(macro_meso_params)
+    @relation = ActorsMacroMesoRelation.create!(macro_meso_params)
     expect(@meso.macros.first.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
     @meso.destroy
-    expect(MacroMesoRelation.count).to eq(0)
+    expect(ActorsMacroMesoRelation.count).to eq(0)
   end
 
 end

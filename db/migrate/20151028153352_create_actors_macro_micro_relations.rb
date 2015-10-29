@@ -1,6 +1,6 @@
-class CreateMacroMicroRelations < ActiveRecord::Migration
+class CreateActorsMacroMicroRelations < ActiveRecord::Migration
   def change
-    create_table :macro_micro_relations do |t|
+    create_table :actors_macro_micro_relations do |t|
       t.integer :macro_id, index: true
       t.integer :micro_id, index: true
 
