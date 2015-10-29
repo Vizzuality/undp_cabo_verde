@@ -8,11 +8,11 @@ class ActorMicro < Actor
   validates :title, presence: true, on: :update
 
   def gender_txt
-    ['Unisex', 'Male', 'Female'][gender - 1]
+    %w(Unisex Male Female)[gender - 1]
   end
 
   def title_txt
-    ['Mr', 'Ms', 'Mrs', 'Miss', 'Dr', 'Prof', 'Rev', 'Other - please state'][title - 1]
+    %w(Mr Ms Mrs Miss Dr Prof Rev Other)[title - 1]
   end
 
   def birth

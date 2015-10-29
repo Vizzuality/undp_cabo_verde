@@ -8,6 +8,6 @@ class ActorMacro < Actor
   validates :operational_filed, presence: true, on: :update
 
   def operational_filed_txt
-    ['Global', 'International', 'National'][operational_filed - 1]
+    %w(Global International National)[operational_filed - 1]
   end
 end
