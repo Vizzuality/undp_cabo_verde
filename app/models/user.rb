@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   include Activable
   include Roleable
   # Include default devise modules. Others available are:
@@ -30,5 +29,4 @@ class User < ActiveRecord::Base
             end
     users
   end
-  
 end

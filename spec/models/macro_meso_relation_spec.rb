@@ -8,16 +8,20 @@ RSpec.describe MacroMesoRelation, type: :model do
     @meso  = create(:actor_meso, user_id: @user.id)
   end
 
-  it "Create Relation macro - meso" do
+  let!(:macro_meso_params) do
+    { macro_id: @macro.id, meso_id: @meso.id }
+  end
+
+  it "Create Relation macro_meso" do
     expect(@macro.name).to eq('Organization one')
     expect(@meso.name).to eq('Department one')
-    @relation = MacroMesoRelation.create!(macro_id: @macro.id, meso_id: @meso.id)
+    @relation = MacroMesoRelation.create!(macro_meso_params)
     expect(@meso.macros.first.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
   end
 
-  it "Delete Relation macro - meso" do
-    @relation = MacroMesoRelation.create!(macro_id: @macro.id, meso_id: @meso.id)
+  it "Delete Relation macro_meso" do
+    @relation = MacroMesoRelation.create!(macro_meso_params)
     expect(@meso.macros.first.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
     @meso.destroy

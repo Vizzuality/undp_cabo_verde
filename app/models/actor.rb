@@ -1,5 +1,4 @@
 class Actor < ActiveRecord::Base
-
   include Activable
 
   belongs_to :user
@@ -43,6 +42,5 @@ class Actor < ActiveRecord::Base
 
   def underscore
     to_s.underscore
-  end
-  
+  end 
 end

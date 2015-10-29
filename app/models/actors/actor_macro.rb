@@ -1,5 +1,4 @@
 class ActorMacro < Actor
-
   has_many :macro_meso_relations, foreign_key: :macro_id
   has_many :macro_micro_relations, foreign_key: :macro_id
 
@@ -9,7 +8,6 @@ class ActorMacro < Actor
   validates :operational_filed, presence: true, on: :update
 
   def operational_filed_txt
-    ['Global', 'International', 'National'][self.operational_filed - 1]
+    ['Global', 'International', 'National'][operational_filed - 1]
   end
-
 end

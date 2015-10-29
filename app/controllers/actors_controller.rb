@@ -1,13 +1,12 @@
 class ActorsController < ApplicationController
-
+  load_and_authorize_resource
+  
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: :create
   before_action :set_actor, only: [:show, :update, :destroy, :deactivate, :activate]
   before_action :actor_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
-
-  load_and_authorize_resource
   
   def index
     @actors = if current_user && current_user.admin?
@@ -99,5 +98,4 @@ class ActorsController < ApplicationController
     def menu_highlight
       @menu_highlighted = :actors
     end
-
 end

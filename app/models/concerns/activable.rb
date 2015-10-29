@@ -1,5 +1,4 @@
 module Activable
-
   extend ActiveSupport::Concern
 
   included do
@@ -37,5 +36,4 @@ module Activable
 
   class_methods do
   end
-  
 end

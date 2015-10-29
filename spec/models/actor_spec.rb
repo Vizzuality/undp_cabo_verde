@@ -6,7 +6,7 @@ RSpec.describe Actor, type: :model do
     @user  = create(:user)
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso, user_id: @user.id, macros: [@macro])
-    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.now - 30.years)
+    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
   end
 
   it "Create ActorMacro" do
@@ -31,7 +31,7 @@ RSpec.describe Actor, type: :model do
     expect(@micro.micro?).to eq(true)
     expect(@micro.gender_txt).to eq('Male')
     expect(@micro.title_txt).to eq('Ms')
-    expect(@micro.birth).to eq((Time.now - 30.years).to_date)
+    expect(@micro.birth).to eq((Time.zone.now - 30.years).to_date)
   end
 
   it "order actor by name" do
