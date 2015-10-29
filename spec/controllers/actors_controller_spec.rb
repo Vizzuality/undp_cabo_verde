@@ -9,6 +9,7 @@ RSpec.describe ActorsController, type: :controller do
 
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
+    @meso  = create(:actor_meso, user_id: @user.id)
   end
   
   let!(:attri) do 
@@ -31,24 +32,28 @@ RSpec.describe ActorsController, type: :controller do
       get :show, id: @macro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
+      expect(@macro.macro?).to eq(true)
     end
 
     it "GET edit returns http success" do
       get :edit, id: @micro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
+      expect(@micro.micro?).to eq(true)
     end
 
     it "update actor" do
-      put :update, id: @macro.id, actor: attri
+      put :update, id: @meso.id, actor: attri
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@meso.meso?).to eq(true)
     end
 
     it "delete actor" do
       delete :destroy, id: @macro.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@macro.micro_or_meso?).to eq(false)
     end
 
   end

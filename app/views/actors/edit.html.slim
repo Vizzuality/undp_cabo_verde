@@ -1,9 +1,22 @@
 h1 Edit Actor
 = simple_form_for @actor do |f|
+  - if @actor.micro?
+    = f.input :title, collection: [['Ms', 1], ['Mr', 2], ['Doctor', 3]], as: :collection_select
+  - if @actor.macro?
+    = f.input :operational_filed, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
   = render partial: f
-  - if @actor.micro? || @actor.meso? 
+  - if @actor.micro?
+    = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select
+    = f.input :date_of_birth, as: :date, start_year: Date.today.year - 12,
+                              end_year: Date.today.year - 90,
+                              order: [:day, :month, :year]
+
+  - if @actor.micro_or_meso?
+    hr
+    h4 Select Macro
     = f.input :macro_ids, collection: @macros, as: :collection_select
   - if @actor.micro?
+    h4 Select Meso
     = f.input :meso_ids, collection: @mesos, as: :collection_select
 
   .form-actions
@@ -12,5 +25,5 @@ h1 Edit Actor
 - if current_user
   p= render 'shared/deactivatable_links', location: @actor
 
-= link_to "Delete", actor_path(@actor), data: { confirm: "Are you sure?" }, method: :delete
+= link_to "Delete", actor_path(@actor), data: { confirm: 'Are you sure?' }, method: :delete
 = link_to "Back", :back

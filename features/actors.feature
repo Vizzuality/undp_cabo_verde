@@ -24,6 +24,9 @@ I want to manage a actor
     And I fill in "actor_micro_observation" with "It's description for person"
     And I select "Organization one" from "actor_micro_macro_ids"
     And I select "Department one" from "actor_micro_meso_ids"
+    And I select "Male" from "actor_micro_gender"
+    And I select "Mr" from "actor_micro_title"
+    When I select datetime "1990 March 10" as the "actor_micro_date_of_birth"
     And I press "Update"
     Then I should be on the actors page
     And I should see "New Person (activated)"
@@ -49,6 +52,7 @@ I want to manage a actor
     When I go to the edit actor page for "Organization one"
     And I fill in "actor_macro_name" with "New Organization"
     And I fill in "actor_macro_observation" with "It's description for department"
+    When I select "International" from "actor_macro_operational_filed"
     And I press "Update"
     Then I should be on the actors page
     And I should see "New Organization (activated)"

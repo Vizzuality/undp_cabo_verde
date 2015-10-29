@@ -1,4 +1,6 @@
 h1
+  - if @actor.micro?
+    = "#{@actor.title_txt}. "
   = @actor.name
   | 
   = " (#{@actor.type})"
@@ -8,8 +10,35 @@ p
 - if current_user
   p= render 'shared/deactivatable_links', location: @actor
 
+- if @actor.micro_or_meso?
+  - @actor.macros.each do |macro|
+    p
+      | Macro: 
+      = link_to macro.name, actor_path(macro)
+
+- elsif @actor.micro?
+  - @actor.mesos.each do |meso|
+    p
+      | Meso: 
+      = link_to meso.name, actor_path(meso)
+
+- elsif @actor.macro?
+  p
+    | Category: 
+    = @actor.operational_filed_txt
+
 p
+  | User: 
   = @actor.user.name
 
 p
+  | Description 
   = @actor.observation
+
+- if @actor.micro?
+  p
+    | Gender: 
+    = @actor.gender_txt
+  p
+    | Date of birth: 
+    = @actor.birth

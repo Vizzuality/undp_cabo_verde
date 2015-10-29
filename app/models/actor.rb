@@ -37,6 +37,10 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMicro')
   end
 
+  def micro_or_meso?
+    type.include?('ActorMicro') || type.include?('ActorMeso')
+  end
+
   def underscore
     to_s.underscore
   end

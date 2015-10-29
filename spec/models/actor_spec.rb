@@ -6,25 +6,32 @@ RSpec.describe Actor, type: :model do
     @user  = create(:user)
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso, user_id: @user.id, macros: [@macro])
-    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro])
+    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.now - 30.years)
   end
 
   it "Create ActorMacro" do
     expect(@macro.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
     expect(@macro.micros.first.name).to eq('Person one')
+    expect(@macro.macro?).to eq(true)
+    expect(@macro.operational_filed_txt).to eq('Global')
   end
 
   it "Create ActorMeso" do
     expect(@meso.name).to eq('Department one')
     expect(@meso.micros.first.name).to eq('Person one')
     expect(@meso.macros.first.name).to eq('Organization one')
+    expect(@meso.meso?).to eq(true)
   end
 
   it "Create ActorMicro" do
     expect(@micro.name).to eq('Person one')
     expect(@micro.macros.first.name).to eq('Organization one')
     expect(@micro.mesos.first.name).to eq('Department one')
+    expect(@micro.micro?).to eq(true)
+    expect(@micro.gender_txt).to eq('Male')
+    expect(@micro.title_txt).to eq('Ms')
+    expect(@micro.birth).to eq((Time.now - 30.years).to_date)
   end
 
   it "order actor by name" do
@@ -52,6 +59,7 @@ RSpec.describe Actor, type: :model do
     expect(@user.actor_micros.count).to eq(1)
     expect(@user.actor_macros.count).to eq(1)
     expect(@user.actor_mesos.count).to eq(1)
+    expect(@micro.micro_or_meso?).to eq(true)
   end
 
   it "Deactivate activate actor" do
