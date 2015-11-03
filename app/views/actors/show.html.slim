@@ -11,21 +11,21 @@ p
   p= render 'shared/deactivatable_links', location: @actor
 
 - if @actor.micro_or_meso?
-  - @actor.macros.each do |macro|
+  - @macros.each do |macro|
     p
       | Macro: 
       = link_to macro.name, actor_path(macro)
 
-- elsif @actor.micro?
-  - @actor.mesos.each do |meso|
-    p
-      | Meso: 
-      = link_to meso.name, actor_path(meso)
-
-- elsif @actor.macro?
+- if @actor.macro?
   p
     | Category: 
     = @actor.operational_filed_txt
+
+- if @actor.micro?
+  - @mesos.each do |meso|
+    p
+      | Meso: 
+      = link_to meso.name, actor_path(meso)
 
 p
   | User: 

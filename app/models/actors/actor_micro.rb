@@ -1,9 +1,9 @@
 class ActorMicro < Actor
-  has_many :actors_macro_micro_relations, foreign_key: :micro_id
-  has_many :actors_meso_micro_relations, foreign_key: :micro_id
+  has_many :actor_micro_macros, foreign_key: :micro_id
+  has_many :actor_micro_mesos, foreign_key: :micro_id
 
-  has_many :macros, through: :actors_macro_micro_relations, dependent: :destroy
-  has_many :mesos, through: :actors_meso_micro_relations, dependent: :destroy
+  has_many :macros, through: :actor_micro_macros, dependent: :destroy
+  has_many :mesos, through: :actor_micro_mesos, dependent: :destroy
 
   validates :title, presence: true, on: :update
 

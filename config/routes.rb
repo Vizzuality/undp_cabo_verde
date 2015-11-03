@@ -11,7 +11,6 @@ Rails.application.routes.draw do
                                       }
 
   devise_scope :user do
-
     post   'account/register', to: 'users/registrations#create', as: :register 
     post   'account/password', to: 'users/passwords#create',     as: :secret
     post   'account/edit',     to: 'users/registrations#edit',   as: :account_edit
@@ -19,7 +18,6 @@ Rails.application.routes.draw do
     authenticated :user do
       root 'users#dashboard', as: :authenticated_root
     end
-
   end
   
   resources :users, except: [:destroy, :new, :create] do
@@ -32,23 +30,41 @@ Rails.application.routes.draw do
   resources :actors
 
   resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
+    patch 'link_macro',   on: :member
+    patch 'link_meso',    on: :member
+    patch 'unlink_macro', on: :member
+    patch 'unlink_meso',  on: :member
+
+    get   'membership', on: :member
+    get   'membership/:relation_id/macros', to: 'actor_micro_macros#edit', as: :edit_macro
+    get   'membership/:relation_id/mesos',  to: 'actor_micro_mesos#edit',  as: :edit_meso
   end
 
   resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
+    patch 'link_macro',   on: :member
+    patch 'unlink_macro', on: :member
+
+    get   'membership', on: :member
+    get   'membership/:relation_id/macros', to: 'actor_meso_macros#edit', as: :edit_macro
   end
 
   resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
     patch 'activate',   on: :member
     patch 'deactivate', on: :member
   end
+
+  with_options only: :update do |is_only|
+    is_only.resources :actor_micro_mesos,  param: :relation_id
+    is_only.resources :actor_micro_macros, param: :relation_id
+    is_only.resources :actor_meso_macros,  param: :relation_id
+  end
   
   # # API routes
   # namespace :api, defaults: {format: 'json'} do
-
   #   # Set APIVersion.new(version: X, default: true) for dafault API version
   #   scope module: :v1, constraints: APIVersion.new(version: 1, current: true) do
 
@@ -56,7 +72,6 @@ Rails.application.routes.draw do
   #     end
 
   #   end
-
   # end
   # # End API routes
 

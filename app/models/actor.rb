@@ -1,7 +1,7 @@
 class Actor < ActiveRecord::Base
   include Activable
 
-  belongs_to :user
+  belongs_to :user, touch: true
 
   validates :name, presence: true
   validates :type, presence: true
@@ -42,5 +42,6 @@ class Actor < ActiveRecord::Base
 
   def underscore
     to_s.underscore
-  end 
+  end
+
 end

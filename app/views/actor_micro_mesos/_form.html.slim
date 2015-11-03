@@ -1,0 +1,8 @@
+= form.error_notification
+.form-inputs
+  = form.input :meso_start_date, as: :date, start_year: Date.today.year,
+                                 end_year: Date.today.year - 90,
+                                 order: [:day, :month, :year]
+  = form.input :meso_end_date, as: :date, start_year: Date.today.year,
+                               end_year: Date.today.year - 90,
+                               order: [:day, :month, :year]

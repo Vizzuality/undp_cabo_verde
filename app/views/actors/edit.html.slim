@@ -1,4 +1,17 @@
-h1 Edit Actor
+h1 
+  Edit
+  | 
+  = @actor.name
+
+= link_to 'Info', edit_actor_path(@actor)
+|
+- if @actor.meso?
+  |  | 
+  = link_to 'Membership', membership_actor_meso_path(@actor)
+- if @actor.micro?
+  |  | 
+  = link_to 'Membership', membership_actor_micro_path(@actor)
+hr
 = simple_form_for @actor do |f|
   - if @actor.micro?
     = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
@@ -11,19 +24,11 @@ h1 Edit Actor
                               end_year: Date.today.year - 90,
                               order: [:day, :month, :year]
 
-  - if @actor.micro_or_meso?
-    hr
-    h4 Select Macro
-    = f.input :macro_ids, collection: @macros, as: :collection_select
-  - if @actor.micro?
-    h4 Select Meso
-    = f.input :meso_ids, collection: @mesos, as: :collection_select
-
   .form-actions
     = f.button :submit, 'Update'
 
 - if current_user
   p= render 'shared/deactivatable_links', location: @actor
 
-= link_to "Delete", actor_path(@actor), data: { confirm: 'Are you sure?' }, method: :delete
-= link_to "Back", :back
+p= link_to "Delete", actor_path(@actor), data: { confirm: 'Are you sure?' }, method: :delete
+p= link_to "Back", :back

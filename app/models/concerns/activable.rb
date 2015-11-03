@@ -4,6 +4,8 @@ module Activable
   included do
     before_save :set_deactivated_at
 
+    before_update :deactivate_dependencies, if: '!active and active_changed?'
+
     scope :filter_actives,   -> { where(active: true)  }
     scope :filter_inactives, -> { where(active: false) }
 
@@ -31,7 +33,8 @@ module Activable
       self.active? ? 'activated' : 'deactivated'
     end
 
-    # ToDo deactivate activate dependencies
+    def deactivate_dependencies
+    end
   end
 
   class_methods do

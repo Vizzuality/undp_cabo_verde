@@ -1,0 +1,50 @@
+h1 "Edit Membership for #{@actor.name}"
+
+= link_to 'Info', edit_actor_path(@actor)
+|
+- if @actor.meso?
+  |  | 
+  = link_to 'Membership', membership_actor_meso_path(@actor)
+- if @actor.micro?
+  |  | 
+  = link_to 'Membership', membership_actor_micro_path(@actor)
+hr
+- if @actor.micro_or_meso?
+  h3 Macros
+  - @macros.each do |macro|
+    p= macro.macro.name
+    - if (can? :manage, macro)
+      p.edit_meso
+        - if @actor.micro?
+          = link_to 'Edit', actor_micro_edit_macro_path(@actor, macro)
+        - else
+          = link_to 'Edit', actor_meso_edit_macro_path(@actor, macro)
+      p.remove_macro
+        = link_to 'Remove', sti_unlink_macro(@actor, macro.id), method: :patch
+
+- if @actor.micro?
+  hr
+  h3 Mesos
+  - @mesos.each do |meso|
+    p= meso.meso.name
+    - if (can? :manage, meso)
+      p.edit_meso
+        = link_to 'Edit', actor_micro_edit_meso_path(@actor, meso)
+      p.remove_meso
+        = link_to 'Remove', sti_unlink_meso(@actor, meso.id), method: :patch
+hr
+- if @actor.micro_or_meso?
+  h4 Link Macros
+  - @all_macros.each do |macro|
+    p= macro.name
+    - if (can? :manage, macro)
+      p.add_macro
+        = link_to 'Add', sti_link_macro(@actor, macro.id), method: :patch
+- if @actor.micro?
+  hr
+  h4 Link Mesos
+  - @all_mesos.each do |meso|
+    p= meso.name
+    - if (can? :manage, meso)
+      p.add_meso
+        = link_to 'Add', sti_link_meso(@actor, meso.id), method: :patch

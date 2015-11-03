@@ -26,5 +26,4 @@ class Users::SessionsController < Devise::SessionsController
     def menu_highlight
       @menu_highlighted = :none
     end
-
 end

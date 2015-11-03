@@ -18,7 +18,7 @@ RSpec.describe Ability, type: :model do
 
   context "admin" do
     it "can manage objects" do
-      [User, Actor, ActorMicro, ActorMeso, ActorMacro].each do |model|
+      [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorMicroMeso, ActorMicroMacro, ActorMesoMacro].each do |model|
         Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, model)
       end
       Abilities::AdminUser.any_instance.should_receive(:cannot).with(:make_user, User, id: @adminuser.id)
@@ -34,7 +34,7 @@ RSpec.describe Ability, type: :model do
       [User].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:update, model, id: @user.id)
       end
-      [Actor, ActorMicro, ActorMeso, ActorMacro].each do |model|
+      [Actor, ActorMicro, ActorMeso, ActorMacro, ActorMicroMeso, ActorMicroMacro, ActorMesoMacro].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:manage, model, user_id: @user.id)
       end
       Abilities::User.any_instance.should_receive(:can).with(:dashboard, User)

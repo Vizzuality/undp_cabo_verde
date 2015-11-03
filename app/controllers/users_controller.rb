@@ -76,7 +76,6 @@ class UsersController < ApplicationController
     def menu_highlight
       @menu_highlighted = :users
     end
-
 end
 
 

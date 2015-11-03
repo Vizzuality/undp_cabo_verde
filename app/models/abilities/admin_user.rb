@@ -9,6 +9,9 @@ module Abilities
       can :manage, ::ActorMicro
       can :manage, ::ActorMeso
       can :manage, ::ActorMacro
+      can :manage, ::ActorMicroMeso
+      can :manage, ::ActorMicroMacro
+      can :manage, ::ActorMesoMacro
 
       cannot :make_user,               ::User, id: user.id
       cannot [:activate, :deactivate], ::User, id: user.id

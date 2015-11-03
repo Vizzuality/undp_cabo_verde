@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ActorsController, type: :controller do
 
   before :each do
-    @user   = create(:random_user)
+    @user      = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
 
@@ -39,6 +39,8 @@ RSpec.describe ActorsController, type: :controller do
       expect(@macro.macro?).to eq(true)
     end
 
+    render_views
+
     it "GET edit returns http success" do
       get :edit, id: @micro.id
       expect(response).to be_success
@@ -52,15 +54,15 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to have_http_status(302)
       expect(@meso.meso?).to eq(true)
     end
-    
-    render_views
 
     it "Validate title for update actor micro" do
+      FactoryGirl.create(:actor_macro, user_id: @user.id)
       put :update, id: @micro.id, actor: attri
       expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
 
     it "Validate name for update actor" do
+      FactoryGirl.create(:actor_macro, user_id: @user.id)
       put :update, id: @meso.id, actor: attri_fail
       expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
@@ -76,6 +78,32 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to have_http_status(302)
       expect(@macro.micro_or_meso?).to eq(false)
     end
+    
+    context "Link unlink macros and mesos" do
+      before :each do
+        @macro_active = create(:actor_macro, user_id: @user.id)
+        @micro_linked = create(:actor_micro, user_id: @user.id, macros: [@macro_active], mesos: [@meso])
+
+        @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, micro_id: @micro_linked.id)
+        @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, micro_id: @micro_linked.id)
+      end
+
+      it "Link macro" do
+        patch :link_macro, id: @micro.id, macro_id: @macro_active.id, type: 'ActorMicro'
+      end
+
+      it "Unlink macro" do
+        patch :unlink_macro, id: @micro_linked.id, relation_id: @relation_macro.id, type: 'ActorMicro'
+      end
+
+      it "Link meso" do
+        patch :link_meso, id: @micro.id, meso_id: @meso.id, type: 'ActorMicro'
+      end
+
+      it "Unlink meso" do
+        patch :unlink_meso, id: @micro_linked.id, relation_id: @relation_meso.id, type: 'ActorMicro'
+      end
+    end
 
   end
 
@@ -88,14 +116,14 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it "GET show returns http success" do
-      get :show, id: @micro.id
+      get :show, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
   end
 
-  context "AdminUser should be able to update actor" do
+  context "AdminUser should be able to activate or deactivate actor" do
 
     before :each do
       sign_in @adminuser
@@ -111,6 +139,24 @@ RSpec.describe ActorsController, type: :controller do
       patch :deactivate, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+    end
+
+  end
+
+  context "User should not be able to edit actors if self status is deactivated" do
+
+    before :each do
+      @user.update(active: false)
+      sign_in @user
+    end
+
+    render_views
+
+    it "Edit actor" do
+      expect(@user.deactivated?).to eq(true)
+      get :edit, id: @macro.id, type: 'ActorMacro'
+      expect(response).to redirect_to('/')
+      expect(flash[:alert]).to eq('You are not authorized to access this page.')
     end
 
   end

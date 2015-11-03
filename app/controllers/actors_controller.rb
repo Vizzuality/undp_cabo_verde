@@ -2,11 +2,14 @@ class ActorsController < ApplicationController
   load_and_authorize_resource
   
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_current_user, only: :create
-  before_action :set_actor, only: [:show, :update, :destroy, :deactivate, :activate]
+  before_action :set_current_user, only: [:create, :link_macro, :link_meso]
+  before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
+  before_action :set_parents, only: :membership
+  before_action :set_owned_parents, only: :show
+  before_action :set_memberships, only: :membership
   
   def index
     @actors = if current_user && current_user.admin?
@@ -28,7 +31,7 @@ class ActorsController < ApplicationController
 
   def update
     if @actor.update(actor_params)
-      redirect_to actors_path
+      redirect_to edit_actor_path(@actor)
     else
       render :edit
     end
@@ -37,10 +40,13 @@ class ActorsController < ApplicationController
   def create
     @actor = @user.actors.build(actor_params)
     if @actor.save
-      redirect_to actor_path(@actor)
+      redirect_to edit_actor_path(@actor)
     else
       render :new
     end
+  end
+
+  def membership
   end
 
   def deactivate
@@ -58,6 +64,36 @@ class ActorsController < ApplicationController
   def destroy
     @actor.destroy
     redirect_to actors_path
+  end
+
+  def link_macro
+    if @actor.class.name.include?('ActorMicro')
+      @user.actor_micro_macros.create!(micro_id: @actor.id, macro_id: params[:macro_id])
+    else
+      @user.actor_meso_macros.create!(meso_id: @actor.id, macro_id: params[:macro_id])
+    end
+    redirect_to actor_path(@actor)
+  end
+
+  def unlink_macro
+    @macro = if @actor.class.name.include?('ActorMicro')
+              ActorMicroMacro.find(params[:relation_id])
+            else
+              ActorMesoMacro.find(params[:relation_id])
+            end
+    @macro.destroy
+    redirect_to actor_path(@actor)
+  end
+
+  def link_meso
+    @user.actor_micro_mesos.create!(micro_id: @actor.id, meso_id: params[:meso_id])
+    redirect_to actor_path(@actor)
+  end
+
+  def unlink_meso
+    @meso = ActorMicroMeso.find(params[:relation_id])
+    @meso.destroy
+    redirect_to actor_path(@actor)
   end
 
   private
@@ -89,6 +125,23 @@ class ActorsController < ApplicationController
       @types = type_class.types
       @macros = ActorMacro.filter_actives
       @mesos = ActorMeso.filter_actives
+    end
+
+    def set_parents
+      # ToDo: change it to search function
+      @all_macros = ActorMacro.filter_actives unless @actor.macro?
+      @all_mesos  = ActorMeso.filter_actives  if @actor.micro?
+    end
+
+    def set_owned_parents
+      @macros = @actor.macros unless @actor.macro?
+      @mesos  = @actor.mesos  if @actor.micro?
+    end
+
+    def set_memberships
+      @macros = @actor.actor_meso_macros.includes(:macro)  if @actor.meso?
+      @macros = @actor.actor_micro_macros.includes(:macro) if @actor.micro?
+      @mesos  = @actor.actor_micro_mesos.includes(:meso)   if @actor.micro?
     end
 
     def actor_params

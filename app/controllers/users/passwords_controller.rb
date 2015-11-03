@@ -33,5 +33,4 @@ class Users::PasswordsController < Devise::PasswordsController
     def menu_highlight
       @menu_highlighted = :account
     end
-  
 end
