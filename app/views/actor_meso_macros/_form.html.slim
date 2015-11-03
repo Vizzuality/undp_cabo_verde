@@ -5,4 +5,4 @@
                                   order: [:day, :month, :year]
   = form.input :macro_end_date, as: :date, start_year: Date.today.year,
                                 end_year: Date.today.year - 90,
-                                order: [:day, :month, :year]
+                                order: [:day, :month, :year], include_blank: true

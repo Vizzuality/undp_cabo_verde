@@ -41,5 +41,5 @@ end
 Given /^organization by admin$/ do
   @admin = FactoryGirl.create(:adminuser)
   FactoryGirl.create(:admin)
-  FactoryGirl.create(:actor_macro, user: @admin)
+  FactoryGirl.create(:actor_macro, name: 'Organization by admin', user: @admin)
 end

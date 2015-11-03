@@ -9,10 +9,10 @@ I want to manage a actor
     And organization by admin
     When I go to the actors page
     And I should see "Person one"
-    And I should see "Organization one"
-    When I follow "Organization one"
-    Then I should be on the actor page for "Organization one"
-    And I should see "Organization one (ActorMacro)"
+    And I should see "Organization by admin"
+    When I follow "Organization by admin"
+    Then I should be on the actor page for "Organization by admin"
+    And I should see "Organization by admin (ActorMacro)"
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user
@@ -26,7 +26,7 @@ I want to manage a actor
     And I select "Mr" from "actor_micro_title"
     When I select datetime "1990 March 10" as the "actor_micro_date_of_birth"
     And I press "Update"
-    Then I should be on the edit actor page for "New Person"
+    Then I should be on the edit micro member actor page for "New Person"
     And I should see "New Person"
 
   Scenario: User can edit owned actor meso
@@ -37,7 +37,7 @@ I want to manage a actor
     And I fill in "actor_meso_name" with "New Department"
     And I fill in "actor_meso_observation" with "It's description for department"
     And I press "Update"
-    Then I should be on the edit actor page for "New Department"
+    Then I should be on the edit meso member actor page for "New Department"
     And I should see "New Department"
 
   Scenario: User can edit owned actor macro
@@ -48,7 +48,7 @@ I want to manage a actor
     And I fill in "actor_macro_observation" with "It's description for department"
     When I select "International" from "actor_macro_operational_filed"
     And I press "Update"
-    Then I should be on the edit actor page for "New Organization"
+    Then I should be on the actor page for "New Organization"
     And I should see "New Organization"
 
   Scenario: Adminuser can edit not owned actor
@@ -64,17 +64,17 @@ I want to manage a actor
     And organization
     And department
     When I go to the edit actor page for "Person one"
-    And I follow "Membership"
+    And I follow "Edit membership"
     And I follow "Add" within ".add_macro"
     When I go to the actor page for "Person one"
     Then I should see "Organization one"
     When I go to the edit actor page for "Person one"
-    And I follow "Membership"    
+    And I follow "Edit membership"    
     And I follow "Add" within ".add_meso"
     When I go to the actor page for "Person one"
     Then I should see "Department one"
     When I go to the edit actor page for "Person one"
-    And I follow "Membership"    
+    And I follow "Edit membership"    
     And I follow "Remove" within ".remove_meso"
     When I go to the actor page for "Person one"
     Then I should not see "Department one"
@@ -84,12 +84,12 @@ I want to manage a actor
     And organization
     And department
     When I go to the edit actor page for "Department one"
-    And I follow "Membership"
+    And I follow "Edit membership"
     And I follow "Add" within ".add_macro"
     When I go to the actor page for "Department one"
     Then I should see "Organization one"
     When I go to the edit actor page for "Department one"
-    And I follow "Membership"    
+    And I follow "Edit membership"    
     And I follow "Remove" within ".remove_macro"
     When I go to the actor page for "Department one"
     Then I should not see "Organization one"
@@ -108,7 +108,7 @@ I want to manage a actor
   Scenario: User can not edit not owned actor
     Given I am authenticated user
     And organization by admin
-    When I go to the edit actor page for "Organization one"
+    When I go to the edit actor page for "Organization by admin"
     Then I should be on the home page
     And I should see "You are not authorized to access this page."
 
@@ -164,3 +164,15 @@ I want to manage a actor
     And I follow "Activate"
     Then I should be on the actors page
     And I should see "Organization one"
+
+  Scenario: User can view my actors page
+    Given I am authenticated user
+    And person
+    And department
+    And organization
+    And organization by admin
+    When I go to the user actors page for "pepe-moreno@sample.com"
+    Then I should see "Person one"
+    And I should see "Department one"
+    And I should see "Organization one"
+    And I should not see "Organization by admin"

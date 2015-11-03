@@ -3,14 +3,7 @@ h1
   | 
   = @actor.name
 
-= link_to 'Info', edit_actor_path(@actor)
-|
-- if @actor.meso?
-  |  | 
-  = link_to 'Membership', membership_actor_meso_path(@actor)
-- if @actor.micro?
-  |  | 
-  = link_to 'Membership', membership_actor_micro_path(@actor)
+= render 'edit_tabs', location: @actor
 hr
 = simple_form_for @actor do |f|
   - if @actor.micro?

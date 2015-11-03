@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     patch 'activate',   on: :member
     patch 'make_admin', on: :member
     patch 'make_user',  on: :member
+    resources :actors,  to: 'users/actors', only: :index
   end
 
   resources :actors

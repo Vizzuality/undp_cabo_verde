@@ -18,4 +18,8 @@ class ActorMicro < Actor
   def birth
     date_of_birth.to_date if date_of_birth.present?
   end
+
+  def empty_relations?
+    macros.empty? || mesos.empty?
+  end
 end

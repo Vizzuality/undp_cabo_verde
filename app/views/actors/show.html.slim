@@ -5,8 +5,9 @@ h1
   | 
   = " (#{@actor.type})"
 
-p
-  = link_to 'Edit actor', edit_actor_path(@actor)
+- if (can? :manage, @actor)
+  p= link_to 'Edit actor', edit_actor_path(@actor)
+
 - if current_user
   p= render 'shared/deactivatable_links', location: @actor
 
@@ -14,7 +15,9 @@ p
   - @macros.each do |macro|
     p
       | Macro: 
-      = link_to macro.name, actor_path(macro)
+      = link_to macro.macro.name, actor_path(macro.macro)
+      |  | 
+      = "from: #{macro.macro_start_date} - to: #{macro.macro_end_date}"
 
 - if @actor.macro?
   p
@@ -25,7 +28,9 @@ p
   - @mesos.each do |meso|
     p
       | Meso: 
-      = link_to meso.name, actor_path(meso)
+      = link_to meso.meso.name, actor_path(meso)
+      |  | 
+      = "from: #{meso.meso_start_date} - to: #{meso.meso_end_date}"
 
 p
   | User: 

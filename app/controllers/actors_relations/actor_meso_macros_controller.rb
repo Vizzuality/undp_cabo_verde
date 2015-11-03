@@ -7,7 +7,7 @@ class ActorMesoMacrosController < ApplicationController
 
   def update
     if @actor_relation.update(actor_relation_params)
-      redirect_to edit_actor_path(@actor_relation.meso_id)
+      redirect_to membership_actor_meso_path(@actor_relation.meso_id)
     else
       render :edit
     end

@@ -8,8 +8,8 @@ class ActorsController < ApplicationController
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
   before_action :set_parents, only: :membership
-  before_action :set_owned_parents, only: :show
-  before_action :set_memberships, only: :membership
+  # before_action :set_owned_parents, only: :show
+  before_action :set_memberships, only: [:show, :membership]
   
   def index
     @actors = if current_user && current_user.admin?
@@ -31,7 +31,7 @@ class ActorsController < ApplicationController
 
   def update
     if @actor.update(actor_params)
-      redirect_to edit_actor_path(@actor)
+      update_actor_flow
     else
       render :edit
     end
@@ -72,7 +72,7 @@ class ActorsController < ApplicationController
     else
       @user.actor_meso_macros.create!(meso_id: @actor.id, macro_id: params[:macro_id])
     end
-    redirect_to actor_path(@actor)
+    link_actor_flow
   end
 
   def unlink_macro
@@ -82,18 +82,18 @@ class ActorsController < ApplicationController
               ActorMesoMacro.find(params[:relation_id])
             end
     @macro.destroy
-    redirect_to actor_path(@actor)
+    link_actor_flow
   end
 
   def link_meso
     @user.actor_micro_mesos.create!(micro_id: @actor.id, meso_id: params[:meso_id])
-    redirect_to actor_path(@actor)
+    link_actor_flow
   end
 
   def unlink_meso
     @meso = ActorMicroMeso.find(params[:relation_id])
     @meso.destroy
-    redirect_to actor_path(@actor)
+    link_actor_flow
   end
 
   private
@@ -142,6 +142,24 @@ class ActorsController < ApplicationController
       @macros = @actor.actor_meso_macros.includes(:macro)  if @actor.meso?
       @macros = @actor.actor_micro_macros.includes(:macro) if @actor.micro?
       @mesos  = @actor.actor_micro_mesos.includes(:meso)   if @actor.micro?
+    end
+
+    def update_actor_flow
+      if @actor.micro? && @actor.empty_relations?
+        redirect_to membership_actor_micro_path(@actor)
+      elsif @actor.meso? && @actor.empty_relations?
+        redirect_to membership_actor_meso_path(@actor)
+      else
+        redirect_to actor_path(@actor)
+      end
+    end
+
+    def link_actor_flow
+      if @actor.micro?
+        redirect_to membership_actor_micro_path(@actor)
+      else
+        redirect_to membership_actor_meso_path(@actor)
+      end
     end
 
     def actor_params

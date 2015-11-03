@@ -7,6 +7,10 @@ class ActorMeso < Actor
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
+  def empty_relations?
+    macros.empty?
+  end
+
   private
     def deactivate_dependencies
       micros.filter_actives.each do |micro|
