@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   before_action :menu_highlight
   
   # Prevent CSRF attacks by raising an exception.
@@ -14,5 +13,4 @@ class ApplicationController < ActionController::Base
     def menu_highlight
       @menu_highlighted = :none
     end
-  
 end

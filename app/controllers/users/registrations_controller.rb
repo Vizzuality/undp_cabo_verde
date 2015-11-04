@@ -61,5 +61,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def menu_highlight
       @menu_highlighted = :account
     end
-
 end

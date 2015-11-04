@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   include Activable
   include Roleable
   # Include default devise modules. Others available are:
@@ -9,8 +8,14 @@ class User < ActiveRecord::Base
 
   has_one  :admin_user
   has_many :actors
-  has_many :persons
-  has_many :organizations
+  has_many :actor_micros
+  has_many :actor_mesos
+  has_many :actor_macros
+  has_many :actor_micro_mesos
+  has_many :actor_micro_macros
+  has_many :actor_meso_macros
+
+  before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   def name
     "#{firstname} #{lastname}"
@@ -29,5 +34,13 @@ class User < ActiveRecord::Base
             end
     users
   end
-  
+
+  private
+    def deactivate_dependencies
+      actors.filter_actives.each do |actor|
+        unless actor.deactivate
+          return false
+        end
+      end
+    end
 end

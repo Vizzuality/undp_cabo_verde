@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-
+  
   def index
   end
 
@@ -7,5 +7,4 @@ class HomeController < ApplicationController
     def menu_highlight
       @menu_highlighted = :home
     end
-  
 end

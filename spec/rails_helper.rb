@@ -56,11 +56,11 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   if Bullet.enable?
-    config.before(:each) do
+    config.before(:each, type: :controller) do
       Bullet.start_request
     end
 
-    config.after(:each) do
+    config.after(:each, type: :controller) do
       Bullet.perform_out_of_channel_notifications if Bullet.notification?
       Bullet.end_request
     end

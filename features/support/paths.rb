@@ -28,10 +28,16 @@ module NavigationHelpers
       edit_user_path(User.find_by_email($1))
     when /the actors page with filter active/
       '/actors?active=true'
+    when /the user actors page for "(.*)"$/
+      user_actors_path(User.find_by_email($1))
     when /the actor page for "(.*)"$/
-      actor_path(Actor.find_by_title($1))
+      actor_path(Actor.find_by_name($1))
     when /the edit actor page for "(.*)"$/
-      edit_actor_path(Actor.find_by_title($1))
+      edit_actor_path(Actor.find_by_name($1))
+    when /the edit micro member actor page for "(.*)"$/
+      membership_actor_micro_path(Actor.find_by_name($1))
+    when /the edit meso member actor page for "(.*)"$/
+      membership_actor_meso_path(Actor.find_by_name($1))
     else
       begin
         page_name =~ /the (.*) page/

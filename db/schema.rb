@@ -11,22 +11,66 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151023140120) do
+ActiveRecord::Schema.define(version: 20151029105133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "actor_meso_macros", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "macro_id"
+    t.integer  "meso_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.datetime "macro_start_date"
+    t.datetime "macro_end_date"
+  end
+
+  add_index "actor_meso_macros", ["macro_id"], name: "index_actor_meso_macros_on_macro_id", using: :btree
+  add_index "actor_meso_macros", ["meso_id"], name: "index_actor_meso_macros_on_meso_id", using: :btree
+  add_index "actor_meso_macros", ["user_id"], name: "index_actor_meso_macros_on_user_id", using: :btree
+
+  create_table "actor_micro_macros", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "macro_id"
+    t.integer  "micro_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.datetime "macro_start_date"
+    t.datetime "macro_end_date"
+  end
+
+  add_index "actor_micro_macros", ["macro_id"], name: "index_actor_micro_macros_on_macro_id", using: :btree
+  add_index "actor_micro_macros", ["micro_id"], name: "index_actor_micro_macros_on_micro_id", using: :btree
+  add_index "actor_micro_macros", ["user_id"], name: "index_actor_micro_macros_on_user_id", using: :btree
+
+  create_table "actor_micro_mesos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "meso_id"
+    t.integer  "micro_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "meso_start_date"
+    t.datetime "meso_end_date"
+  end
+
+  add_index "actor_micro_mesos", ["meso_id"], name: "index_actor_micro_mesos_on_meso_id", using: :btree
+  add_index "actor_micro_mesos", ["micro_id"], name: "index_actor_micro_mesos_on_micro_id", using: :btree
+  add_index "actor_micro_mesos", ["user_id"], name: "index_actor_micro_mesos_on_user_id", using: :btree
+
   create_table "actors", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "type",                              null: false
-    t.string   "title",                             null: false
-    t.boolean  "active",             default: true, null: false
+    t.string   "type",                             null: false
+    t.string   "name",                             null: false
+    t.boolean  "active",            default: true, null: false
     t.datetime "deactivated_at"
-    t.text     "description"
     t.text     "observation"
-    t.text     "extend_description"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.integer  "gender",            default: 1
+    t.integer  "operational_filed", default: 1
+    t.integer  "title",             default: 1
+    t.datetime "date_of_birth"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
@@ -61,6 +105,9 @@ ActiveRecord::Schema.define(version: 20151023140120) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "actor_meso_macros", "users"
+  add_foreign_key "actor_micro_macros", "users"
+  add_foreign_key "actor_micro_mesos", "users"
   add_foreign_key "actors", "users"
   add_foreign_key "admin_users", "users"
 end
