@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20151104101114) do
     t.string   "name"
     t.string   "lat"
     t.string   "long"
+    t.string   "web_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

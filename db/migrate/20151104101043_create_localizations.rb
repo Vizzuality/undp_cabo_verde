@@ -9,6 +9,7 @@ class CreateLocalizations < ActiveRecord::Migration
       t.string :name
       t.string :lat, comment: 'latitude for localization'
       t.string :long, comment: 'longitude for localization'
+      t.string :web_url
 
       t.timestamps null: false
     end
