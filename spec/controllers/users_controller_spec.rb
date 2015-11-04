@@ -17,59 +17,66 @@ RSpec.describe UsersController, type: :controller do
     { email: '' }
   end
 
-  context "For authenticated user" do
+  context 'For authenticated user' do
 
     before :each do
       sign_in @user
     end
 
-    it "GET root_path returns http success" do
+    it 'GET root_path returns http success' do
       get :dashboard
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET index returns http success" do
+    it 'GET index returns http success' do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET show returns http success" do
+    it 'GET show returns http success' do
       get :show, id: @user.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET edit returns http success" do
+    it 'GET edit returns http success' do
       get :edit, id: @user.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET edit for xx user returns http redirect" do
+    it 'GET edit for xx user returns http redirect' do
       get :edit, id: @user_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
-    it "update user" do
+    it 'update user' do
       put :update, id: @user.id, user: attri
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
+    render_views
+
+    it 'User should not be able to update user without email' do
+      put :update, id: @user.id, user: attri_fail
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
   end
 
-  context "Users" do
+  context 'Users' do
 
-    it "GET index returns http success" do
+    it 'GET index returns http success' do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET show returns http success" do
+    it 'GET show returns http success' do
       get :show, id: @user.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
@@ -77,19 +84,19 @@ RSpec.describe UsersController, type: :controller do
 
   end
 
-  context "AdminUser should be able to activate and deactivate user" do
+  context 'AdminUser should be able to activate and deactivate user' do
 
     before :each do
       sign_in @adminuser
     end
 
-    it "Activate user" do
+    it 'Activate user' do
       patch :activate, id: @user_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
-    it "Deactivate user" do
+    it 'Deactivate user' do
       patch :deactivate, id: @user.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
@@ -97,7 +104,7 @@ RSpec.describe UsersController, type: :controller do
 
   end
 
-  context "AdminUser should be able to filter for active and inactive user" do
+  context 'AdminUser should be able to filter for active and inactive user' do
 
     render_views
 
@@ -105,7 +112,7 @@ RSpec.describe UsersController, type: :controller do
       sign_in @adminuser
     end
 
-    it "Filter for active users" do
+    it 'Filter for active users' do
       get :index, { active: 'true' }
       expect(response).to be_success
       expect(response).to have_http_status(200)
@@ -114,7 +121,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response.body).not_to match('Pepe Moreno')
     end
 
-    it "Filter for inactive users" do
+    it 'Filter for inactive users' do
       get :index, { active: 'false' }
       expect(response).to be_success
       expect(response).to have_http_status(200)
@@ -125,7 +132,7 @@ RSpec.describe UsersController, type: :controller do
 
   end
 
-  context "AdminUser should be able to set up admin rights for user" do
+  context 'AdminUser should be able to set up admin rights for user' do
 
     before :each do
       @adminuser_2 = create(:random_adminuser)
@@ -133,13 +140,13 @@ RSpec.describe UsersController, type: :controller do
       sign_in @adminuser
     end
 
-    it "Make user admin" do
+    it 'Make user admin' do
       patch :make_admin, id: @user_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
-    it "Deactivate user" do
+    it 'Deactivate user' do
       patch :make_user, id: @adminuser_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)

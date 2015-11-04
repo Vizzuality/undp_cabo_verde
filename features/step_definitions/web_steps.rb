@@ -25,8 +25,10 @@ end
 #   end
 # end
 
-When /^(?:|I )follow "([^"]*)"$/ do |link|
-  click_link(link)
+When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
+  with_scope(selector) do
+    click_link(link)
+  end
 end
 
 When /^(?:|I )double click on "([^"]*)"(?: within "([^"]*)")?$/ do |div, selector|
@@ -44,6 +46,14 @@ end
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
     fill_in(field, :with => value)
+  end
+end
+
+When /^(?:|I )select datetime "([^ ]*) ([^ ]*) ([^ ]*)" as the "([^"]*)"(?: within "([^"]*)")?$/ do |year, month, day, field, selector|
+  with_scope(selector) do
+    select(year,   :from => "#{field}_1i")
+    select(month,  :from => "#{field}_2i")
+    select(day,    :from => "#{field}_3i")
   end
 end
 
@@ -76,15 +86,6 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"(?: within "([^"]*)")?$/ do |value,
   with_scope(selector) do
     select(value, :from => field)
   end
-end
-
-# When I select datetime "2014 March 2 - 19:00" as the "start_time"
-When /^(?:|I )select datetime "([^ ]*) ([^ ]*) ([^ ]*) - ([^:]*):([^"]*)" as the "([^"]*)"$/ do |year, month, day, hour, minute, model|
-  select(year,   :from => "#{model}_datetime_1i")
-  select(month,  :from => "#{model}_datetime_2i")
-  select(day,    :from => "#{model}_datetime_3i")
-  select(hour,   :from => "#{model}_datetime_4i")
-  select(minute, :from => "#{model}_datetime_5i")
 end
 
 When /^(?:|I )check "([^"]*)"(?: within "([^"]*)")?$/ do |field, selector|

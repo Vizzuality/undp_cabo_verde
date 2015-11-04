@@ -18,6 +18,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   private
+  
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_in_params
       devise_parameter_sanitizer.for(:sign_in) << :attribute
@@ -26,5 +27,4 @@ class Users::SessionsController < Devise::SessionsController
     def menu_highlight
       @menu_highlighted = :none
     end
-
 end

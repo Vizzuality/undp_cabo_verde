@@ -1,0 +1,12 @@
+h1 My actors
+
+= render 'actors/index_tabs'
+
+- @actors.each do |actor|
+  p
+    = link_to actor.name, actor_path(actor)
+    |  
+    = "(#{actor.type}), status: #{actor.status}"
+    - if (can? :manage, actor)
+      |  | 
+      = link_to 'Edit actor', edit_actor_path(actor)

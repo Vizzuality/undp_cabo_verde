@@ -3,92 +3,165 @@ require 'rails_helper'
 RSpec.describe ActorsController, type: :controller do
 
   before :each do
-    @user   = create(:random_user)
+    @user      = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
-    @person       = create(:person, user_id: @user.id)
-    @organization = create(:organization, user_id: @user.id, active: false)
+
+    @micro = create(:actor_micro, user_id: @user.id)
+    @macro = create(:actor_macro, user_id: @user.id, active: false)
+    @meso  = create(:actor_meso, user_id: @user.id)
   end
   
   let!(:attri) do 
-    { title: 'New first', description: 'Lorem ipsum dolor...', active: true }
+    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: '', operational_filed: '' }
   end
 
-  context "Actors for authenticated user" do
+  let!(:attri_fail) do
+    { name: '' }
+  end
+
+  context 'Actors for authenticated user' do
 
     before :each do
       sign_in @user
     end
 
-    it "GET index returns http success" do
+    it 'GET index returns http success' do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET show returns http success" do
-      get :show, id: @organization.id
+    it 'GET show returns http success' do
+      get :show, id: @macro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
+      expect(@macro.macro?).to eq(true)
     end
 
-    it "GET edit returns http success" do
-      get :edit, id: @person.id
+    render_views
+
+    it 'GET edit returns http success' do
+      get :edit, id: @micro.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
+      expect(@micro.micro?).to eq(true)
     end
 
-    it "update actor" do
-      put :update, id: @organization.id, actor: attri
+    it 'update actor' do
+      put :update, id: @meso.id, actor: attri
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@meso.meso?).to eq(true)
     end
 
-    it "delete actor" do
-      delete :destroy, id: @organization.id
+    it 'Validate title for update actor micro' do
+      FactoryGirl.create(:actor_macro, user_id: @user.id)
+      put :update, id: @micro.id, actor: attri
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
+    it 'Validate name for update actor' do
+      FactoryGirl.create(:actor_macro, user_id: @user.id)
+      put :update, id: @meso.id, actor: attri_fail
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
+    it 'Validate operational_field for update actor macro' do
+      put :update, id: @macro.id, actor: attri
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+    end
+
+    it 'delete actor' do
+      delete :destroy, id: @macro.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@macro.micro_or_meso?).to eq(false)
+    end
+    
+    context 'Link unlink macros and mesos' do
+      before :each do
+        @macro_active = create(:actor_macro, user_id: @user.id)
+        @micro_linked = create(:actor_micro, user_id: @user.id, macros: [@macro_active], mesos: [@meso])
+
+        @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, micro_id: @micro_linked.id)
+        @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, micro_id: @micro_linked.id)
+      end
+
+      it 'Link macro' do
+        patch :link_macro, id: @micro.id, macro_id: @macro_active.id, type: 'ActorMicro'
+      end
+
+      it 'Unlink macro' do
+        patch :unlink_macro, id: @micro_linked.id, relation_id: @relation_macro.id, type: 'ActorMicro'
+      end
+
+      it 'Link meso' do
+        patch :link_meso, id: @micro.id, meso_id: @meso.id, type: 'ActorMicro'
+      end
+
+      it 'Unlink meso' do
+        patch :unlink_meso, id: @micro_linked.id, relation_id: @relation_meso.id, type: 'ActorMicro'
+      end
     end
 
   end
 
-  context "Users" do
+  context 'Users' do
 
-    it "GET index returns http success" do
+    it 'GET index returns http success' do
       get :index
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "GET show returns http success" do
-      get :show, id: @person.id
+    it 'GET show returns http success' do
+      get :show, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
   end
 
-  context "AdminUser should be able to update actor" do
+  context 'AdminUser should be able to activate or deactivate actor' do
 
     before :each do
       sign_in @adminuser
     end
 
-    it "Activate actor" do
-      patch :activate, id: @organization.id, type: 'Organization'
+    it 'Activate actor' do
+      patch :activate, id: @macro.id, type: 'ActorMacro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
-    it "Deactivate actor" do
-      patch :deactivate, id: @person.id, type: 'Person'
+    it 'Deactivate actor' do
+      patch :deactivate, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
 
   end
 
-  context "AdminUser should be able to filter for active and inactive actors" do
+  context 'User should not be able to edit actors if self status is deactivated' do
+
+    before :each do
+      @user.update(active: false)
+      sign_in @user
+    end
+
+    render_views
+
+    it 'Edit actor' do
+      expect(@user.deactivated?).to eq(true)
+      get :edit, id: @macro.id, type: 'ActorMacro'
+      expect(response).to redirect_to('/')
+      expect(flash[:alert]).to eq('You are not authorized to access this page.')
+    end
+
+  end
+
+  context 'AdminUser should be able to filter for active and inactive actors' do
 
     render_views
 
@@ -96,7 +169,7 @@ RSpec.describe ActorsController, type: :controller do
       sign_in @adminuser
     end
 
-    it "Filter for active actors" do
+    it 'Filter for active actors' do
       get :index, { active: 'true' }
       expect(response).to be_success
       expect(response).to have_http_status(200)
@@ -104,7 +177,7 @@ RSpec.describe ActorsController, type: :controller do
       expect(response.body).not_to match('Organization one')
     end
 
-    it "Filter for inactive actors" do
+    it 'Filter for inactive actors' do
       get :index, { active: 'false' }
       expect(response).to be_success
       expect(response).to have_http_status(200)
@@ -112,17 +185,24 @@ RSpec.describe ActorsController, type: :controller do
       expect(response.body).to match('Organization one')
     end
 
-    it "GET a new actor" do
-      get :new, type: 'Organization'
+    it 'GET a new actor' do
+      get :new, type: 'ActorMacro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
 
-    it "User should be able to create a new actor" do
-      post :create, actor: {title: 'New first', description: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'Organization'}
+    it 'User should be able to create a new actor' do
+      post :create, actor: {name: 'New first', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)
+    end
+
+    render_views
+
+    it 'User should not be able to create a new actor without name' do
+      post :create, actor: {name: '', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
+      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
 
   end

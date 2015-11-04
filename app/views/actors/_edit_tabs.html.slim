@@ -1,0 +1,10 @@
+= link_to 'View', actor_path(location)
+|  | 
+= link_to 'Edit info', edit_actor_path(location)
+|
+- if location.meso?
+  |  | 
+  = link_to 'Edit membership', membership_actor_meso_path(location)
+- if location.micro?
+  |  | 
+  = link_to 'Edit membership', membership_actor_micro_path(location)
