@@ -2,6 +2,14 @@ FactoryGirl.define do
   
   sequence(:id) { |n| "#{n+2}" }
   sequence(:email) { |n| "person-#{n}@example.com" }
+  sequence(:name) { Faker::Name.name }
+  sequence(:country) { Faker::Address.country }
+  sequence(:city) { Faker::Address.city }
+  sequence(:zip_code) { Faker::Address.zip_code }
+  sequence(:state) { Faker::Address.state }
+  sequence(:district) { Faker::Name.name }
+  sequence(:lat) { Faker::Address.latitude }
+  sequence(:long) { Faker::Address.longitude }
 
   # Users #
   factory :random_user, class: User do
@@ -70,6 +78,18 @@ FactoryGirl.define do
     name 'Organization one'
     type 'ActorMacro'
     observation 'Lorem ipsum...'
+  end
+
+  # Localizations
+  factory :localization do
+    name
+    country
+    city
+    zip_code
+    state
+    district
+    lat
+    long
   end
 
 end

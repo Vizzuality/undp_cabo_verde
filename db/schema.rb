@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029105133) do
+ActiveRecord::Schema.define(version: 20151104101114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actor_localizations", force: :cascade do |t|
+    t.integer  "localization_id"
+    t.integer  "actor_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "actor_localizations", ["actor_id"], name: "index_actor_localizations_on_actor_id", using: :btree
+  add_index "actor_localizations", ["localization_id"], name: "index_actor_localizations_on_localization_id", using: :btree
 
   create_table "actor_meso_macros", force: :cascade do |t|
     t.integer  "user_id"
@@ -81,6 +91,19 @@ ActiveRecord::Schema.define(version: 20151029105133) do
   end
 
   add_index "admin_users", ["user_id"], name: "index_admin_users_on_user_id", using: :btree
+
+  create_table "localizations", force: :cascade do |t|
+    t.string   "country"
+    t.string   "city"
+    t.string   "zip_code"
+    t.string   "state"
+    t.string   "district"
+    t.string   "name"
+    t.string   "lat"
+    t.string   "long"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",   null: false

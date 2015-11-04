@@ -3,6 +3,9 @@ class Actor < ActiveRecord::Base
 
   belongs_to :user, touch: true
 
+  has_many :actor_localizations, foreign_key: :actor_id
+  has_many :localizations, through: :actor_localizations, dependent: :destroy
+
   validates :name, presence: true
   validates :type, presence: true
 
@@ -43,5 +46,4 @@ class Actor < ActiveRecord::Base
   def underscore
     to_s.underscore
   end
-
 end

@@ -46,7 +46,7 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
   ```ruby  
     rake cucumber
   ```
-  Run all: 
+  Run all (cucumber, spec): 
   ```ruby
     rake
   ```

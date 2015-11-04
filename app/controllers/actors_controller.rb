@@ -13,10 +13,10 @@ class ActorsController < ApplicationController
   
   def index
     @actors = if current_user && current_user.admin?
-               type_class.filter_actors(actor_filters)
-             else
-               type_class.filter_actives
-             end
+                type_class.filter_actors(actor_filters)
+              else
+                type_class.filter_actives
+              end
   end
 
   def show
@@ -77,10 +77,11 @@ class ActorsController < ApplicationController
 
   def unlink_macro
     @macro = if @actor.class.name.include?('ActorMicro')
-              ActorMicroMacro.find(params[:relation_id])
-            else
-              ActorMesoMacro.find(params[:relation_id])
-            end
+               ActorMicroMacro.find(params[:relation_id])
+             else
+               ActorMesoMacro.find(params[:relation_id])
+             end
+             
     @macro.destroy
     link_actor_flow
   end
