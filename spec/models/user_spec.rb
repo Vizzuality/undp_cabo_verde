@@ -6,11 +6,11 @@ RSpec.describe User, type: :model do
     @user = create(:user)
   end
   
-  it "Users count" do
+  it 'Users count' do
     expect(User.count).to eq(1)
   end
 
-  it "Deactivate activate user" do
+  it 'Deactivate activate user' do
     @user.deactivate
     expect(User.count).to eq(1)
     expect(User.filter_inactives.count).to eq(1)

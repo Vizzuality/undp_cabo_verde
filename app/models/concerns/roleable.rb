@@ -1,5 +1,4 @@
 module Roleable
-
   extend ActiveSupport::Concern
 
   included do
@@ -21,6 +20,5 @@ module Roleable
   end
 
   class_methods do
-  end
-  
+  end 
 end

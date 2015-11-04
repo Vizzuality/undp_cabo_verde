@@ -3,56 +3,73 @@ require 'rails_helper'
 RSpec.describe Actor, type: :model do
 
   before :each do
-    @user         = create(:user)
-    @person       = create(:person, user_id: @user.id)
-    @organization = create(:organization, user_id: @user.id)
+    @user  = create(:user)
+    @macro = create(:actor_macro, user_id: @user.id)
+    @meso  = create(:actor_meso, user_id: @user.id, macros: [@macro])
+    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
   end
 
-  it "create actor" do
-    expect(@person.title).to eq('Person one')
-    expect(@organization.title).to eq('Organization one')
+  it 'Create ActorMacro' do
+    expect(@macro.name).to eq('Organization one')
+    expect(@macro.mesos.first.name).to eq('Department one')
+    expect(@macro.micros.first.name).to eq('Person one')
+    expect(@macro.macro?).to eq(true)
+    expect(@macro.operational_filed_txt).to eq('Global')
   end
 
-  it "order actor by name" do
-    expect(Actor.order(title: :asc)).to eq([@organization, @person])
-    expect(Actor.count).to eq(2)
-    expect(Person.count).to eq(1)
-    expect(Organization.count).to eq(1)
+  it 'Create ActorMeso' do
+    expect(@meso.name).to eq('Department one')
+    expect(@meso.micros.first.name).to eq('Person one')
+    expect(@meso.macros.first.name).to eq('Organization one')
+    expect(@meso.meso?).to eq(true)
   end
 
-  it "actor without title - title validation" do
-    @person_reject = Person.new(type: 'Person', title: '', user_id: @user.id)
+  it 'Create ActorMicro' do
+    expect(@micro.name).to eq('Person one')
+    expect(@micro.macros.first.name).to eq('Organization one')
+    expect(@micro.mesos.first.name).to eq('Department one')
+    expect(@micro.micro?).to eq(true)
+    expect(@micro.gender_txt).to eq('Male')
+    expect(@micro.title_txt).to eq('Ms')
+    expect(@micro.birth).to eq((Time.zone.now - 30.years).to_date)
+  end
+
+  it 'order actor by name' do
+    expect(Actor.order(name: :asc)).to eq([@meso, @macro, @micro])
+    expect(Actor.count).to eq(3)
+    expect(ActorMicro.count).to eq(1)
+    expect(ActorMeso.count).to eq(1)
+    expect(ActorMacro.count).to eq(1)
+  end
+
+  it 'actor name validation' do
+    @person_reject = ActorMicro.new(name: '', user_id: @user.id)
 
     @person_reject.valid?
-    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Title can't be blank")
+    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
   end
 
-  it "actor with actor type" do
-    expect(@person.type).to eq('Person')
+  it 'actor with actor type' do
+    expect(@micro.type).to eq('ActorMicro')
   end
 
-  it "actor with user" do
-    expect(@person.user.name).to eq('Pepe Moreno')
-    expect(@user.actors.count).to eq(2)
-    expect(@user.persons.count).to eq(1)
-    expect(@user.organizations.count).to eq(1)
+  it 'actor with user' do
+    expect(@micro.user.name).to eq('Pepe Moreno')
+    expect(@user.actors.count).to eq(3)
+    expect(@user.actor_micros.count).to eq(1)
+    expect(@user.actor_macros.count).to eq(1)
+    expect(@user.actor_mesos.count).to eq(1)
+    expect(@micro.micro_or_meso?).to eq(true)
   end
 
-  it "Organization without description created on Actor model" do
-    @person_actor = create(:person_actor, title: 'test person_actor without description', description: nil)
-
-    expect(@person_actor.title).to eq('test person_actor without description')
-    expect(@person_actor.description).to be_nil
-  end
-
-  it "Deactivate activate actor" do
-    @person.deactivate
-    expect(Person.count).to eq(1)
-    expect(Person.filter_inactives.count).to eq(1)
-    expect(@person.deactivated?).to be(true)
-    @person.activate
-    expect(@person.activated?).to be(true)
-    expect(Person.filter_actives.count).to be(1)
+  it 'Deactivate activate actor' do
+    @micro.deactivate
+    expect(ActorMicro.count).to eq(1)
+    expect(ActorMicro.filter_inactives.count).to eq(1)
+    expect(@micro.deactivated?).to be(true)
+    @micro.activate
+    expect(@micro.activated?).to be(true)
+    expect(ActorMicro.filter_actives.count).to be(1)
   end
 
 end

@@ -21,6 +21,7 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   private
+  
     def after_resetting_password_path_for(resource)
       super(resource)
     end
@@ -33,5 +34,4 @@ class Users::PasswordsController < Devise::PasswordsController
     def menu_highlight
       @menu_highlighted = :account
     end
-  
 end

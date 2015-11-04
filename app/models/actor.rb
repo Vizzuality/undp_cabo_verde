@@ -1,11 +1,10 @@
 class Actor < ActiveRecord::Base
-
   include Activable
 
-  belongs_to :user
+  belongs_to :user, touch: true
 
-  validates :title, presence: true
-  validates :type,  presence: true
+  validates :name, presence: true
+  validates :type, presence: true
 
   def self.filter_actors(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
@@ -22,11 +21,27 @@ class Actor < ActiveRecord::Base
   end
 
   def self.types
-    %w(Person Organization)
+    %w(ActorMacro ActorMeso ActorMicro)
+  end
+
+  def macro?
+    type.include?('ActorMacro')
+  end
+
+  def meso?
+    type.include?('ActorMeso')
+  end
+
+  def micro?
+    type.include?('ActorMicro')
+  end
+
+  def micro_or_meso?
+    type.include?('ActorMicro') || type.include?('ActorMeso')
   end
 
   def underscore
     to_s.underscore
   end
-  
+
 end

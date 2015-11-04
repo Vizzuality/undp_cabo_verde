@@ -1,0 +1,4 @@
+- if current_user
+  = link_to 'New Actor', new_actor_path
+  |  | 
+  = link_to 'My Actors', user_actors_path(current_user)

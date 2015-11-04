@@ -1,9 +1,9 @@
 h1 Actors
 
-p= link_to 'New Actor', new_actor_path
+= render 'index_tabs'
 
 - @actors.each do |actor|
   p
-    = link_to actor.title, actor_path(actor)
+    = link_to actor.name, actor_path(actor)
     | 
     = " (#{actor.status})"
