@@ -47,3 +47,8 @@ p
   p
     | Date of birth: 
     = @actor.birth
+
+hr
+- @localizations.each do |localization|
+  p= localization.name
+  p= link_to 'Edit localization', edit_actor_localization_path(@actor, localization)

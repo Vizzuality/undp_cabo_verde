@@ -20,6 +20,7 @@ class ActorsController < ApplicationController
   end
 
   def show
+    @localizations = @actor.localizations
   end
 
   def edit

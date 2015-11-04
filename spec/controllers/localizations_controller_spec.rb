@@ -71,18 +71,13 @@ RSpec.describe LocalizationsController, type: :controller do
       expect(@meso.localizations.size).to eq(0)
     end
 
-    # context 'Validation' do
-    #   render_views
+    context 'Validation' do
+      render_views
       
-    #   it 'User should not be able to update localization without longtitude' do
-    #     put :update, id: @localization.id, actor_id: @macro.id, localization: attri_fail
-    #     expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
-    #   end
-
-    #   it 'User should not be able to create a new localization without longtitude' do
-    #     post :create, actor_id: @meso.id, localization: attri_fail
-    #     expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
-    #   end
-    # end
+      it 'User should not be able to update localization without longtitude' do
+        put :update, id: @localization.id, actor_id: @macro.id, localization: attri_fail
+        expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+      end
+    end
   end
 end

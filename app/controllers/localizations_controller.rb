@@ -8,7 +8,7 @@ class LocalizationsController < ApplicationController
   end
 
   def new
-    @localization = Localization.new
+    @localization = owner.localizations.new
   end
 
   def create
