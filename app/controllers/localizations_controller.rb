@@ -40,6 +40,7 @@ class LocalizationsController < ApplicationController
     end
 
     def owner
+      # ToDo: Setup owners for artefacts and actions
       @owner = if params[:actor_id]
                  current_user.actors.find(params[:actor_id])
                end
@@ -54,5 +55,4 @@ class LocalizationsController < ApplicationController
     def localization_params
       params.require(:localization).permit!
     end
-
 end
