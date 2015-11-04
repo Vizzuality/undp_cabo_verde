@@ -57,6 +57,7 @@ class UsersController < ApplicationController
   end
 
   private
+  
     def user_filters
       params.permit(:active)
     end

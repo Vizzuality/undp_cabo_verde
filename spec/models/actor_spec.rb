@@ -9,7 +9,7 @@ RSpec.describe Actor, type: :model do
     @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
   end
 
-  it "Create ActorMacro" do
+  it 'Create ActorMacro' do
     expect(@macro.name).to eq('Organization one')
     expect(@macro.mesos.first.name).to eq('Department one')
     expect(@macro.micros.first.name).to eq('Person one')
@@ -17,14 +17,14 @@ RSpec.describe Actor, type: :model do
     expect(@macro.operational_filed_txt).to eq('Global')
   end
 
-  it "Create ActorMeso" do
+  it 'Create ActorMeso' do
     expect(@meso.name).to eq('Department one')
     expect(@meso.micros.first.name).to eq('Person one')
     expect(@meso.macros.first.name).to eq('Organization one')
     expect(@meso.meso?).to eq(true)
   end
 
-  it "Create ActorMicro" do
+  it 'Create ActorMicro' do
     expect(@micro.name).to eq('Person one')
     expect(@micro.macros.first.name).to eq('Organization one')
     expect(@micro.mesos.first.name).to eq('Department one')
@@ -34,7 +34,7 @@ RSpec.describe Actor, type: :model do
     expect(@micro.birth).to eq((Time.zone.now - 30.years).to_date)
   end
 
-  it "order actor by name" do
+  it 'order actor by name' do
     expect(Actor.order(name: :asc)).to eq([@meso, @macro, @micro])
     expect(Actor.count).to eq(3)
     expect(ActorMicro.count).to eq(1)
@@ -42,18 +42,18 @@ RSpec.describe Actor, type: :model do
     expect(ActorMacro.count).to eq(1)
   end
 
-  it "actor without name - name validation" do
+  it 'actor name validation' do
     @person_reject = ActorMicro.new(name: '', user_id: @user.id)
 
     @person_reject.valid?
     expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
   end
 
-  it "actor with actor type" do
+  it 'actor with actor type' do
     expect(@micro.type).to eq('ActorMicro')
   end
 
-  it "actor with user" do
+  it 'actor with user' do
     expect(@micro.user.name).to eq('Pepe Moreno')
     expect(@user.actors.count).to eq(3)
     expect(@user.actor_micros.count).to eq(1)
@@ -62,7 +62,7 @@ RSpec.describe Actor, type: :model do
     expect(@micro.micro_or_meso?).to eq(true)
   end
 
-  it "Deactivate activate actor" do
+  it 'Deactivate activate actor' do
     @micro.deactivate
     expect(ActorMicro.count).to eq(1)
     expect(ActorMicro.filter_inactives.count).to eq(1)

@@ -12,7 +12,7 @@ RSpec.describe ActorMicroMeso, type: :model do
     { meso_id: @meso.id, micro_id: @micro.id }
   end
 
-  it "Create Relation meso micro" do
+  it 'Create Relation meso micro' do
     expect(@meso.name).to eq('Department one')
     expect(@micro.name).to eq('Person one')
     @relation = ActorMicroMeso.create!(meso_micro_params)
@@ -20,7 +20,7 @@ RSpec.describe ActorMicroMeso, type: :model do
     expect(@meso.micros.first.name).to eq('Person one')
   end
 
-  it "Delete Relation macro meso" do
+  it 'Delete Relation macro meso' do
     @relation = ActorMicroMeso.create!(meso_micro_params)
     expect(@micro.mesos.first.name).to eq('Department one')
     expect(@meso.micros.first.name).to eq('Person one')

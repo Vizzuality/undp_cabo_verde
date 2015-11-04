@@ -99,7 +99,7 @@ I want to manage a actor
     And person
     And I am authenticated adminuser
     When I go to the new actor page
-    And I select "ActorMacro" from "actor_type"
+    And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
     And I press "Create"
     Then I should have one actor

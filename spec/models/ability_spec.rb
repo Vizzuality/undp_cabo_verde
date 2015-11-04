@@ -16,8 +16,8 @@ RSpec.describe Ability, type: :model do
   it { Abilities::Guest.should include(CanCan::Ability) }
   it { Abilities::Guest.should respond_to(:new).with(1).argument }
 
-  context "admin" do
-    it "can manage objects" do
+  context 'admin' do
+    it 'can manage objects' do
       [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorMicroMeso, ActorMicroMacro, ActorMesoMacro].each do |model|
         Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, model)
       end
@@ -29,8 +29,8 @@ RSpec.describe Ability, type: :model do
     end
   end
 
-  context "user" do
-    it "can manage objects" do
+  context 'user' do
+    it 'can manage objects' do
       [User].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:update, model, id: @user.id)
       end
@@ -44,8 +44,8 @@ RSpec.describe Ability, type: :model do
     end
   end
 
-  context "guest" do
-    it "can read objects" do
+  context 'guest' do
+    it 'can read objects' do
       Abilities::Guest.any_instance.should_receive(:can).with(:read, :all)
       Abilities::Guest.new @user
     end

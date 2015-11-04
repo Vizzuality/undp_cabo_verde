@@ -97,6 +97,7 @@ class ActorsController < ApplicationController
   end
 
   private
+  
     def set_type
       @type = type
     end
@@ -122,7 +123,7 @@ class ActorsController < ApplicationController
     end
 
     def set_selection
-      @types = type_class.types
+      @types = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros = ActorMacro.filter_actives
       @mesos = ActorMeso.filter_actives
     end

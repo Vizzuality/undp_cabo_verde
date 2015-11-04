@@ -32,12 +32,12 @@ describe ActorsHelper, type: :helper do
   end
 
   context 'link and unlink meso' do
-    it "Link meso as micro" do
+    it 'Link meso as micro' do
       @id = 1
       expect(helper.sti_link_meso(@micro, @id)).to eq(link_meso_actor_micro_path(@micro, meso_id: 1))
     end
 
-    it "Unlink meso as micro" do
+    it 'Unlink meso as micro' do
       @id = 1
       expect(helper.sti_unlink_meso(@micro, @id)).to eq(unlink_meso_actor_micro_path(@micro, relation_id: 1))
     end

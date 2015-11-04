@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  
     def menu_highlight
       @menu_highlighted = :none
     end

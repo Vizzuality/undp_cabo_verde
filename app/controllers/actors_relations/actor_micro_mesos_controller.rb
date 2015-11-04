@@ -1,6 +1,6 @@
 class ActorMicroMesosController < ApplicationController
   load_and_authorize_resource
-  before_filter :set_relation
+  before_action :set_relation
 
   def edit
   end
@@ -14,6 +14,7 @@ class ActorMicroMesosController < ApplicationController
   end
 
   private
+  
     def set_relation
       @actor_relation = ActorMicroMeso.find(params[:relation_id])
     end

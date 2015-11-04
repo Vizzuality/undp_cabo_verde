@@ -11,10 +11,10 @@ RSpec.describe Users::ActorsController, type: :controller do
     sign_in @user
   end
 
-  context "Actors for authenticated user" do
+  context 'Actors for authenticated user' do
     render_views
 
-    it "GET actors index for specific user returns http success" do
+    it 'GET actors index for specific user returns http success' do
       get :index, user_id: @user.id
       expect(response).to be_success
       expect(response).to have_http_status(200)
