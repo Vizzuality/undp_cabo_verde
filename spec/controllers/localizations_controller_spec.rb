@@ -10,16 +10,22 @@ RSpec.describe LocalizationsController, type: :controller do
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso,  user_id: @user.id)
-    @localization   = create(:localization, name: 'First Localization', actors: [@micro, @macro, @meso], user_id: @user.id)
-    @localization_2 = create(:localization, name: 'First Localization', actors: [@meso], user_id: @user.id, active: false)
+    @localization   = create(:localization, name: 'First Localization', 
+                             actors: [@micro, @macro, @meso], user_id: @user.id)
+    @localization_2 = create(:localization, name: 'First Localization', 
+                             actors: [@meso], user_id: @user.id, active: false)
   end
   
   let!(:attri) do 
-    { name: 'New addr', lat: Faker::Address.latitude, long: Faker::Address.longitude, country: Faker::Address.country }
+    { name: 'New addr', lat: Faker::Address.latitude, 
+      long: Faker::Address.longitude, country: Faker::Address.country 
+    }
   end
 
   let!(:attri_fail) do 
-    { name: 'New addr', lat: Faker::Address.latitude, long: '', country: Faker::Address.country }
+    { name: 'New addr', lat: Faker::Address.latitude, 
+      long: '', country: Faker::Address.country 
+    }
   end
 
   context 'Localizations for actors' do
@@ -66,7 +72,7 @@ RSpec.describe LocalizationsController, type: :controller do
       expect(@micro.localizations.size).to eq(0)
     end
 
-    context 'AdminUser should be able to activate and deactivate localizations' do
+    context 'AdminUser should be able to activate, deactivate and update localizations' do
       before :each do
         sign_in @adminuser
         expect(@meso.localizations.size).to eq(2)
@@ -86,6 +92,14 @@ RSpec.describe LocalizationsController, type: :controller do
         expect(@meso.localizations.filter_actives.size).to eq(0)
         expect(@meso.localizations.filter_inactives.size).to eq(2)
       end
+
+      it 'Update localization and redirect to actor edit page' do
+        put :update, id: @localization.id, actor_id: @macro.id, localization: attri
+        expect(response).to be_redirect
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to(edit_actor_path(@macro))
+        expect(@macro.localizations.first.name).to eq('New addr')
+      end
     end
 
     context 'Validation' do
@@ -93,7 +107,7 @@ RSpec.describe LocalizationsController, type: :controller do
       
       it 'User should not be able to update localization without longtitude' do
         put :update, id: @localization.id, actor_id: @macro.id, localization: attri_fail
-        expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+        expect(response.body).to match('can&#39;t be blank')
       end
     end
   end
