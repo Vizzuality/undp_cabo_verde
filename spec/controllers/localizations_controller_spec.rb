@@ -10,7 +10,8 @@ RSpec.describe LocalizationsController, type: :controller do
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso,  user_id: @user.id)
-    @localization = create(:localization, name: 'First Localization', actors: [@micro, @macro, @meso])
+    @localization   = create(:localization, name: 'First Localization', actors: [@micro, @macro, @meso], user_id: @user.id)
+    @localization_2 = create(:localization, name: 'First Localization', actors: [@meso], user_id: @user.id, active: false)
   end
   
   let!(:attri) do 
@@ -25,12 +26,6 @@ RSpec.describe LocalizationsController, type: :controller do
 
     before :each do
       sign_in @user
-    end
-
-    it 'GET show returns http success' do
-      get :show, id: @localization.id, actor_id: @micro.id
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
     end
 
     it 'GET edit returns http success' do
@@ -64,11 +59,33 @@ RSpec.describe LocalizationsController, type: :controller do
     end
 
     it 'Delete localization' do
-      delete :destroy, id: @localization.id, actor_id: @meso.id
+      delete :destroy, id: @localization.id, actor_id: @micro.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to(edit_actor_path(@meso))
-      expect(@meso.localizations.size).to eq(0)
+      expect(response).to redirect_to(edit_actor_path(@micro))
+      expect(@micro.localizations.size).to eq(0)
+    end
+
+    context 'AdminUser should be able to activate and deactivate localizations' do
+      before :each do
+        sign_in @adminuser
+        expect(@meso.localizations.size).to eq(2)
+      end
+
+      it 'Activate localization' do
+        patch :activate, id: @localization_2.id, actor_id: @meso.id
+        expect(response).to be_redirect
+        expect(response).to have_http_status(302)
+        expect(@meso.localizations.filter_actives.size).to eq(2)
+      end
+
+      it 'Deactivate localization' do
+        patch :deactivate, id: @localization.id, actor_id: @meso.id
+        expect(response).to be_redirect
+        expect(response).to have_http_status(302)
+        expect(@meso.localizations.filter_actives.size).to eq(0)
+        expect(@meso.localizations.filter_inactives.size).to eq(2)
+      end
     end
 
     context 'Validation' do

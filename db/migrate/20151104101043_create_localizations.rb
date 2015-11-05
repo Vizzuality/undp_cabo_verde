@@ -1,6 +1,9 @@
 class CreateLocalizations < ActiveRecord::Migration
   def change
     create_table :localizations do |t|
+      t.belongs_to :user, index: true, foreign_key: true
+      t.boolean :active, default: true, null: false
+      t.datetime :deactivated_at
       t.string :country
       t.string :city
       t.string :zip_code

@@ -1,4 +1,8 @@
 class Localization < ActiveRecord::Base
+  include Activable
+
+  belongs_to :user, touch: true
+  
   has_many :actor_localizations, foreign_key: :localization_id
   has_many :actors, through: :actor_localizations, dependent: :destroy
 

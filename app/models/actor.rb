@@ -6,6 +6,8 @@ class Actor < ActiveRecord::Base
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
 
+  before_update :deactivate_dependencies, if: '!active and active_changed?'
+
   validates :name, presence: true
   validates :type, presence: true
 
@@ -46,4 +48,13 @@ class Actor < ActiveRecord::Base
   def underscore
     to_s.underscore
   end
+
+  private
+    def deactivate_dependencies
+      localizations.filter_actives.each do |localization|
+        unless localization.deactivate
+          return false
+        end
+      end
+    end
 end

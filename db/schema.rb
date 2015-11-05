@@ -93,6 +93,9 @@ ActiveRecord::Schema.define(version: 20151104101114) do
   add_index "admin_users", ["user_id"], name: "index_admin_users_on_user_id", using: :btree
 
   create_table "localizations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "active",         default: true, null: false
+    t.datetime "deactivated_at"
     t.string   "country"
     t.string   "city"
     t.string   "zip_code"
@@ -102,9 +105,11 @@ ActiveRecord::Schema.define(version: 20151104101114) do
     t.string   "lat"
     t.string   "long"
     t.string   "web_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
+
+  add_index "localizations", ["user_id"], name: "index_localizations_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",   null: false
@@ -134,4 +139,5 @@ ActiveRecord::Schema.define(version: 20151104101114) do
   add_foreign_key "actor_micro_mesos", "users"
   add_foreign_key "actors", "users"
   add_foreign_key "admin_users", "users"
+  add_foreign_key "localizations", "users"
 end

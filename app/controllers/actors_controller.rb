@@ -8,7 +8,6 @@ class ActorsController < ApplicationController
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
   before_action :set_parents, only: :membership
-  # before_action :set_owned_parents, only: :show
   before_action :set_memberships, only: [:show, :membership]
   
   def index
@@ -134,11 +133,6 @@ class ActorsController < ApplicationController
       # ToDo: change it to search function
       @all_macros = ActorMacro.filter_actives unless @actor.macro?
       @all_mesos  = ActorMeso.filter_actives  if @actor.micro?
-    end
-
-    def set_owned_parents
-      @macros = @actor.macros unless @actor.macro?
-      @mesos  = @actor.mesos  if @actor.micro?
     end
 
     def set_memberships

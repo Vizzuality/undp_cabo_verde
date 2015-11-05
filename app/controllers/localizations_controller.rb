@@ -1,8 +1,8 @@
 class LocalizationsController < ApplicationController
+  load_and_authorize_resource
+  
+  before_action :authenticate_user!
   before_action :set_localization, except: [:new, :create]
-
-  def show
-  end
 
   def edit
   end
@@ -14,7 +14,7 @@ class LocalizationsController < ApplicationController
   def create
     @localization = owner.localizations.create!(localization_params)
     if @localization.save
-      redirect_to redirect_paths
+      @localization.update(user_id: @user.id) and redirect_to redirect_paths
     else
       render :new
     end
@@ -25,6 +25,18 @@ class LocalizationsController < ApplicationController
       redirect_to redirect_paths
     else
       render :edit
+    end
+  end
+
+  def deactivate
+    if @localization.try(:deactivate)
+      redirect_to redirect_paths
+    end
+  end
+
+  def activate
+    if @localization.try(:activate)
+      redirect_to redirect_paths
     end
   end
 
@@ -40,9 +52,14 @@ class LocalizationsController < ApplicationController
     end
 
     def owner
+      @user = if params[:actor_id] && Actor.find(params[:actor_id]).user
+                Actor.find(params[:actor_id]).user
+              else
+                current_user
+              end
       # ToDo: Setup owners for artefacts and actions
       @owner = if params[:actor_id]
-                 current_user.actors.find(params[:actor_id])
+                 @user.actors.find(params[:actor_id])
                end
     end
 

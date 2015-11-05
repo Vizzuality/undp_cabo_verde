@@ -51,4 +51,15 @@ p
 hr
 - @localizations.each do |localization|
   p= localization.name
-  p= link_to 'Edit localization', edit_actor_localization_path(@actor, localization)
+  - if (can? :manage, localization)
+    p= link_to 'Edit localization', edit_actor_localization_path(@actor, localization)
+  - if (can? [:activate, :deactivate], localization)
+    - if localization.activated?
+      p.deactivate_localization
+        = link_to 'Deactivate', deactivate_actor_localization_path(@actor, localization), method: :patch
+    - if localization.deactivated?
+      p
+        | Deactivated at: 
+        = localization.deactivated_at.to_time
+      p.activate_localization
+        = link_to 'Activate', activate_actor_localization_path(@actor, localization), method: :patch
