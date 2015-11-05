@@ -8,18 +8,18 @@ class ActorsController < ApplicationController
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
   before_action :set_parents, only: :membership
-  # before_action :set_owned_parents, only: :show
   before_action :set_memberships, only: [:show, :membership]
   
   def index
     @actors = if current_user && current_user.admin?
-               type_class.filter_actors(actor_filters)
-             else
-               type_class.filter_actives
-             end
+                type_class.filter_actors(actor_filters)
+              else
+                type_class.filter_actives
+              end
   end
 
   def show
+    @localizations = @actor.localizations
   end
 
   def edit
@@ -77,10 +77,11 @@ class ActorsController < ApplicationController
 
   def unlink_macro
     @macro = if @actor.class.name.include?('ActorMicro')
-              ActorMicroMacro.find(params[:relation_id])
-            else
-              ActorMesoMacro.find(params[:relation_id])
-            end
+               ActorMicroMacro.find(params[:relation_id])
+             else
+               ActorMesoMacro.find(params[:relation_id])
+             end
+             
     @macro.destroy
     link_actor_flow
   end
@@ -132,11 +133,6 @@ class ActorsController < ApplicationController
       # ToDo: change it to search function
       @all_macros = ActorMacro.filter_actives unless @actor.macro?
       @all_mesos  = ActorMeso.filter_actives  if @actor.micro?
-    end
-
-    def set_owned_parents
-      @macros = @actor.macros unless @actor.macro?
-      @mesos  = @actor.mesos  if @actor.micro?
     end
 
     def set_memberships

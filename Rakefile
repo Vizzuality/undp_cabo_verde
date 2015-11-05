@@ -13,8 +13,5 @@ unless Rails.env.production?
     # no rspec available
   end
 
-  Rake::Task['default'].prerequisites.clear
-  Rake::Task['default'].clear
-
-  task default: [:teaspoon, :cucumber, :spec]
+  task default: [:cucumber, :spec]
 end

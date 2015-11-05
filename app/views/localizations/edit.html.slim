@@ -1,0 +1,10 @@
+h1 
+  Edit
+
+= simple_form_for [@owner, @localization], url: polymorphic_localization_path(@owner, @localization) do |f|
+  = render partial: f
+
+  .form-actions
+    = f.button :submit, 'Update'
+
+p= link_to "Back", :back
