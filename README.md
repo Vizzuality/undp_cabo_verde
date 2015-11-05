@@ -1,6 +1,6 @@
 # UNDP Cabo Verde #
 
-[![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=staging)](https://travis-ci.org/Vizzuality/undp_cabo_verde) [![Code Climate](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/gpa.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde) [![Test Coverage](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/coverage.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/coverage)
+[![Build Status](https://travis-ci.org/Vizzuality/undp_cabo_verde.svg?branch=master)](https://travis-ci.org/Vizzuality/undp_cabo_verde) [![Code Climate](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/gpa.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde) [![Test Coverage](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/badges/coverage.svg)](https://codeclimate.com/github/Vizzuality/undp_cabo_verde/coverage)
 
 ## REQUIREMENTS ##
 
