@@ -24,6 +24,7 @@ module Undp
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'users')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors_relations')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'localizations')]
     config.autoload_paths += Dir[Rails.root.join('app', 'controllers', 'actors_relations')]
     config.included_models = ActiveRecord::Base.descendants.map!(&:name)
 
