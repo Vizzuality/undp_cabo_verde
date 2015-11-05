@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ActorsController, type: :controller do
-
   before :each do
     @user      = create(:random_user)
     @adminuser = create(:adminuser)
@@ -13,11 +12,15 @@ RSpec.describe ActorsController, type: :controller do
   end
   
   let!(:attri) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: '', operational_filed: '' }
+    { name: 'New first', observation: 'Lorem ipsum dolor...', 
+      active: true, title: '', operational_filed: '' 
+    }
   end
 
   let!(:attri_macro_micro) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: 'Test', operational_filed: 2 }
+    { name: 'New first', observation: 'Lorem ipsum dolor...', 
+      active: true, title: 'Test', operational_filed: 2 
+    }
   end
 
   let!(:attri_fail) do
@@ -25,7 +28,6 @@ RSpec.describe ActorsController, type: :controller do
   end
 
   context 'Actors for authenticated user' do
-
     before :each do
       sign_in @user
     end
@@ -76,18 +78,18 @@ RSpec.describe ActorsController, type: :controller do
     it 'Validate title for update actor micro' do
       FactoryGirl.create(:actor_macro, user_id: @user.id)
       put :update, id: @micro.id, actor: attri
-      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+      expect(response.body).to match('can&#39;t be blank')
     end
 
     it 'Validate name for update actor' do
       FactoryGirl.create(:actor_macro, user_id: @user.id)
       put :update, id: @meso.id, actor: attri_fail
-      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+      expect(response.body).to match('can&#39;t be blank')
     end
 
     it 'Validate operational_field for update actor macro' do
       put :update, id: @macro.id, actor: attri
-      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+      expect(response.body).to match('can&#39;t be blank')
     end
 
     it 'delete actor' do
@@ -100,12 +102,17 @@ RSpec.describe ActorsController, type: :controller do
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
-        @micro_linked = create(:actor_micro, user_id: @user.id, macros: [@macro_active], mesos: [@meso])
-        @meso_linked  = create(:actor_meso,  user_id: @user.id, macros: [@macro_active])
+        @micro_linked = create(:actor_micro, user_id: @user.id, 
+                               macros: [@macro_active], mesos: [@meso])
+        @meso_linked  = create(:actor_meso,  user_id: @user.id, 
+                               macros: [@macro_active])
 
-        @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, micro_id: @micro_linked.id)
-        @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, micro_id: @micro_linked.id)
-        @relation_macro_as_meso = ActorMesoMacro.find_by(macro_id: @macro_active.id, meso_id: @meso_linked.id)
+        @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, 
+                                                  micro_id: @micro_linked.id)
+        @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, 
+                                                 micro_id: @micro_linked.id)
+        @relation_macro_as_meso = ActorMesoMacro.find_by(macro_id: @macro_active.id, 
+                                                         meso_id: @meso_linked.id)
       end
 
       it 'Link macro as micro' do
@@ -136,7 +143,6 @@ RSpec.describe ActorsController, type: :controller do
   end
 
   context 'Users' do
-
     it 'GET index returns http success' do
       get :index
       expect(response).to be_success
@@ -148,11 +154,9 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
-
   end
 
   context 'AdminUser should be able to activate or deactivate actor' do
-
     before :each do
       sign_in @adminuser
     end
@@ -168,11 +172,9 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
-
   end
 
   context 'User should not be able to edit actors if self status is deactivated' do
-
     before :each do
       @user.update(active: false)
       sign_in @user
@@ -186,11 +188,9 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to redirect_to('/')
       expect(flash[:alert]).to eq('You are not authorized to access this page.')
     end
-
   end
 
   context 'AdminUser should be able to filter for active and inactive actors' do
-
     render_views
 
     before :each do
@@ -220,19 +220,16 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it 'User should be able to create a new actor' do
-      post :create, actor: {name: 'New first', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
+      post :create, actor: {name: 'New first', user_id: @adminuser.id, type: 'ActorMacro'}
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)
     end
 
-    render_views
-
     it 'User should not be able to create a new actor without name' do
-      post :create, actor: {name: '', observation: 'Lorem ipsum dolor...', user_id: @adminuser.id, type: 'ActorMacro'}
-      expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
+      post :create, actor: {name: '', user_id: @adminuser.id, type: 'ActorMacro'}
+      expect(response.body).to match('can&#39;t be blank')
     end
-
   end
 
 end
