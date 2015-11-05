@@ -12,6 +12,8 @@ module Abilities
       can :manage, ::ActorMicroMeso
       can :manage, ::ActorMicroMacro
       can :manage, ::ActorMesoMacro
+      can :manage, ::Localization
+      can [:activate, :deactivate], ::Localization
 
       cannot :make_user,               ::User, id: user.id
       cannot [:activate, :deactivate], ::User, id: user.id

@@ -12,5 +12,4 @@ class Ability
       self.merge Abilities::Guest.new(user)
     end
   end
-
 end

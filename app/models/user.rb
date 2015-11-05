@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :actor_micro_mesos
   has_many :actor_micro_macros
   has_many :actor_meso_macros
+  has_many :localizations
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
@@ -39,6 +40,12 @@ class User < ActiveRecord::Base
     def deactivate_dependencies
       actors.filter_actives.each do |actor|
         unless actor.deactivate
+          return false
+        end
+      end
+
+      localizations.filter_actives.each do |localization|
+        unless localization.deactivate
           return false
         end
       end
