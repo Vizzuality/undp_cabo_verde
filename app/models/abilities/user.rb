@@ -14,6 +14,9 @@ module Abilities
       can :manage, ::ActorMicroMeso,  user_id: user.id if user.activated?
       can :manage, ::ActorMicroMacro, user_id: user.id if user.activated?
       can :manage, ::ActorMesoMacro,  user_id: user.id if user.activated?
+      can :manage, ::Localization,    user_id: user.id if user.activated?
+
+      cannot [:activate, :deactivate], ::Localization
     end
   end
 end

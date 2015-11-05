@@ -3,6 +3,11 @@ class Actor < ActiveRecord::Base
 
   belongs_to :user, touch: true
 
+  has_many :actor_localizations, foreign_key: :actor_id
+  has_many :localizations, through: :actor_localizations, dependent: :destroy
+
+  before_update :deactivate_dependencies, if: '!active and active_changed?'
+
   validates :name, presence: true
   validates :type, presence: true
 
@@ -44,4 +49,12 @@ class Actor < ActiveRecord::Base
     to_s.underscore
   end
 
+  private
+    def deactivate_dependencies
+      localizations.filter_actives.each do |localization|
+        unless localization.deactivate
+          return false
+        end
+      end
+    end
 end

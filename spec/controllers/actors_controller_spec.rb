@@ -16,6 +16,10 @@ RSpec.describe ActorsController, type: :controller do
     { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: '', operational_filed: '' }
   end
 
+  let!(:attri_macro_micro) do 
+    { name: 'New first', observation: 'Lorem ipsum dolor...', active: true, title: 'Test', operational_filed: 2 }
+  end
+
   let!(:attri_fail) do
     { name: '' }
   end
@@ -48,11 +52,25 @@ RSpec.describe ActorsController, type: :controller do
       expect(@micro.micro?).to eq(true)
     end
 
-    it 'update actor' do
+    it 'update actor micro and redirect to membership_actor_micro_path' do
+      put :update, id: @micro.id, actor: attri_macro_micro
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@micro.micro?).to eq(true)
+    end
+
+    it 'update actor meso and redirect to membership_actor_meso_path' do
       put :update, id: @meso.id, actor: attri
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@meso.meso?).to eq(true)
+    end
+
+    it 'update actor macro and redirect to actor_path' do
+      put :update, id: @macro.id, actor: attri_macro_micro
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@macro.macro?).to eq(true)
     end
 
     it 'Validate title for update actor micro' do
@@ -83,17 +101,27 @@ RSpec.describe ActorsController, type: :controller do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
         @micro_linked = create(:actor_micro, user_id: @user.id, macros: [@macro_active], mesos: [@meso])
+        @meso_linked  = create(:actor_meso,  user_id: @user.id, macros: [@macro_active])
 
         @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, micro_id: @micro_linked.id)
         @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, micro_id: @micro_linked.id)
+        @relation_macro_as_meso = ActorMesoMacro.find_by(macro_id: @macro_active.id, meso_id: @meso_linked.id)
       end
 
-      it 'Link macro' do
+      it 'Link macro as micro' do
         patch :link_macro, id: @micro.id, macro_id: @macro_active.id, type: 'ActorMicro'
       end
 
-      it 'Unlink macro' do
+      it 'Unlink macro as micro' do
         patch :unlink_macro, id: @micro_linked.id, relation_id: @relation_macro.id, type: 'ActorMicro'
+      end
+
+      it 'Link macro as meso' do
+        patch :link_macro, id: @meso.id, macro_id: @macro_active.id, type: 'ActorMeso'
+      end
+
+      it 'Unlink macro as meso' do
+        patch :unlink_macro, id: @meso_linked.id, relation_id: @relation_macro_as_meso.id, type: 'ActorMeso'
       end
 
       it 'Link meso' do

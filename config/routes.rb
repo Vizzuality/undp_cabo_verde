@@ -28,7 +28,12 @@ Rails.application.routes.draw do
     resources :actors,  controller: 'users/actors', only: :index
   end
 
-  resources :actors
+  resources :actors do
+    resources :localizations, controller: 'localizations', except: :index do
+      patch 'deactivate', on: :member
+      patch 'activate',   on: :member
+    end
+  end
 
   resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
     patch 'activate',     on: :member
