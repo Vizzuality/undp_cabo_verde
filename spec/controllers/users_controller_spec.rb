@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-
   before :each do
     @user   = create(:random_user)
     @user_2 = create(:user, active: false)
@@ -18,7 +17,6 @@ RSpec.describe UsersController, type: :controller do
   end
 
   context 'For authenticated user' do
-
     before :each do
       sign_in @user
     end
@@ -65,11 +63,9 @@ RSpec.describe UsersController, type: :controller do
       put :update, id: @user.id, user: attri_fail
       expect(response.body).to match('<small class="error">can&#39;t be blank</small>')
     end
-
   end
 
   context 'Users' do
-
     it 'GET index returns http success' do
       get :index
       expect(response).to be_success
@@ -81,11 +77,9 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
-
   end
 
   context 'AdminUser should be able to activate and deactivate user' do
-
     before :each do
       sign_in @adminuser
     end
@@ -101,11 +95,9 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
-
   end
 
   context 'AdminUser should be able to filter for active and inactive user' do
-
     render_views
 
     before :each do
@@ -129,11 +121,9 @@ RSpec.describe UsersController, type: :controller do
       expect(response.body).not_to match('Juanito Lolito')
       expect(response.body).to match('Pepe Moreno')
     end
-
   end
 
   context 'AdminUser should be able to set up admin rights for user' do
-
     before :each do
       @adminuser_2 = create(:random_adminuser)
       FactoryGirl.create(:admin_2)
@@ -151,7 +141,6 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
-
   end
 
 end

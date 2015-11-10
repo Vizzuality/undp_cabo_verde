@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Localization, type: :model do
-  
   before :each do
     @localization = create(:localization, name: 'First Localization')
   end
@@ -13,5 +12,4 @@ RSpec.describe Localization, type: :model do
     expect(@localization.country).not_to be_nil
     expect(@localization.city).not_to be_nil
   end
-
 end

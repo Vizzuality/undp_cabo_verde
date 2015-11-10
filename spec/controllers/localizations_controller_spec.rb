@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe LocalizationsController, type: :controller do
-
   before :each do
     @user      = create(:random_user)
     @adminuser = create(:adminuser)
