@@ -74,9 +74,10 @@ I want to manage a actor
     When I go to the actor page for "Person one"
     Then I should see "Department one"
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership"    
-    And I follow "Remove" within ".remove_meso"
-    When I go to the actor page for "Person one"
+    And I follow "Edit membership" 
+    Then I should not see ".add_meso"   
+    When I follow "Remove" within ".remove_meso"
+    And I go to the actor page for "Person one"
     Then I should not see "Department one"
 
   Scenario: User can add macros to meso actor
@@ -89,10 +90,11 @@ I want to manage a actor
     When I go to the actor page for "Department one"
     Then I should see "Organization one"
     When I go to the edit actor page for "Department one"
-    And I follow "Edit membership"    
-    And I follow "Remove" within ".remove_macro"
-    When I go to the actor page for "Department one"
-    Then I should not see "Organization one"
+    And I follow "Edit membership"
+    Then I should not see ".add_macro" 
+    When I follow "Remove" within ".remove_macro"
+    Then I go to the actor page for "Department one"
+    And I should not see "Organization one"
 
   Scenario: User can create actor
     Given user

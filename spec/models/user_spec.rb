@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  
   before :each do
     @user = create(:user)
   end
@@ -19,5 +18,4 @@ RSpec.describe User, type: :model do
     expect(@user.activated?).to be(true)
     expect(User.filter_actives.count).to be(1)
   end
-
 end

@@ -1,19 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe ActorMicroMesosController, type: :controller do
-
+RSpec.describe ActorRelationsController, type: :controller do
   before :each do
     @user = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
 
-    @meso  = create(:actor_meso, user_id: @user.id)
-    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso])
-    @micro_meso = ActorMicroMeso.find_by(micro_id: @micro.id, meso_id: @meso.id)
+    @macro = create(:actor_macro, user_id: @user.id)
+    @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
+    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso])
+
+    @meso_macro  = ActorRelation.find_by(parent_id: @macro.id, child_id: @meso.id)
+    @micro_macro = ActorRelation.find_by(parent_id: @macro.id, child_id: @micro.id)
+    @micro_meso  = ActorRelation.find_by(parent_id: @meso.id, child_id: @micro.id)
   end
   
-  let!(:attri_meso) do 
-    { meso_end_date: Time.now, meso_start_date: Time.now - 10.days }
+  let!(:attri_macro) do 
+    { end_date: Time.zone.now, start_date: Time.zone.now - 10.days }
   end
 
   context 'User can update start and end date for relation' do
@@ -24,14 +27,14 @@ RSpec.describe ActorMicroMesosController, type: :controller do
     render_views
 
     it 'GET edit returns http success' do
-      get :edit, actor_micro_id: @micro.id, relation_id: @micro_meso.id, type: 'ActorMicro'
+      get :edit, actor_id: @meso.id, parent_id: @macro.id, type: 'ActorMeso'
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(response.body).to match('Membership details')
     end
 
-    it 'update actor' do
-      put :update, relation_id: @micro_meso.id, actor_micro_meso: attri_meso
+    it 'update actor relation' do
+      put :update, relation_id: @meso_macro.id, actor_relation: attri_macro
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
@@ -45,17 +48,16 @@ RSpec.describe ActorMicroMesosController, type: :controller do
     render_views
 
     it 'GET edit returns http success' do
-      get :edit, actor_micro_id: @micro.id, relation_id: @micro_meso.id, type: 'ActorMicro'
+      get :edit, actor_id: @meso.id, parent_id: @macro.id, type: 'ActorMeso'
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(response.body).to match('Membership details')
     end
 
-    it 'update actor' do
-      put :update, relation_id: @micro_meso.id, actor_micro_meso: attri_meso
+    it 'update actor relation' do
+      put :update, relation_id: @meso_macro.id, actor_relation: attri_macro
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
     end
   end
-
 end

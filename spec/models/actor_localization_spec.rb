@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ActorLocalization, type: :model do
-  
   before :each do
     @user  = create(:user)
     @macro = create(:actor_macro, user_id: @user.id)
@@ -32,5 +31,4 @@ RSpec.describe ActorLocalization, type: :model do
     expect(@localization.actor_mesos.count).to eq(1)
     expect(@localization.actor_micros.count).to eq(1)
   end
-
 end
