@@ -224,5 +224,4 @@ RSpec.describe ActorsController, type: :controller do
       expect(response.body).to match('can&#39;t be blank')
     end
   end
-
 end

@@ -14,6 +14,6 @@ class ActorMicro < Actor
   end
 
   def empty_relations?
-    children.empty?
+    parents.empty?
   end
 end

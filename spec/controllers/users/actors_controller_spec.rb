@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Users::ActorsController, type: :controller do
-
   before :each do
     @user  = create(:user)
     @micro = create(:actor_micro, user_id: @user.id)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ActorRelation, type: :model do
-  
   before :each do
     @user  = create(:user)
     @meso  = create(:actor_meso, user_id: @user.id)
@@ -27,5 +26,4 @@ RSpec.describe ActorRelation, type: :model do
     @meso.destroy
     expect(ActorRelation.count).to eq(0)
   end
-
 end

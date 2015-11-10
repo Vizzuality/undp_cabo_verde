@@ -38,18 +38,6 @@ class Actor < ActiveRecord::Base
     actors
   end
 
-  def actor_relations_macros
-    parents.where(type: 'ActorMacro')
-  end
-
-  def actor_relations_mesos
-    parents.where(type: 'ActorMeso')
-  end
-
-  def actor_relations_micros
-    parents.where(type: 'ActorMicro')
-  end
-
   def macros_parents
     parents.where(type: 'ActorMacro')
   end

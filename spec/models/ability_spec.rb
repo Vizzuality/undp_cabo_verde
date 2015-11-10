@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Ability, type: :model do
-
   before :each do
     @adminuser = create(:adminuser)
     @user = create(:random_user)

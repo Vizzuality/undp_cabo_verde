@@ -1,5 +1,5 @@
 class ActorMeso < Actor
   def empty_relations?
-    children.empty?
+    parents.empty?
   end
 end

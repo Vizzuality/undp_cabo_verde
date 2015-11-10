@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Actor, type: :model do
-
   before :each do
     @user  = create(:user)
     @macro = create(:actor_macro, user_id: @user.id)
@@ -71,5 +70,4 @@ RSpec.describe Actor, type: :model do
     expect(@micro.activated?).to be(true)
     expect(ActorMicro.filter_actives.count).to be(1)
   end
-
 end

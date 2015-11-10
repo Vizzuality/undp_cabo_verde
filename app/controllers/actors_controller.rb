@@ -111,14 +111,14 @@ class ActorsController < ApplicationController
 
     def set_parents
       # ToDo: change it to search function
-      @all_macros = Actor.not_macros_parents(@actor) unless @actor.macro?
-      @all_mesos  = Actor.not_mesos_parents(@actor)  if @actor.micro?
+      @all_macros = Actor.filter_actives.not_macros_parents(@actor) unless @actor.macro?
+      @all_mesos  = Actor.filter_actives.not_mesos_parents(@actor)  if @actor.micro?
     end
 
     def set_memberships
-      @macros = @actor.actor_relations_macros
-      @mesos  = @actor.actor_relations_mesos
-      # @micros = @actor.actor_relations_micros.includes(:parent)
+      @macros = @actor.macros_parents
+      @mesos  = @actor.mesos_parents
+      @micros = @actor.micros_parents
     end
 
     def update_actor_flow

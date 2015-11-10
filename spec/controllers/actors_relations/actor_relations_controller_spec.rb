@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ActorRelationsController, type: :controller do
-
   before :each do
     @user = create(:random_user)
     @adminuser = create(:adminuser)
@@ -17,7 +16,7 @@ RSpec.describe ActorRelationsController, type: :controller do
   end
   
   let!(:attri_macro) do 
-    { end_date: Time.now, start_date: Time.now - 10.days }
+    { end_date: Time.zone.now, start_date: Time.zone.now - 10.days }
   end
 
   context 'User can update start and end date for relation' do
@@ -61,5 +60,4 @@ RSpec.describe ActorRelationsController, type: :controller do
       expect(response).to have_http_status(302)
     end
   end
-
 end
