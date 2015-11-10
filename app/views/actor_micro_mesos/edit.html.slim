@@ -1,8 +1,0 @@
-h1 Membership details
-
-= render 'actors/edit_tabs', location: @actor_relation.micro
-hr
-= simple_form_for @actor_relation do |f|
-  = render partial: f
-  .form-actions
-    = f.button :submit, 'Update'

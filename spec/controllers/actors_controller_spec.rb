@@ -102,41 +102,34 @@ RSpec.describe ActorsController, type: :controller do
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
-        @micro_linked = create(:actor_micro, user_id: @user.id, 
-                               macros: [@macro_active], mesos: [@meso])
         @meso_linked  = create(:actor_meso,  user_id: @user.id, 
-                               macros: [@macro_active])
-
-        @relation_macro = ActorMicroMacro.find_by(macro_id: @macro_active.id, 
-                                                  micro_id: @micro_linked.id)
-        @relation_meso  = ActorMicroMeso.find_by(meso_id: @meso.id, 
-                                                 micro_id: @micro_linked.id)
-        @relation_macro_as_meso = ActorMesoMacro.find_by(macro_id: @macro_active.id, 
-                                                         meso_id: @meso_linked.id)
+                               parents: [@macro_active])
+        @micro_linked = create(:actor_micro, user_id: @user.id, 
+                               parents: [@macro_active, @meso_linked])
       end
 
       it 'Link macro as micro' do
-        patch :link_macro, id: @micro.id, macro_id: @macro_active.id, type: 'ActorMicro'
+        patch :link_actor, id: @micro.id, parent_id: @macro_active.id, type: 'ActorMicro'
       end
 
       it 'Unlink macro as micro' do
-        patch :unlink_macro, id: @micro_linked.id, relation_id: @relation_macro.id, type: 'ActorMicro'
+        patch :unlink_actor, id: @micro_linked.id, parent_id: @macro_active.id, type: 'ActorMicro'
       end
 
       it 'Link macro as meso' do
-        patch :link_macro, id: @meso.id, macro_id: @macro_active.id, type: 'ActorMeso'
+        patch :link_actor, id: @meso.id, parent_id: @macro_active.id, type: 'ActorMeso'
       end
 
       it 'Unlink macro as meso' do
-        patch :unlink_macro, id: @meso_linked.id, relation_id: @relation_macro_as_meso.id, type: 'ActorMeso'
+        patch :unlink_actor, id: @meso_linked.id, parent_id: @macro_active.id, type: 'ActorMeso'
       end
 
       it 'Link meso' do
-        patch :link_meso, id: @micro.id, meso_id: @meso.id, type: 'ActorMicro'
+        patch :link_actor, id: @micro.id, parent_id: @meso.id, type: 'ActorMicro'
       end
 
       it 'Unlink meso' do
-        patch :unlink_meso, id: @micro_linked.id, relation_id: @relation_meso.id, type: 'ActorMicro'
+        patch :unlink_actor, id: @micro_linked.id, parent_id: @meso_linked.id, type: 'ActorMicro'
       end
     end
 

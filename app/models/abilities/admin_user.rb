@@ -9,9 +9,7 @@ module Abilities
       can :manage, ::ActorMicro
       can :manage, ::ActorMeso
       can :manage, ::ActorMacro
-      can :manage, ::ActorMicroMeso
-      can :manage, ::ActorMicroMacro
-      can :manage, ::ActorMesoMacro
+      can :manage, ::ActorRelation
       can :manage, ::Localization
       can [:activate, :deactivate], ::Localization
 

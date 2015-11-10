@@ -33,40 +33,31 @@ Rails.application.routes.draw do
       patch 'deactivate', on: :member
       patch 'activate',   on: :member
     end
+
+    patch 'link_actor',   on: :member
+    patch 'unlink_actor', on: :member
+
+    get   'membership', on: :member
+    get   'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
   end
 
   resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
     patch 'activate',     on: :member
     patch 'deactivate',   on: :member
-    patch 'link_macro',   on: :member
-    patch 'link_meso',    on: :member
-    patch 'unlink_macro', on: :member
-    patch 'unlink_meso',  on: :member
-
-    get   'membership', on: :member
-    get   'membership/:relation_id/macros', to: 'actor_micro_macros#edit', as: :edit_macro
-    get   'membership/:relation_id/mesos',  to: 'actor_micro_mesos#edit',  as: :edit_meso
   end
 
   resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
     patch 'activate',     on: :member
     patch 'deactivate',   on: :member
-    patch 'link_macro',   on: :member
-    patch 'unlink_macro', on: :member
-
-    get   'membership', on: :member
-    get   'membership/:relation_id/macros', to: 'actor_meso_macros#edit', as: :edit_macro
   end
 
   resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
   end
 
   with_options only: :update do |is_only|
-    is_only.resources :actor_micro_mesos,  param: :relation_id
-    is_only.resources :actor_micro_macros, param: :relation_id
-    is_only.resources :actor_meso_macros,  param: :relation_id
+    is_only.resources :actor_relations, param: :relation_id
   end
   
   # # API routes

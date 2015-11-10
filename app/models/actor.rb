@@ -1,12 +1,25 @@
 class Actor < ActiveRecord::Base
   include Activable
 
-  belongs_to :user, touch: true
+  belongs_to :user
+
+  has_many :actor_relations_as_parent, class_name: 'ActorRelation', foreign_key: :parent_id
+  has_many :actor_relations_as_child, class_name: 'ActorRelation', foreign_key: :child_id
+
+  has_many :children, through: :actor_relations_as_parent, dependent: :destroy
+  has_many :parents, through: :actor_relations_as_child, dependent: :destroy
 
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
+
+  scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
+                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
+                                          child.id) }
+  scope :not_mesos_parents,  -> (child) { where(type: 'ActorMeso').
+                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
+                                          child.id) }
 
   validates :name, presence: true
   validates :type, presence: true
@@ -23,6 +36,42 @@ class Actor < ActiveRecord::Base
                all
              end
     actors
+  end
+
+  def actor_relations_macros
+    parents.where(type: 'ActorMacro')
+  end
+
+  def actor_relations_mesos
+    parents.where(type: 'ActorMeso')
+  end
+
+  def actor_relations_micros
+    parents.where(type: 'ActorMicro')
+  end
+
+  def macros_parents
+    parents.where(type: 'ActorMacro')
+  end
+
+  def mesos_parents
+    parents.where(type: 'ActorMeso')
+  end
+
+  def micros_parents
+    parents.where(type: 'ActorMicro')
+  end
+
+  def macros
+    children.where(type: 'ActorMacro')
+  end
+
+  def mesos
+    children.where(type: 'ActorMeso')
+  end
+
+  def micros
+    children.where(type: 'ActorMicro')
   end
 
   def self.types
@@ -53,6 +102,12 @@ class Actor < ActiveRecord::Base
     def deactivate_dependencies
       localizations.filter_actives.each do |localization|
         unless localization.deactivate
+          return false
+        end
+      end
+
+      children.filter_actives.each do |child|
+        unless child.deactivate
           return false
         end
       end

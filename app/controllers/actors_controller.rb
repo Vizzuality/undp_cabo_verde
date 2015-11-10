@@ -2,7 +2,7 @@ class ActorsController < ApplicationController
   load_and_authorize_resource
   
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_current_user, only: [:create, :link_macro, :link_meso]
+  before_action :set_current_user, only: [:create, :link_actor]
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
@@ -66,34 +66,14 @@ class ActorsController < ApplicationController
     redirect_to actors_path
   end
 
-  def link_macro
-    if @actor.class.name.include?('ActorMicro')
-      @user.actor_micro_macros.create!(micro_id: @actor.id, macro_id: params[:macro_id])
-    else
-      @user.actor_meso_macros.create!(meso_id: @actor.id, macro_id: params[:macro_id])
-    end
+  def link_actor
+    @user.actor_relations.create!(child_id: @actor.id, parent_id: params[:parent_id])
     link_actor_flow
   end
 
-  def unlink_macro
-    @macro = if @actor.class.name.include?('ActorMicro')
-               ActorMicroMacro.find(params[:relation_id])
-             else
-               ActorMesoMacro.find(params[:relation_id])
-             end
-             
-    @macro.destroy
-    link_actor_flow
-  end
-
-  def link_meso
-    @user.actor_micro_mesos.create!(micro_id: @actor.id, meso_id: params[:meso_id])
-    link_actor_flow
-  end
-
-  def unlink_meso
-    @meso = ActorMicroMeso.find(params[:relation_id])
-    @meso.destroy
+  def unlink_actor
+    @relation = ActorRelation.find_by(child_id: @actor.id, parent_id: params[:parent_id])
+    @relation.destroy
     link_actor_flow
   end
 
@@ -131,21 +111,19 @@ class ActorsController < ApplicationController
 
     def set_parents
       # ToDo: change it to search function
-      @all_macros = ActorMacro.filter_actives unless @actor.macro?
-      @all_mesos  = ActorMeso.filter_actives  if @actor.micro?
+      @all_macros = Actor.not_macros_parents(@actor) unless @actor.macro?
+      @all_mesos  = Actor.not_mesos_parents(@actor)  if @actor.micro?
     end
 
     def set_memberships
-      @macros = @actor.actor_meso_macros.includes(:macro)  if @actor.meso?
-      @macros = @actor.actor_micro_macros.includes(:macro) if @actor.micro?
-      @mesos  = @actor.actor_micro_mesos.includes(:meso)   if @actor.micro?
+      @macros = @actor.actor_relations_macros
+      @mesos  = @actor.actor_relations_mesos
+      # @micros = @actor.actor_relations_micros.includes(:parent)
     end
 
     def update_actor_flow
-      if @actor.micro? && @actor.empty_relations?
-        redirect_to membership_actor_micro_path(@actor)
-      elsif @actor.meso? && @actor.empty_relations?
-        redirect_to membership_actor_meso_path(@actor)
+      if @actor.micro_or_meso? && @actor.empty_relations?
+        redirect_to membership_actor_path(@actor)
       else
         redirect_to actor_path(@actor)
       end
@@ -153,9 +131,9 @@ class ActorsController < ApplicationController
 
     def link_actor_flow
       if @actor.micro?
-        redirect_to membership_actor_micro_path(@actor)
+        redirect_to membership_actor_path(@actor)
       else
-        redirect_to membership_actor_meso_path(@actor)
+        redirect_to membership_actor_path(@actor)
       end
     end
 
