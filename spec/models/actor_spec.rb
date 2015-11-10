@@ -1,12 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Actor, type: :model do
-
   before :each do
     @user  = create(:user)
     @macro = create(:actor_macro, user_id: @user.id)
-    @meso  = create(:actor_meso, user_id: @user.id, macros: [@macro])
-    @micro = create(:actor_micro, user_id: @user.id, mesos: [@meso], macros: [@macro], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
+    @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
+    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
   end
 
   it 'Create ActorMacro' do
@@ -20,14 +19,14 @@ RSpec.describe Actor, type: :model do
   it 'Create ActorMeso' do
     expect(@meso.name).to eq('Department one')
     expect(@meso.micros.first.name).to eq('Person one')
-    expect(@meso.macros.first.name).to eq('Organization one')
+    expect(@meso.macros_parents.first.name).to eq('Organization one')
     expect(@meso.meso?).to eq(true)
   end
 
   it 'Create ActorMicro' do
     expect(@micro.name).to eq('Person one')
-    expect(@micro.macros.first.name).to eq('Organization one')
-    expect(@micro.mesos.first.name).to eq('Department one')
+    expect(@micro.macros_parents.first.name).to eq('Organization one')
+    expect(@micro.mesos_parents.first.name).to eq('Department one')
     expect(@micro.micro?).to eq(true)
     expect(@micro.gender_txt).to eq('Male')
     expect(@micro.title_txt).to eq('Ms')
@@ -71,5 +70,4 @@ RSpec.describe Actor, type: :model do
     expect(@micro.activated?).to be(true)
     expect(ActorMicro.filter_actives.count).to be(1)
   end
-
 end

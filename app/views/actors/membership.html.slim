@@ -5,34 +5,31 @@ hr
 - if @actor.micro_or_meso?
   h3 Macros
   - @macros.each do |macro|
-    p= macro.macro.name
+    p= macro.name
     - if (can? :manage, macro)
       p.edit_meso
-        - if @actor.micro?
-          = link_to 'Edit', actor_micro_edit_macro_path(@actor, macro)
-        - else
-          = link_to 'Edit', actor_meso_edit_macro_path(@actor, macro)
+        = link_to 'Edit', edit_relation(@actor, macro)
       p.remove_macro
-        = link_to 'Remove', sti_unlink_macro(@actor, macro.id), method: :patch
+        = link_to 'Remove', unlink_actor(@actor, macro), method: :patch
 
+hr
 - if @actor.micro?
-  hr
   h3 Mesos
   - @mesos.each do |meso|
-    p= meso.meso.name
+    p= meso.name
     - if (can? :manage, meso)
       p.edit_meso
-        = link_to 'Edit', actor_micro_edit_meso_path(@actor, meso)
+        = link_to 'Edit', edit_relation(@actor, meso)
       p.remove_meso
-        = link_to 'Remove', sti_unlink_meso(@actor, meso.id), method: :patch
-hr
+        = link_to 'Remove', unlink_actor(@actor, meso), method: :patch
+  hr
 - if @actor.micro_or_meso?
   h4 Link Macros
   - @all_macros.each do |macro|
     p= macro.name
     - if (can? :manage, macro)
       p.add_macro
-        = link_to 'Add', sti_link_macro(@actor, macro.id), method: :patch
+        = link_to 'Add', link_actor(@actor, macro), method: :patch
 - if @actor.micro?
   hr
   h4 Link Mesos
@@ -40,4 +37,4 @@ hr
     p= meso.name
     - if (can? :manage, meso)
       p.add_meso
-        = link_to 'Add', sti_link_meso(@actor, meso.id), method: :patch
+        = link_to 'Add', link_actor(@actor, meso), method: :patch

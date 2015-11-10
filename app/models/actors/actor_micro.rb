@@ -1,10 +1,4 @@
 class ActorMicro < Actor
-  has_many :actor_micro_macros, foreign_key: :micro_id
-  has_many :actor_micro_mesos, foreign_key: :micro_id
-
-  has_many :macros, through: :actor_micro_macros, dependent: :destroy
-  has_many :mesos, through: :actor_micro_mesos, dependent: :destroy
-
   validates :title, presence: true, on: :update
 
   def gender_txt
@@ -20,6 +14,6 @@ class ActorMicro < Actor
   end
 
   def empty_relations?
-    macros.empty? || mesos.empty?
+    parents.empty?
   end
 end

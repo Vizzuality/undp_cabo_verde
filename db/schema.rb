@@ -26,47 +26,20 @@ ActiveRecord::Schema.define(version: 20151104101114) do
   add_index "actor_localizations", ["actor_id"], name: "index_actor_localizations_on_actor_id", using: :btree
   add_index "actor_localizations", ["localization_id"], name: "index_actor_localizations_on_localization_id", using: :btree
 
-  create_table "actor_meso_macros", force: :cascade do |t|
+  create_table "actor_relations", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "macro_id"
-    t.integer  "meso_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.datetime "macro_start_date"
-    t.datetime "macro_end_date"
+    t.integer  "parent_id"
+    t.integer  "child_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "actor_meso_macros", ["macro_id"], name: "index_actor_meso_macros_on_macro_id", using: :btree
-  add_index "actor_meso_macros", ["meso_id"], name: "index_actor_meso_macros_on_meso_id", using: :btree
-  add_index "actor_meso_macros", ["user_id"], name: "index_actor_meso_macros_on_user_id", using: :btree
-
-  create_table "actor_micro_macros", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "macro_id"
-    t.integer  "micro_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.datetime "macro_start_date"
-    t.datetime "macro_end_date"
-  end
-
-  add_index "actor_micro_macros", ["macro_id"], name: "index_actor_micro_macros_on_macro_id", using: :btree
-  add_index "actor_micro_macros", ["micro_id"], name: "index_actor_micro_macros_on_micro_id", using: :btree
-  add_index "actor_micro_macros", ["user_id"], name: "index_actor_micro_macros_on_user_id", using: :btree
-
-  create_table "actor_micro_mesos", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "meso_id"
-    t.integer  "micro_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.datetime "meso_start_date"
-    t.datetime "meso_end_date"
-  end
-
-  add_index "actor_micro_mesos", ["meso_id"], name: "index_actor_micro_mesos_on_meso_id", using: :btree
-  add_index "actor_micro_mesos", ["micro_id"], name: "index_actor_micro_mesos_on_micro_id", using: :btree
-  add_index "actor_micro_mesos", ["user_id"], name: "index_actor_micro_mesos_on_user_id", using: :btree
+  add_index "actor_relations", ["child_id"], name: "index_actor_relations_on_child_id", using: :btree
+  add_index "actor_relations", ["parent_id", "child_id"], name: "index_parent_child", unique: true, using: :btree
+  add_index "actor_relations", ["parent_id"], name: "index_actor_relations_on_parent_id", using: :btree
+  add_index "actor_relations", ["user_id"], name: "index_actor_relations_on_user_id", using: :btree
 
   create_table "actors", force: :cascade do |t|
     t.integer  "user_id"
@@ -134,9 +107,7 @@ ActiveRecord::Schema.define(version: 20151104101114) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "actor_meso_macros", "users"
-  add_foreign_key "actor_micro_macros", "users"
-  add_foreign_key "actor_micro_mesos", "users"
+  add_foreign_key "actor_relations", "users"
   add_foreign_key "actors", "users"
   add_foreign_key "admin_users", "users"
   add_foreign_key "localizations", "users"

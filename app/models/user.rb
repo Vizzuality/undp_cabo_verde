@@ -11,9 +11,7 @@ class User < ActiveRecord::Base
   has_many :actor_micros
   has_many :actor_mesos
   has_many :actor_macros
-  has_many :actor_micro_mesos
-  has_many :actor_micro_macros
-  has_many :actor_meso_macros
+  has_many :actor_relations
   has_many :localizations
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
