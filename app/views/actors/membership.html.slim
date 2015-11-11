@@ -5,7 +5,10 @@ hr
 - if @actor.micro_or_meso?
   h3 Macros
   - @macros.each do |macro|
-    p= macro.name
+    p
+      = macro.name 
+      |  | 
+      = macro.membership_date(@actor, macro) 
     - if (can? :manage, macro)
       p.edit_meso
         = link_to 'Edit', edit_relation(@actor, macro)
@@ -16,7 +19,10 @@ hr
 - if @actor.micro?
   h3 Mesos
   - @mesos.each do |meso|
-    p= meso.name
+    p
+      = meso.name 
+      |  | 
+      = meso.membership_date(@actor, meso) 
     - if (can? :manage, meso)
       p.edit_meso
         = link_to 'Edit', edit_relation(@actor, meso)

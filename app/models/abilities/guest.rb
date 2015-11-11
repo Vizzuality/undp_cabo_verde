@@ -2,7 +2,7 @@ module Abilities
   class Guest
     include CanCan::Ability
 
-    def initialize(user)
+    def initialize(*)
       can :read, :all
     end
   end

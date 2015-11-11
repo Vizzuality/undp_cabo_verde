@@ -178,3 +178,16 @@ I want to manage a actor
     And I should see "Department one"
     And I should see "Organization one"
     And I should not see "Organization by admin"
+
+  Scenario: User can edit membership start and end dates
+    Given I am authenticated user
+    And person
+    And department
+    When I go to the edit actor page for "Person one"
+    And I follow "Edit membership"
+    And I follow "Add" within ".add_meso"
+    And I follow "Edit" within ".edit_meso"
+    When I select datetime "1990 March 10" as the "actor_relation_start_date"
+    And I select datetime "2010 March 10" as the "actor_relation_end_date"
+    And I press "Update"
+    Then I should see "from: March 10, 1990 - to: March 10, 2010"
