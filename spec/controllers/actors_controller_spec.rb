@@ -213,14 +213,14 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it 'User should be able to create a new actor' do
-      post :create, actor: {name: 'New first', user_id: @adminuser.id, type: 'ActorMacro'}
+      post :create, actor: { name: 'New first', user_id: @adminuser.id, type: 'ActorMacro' }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)
     end
 
     it 'User should not be able to create a new actor without name' do
-      post :create, actor: {name: '', user_id: @adminuser.id, type: 'ActorMacro'}
+      post :create, actor: { name: '', user_id: @adminuser.id, type: 'ActorMacro' }
       expect(response.body).to match('can&#39;t be blank')
     end
   end
