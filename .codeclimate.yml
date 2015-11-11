@@ -4,6 +4,15 @@ languages:
 engines:
   rubocop:
     enabled: true
+    checks:
+      Rubocop/Metrics/AbcSize:
+        enabled: false
+      Rubocop/Metrics/ClassLength:
+        enabled: false
+      Rubocop/Style/IndentationConsistency:
+        enabled: false
+      Rubocop/Style/TrailingWhitespace:
+        enabled: false
   eslint:
     enabled: true
   bundler-audit:
@@ -20,3 +29,4 @@ exclude_paths:
 - "db/schema.rb"
 - "spec/teaspoon_env.rb"
 - "features/step_definitions/web_steps.rb"
+- "features/support/paths.rb"

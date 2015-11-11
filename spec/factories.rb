@@ -27,7 +27,7 @@ FactoryGirl.define do
     lastname  'Moreno'
     email     'pepe-moreno@sample.com'
     password  'password'
-    password_confirmation {|u| u.password}
+    password_confirmation { |u| u.password }
   end
   
   # Admin users
@@ -37,7 +37,7 @@ FactoryGirl.define do
     lastname  'Lolito'
     email     'admin@sample.com'
     password  'password'
-    password_confirmation {|u| u.password}
+    password_confirmation { |u| u.password }
   end
 
   factory :admin, class: AdminUser do
@@ -48,7 +48,7 @@ FactoryGirl.define do
     id 2
     email
     password  'password'
-    password_confirmation {|u| u.password}
+    password_confirmation { |u| u.password }
   end
 
   factory :admin_2, class: AdminUser do
