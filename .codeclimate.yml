@@ -13,6 +13,8 @@ engines:
         enabled: false
       Rubocop/Style/TrailingWhitespace:
         enabled: false
+      Rubocop/Lint/AmbiguousRegexpLiteral:
+        enabled: false
   eslint:
     enabled: true
   bundler-audit:
