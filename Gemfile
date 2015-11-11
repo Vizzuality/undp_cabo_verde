@@ -51,6 +51,7 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
 end
 
+gem 'rubocop', require: false
 gem 'dotenv-rails'
 gem 'puma'
 gem 'rails_12factor', group: :production
