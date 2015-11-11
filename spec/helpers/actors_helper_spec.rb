@@ -37,4 +37,10 @@ describe ActorsHelper, type: :helper do
       expect(helper.unlink_actor(@micro, @meso)).to eq(unlink_actor_actor_path(@micro, parent_id: @meso.id))
     end
   end
+
+  context 'Edit relation link' do
+    it 'edit macro' do
+      expect(helper.edit_relation(@micro, @meso)).to eq(actor_edit_actor_relation_path(@micro, @meso))
+    end
+  end
 end

@@ -38,6 +38,15 @@ class Actor < ActiveRecord::Base
     actors
   end
 
+  def membership_date(actor, parent)
+    relation   = actor_relations_as_parent.get_dates(actor, parent)
+    start_date = relation.start_date.to_date.to_formatted_s(:long) rescue nil
+    end_date   = relation.end_date.to_date.to_formatted_s(:long) rescue 'now'
+
+    # Literal date format
+    "from: #{start_date} - to: #{end_date}" if start_date.present?
+  end
+
   def macros_parents
     parents.where(type: 'ActorMacro')
   end
