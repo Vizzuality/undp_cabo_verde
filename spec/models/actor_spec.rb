@@ -6,6 +6,7 @@ RSpec.describe Actor, type: :model do
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
     @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
+    @relation = ActorRelation.find_by(parent_id: @meso.id, child_id: @micro.id)
   end
 
   it 'Create ActorMacro' do

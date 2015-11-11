@@ -17,7 +17,7 @@ h1
       | Macro: 
       = link_to macro.name, actor_path(macro)
       |  | 
-      /# = "from: #{macro.macro_start_date} - to: #{macro.macro_end_date}"
+      = macro.membership_date(@actor, macro)
 
 - if @actor.macro?
   p
@@ -30,7 +30,7 @@ h1
       | Meso: 
       = link_to meso.name, actor_path(meso)
       |  | 
-      /# = "from: #{meso.meso_start_date} - to: #{meso.meso_end_date}"
+      = meso.membership_date(@actor, meso)
 
 p
   | User: 
