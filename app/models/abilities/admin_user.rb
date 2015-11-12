@@ -11,6 +11,7 @@ module Abilities
       can :manage, ::ActorMacro
       can :manage, ::ActorRelation
       can :manage, ::Localization
+      can :manage, ::Category 
       can [:activate, :deactivate], ::Localization
 
       cannot :make_user,               ::User, id: user.id

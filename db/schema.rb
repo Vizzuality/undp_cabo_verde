@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104101114) do
+ActiveRecord::Schema.define(version: 20151111121233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,11 +59,25 @@ ActiveRecord::Schema.define(version: 20151104101114) do
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
   add_index "actors", ["user_id"], name: "index_actors_on_user_id", using: :btree
 
+  create_table "actors_categories", id: false, force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "actor_id"
+  end
+
   create_table "admin_users", force: :cascade do |t|
     t.integer "user_id"
   end
 
   add_index "admin_users", ["user_id"], name: "index_admin_users_on_user_id", using: :btree
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.integer  "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
   create_table "localizations", force: :cascade do |t|
     t.integer  "user_id"

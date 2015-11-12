@@ -12,6 +12,8 @@ class Actor < ActiveRecord::Base
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
 
+  has_and_belongs_to_many :categories
+
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
@@ -89,6 +91,14 @@ class Actor < ActiveRecord::Base
 
   def micro_or_meso?
     type.include?('ActorMicro') || type.include?('ActorMeso')
+  end
+
+  def localizations?
+    localizations.any?
+  end
+
+  def categories?
+    categories.any?
   end
 
   def underscore

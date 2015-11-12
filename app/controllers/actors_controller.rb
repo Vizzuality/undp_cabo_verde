@@ -20,6 +20,7 @@ class ActorsController < ApplicationController
 
   def show
     @localizations = @actor.localizations
+    @categories = @actor.categories
   end
 
   def edit
@@ -104,9 +105,10 @@ class ActorsController < ApplicationController
     end
 
     def set_selection
-      @types = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
-      @macros = ActorMacro.filter_actives
-      @mesos = ActorMeso.filter_actives
+      @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
+      @macros     = ActorMacro.filter_actives
+      @mesos      = ActorMeso.filter_actives
+      @categories = Category.all
     end
 
     def set_parents

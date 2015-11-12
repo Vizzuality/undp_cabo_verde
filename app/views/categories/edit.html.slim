@@ -1,0 +1,12 @@
+h1 
+  Edit
+  | 
+  = @category.name
+hr
+= simple_form_for @category do |f|
+  = render partial: f
+  .form-actions
+    = f.button :submit, 'Update'
+
+p= link_to "Delete", category_path(@category), data: { confirm: 'Are you sure?' }, method: :delete
+p= link_to "Back", :back

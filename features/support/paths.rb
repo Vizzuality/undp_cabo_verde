@@ -38,6 +38,14 @@ module NavigationHelpers
       membership_actor_path(Actor.find_by_name($1))
     when /the edit meso member actor page for "(.*)"$/
       membership_actor_path(Actor.find_by_name($1))
+    when /the categories page/
+      '/categories'
+    when /the category page for "(.*)"$/
+      category_path(Category.find_by_name($1))
+    when /the edit category page for "(.*)"$/
+      edit_category_path(Category.find_by_name($1))
+    when /the new category page/
+      new_category_path
     else
       begin
         page_name =~ /the (.*) page/
