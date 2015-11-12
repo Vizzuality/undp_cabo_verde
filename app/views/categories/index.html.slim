@@ -1,0 +1,8 @@
+h1 Categories
+
+- if (can? :manage, Category)
+  p= link_to 'Create category', new_category_path
+
+- @categories.walk_tree do |category, level|
+  p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+    =link_to "#{"--"*level}#{category.name}", category_path(category)
