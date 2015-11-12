@@ -92,4 +92,8 @@ FactoryGirl.define do
     long
   end
 
+  factory :category do
+    name 'Category one'
+  end
+
 end

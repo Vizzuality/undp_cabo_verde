@@ -17,7 +17,7 @@ RSpec.describe Ability, type: :model do
 
   context 'admin' do
     it 'can manage objects' do
-      [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Localization].each do |model|
+      [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Localization, Category].each do |model|
         Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, model)
       end
       Abilities::AdminUser.any_instance.should_receive(:can).with([:activate, :deactivate], Localization)

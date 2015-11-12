@@ -98,6 +98,27 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to have_http_status(302)
       expect(@macro.micro_or_meso?).to eq(false)
     end
+
+    context 'User should be able to add categories to actors' do
+      before :each do
+        @category  = create(:category)
+        @child_cat = create(:category, name: 'Category second', parent: @category, actors: [@micro, @meso])
+      end
+
+      let!(:attri_macro_micro_with_cat) do 
+        { name: 'New first', observation: 'Lorem ipsum dolor...', 
+          active: true, title: 'Test', operational_filed: 2, category_ids: [@child_cat]
+        }
+      end
+
+      it 'Add categories to actor' do
+        put :update, id: @macro.id, actor: attri_macro_micro_with_cat
+        expect(response).to be_redirect
+        expect(response).to have_http_status(302)
+        expect(@macro.categories.count).to eq(1)
+      end
+    end
+
     
     context 'Link unlink macros and mesos' do
       before :each do
