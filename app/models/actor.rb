@@ -106,6 +106,7 @@ class Actor < ActiveRecord::Base
   end
 
   private
+  
     def deactivate_dependencies
       localizations.filter_actives.each do |localization|
         unless localization.deactivate

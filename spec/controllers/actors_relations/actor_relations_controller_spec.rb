@@ -19,6 +19,10 @@ RSpec.describe ActorRelationsController, type: :controller do
     { end_date: Time.zone.now, start_date: Time.zone.now - 10.days }
   end
 
+  let!(:attri_macro_fail) do 
+    { end_date: Time.zone.now, start_date: '' }
+  end
+
   context 'User can update start and end date for relation' do
     before :each do
       sign_in @user

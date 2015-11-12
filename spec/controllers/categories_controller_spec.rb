@@ -97,6 +97,11 @@ RSpec.describe CategoriesController, type: :controller do
         put :update, id: @category.id, category: attri_fail
         expect(response.body).to match('can&#39;t be blank')
       end
+
+      it 'AdminUser should not be able to create category without name' do
+        post :create, category: attri_fail
+        expect(response.body).to match('Please review the problems below:')
+      end
     end
   end
 end

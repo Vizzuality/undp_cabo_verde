@@ -107,6 +107,12 @@ RSpec.describe LocalizationsController, type: :controller do
         put :update, id: @localization.id, actor_id: @macro.id, localization: attri_fail
         expect(response.body).to match('can&#39;t be blank')
       end
+
+      it 'User should not be able to create localization without longtitude' do
+        expect {
+          post :create, actor_id: @macro.id, localization: attri_fail
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
     end
   end
 end
