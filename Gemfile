@@ -15,6 +15,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'slim-rails'
 gem 'simple_form'
+gem 'acts_as_tree'
 
 # Users
 gem 'devise'

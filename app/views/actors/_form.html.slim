@@ -2,3 +2,4 @@
 .form-inputs
   = form.input :name
   = form.input :observation
+  = form.input :category_ids, collection: @categories, as: :check_boxes

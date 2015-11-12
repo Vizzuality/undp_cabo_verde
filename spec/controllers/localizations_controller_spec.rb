@@ -28,7 +28,6 @@ RSpec.describe LocalizationsController, type: :controller do
   end
 
   context 'Localizations for actors' do
-
     before :each do
       sign_in @user
     end

@@ -59,6 +59,8 @@ Rails.application.routes.draw do
   with_options only: :update do |is_only|
     is_only.resources :actor_relations, param: :relation_id
   end
+
+  resources :categories
   
   # # API routes
   # namespace :api, defaults: {format: 'json'} do
