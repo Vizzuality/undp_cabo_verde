@@ -61,6 +61,8 @@ Rails.application.routes.draw do
   end
 
   resources :categories
+  resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
+  resources :other_domains,          controller: 'categories', type: 'OtherDomain'
   
   # # API routes
   # namespace :api, defaults: {format: 'json'} do

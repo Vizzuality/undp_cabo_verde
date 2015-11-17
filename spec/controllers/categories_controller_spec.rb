@@ -22,7 +22,7 @@ RSpec.describe CategoriesController, type: :controller do
   end
 
   let!(:attri_with_actor) do 
-    { name: 'New cat name', actor_ids: [@macro] }
+    { name: 'New cat name', actor_ids: [@macro], type: 'SocioCulturalDomain' }
   end
 
   context 'User should be able to view categories' do

@@ -22,9 +22,9 @@ class Actor < ActiveRecord::Base
   scope :not_mesos_parents,  -> (child) { where(type: 'ActorMeso').
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
                                           child.id) }
-
-  validates :name, presence: true
+  
   validates :type, presence: true
+  validates :name, presence: true
 
   def self.filter_actors(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
