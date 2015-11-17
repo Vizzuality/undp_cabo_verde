@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117100806) do
+ActiveRecord::Schema.define(version: 20151117123444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 20151117100806) do
     t.integer  "child_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "title"
+    t.string   "title_reverse"
   end
 
   add_index "actor_relations", ["child_id"], name: "index_actor_relations_on_child_id", using: :btree

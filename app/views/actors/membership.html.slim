@@ -22,7 +22,7 @@ hr
     p
       = meso.name 
       |  | 
-      = meso.membership_date(@actor, meso) 
+      = meso.membership_date(@actor, meso)
     - if (can? :manage, meso)
       p.edit_meso
         = link_to 'Edit', edit_relation(@actor, meso)
