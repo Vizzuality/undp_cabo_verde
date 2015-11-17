@@ -5,7 +5,7 @@ run Rails.application
 
 if ENV['ACCESS'] == 'private'
   use Rack::Auth::Basic, "Restricted Area" do |username, password|
-    username == ENV['ACCESS_USER']
-    password  == ENV['ACCESS_PASSWORD']
+    username if username == ENV['ACCESS_USER']
+    password if password == ENV['ACCESS_PASSWORD']
   end
 end

@@ -44,6 +44,9 @@ Rails.application.configure do
     Bullet.alert = true
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Category', association: :children
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'SocioCulturalDomain', association: :children
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'OtherDomain', association: :children
   end
 
   # Raises error for missing translations

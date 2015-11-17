@@ -94,6 +94,7 @@ FactoryGirl.define do
 
   factory :category do
     name 'Category one'
+    type 'OtherDomain'
   end
 
 end

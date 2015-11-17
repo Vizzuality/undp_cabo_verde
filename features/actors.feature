@@ -191,3 +191,15 @@ I want to manage a actor
     And I select datetime "2010 March 10" as the "actor_relation_end_date"
     And I press "Update"
     Then I should see "from: March 10, 1990 - to: March 10, 2010"
+
+  Scenario: User can edit membership title and title reverse
+    Given I am authenticated user
+    And person
+    And department
+    When I go to the edit actor page for "Person one"
+    And I follow "Edit membership"
+    And I follow "Add" within ".add_meso"
+    And I follow "Edit" within ".edit_meso"
+    When I select "partners with" from "actor_relation_title"
+    And I select "partners with" from "actor_relation_title_reverse"
+    Then I press "Update"

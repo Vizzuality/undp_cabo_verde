@@ -51,15 +51,18 @@ class LocalizationsController < ApplicationController
       @localization = owner.localizations.find(params[:id])
     end
 
-    def owner
+    def owner_user
       @user = if params[:actor_id] && Actor.find(params[:actor_id]).user
                 Actor.find(params[:actor_id]).user
               else
                 current_user
               end
+    end
+
+    def owner
       # ToDo: Setup owners for artefacts and actions
       @owner = if params[:actor_id]
-                 @user.actors.find(params[:actor_id])
+                 owner_user.actors.find(params[:actor_id])
                end
     end
 

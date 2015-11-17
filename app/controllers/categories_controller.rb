@@ -2,11 +2,12 @@ class CategoriesController < ApplicationController
   load_and_authorize_resource
   
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_type
   before_action :set_category, except: [:index, :new, :create]
   before_action :set_selection, only: [:new, :edit]
   
   def index
-    @categories = Category.with_children
+    @categories = type_class.with_children
   end
 
   def show
@@ -16,7 +17,7 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @category = Category.new
+    @category = type_class.new
   end
 
   def update
@@ -28,7 +29,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Category.new(category_params)
+    @category = type_class.new(category_params)
     if @category.save
       redirect_to edit_category_path(@category)
     else
@@ -42,17 +43,30 @@ class CategoriesController < ApplicationController
   end
 
   private
+
+    def set_type
+      @type = type
+    end
+
+    def type
+      Category.types.include?(params[:type]) ? params[:type] : 'Category'
+    end
+
+    def type_class
+      type.constantize
+    end
   
     def set_category
-      @category = Category.find(params[:id])
+      @category = type_class.find(params[:id])
     end
 
     def set_selection
+      @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @categories = Category.all
     end
 
     def category_params
-      params.require(:category).permit!
+      params.require(type.underscore.to_sym).permit!
     end
 
     def menu_highlight

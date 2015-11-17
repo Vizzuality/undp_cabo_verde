@@ -30,8 +30,8 @@ I want to manage a category
     And category_two
     And category_three
     When I go to the edit category page for "Category one"
-    And I fill in "category_name" with "Category new name"
-    And I select "Category two" from "category_parent_id"
+    And I fill in "other_domain_name" with "Category new name"
+    And I select "Category two" from "other_domain_parent_id"
     And I check "Category three"
     And I press "Update"
     Then I should be on the categories page
@@ -39,11 +39,12 @@ I want to manage a category
     Then I should see "Category two"
     And I should see "Category three"
 
-  Scenario: User can create localization for owned actor
+  Scenario: User can create category for owned actor
     Given I am authenticated adminuser
     And category_two
     And category_three
     When I go to the new category page
+    And I select "Other domains" from "category_type"
     And I fill in "category_name" with "Category new name"
     And I select "Category two" from "category_parent_id"
     And I check "Category three"
@@ -57,7 +58,7 @@ I want to manage a category
     Given I am authenticated adminuser
     And category
     When I go to the edit category page for "Category one"
-    And I fill in "category_name" with ""
+    And I fill in "other_domain_name" with ""
     And I press "Update"
     Then I should see "Please review the problems below:"
     And I should see "can't be blank"

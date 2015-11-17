@@ -42,6 +42,8 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.raise = true
     Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Category', association: :children
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'SocioCulturalDomain', association: :children
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'OtherDomain', association: :children
   end
 
   config.after_initialize do

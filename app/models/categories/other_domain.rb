@@ -1,0 +1,2 @@
+class OtherDomain < Category
+end
