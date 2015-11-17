@@ -212,3 +212,7 @@ en:
     : "Meso"
     ? "ActorMicro"
     : "Micro"
+    ? "SocioCulturalDomain"
+    : "Socio cultural domain"
+    ? "OtherDomain"
+    : "Other domains"

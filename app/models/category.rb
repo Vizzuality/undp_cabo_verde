@@ -6,7 +6,8 @@ class Category < ActiveRecord::Base
   has_many   :children, class_name: 'Category', foreign_key: :parent_id
 
   has_and_belongs_to_many :actors
-
+  
+  validates :type, presence: true
   validates :name, presence: true
 
   scope :with_children, -> { includes(:children) }
@@ -21,5 +22,13 @@ class Category < ActiveRecord::Base
 
   def has_children?
     children.exists?
+  end
+
+  def self.types
+    %w(SocioCulturalDomain OtherDomain)
+  end
+
+  def underscore
+    to_s.underscore
   end
 end

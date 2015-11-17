@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
   end
 
   private
+  
     def deactivate_dependencies
       actors.filter_actives.each do |actor|
         unless actor.deactivate

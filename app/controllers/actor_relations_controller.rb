@@ -1,7 +1,9 @@
 class ActorRelationsController < ApplicationController
   load_and_authorize_resource
+
   before_action :set_edit_relation, only: :edit
   before_action :set_update_relation, only: :update
+  before_action :set_selection, only: [:edit, :update]
 
   def edit
   end
@@ -31,5 +33,10 @@ class ActorRelationsController < ApplicationController
 
     def menu_highlight
       @menu_highlighted = :actors
+    end
+
+    def set_selection
+      @titles         = %w(partners\ with belongs\ to)
+      @titles_reverse = %w(partners\ with contains)
     end
 end

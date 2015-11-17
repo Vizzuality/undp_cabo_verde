@@ -22,7 +22,7 @@ RSpec.describe CategoriesController, type: :controller do
   end
 
   let!(:attri_with_actor) do 
-    { name: 'New cat name', actor_ids: [@macro] }
+    { name: 'New cat name', actor_ids: [@macro], type: 'SocioCulturalDomain' }
   end
 
   context 'User should be able to view categories' do
@@ -96,6 +96,11 @@ RSpec.describe CategoriesController, type: :controller do
       it 'AdminUser should not be able to update category without name' do
         put :update, id: @category.id, category: attri_fail
         expect(response.body).to match('can&#39;t be blank')
+      end
+
+      it 'AdminUser should not be able to create category without name' do
+        post :create, category: attri_fail
+        expect(response.body).to match('Please review the problems below:')
       end
     end
   end

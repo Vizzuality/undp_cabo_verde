@@ -1,0 +1,2 @@
+class SocioCulturalDomain < Category
+end
