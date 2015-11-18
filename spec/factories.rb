@@ -80,6 +80,25 @@ FactoryGirl.define do
     observation 'Lorem ipsum...'
   end
 
+  # Actions
+  factory :action_micro, class: ActionMicro do
+    name 'Third one'
+    type 'ActionMicro'
+    description 'Lorem ipsum...'
+  end
+
+  factory :action_meso, class: ActionMeso do
+    name 'Second one'
+    type 'ActionMeso'
+    description 'Lorem ipsum...'
+  end
+
+  factory :action_macro, class: ActionMacro do
+    name 'First one'
+    type 'ActionMacro'
+    description 'Lorem ipsum...'
+  end
+
   # Localizations
   factory :localization do
     name

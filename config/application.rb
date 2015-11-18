@@ -20,10 +20,9 @@ module Undp
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'users')]
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors_relations')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actors')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'actions')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'localizations')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'categories')]
     config.autoload_paths += Dir[Rails.root.join('app', 'controllers', 'actors_relations')]
