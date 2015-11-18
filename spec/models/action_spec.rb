@@ -69,4 +69,19 @@ RSpec.describe Action, type: :model do
     expect(@micro.activated?).to be(true)
     expect(ActionMicro.filter_actives.count).to be(1)
   end
+
+  context 'Add actors to actions' do
+    before :each do
+      @actor_micro = create(:actor_micro, user_id: @user.id, actions: [@macro])
+      @actor_meso = create(:actor_meso, user_id: @user.id, actions: [@macro])
+      @actor_macro = create(:actor_macro, user_id: @user.id, actions: [@macro])
+    end
+
+    it 'Get actors macro meso micro for action' do
+      expect(@macro.actors.count).to eq(3)
+      expect(@macro.actor_macros.count).to eq(1)
+      expect(@macro.actor_mesos.count).to eq(1)
+      expect(@macro.actor_micros.count).to eq(1)
+    end
+  end
 end

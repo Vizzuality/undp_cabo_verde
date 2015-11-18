@@ -14,13 +14,14 @@ class User < ActiveRecord::Base
   has_many :actor_macros
   has_many :actor_relations
 
-  # Action
+  # Actions
   has_many :actions
   has_many :action_micros
   has_many :action_mesos
   has_many :action_macros
   has_many :action_relations
-
+  
+  has_many :action_actor_relations
   has_many :localizations
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'

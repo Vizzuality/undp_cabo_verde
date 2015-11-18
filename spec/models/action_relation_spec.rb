@@ -29,7 +29,7 @@ RSpec.describe ActionRelation, type: :model do
 
   it 'Find relation' do
     @relation = ActionRelation.create!(meso_micro_params)
-    @find = ActionRelation.get_dates(@micro, @meso)
-    expect(@find.child_id).to eq(@micro.id)
+    @dates = ActionRelation.get_dates(@micro, @meso)
+    expect(@dates).to eq([nil, nil])
   end
 end

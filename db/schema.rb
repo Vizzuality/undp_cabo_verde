@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118125012) do
+ActiveRecord::Schema.define(version: 20151118153736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_actor_relations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "action_id"
+    t.integer  "actor_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "title"
+    t.string   "title_reverse"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "action_actor_relations", ["action_id", "actor_id"], name: "index_action_actor", unique: true, using: :btree
+  add_index "action_actor_relations", ["action_id"], name: "index_action_actor_relations_on_action_id", using: :btree
+  add_index "action_actor_relations", ["actor_id"], name: "index_action_actor_relations_on_actor_id", using: :btree
+  add_index "action_actor_relations", ["user_id"], name: "index_action_actor_relations_on_user_id", using: :btree
 
   create_table "action_localizations", force: :cascade do |t|
     t.integer  "localization_id"
@@ -176,6 +193,7 @@ ActiveRecord::Schema.define(version: 20151118125012) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "action_actor_relations", "users"
   add_foreign_key "action_relations", "users"
   add_foreign_key "actions", "users"
   add_foreign_key "actor_relations", "users"

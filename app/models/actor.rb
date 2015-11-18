@@ -12,6 +12,9 @@ class Actor < ActiveRecord::Base
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
 
+  has_many :action_actor_relations, foreign_key: :actor_id
+  has_many :actions, through: :action_actor_relations, dependent: :destroy
+
   has_and_belongs_to_many :categories
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
@@ -42,11 +45,11 @@ class Actor < ActiveRecord::Base
 
   def membership_date(actor, parent)
     relation   = actor_relations_as_parent.get_dates(actor, parent)
-    start_date = relation.start_date.to_date.to_formatted_s(:long) rescue nil
-    end_date   = relation.end_date.to_date.to_formatted_s(:long) rescue 'now'
+    start_date = relation.first.blank? ? 'now' : relation.first
+    end_date   = relation.last.blank? ? 'now' : relation.last
 
     # Literal date format
-    "from: #{start_date} - to: #{end_date}" if start_date.present?
+    "from: #{start_date} - to: #{end_date}"
   end
 
   def macros_parents
@@ -71,6 +74,18 @@ class Actor < ActiveRecord::Base
 
   def micros
     children.where(type: 'ActorMicro')
+  end
+
+  def action_macros
+    actions.where(type: 'ActionMacro')
+  end
+
+  def action_mesos
+    actions.where(type: 'ActionMeso')
+  end
+
+  def action_micros
+    actions.where(type: 'ActionMicro')
   end
 
   def self.types
