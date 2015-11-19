@@ -181,7 +181,6 @@ GEM
       sprockets-rails
     rails-assets-backbone (1.2.3)
       rails-assets-underscore (>= 1.7.0)
-    rails-assets-leaflet (0.7.7)
     rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -335,7 +334,6 @@ DEPENDENCIES
   raddocs
   rails (= 4.2.4)
   rails-assets-backbone!
-  rails-assets-leaflet!
   rails-assets-underscore!
   rails_12factor
   rspec-rails (~> 3.0)
