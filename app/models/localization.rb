@@ -5,8 +5,6 @@ class Localization < ActiveRecord::Base
   
   has_many :actor_localizations, foreign_key: :localization_id
   has_many :actors, through: :actor_localizations, dependent: :destroy
-  has_many :act_localizations, foreign_key: :localization_id
-  has_many :acts, through: :act_localizations, dependent: :destroy
 
   validates :long, presence: true
   validates :lat, presence: true
@@ -21,17 +19,5 @@ class Localization < ActiveRecord::Base
 
   def actor_micros
     actors.where(type: 'ActorMicro')
-  end
-
-  def act_macros
-    acts.where(type: 'ActMacro')
-  end
-
-  def act_mesos
-    acts.where(type: 'ActMeso')
-  end
-
-  def act_micros
-    acts.where(type: 'ActMicro')
   end
 end

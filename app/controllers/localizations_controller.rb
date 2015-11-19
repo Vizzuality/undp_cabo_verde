@@ -54,27 +54,21 @@ class LocalizationsController < ApplicationController
     def owner_user
       @user = if params[:actor_id] && Actor.find(params[:actor_id]).user
                 Actor.find(params[:actor_id]).user
-              elsif params[:act_id] && Act.find(params[:act_id]).user
-                Act.find(params[:act_id]).user
               else
                 current_user
               end
     end
 
     def owner
-      # ToDo: Setup owners for artefacts and acts
+      # ToDo: Setup owners for artefacts and actions
       @owner = if params[:actor_id]
                  owner_user.actors.find(params[:actor_id])
-               elsif params[:act_id]
-                 owner_user.acts.find(params[:act_id])
                end
     end
 
     def redirect_paths
       if @owner.class.name.include?('Actor')
         edit_actor_path(@owner)
-      else
-        edit_act_path(@owner)
       end
     end
 

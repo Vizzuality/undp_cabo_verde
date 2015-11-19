@@ -10,6 +10,18 @@ Then /^I should have two actors$/ do
   AdminUser.all.size.should >= 2
 end
 
+Then /^I should have one micro_meso$/ do
+  ActorsMesoMicroRelation.all.size.should >= 1
+end
+
+Then /^I should have one micro_macro$/ do
+  ActorsMacroMicroRelation.all.size.should >= 1
+end
+
+Then /^I should have one meso_macro$/ do
+  ActorsMacroMesoRelation.all.size.should >= 1
+end
+
 Given /^actor$/ do
   FactoryGirl.create(:actor_micro, user_id: User.last.id)
 end

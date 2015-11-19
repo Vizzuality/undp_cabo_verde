@@ -38,18 +38,6 @@ module NavigationHelpers
       membership_actor_path(Actor.find_by_name($1))
     when /the edit meso member actor page for "(.*)"$/
       membership_actor_path(Actor.find_by_name($1))
-    when /the acts page with filter active/
-      '/acts?active=true'
-    when /the user acts page for "(.*)"$/
-      user_acts_path(User.find_by_email($1))
-    when /the act page for "(.*)"$/
-      act_path(Act.find_by_name($1))
-    when /the edit act page for "(.*)"$/
-      edit_act_path(Act.find_by_name($1))
-    when /the edit micro member act page for "(.*)"$/
-      membership_act_path(Act.find_by_name($1))
-    when /the edit meso member act page for "(.*)"$/
-      membership_act_path(Act.find_by_name($1))
     when /the categories page/
       '/categories'
     when /the category page for "(.*)"$/

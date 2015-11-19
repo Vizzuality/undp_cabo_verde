@@ -1,2 +1,0 @@
-class ActMacro < Act
-end

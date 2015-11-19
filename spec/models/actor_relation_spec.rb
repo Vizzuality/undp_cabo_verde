@@ -27,9 +27,9 @@ RSpec.describe ActorRelation, type: :model do
     expect(ActorRelation.count).to eq(0)
   end
 
-  it 'Find relation dates' do
+  it 'Find relation' do
     @relation = ActorRelation.create!(meso_micro_params)
-    @dates = ActorRelation.get_dates(@micro, @meso)
-    expect(@dates).to eq([nil, nil])
+    @find = ActorRelation.get_dates(@micro, @meso)
+    expect(@find.child_id).to eq(@micro.id)
   end
 end
