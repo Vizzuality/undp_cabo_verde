@@ -1,0 +1,6 @@
+h1 Create Act
+= simple_form_for @act do |f|
+  = f.input :type, collection: @types, as: :collection_select
+  = render partial: f
+  .form-actions
+    = f.button :submit, 'Create'

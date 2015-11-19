@@ -1,6 +1,7 @@
 p= link_to 'Home', root_path, class: "#{'active' if menu_highlight?(:home)}"
 p= link_to 'Users', users_path, class: "#{'active' if menu_highlight?(:users)}"
 p= link_to 'Actors', actors_path, class: "#{'active' if menu_highlight?(:actors)}"
+p= link_to 'Acts', acts_path, class: "#{'active' if menu_highlight?(:acts)}"
 p= link_to 'Categories', categories_path, class: "#{'active' if menu_highlight?(:categories)}"
 - if user_signed_in?
   p= link_to 'Edit account', edit_user_registration_path, class: "#{'active' if menu_highlight?(:account)}"
