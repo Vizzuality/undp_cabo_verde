@@ -1,6 +1,6 @@
-class CreateActions < ActiveRecord::Migration
+class CreateActs < ActiveRecord::Migration
   def change
-    create_table :actions do |t|
+    create_table :acts do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.string :type, null: false, index: true
       t.string :name, null: false

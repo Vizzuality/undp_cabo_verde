@@ -12,8 +12,8 @@ class Actor < ActiveRecord::Base
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
 
-  has_many :action_actor_relations, foreign_key: :actor_id
-  has_many :actions, through: :action_actor_relations, dependent: :destroy
+  has_many :act_actor_relations, foreign_key: :actor_id
+  has_many :acts, through: :act_actor_relations, dependent: :destroy
 
   has_and_belongs_to_many :categories
 
@@ -28,6 +28,10 @@ class Actor < ActiveRecord::Base
   
   validates :type, presence: true
   validates :name, presence: true
+
+  def self.types
+    %w(ActorMacro ActorMeso ActorMicro)
+  end
 
   def self.filter_actors(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
@@ -76,20 +80,16 @@ class Actor < ActiveRecord::Base
     children.where(type: 'ActorMicro')
   end
 
-  def action_macros
-    actions.where(type: 'ActionMacro')
+  def act_macros
+    acts.where(type: 'ActMacro')
   end
 
-  def action_mesos
-    actions.where(type: 'ActionMeso')
+  def act_mesos
+    acts.where(type: 'ActMeso')
   end
 
-  def action_micros
-    actions.where(type: 'ActionMicro')
-  end
-
-  def self.types
-    %w(ActorMacro ActorMeso ActorMicro)
+  def act_micros
+    acts.where(type: 'ActMicro')
   end
 
   def macro?

@@ -1,50 +1,54 @@
-class Action < ActiveRecord::Base
+class Act < ActiveRecord::Base
   include Activable
 
   belongs_to :user
 
-  has_many :action_relations_as_parent, class_name: 'ActionRelation', foreign_key: :parent_id
-  has_many :action_relations_as_child, class_name: 'ActionRelation', foreign_key: :child_id
+  has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id
+  has_many :act_relations_as_child, class_name: 'ActRelation', foreign_key: :child_id
 
-  has_many :children, through: :action_relations_as_parent, dependent: :destroy
-  has_many :parents, through: :action_relations_as_child, dependent: :destroy
+  has_many :children, through: :act_relations_as_parent, dependent: :destroy
+  has_many :parents, through: :act_relations_as_child, dependent: :destroy
 
-  has_many :action_localizations, foreign_key: :action_id
-  has_many :localizations, through: :action_localizations, dependent: :destroy
+  has_many :act_localizations, foreign_key: :act_id
+  has_many :localizations, through: :act_localizations, dependent: :destroy
 
-  has_many :action_actor_relations, foreign_key: :action_id
-  has_many :actors, through: :action_actor_relations, dependent: :destroy
+  has_many :act_actor_relations, foreign_key: :act_id
+  has_many :actors, through: :act_actor_relations, dependent: :destroy
 
   has_and_belongs_to_many :categories
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
-  scope :not_macros_parents, -> (child) { where(type: 'ActionMacro').
-                                          where('id NOT IN (SELECT parent_id FROM action_relations WHERE child_id=?)', 
+  scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
                                           child.id) }
-  scope :not_mesos_parents,  -> (child) { where(type: 'ActionMeso').
-                                          where('id NOT IN (SELECT parent_id FROM action_relations WHERE child_id=?)', 
+  scope :not_mesos_parents,  -> (child) { where(type: 'ActMeso').
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
                                           child.id) }
   
   validates :type, presence: true
   validates :name, presence: true
 
-  def self.filter_actions(filters)
+  def self.types
+    %w(ActMacro ActMeso ActMicro)
+  end
+
+  def self.filter_acts(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
     inactives = filters[:active]['false'] if filters[:active].present?
 
-    actions = if actives.present?
+    acts = if actives.present?
                 filter_actives
               elsif inactives.present?
                 filter_inactives
               else
                 all
               end
-    actions
+    acts
   end
 
-  def membership_date(action, parent)
-    relation   = action_relations_as_parent.get_dates(action, parent)
+  def membership_date(act, parent)
+    relation   = act_relations_as_parent.get_dates(act, parent)
     start_date = relation.first.blank? ? 'now' : relation.first
     end_date   = relation.last.blank? ? 'now' : relation.last
 
@@ -53,27 +57,27 @@ class Action < ActiveRecord::Base
   end
 
   def macros_parents
-    parents.where(type: 'ActionMacro')
+    parents.where(type: 'ActMacro')
   end
 
   def mesos_parents
-    parents.where(type: 'ActionMeso')
+    parents.where(type: 'ActMeso')
   end
 
   def micros_parents
-    parents.where(type: 'ActionMicro')
+    parents.where(type: 'ActMicro')
   end
 
   def macros
-    children.where(type: 'ActionMacro')
+    children.where(type: 'ActMacro')
   end
 
   def mesos
-    children.where(type: 'ActionMeso')
+    children.where(type: 'ActMeso')
   end
 
   def micros
-    children.where(type: 'ActionMicro')
+    children.where(type: 'ActMicro')
   end
 
   def actor_macros
@@ -88,24 +92,20 @@ class Action < ActiveRecord::Base
     actors.where(type: 'ActorMicro')
   end
 
-  def self.types
-    %w(ActionMacro ActionMeso ActionMicro)
-  end
-
   def macro?
-    type.include?('ActionMacro')
+    type.include?('ActMacro')
   end
 
   def meso?
-    type.include?('ActionMeso')
+    type.include?('ActMeso')
   end
 
   def micro?
-    type.include?('ActionMicro')
+    type.include?('ActMicro')
   end
 
   def micro_or_meso?
-    type.include?('ActionMicro') || type.include?('ActionMeso')
+    type.include?('ActMicro') || type.include?('ActMeso')
   end
 
   def localizations?

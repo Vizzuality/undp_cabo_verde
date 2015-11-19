@@ -1,4 +1,4 @@
-class ActionMeso < Action
+class ActMeso < Act
   def empty_relations?
     parents.empty?
   end

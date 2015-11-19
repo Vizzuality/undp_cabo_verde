@@ -1,0 +1,58 @@
+h1
+  = @act.name
+  | 
+  = " (#{@act.type})"
+
+- if (can? :manage, @act)
+  p= link_to 'Edit act', edit_act_path(@act)
+
+- if current_user
+  p= render 'shared/deactivatable_links', location: @act
+
+- if @act.micro_or_meso?
+  - @macros.each do |macro|
+    p
+      | Macro: 
+      = link_to macro.name, act_path(macro)
+      |  | 
+      = macro.membership_date(@act, macro)
+
+- if @act.micro?
+  - @mesos.each do |meso|
+    p
+      | Meso: 
+      = link_to meso.name, act_path(meso)
+      |  | 
+      = meso.membership_date(@act, meso)
+
+p
+  | User: 
+  = @act.user.name
+
+p
+  | Description 
+  = @act.description
+
+- if @act.localizations?
+  hr
+  h5 Localizations:
+  - @localizations.each do |localization|
+    p= localization.name
+    - if (can? :manage, localization)
+      p= link_to 'Edit localization', edit_act_localization_path(@act, localization)
+    - if (can? [:activate, :deactivate], localization)
+      - if localization.activated?
+        p.deactivate_localization
+          = link_to 'Deactivate', deactivate_act_localization_path(@act, localization), method: :patch
+      - if localization.deactivated?
+        p
+          | Deactivated at: 
+          = localization.deactivated_at.to_time
+        p.activate_localization
+          = link_to 'Activate', activate_act_localization_path(@act, localization), method: :patch
+
+- if @act.categories?
+  hr
+  h5 Categories:
+  - @categories.each do |category|
+    p= link_to category.name, category_path(category)

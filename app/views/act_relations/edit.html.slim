@@ -1,0 +1,8 @@
+h1 Membership details
+
+= render 'acts/edit_tabs', location: @act_relation.child
+hr
+= simple_form_for @act_relation do |f|
+  = render partial: f
+  .form-actions
+    = f.button :submit, 'Update'

@@ -127,6 +127,16 @@ RSpec.describe ActorsController, type: :controller do
                                parents: [@macro_active])
         @micro_linked = create(:actor_micro, user_id: @user.id, 
                                parents: [@macro_active, @meso_linked])
+        FactoryGirl.create(:actor_macro, user_id: @user.id)
+        FactoryGirl.create(:actor_meso, user_id: @user.id)
+      end
+
+      it 'Get actors to link' do
+        get :membership, id: @micro_linked.id
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+        expect(Actor.filter_actives.not_macros_parents(@micro).count).to eq(2)
+        expect(Actor.filter_actives.not_mesos_parents(@micro).count).to eq(3)
       end
 
       it 'Link macro as micro' do

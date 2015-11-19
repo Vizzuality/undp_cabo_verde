@@ -80,22 +80,22 @@ FactoryGirl.define do
     observation 'Lorem ipsum...'
   end
 
-  # Actions
-  factory :action_micro, class: ActionMicro do
+  # Acts
+  factory :act_micro, class: ActMicro do
     name 'Third one'
-    type 'ActionMicro'
+    type 'ActMicro'
     description 'Lorem ipsum...'
   end
 
-  factory :action_meso, class: ActionMeso do
+  factory :act_meso, class: ActMeso do
     name 'Second one'
-    type 'ActionMeso'
+    type 'ActMeso'
     description 'Lorem ipsum...'
   end
 
-  factory :action_macro, class: ActionMacro do
+  factory :act_macro, class: ActMacro do
     name 'First one'
-    type 'ActionMacro'
+    type 'ActMacro'
     description 'Lorem ipsum...'
   end
 
