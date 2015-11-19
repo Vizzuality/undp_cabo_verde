@@ -11,10 +11,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117123444) do
+ActiveRecord::Schema.define(version: 20151118153736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "act_actor_relations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "act_id"
+    t.integer  "actor_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "title"
+    t.string   "title_reverse"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "act_actor_relations", ["act_id", "actor_id"], name: "index_act_actor", unique: true, using: :btree
+  add_index "act_actor_relations", ["act_id"], name: "index_act_actor_relations_on_act_id", using: :btree
+  add_index "act_actor_relations", ["actor_id"], name: "index_act_actor_relations_on_actor_id", using: :btree
+  add_index "act_actor_relations", ["user_id"], name: "index_act_actor_relations_on_user_id", using: :btree
+
+  create_table "act_localizations", force: :cascade do |t|
+    t.integer  "localization_id"
+    t.integer  "act_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "act_localizations", ["act_id"], name: "index_act_localizations_on_act_id", using: :btree
+  add_index "act_localizations", ["localization_id"], name: "index_act_localizations_on_localization_id", using: :btree
+
+  create_table "act_relations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "parent_id"
+    t.integer  "child_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "title"
+    t.string   "title_reverse"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "act_relations", ["child_id"], name: "index_act_relations_on_child_id", using: :btree
+  add_index "act_relations", ["parent_id", "child_id"], name: "index_act_parent_child", unique: true, using: :btree
+  add_index "act_relations", ["parent_id"], name: "index_act_relations_on_parent_id", using: :btree
+  add_index "act_relations", ["user_id"], name: "index_act_relations_on_user_id", using: :btree
 
   create_table "actor_localizations", force: :cascade do |t|
     t.integer  "localization_id"
@@ -39,7 +83,7 @@ ActiveRecord::Schema.define(version: 20151117123444) do
   end
 
   add_index "actor_relations", ["child_id"], name: "index_actor_relations_on_child_id", using: :btree
-  add_index "actor_relations", ["parent_id", "child_id"], name: "index_parent_child", unique: true, using: :btree
+  add_index "actor_relations", ["parent_id", "child_id"], name: "index_actor_parent_child", unique: true, using: :btree
   add_index "actor_relations", ["parent_id"], name: "index_actor_relations_on_parent_id", using: :btree
   add_index "actor_relations", ["user_id"], name: "index_actor_relations_on_user_id", using: :btree
 
@@ -64,6 +108,31 @@ ActiveRecord::Schema.define(version: 20151117123444) do
   create_table "actors_categories", id: false, force: :cascade do |t|
     t.integer "category_id"
     t.integer "actor_id"
+  end
+
+  create_table "acts", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "type",                             null: false
+    t.string   "name",                             null: false
+    t.string   "alternative_name"
+    t.string   "short_name"
+    t.boolean  "event",            default: false
+    t.boolean  "human",            default: false
+    t.boolean  "active",           default: true,  null: false
+    t.datetime "deactivated_at"
+    t.text     "description"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "acts", ["type"], name: "index_acts_on_type", using: :btree
+  add_index "acts", ["user_id"], name: "index_acts_on_user_id", using: :btree
+
+  create_table "acts_categories", id: false, force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "act_id"
   end
 
   create_table "admin_users", force: :cascade do |t|
@@ -124,8 +193,11 @@ ActiveRecord::Schema.define(version: 20151117123444) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "act_actor_relations", "users"
+  add_foreign_key "act_relations", "users"
   add_foreign_key "actor_relations", "users"
   add_foreign_key "actors", "users"
+  add_foreign_key "acts", "users"
   add_foreign_key "admin_users", "users"
   add_foreign_key "localizations", "users"
 end

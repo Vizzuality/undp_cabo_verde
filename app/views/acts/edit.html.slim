@@ -1,0 +1,21 @@
+h1 
+  Edit
+  | 
+  = @act.name
+
+= render 'edit_tabs', location: @act
+hr
+= simple_form_for @act do |f|
+  - if @act.micro?
+  = render partial: f
+  hr
+  = f.input :category_ids, collection: @categories, as: :check_boxes
+
+  .form-actions
+    = f.button :submit, 'Update'
+
+- if current_user
+  p= render 'shared/deactivatable_links', location: @act
+
+p= link_to "Delete", act_path(@act), data: { confirm: 'Are you sure?' }, method: :delete
+p= link_to "Back", :back

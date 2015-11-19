@@ -1,0 +1,2 @@
+class ActMacro < Act
+end

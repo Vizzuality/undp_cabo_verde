@@ -7,11 +7,21 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one  :admin_user
+  # Actors
   has_many :actors
   has_many :actor_micros
   has_many :actor_mesos
   has_many :actor_macros
   has_many :actor_relations
+
+  # Acts
+  has_many :acts
+  has_many :act_micros
+  has_many :act_mesos
+  has_many :act_macros
+  has_many :act_relations
+  
+  has_many :act_actor_relations
   has_many :localizations
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
@@ -39,6 +49,12 @@ class User < ActiveRecord::Base
     def deactivate_dependencies
       actors.filter_actives.each do |actor|
         unless actor.deactivate
+          return false
+        end
+      end
+
+      acts.filter_actives.each do |act|
+        unless act.deactivate
           return false
         end
       end
