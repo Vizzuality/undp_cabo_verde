@@ -80,25 +80,6 @@ FactoryGirl.define do
     observation 'Lorem ipsum...'
   end
 
-  # Acts
-  factory :act_micro, class: ActMicro do
-    name 'Third one'
-    type 'ActMicro'
-    description 'Lorem ipsum...'
-  end
-
-  factory :act_meso, class: ActMeso do
-    name 'Second one'
-    type 'ActMeso'
-    description 'Lorem ipsum...'
-  end
-
-  factory :act_macro, class: ActMacro do
-    name 'First one'
-    type 'ActMacro'
-    description 'Lorem ipsum...'
-  end
-
   # Localizations
   factory :localization do
     name

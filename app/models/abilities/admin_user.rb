@@ -10,11 +10,6 @@ module Abilities
       can :manage, ::ActorMeso
       can :manage, ::ActorMacro
       can :manage, ::ActorRelation
-      can :manage, ::Act
-      can :manage, ::ActMicro
-      can :manage, ::ActMeso
-      can :manage, ::ActMacro
-      can :manage, ::ActRelation
       can :manage, ::Localization
       can :manage, ::Category 
       can [:activate, :deactivate], ::Localization
