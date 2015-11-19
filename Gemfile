@@ -9,13 +9,13 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'slim-rails'
 gem 'simple_form'
 gem 'acts_as_tree'
+gem 'foundation-rails'
 
 # Users
 gem 'devise'
@@ -31,6 +31,7 @@ group :development, :test do
   gem 'teaspoon-mocha'
   gem 'rspec_api_documentation'
   gem 'bullet'
+  gem 'rubocop', require: false
 end
 
 group :development do
@@ -52,7 +53,11 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
 end
 
-gem 'rubocop', require: false
 gem 'dotenv-rails'
 gem 'puma'
 gem 'rails_12factor', group: :production
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-underscore'
+  gem 'rails-assets-backbone'
+end
