@@ -38,12 +38,12 @@ class Act < ActiveRecord::Base
     inactives = filters[:active]['false'] if filters[:active].present?
 
     acts = if actives.present?
-                filter_actives
-              elsif inactives.present?
-                filter_inactives
-              else
-                all
-              end
+             filter_actives
+           elsif inactives.present?
+             filter_inactives
+           else
+             all
+           end
     acts
   end
 

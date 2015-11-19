@@ -12,10 +12,10 @@ class ActsController < ApplicationController
   
   def index
     @acts = if current_user && current_user.admin?
-                 type_class.filter_acts(act_filters)
-               else
-                 type_class.filter_actives
-               end
+              type_class.filter_acts(act_filters)
+            else
+              type_class.filter_actives
+            end
   end
 
   def show
