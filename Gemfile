@@ -15,6 +15,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
 gem 'simple_form'
 gem 'acts_as_tree'
+gem 'foundation-rails'
 
 # Users
 gem 'devise'
@@ -55,3 +56,8 @@ end
 gem 'dotenv-rails'
 gem 'puma'
 gem 'rails_12factor', group: :production
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-underscore'
+  gem 'rails-assets-backbone'
+end
