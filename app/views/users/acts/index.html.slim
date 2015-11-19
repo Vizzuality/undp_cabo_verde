@@ -1,0 +1,12 @@
+h1 My acts
+
+= render 'acts/index_tabs'
+
+- @acts.each do |act|
+  p
+    = link_to act.name, act_path(act)
+    |  
+    = "(#{act.type}), status: #{act.status}"
+    - if (can? :manage, act)
+      |  | 
+      = link_to 'Edit act', edit_act_path(act)

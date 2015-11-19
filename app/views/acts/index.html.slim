@@ -1,0 +1,9 @@
+h1 Acts
+
+= render 'index_tabs'
+
+- @acts.each do |act|
+  p
+    = link_to act.name, act_path(act)
+    | 
+    = " (#{act.status})"

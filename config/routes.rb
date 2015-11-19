@@ -25,9 +25,11 @@ Rails.application.routes.draw do
     patch 'activate',   on: :member
     patch 'make_admin', on: :member
     patch 'make_user',  on: :member
-    resources :actors,  controller: 'users/actors', only: :index
+    resources :actors,  controller: 'users/actors',  only: :index
+    resources :acts, controller: 'users/acts', only: :index
   end
-
+  
+  # Actors
   resources :actors do
     resources :localizations, controller: 'localizations', except: :index do
       patch 'deactivate', on: :member
@@ -59,7 +61,43 @@ Rails.application.routes.draw do
   with_options only: :update do |is_only|
     is_only.resources :actor_relations, param: :relation_id
   end
+  # End Actors
 
+  # Acts
+  resources :acts do
+    resources :localizations, controller: 'localizations', except: :index do
+      patch 'deactivate', on: :member
+      patch 'activate',   on: :member
+    end
+
+    patch 'link_act',   on: :member
+    patch 'unlink_act', on: :member
+
+    get   'membership', on: :member
+    get   'membership/:parent_id/edit', to: 'act_relations#edit', as: :edit_act_relation
+  end
+
+  resources :act_micros, controller: 'acts', type: 'ActMicro' do
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
+  end
+
+  resources :act_mesos, controller: 'acts', type: 'ActMeso' do
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
+  end
+
+  resources :act_macros, controller: 'acts', type: 'ActMacro' do
+    patch 'activate',     on: :member
+    patch 'deactivate',   on: :member
+  end
+
+  with_options only: :update do |is_only|
+    is_only.resources :act_relations, param: :relation_id
+  end
+  # End Acts
+   
+  # Categories
   resources :categories
   resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
   resources :other_domains,          controller: 'categories', type: 'OtherDomain'

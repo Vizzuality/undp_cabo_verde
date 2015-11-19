@@ -56,7 +56,7 @@ I want to manage a actor
     And person
     And I am authenticated adminuser
     When I go to the actor page for "Person one"
-    Then I should have one actor
+    Then I should be on the actor page for "Person one"
 
   Scenario: User can add macros and mesos to actor micro
     Given I am authenticated user
