@@ -3,26 +3,41 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 gem 'rails', '4.2.4'
-gem 'pg'
 
+# Assets managment
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'autoprefixer-rails'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-normalize-css'
+  gem 'rails-assets-underscore'
+  gem 'rails-assets-backbone'
+end
+
+# Templating
 gem 'slim-rails'
 gem 'simple_form'
-gem 'acts_as_tree'
-gem 'foundation-rails'
 
-# Users
+# Active record
+gem 'pg'
+gem 'acts_as_tree'
+
+# User management
 gem 'devise'
 gem 'cancancan', '~> 1.10'
 
-# API documentation
+# API
+gem 'jbuilder', '~> 2.0'
+gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'raddocs'
+
+# Server
+gem 'dotenv-rails'
+gem 'puma'
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'byebug'
@@ -51,13 +66,4 @@ group :test do
   gem 'email_spec'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
-end
-
-gem 'dotenv-rails'
-gem 'puma'
-gem 'rails_12factor', group: :production
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-underscore'
-  gem 'rails-assets-backbone'
 end
