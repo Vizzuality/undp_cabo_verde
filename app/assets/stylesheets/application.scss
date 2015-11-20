@@ -1,6 +1,7 @@
-//= require normalize-css
 //= require_self
 
 @import
+  'foundation_settings',
+  'foundation',
   'settings',
-  'base';
+  'layouts/*';
