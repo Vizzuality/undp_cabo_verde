@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :expire_sts_headers
   before_action :menu_highlight
   
   # Prevent CSRF attacks by raising an exception.
@@ -10,6 +11,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+    def expire_sts_headers
+      response.headers['Strict-Transport-Security'] = 'max-age=0' if ENV['FORCE_NON_SSL'] == 'true'
+    end
   
     def menu_highlight
       @menu_highlighted = :none
