@@ -116,4 +116,8 @@ FactoryGirl.define do
     type 'OtherDomain'
   end
 
+  factory :comment do
+    body Faker::Lorem.paragraph(2, true, 4)
+  end
+
 end

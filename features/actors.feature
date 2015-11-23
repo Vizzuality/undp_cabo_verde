@@ -1,7 +1,7 @@
 Feature: Actors
 In order to manage actors
 As an adminuser
-I want to manage a actor
+I want to manage an actor
 
   Scenario: User can view actors page and actor page
     Given user

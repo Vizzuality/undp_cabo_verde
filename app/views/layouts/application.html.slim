@@ -1,18 +1,33 @@
 doctype html
-html[lang="en"]
+html lang="en"
   head
-    meta[charset="utf-8"]
-    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
     title
-      = content_for?(:title) ? yield(:title) : "Untitled"
+      = content_for?(:title) ? yield(:title) : "UNDP Manage"
     = stylesheet_link_tag    "application"
     = csrf_meta_tags
   body
-    .navbar
-      = render 'shared/navbar'
-    .alerts
-      p.notice= notice
-      p.alert= alert
-    .content
-      = yield
+    .l-page
+      .l-header
+        .row: .small-12.medium-12.large-12.columns
+          = image_tag 'undp.png'
+          = render 'shared/navbar'
+        
+      - if notice or alert
+        .l-alerts
+          .row: .small-12.medium-12.large-12.columns
+            - if alert
+              .alert-box.alert data-alert="true"
+                div = alert
+                a.close href="#" &times;
+            - else
+              .alert-box.alert data-alert="true"
+                div = notice
+                a.close href="#" &times;
+
+      .l-content
+        .row: .small-12.medium-12.large-12.columns
+          = yield
+
     = javascript_include_tag "application"

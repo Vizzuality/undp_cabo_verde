@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.4)
       actionpack (= 4.2.4)
@@ -43,6 +44,9 @@ GEM
     ast (2.1.0)
     astrolabe (1.3.1)
       parser (~> 2.2)
+    autoprefixer-rails (6.1.0.1)
+      execjs
+      json
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -175,6 +179,22 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.4)
       sprockets-rails
+    rails-assets-backbone (1.2.3)
+      rails-assets-underscore (>= 1.7.0)
+    rails-assets-fastclick (1.0.6)
+    rails-assets-foundation (5.5.3)
+      rails-assets-fastclick (>= 0.6.11)
+      rails-assets-jquery (>= 2.1.0)
+      rails-assets-jquery-placeholder (~> 2.0.7)
+      rails-assets-jquery.cookie (~> 1.4.0)
+      rails-assets-modernizr (= 2.8.3)
+    rails-assets-jquery (2.1.4)
+    rails-assets-jquery-placeholder (2.0.9)
+      rails-assets-jquery (>= 1.6)
+    rails-assets-jquery.cookie (1.4.1)
+      rails-assets-jquery (>= 1.2)
+    rails-assets-modernizr (2.8.3)
+    rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -281,8 +301,6 @@ GEM
     tilt (2.0.1)
     timecop (0.8.0)
     tins (1.6.0)
-    turbolinks (2.5.3)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -304,6 +322,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tree
+  autoprefixer-rails
   better_errors
   binding_of_caller
   bullet
@@ -327,6 +346,9 @@ DEPENDENCIES
   puma
   raddocs
   rails (= 4.2.4)
+  rails-assets-backbone!
+  rails-assets-foundation!
+  rails-assets-underscore!
   rails_12factor
   rspec-rails (~> 3.0)
   rspec_api_documentation
@@ -338,9 +360,8 @@ DEPENDENCIES
   spring
   teaspoon-mocha
   timecop
-  turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

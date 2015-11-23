@@ -22,4 +22,28 @@ module RoutesHelper
       act_edit_act_relation_path(owner, parent)
     end
   end
+
+  def new_comment(commentable)
+    if commentable.class.name.include?('Actor')
+      actor_comments_path(commentable)
+    else
+      act_comments_path(commentable)
+    end
+  end
+
+  def activate_comment_path(commentable, comment)
+    if commentable.class.name.include?('Actor')
+      activate_actor_comment_path(commentable, comment)
+    else
+      activate_act_comment_path(commentable, comment)
+    end
+  end
+
+  def deactivate_comment_path(commentable, comment)
+    if commentable.class.name.include?('Actor')
+      deactivate_actor_comment_path(commentable, comment)
+    else
+      deactivate_act_comment_path(commentable, comment)
+    end
+  end
 end
