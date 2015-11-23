@@ -9,8 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       @comment.update(user: current_user) and redirect_to redirect_paths
     else
-      raise Exception.new("Comment's body can't be blank")
-      # redirect_to redirect_paths, notice: "Comment's body can't be blank"
+      redirect_to redirect_paths, notice: "Comment's body can't be blank"
     end
   end
 
