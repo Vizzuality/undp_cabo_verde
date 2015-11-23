@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   
   has_many :act_actor_relations
   has_many :localizations
+  has_many :comments
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

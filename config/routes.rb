@@ -36,6 +36,11 @@ Rails.application.routes.draw do
       patch 'activate',   on: :member
     end
 
+    resources :comments, only: [:create, :activate, :deactivate] do
+      patch 'deactivate', on: :member
+      patch 'activate',   on: :member
+    end
+
     patch 'link_actor',   on: :member
     patch 'unlink_actor', on: :member
 
@@ -44,18 +49,18 @@ Rails.application.routes.draw do
   end
 
   resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
   end
 
   resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
   end
 
   resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',   on: :member
+    patch 'deactivate', on: :member
   end
 
   with_options only: :update do |is_only|
@@ -69,6 +74,11 @@ Rails.application.routes.draw do
       patch 'deactivate', on: :member
       patch 'activate',   on: :member
     end
+    
+    resources :comments, only: [:create, :activate, :deactivate] do
+      patch 'deactivate', on: :member
+      patch 'activate',   on: :member
+    end
 
     patch 'link_act',   on: :member
     patch 'unlink_act', on: :member
@@ -78,18 +88,18 @@ Rails.application.routes.draw do
   end
 
   resources :act_micros, controller: 'acts', type: 'ActMicro' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',    on: :member
+    patch 'deactivate',  on: :member
   end
 
   resources :act_mesos, controller: 'acts', type: 'ActMeso' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',    on: :member
+    patch 'deactivate',  on: :member
   end
 
   resources :act_macros, controller: 'acts', type: 'ActMacro' do
-    patch 'activate',     on: :member
-    patch 'deactivate',   on: :member
+    patch 'activate',    on: :member
+    patch 'deactivate',  on: :member
   end
 
   with_options only: :update do |is_only|

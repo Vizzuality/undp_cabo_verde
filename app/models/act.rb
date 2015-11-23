@@ -15,6 +15,8 @@ class Act < ActiveRecord::Base
   has_many :act_actor_relations, foreign_key: :act_id
   has_many :actors, through: :act_actor_relations, dependent: :destroy
 
+  has_many :comments, as: :commentable
+
   has_and_belongs_to_many :categories
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
@@ -116,6 +118,10 @@ class Act < ActiveRecord::Base
     categories.any?
   end
 
+  def comments?
+    comments.any?
+  end
+
   def startdate
     start_date.to_date if start_date.present?
   end
@@ -139,6 +145,12 @@ class Act < ActiveRecord::Base
 
       children.filter_actives.each do |child|
         unless child.deactivate
+          return false
+        end
+      end
+
+      comments.filter_actives.each do |comment|
+        unless comment.deactivate
           return false
         end
       end

@@ -71,3 +71,11 @@ p
   h5 Categories:
   - @categories.each do |category|
     p= link_to category.name, category_path(category)
+
+#comments
+  h3 Comments
+  - if (can? :create, Comment)
+    = render partial: 'comments/form',   locals: { commentable: @actor }
+  - if @actor.comments?
+    hr
+    = render partial: 'comments/comments', locals: { commentable: @actor }

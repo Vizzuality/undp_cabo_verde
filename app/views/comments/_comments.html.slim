@@ -1,0 +1,15 @@
+- commentable.comments.each do |comment|
+  p
+    = comment.body
+    |
+    - if (can? [:activate, :deactivate], comment)
+      - if comment.activated?
+        p.deactivate_comment
+          = link_to 'Deactivate', deactivate_comment_path(commentable, comment), method: :patch
+      - else comment.deactivated?
+        p
+          | Deactivated at: 
+          = comment.deactivated_at.to_time
+        p.activate_comment
+          = link_to 'Activate', activate_comment_path(commentable, comment), method: :patch
+  hr

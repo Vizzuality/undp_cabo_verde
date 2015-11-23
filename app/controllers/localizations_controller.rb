@@ -56,8 +56,6 @@ class LocalizationsController < ApplicationController
                 Actor.find(params[:actor_id]).user
               elsif params[:act_id] && Act.find(params[:act_id]).user
                 Act.find(params[:act_id]).user
-              else
-                current_user
               end
     end
 
