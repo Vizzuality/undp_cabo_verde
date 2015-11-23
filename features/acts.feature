@@ -1,7 +1,7 @@
 Feature: Acts
 In order to manage acts
 As an adminuser
-I want to manage a act
+I want to manage an act
 
   Scenario: User can view acts page and act page
     Given user

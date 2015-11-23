@@ -17,7 +17,9 @@ module Abilities
       can :manage, ::ActRelation
       can :manage, ::Localization
       can :manage, ::Category 
+      can :manage, ::Comment
       can [:activate, :deactivate], ::Localization
+      can [:activate, :deactivate], ::Comment
 
       cannot :make_user,               ::User, id: user.id
       cannot [:activate, :deactivate], ::User, id: user.id
