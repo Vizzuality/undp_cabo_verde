@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'autoprefixer-rails'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-normalize-css'
+  gem 'rails-assets-foundation'
   gem 'rails-assets-underscore'
   gem 'rails-assets-backbone'
 end
