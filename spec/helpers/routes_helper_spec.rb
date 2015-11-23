@@ -44,6 +44,20 @@ describe RoutesHelper, type: :helper do
         expect(helper.edit_relation(@micro, @meso)).to eq(actor_edit_actor_relation_path(@micro, @meso))
       end
     end
+
+    context 'For comments' do
+      it 'new comment path' do
+        expect(helper.new_comment(@micro)).to eq(actor_comments_path(@micro))
+      end
+
+      it 'activate comment path' do
+        expect(helper.activate_comment_path(@micro, @meso)).to eq(activate_actor_comment_path(@micro, @meso))
+      end
+
+      it 'deactivate comment path' do
+        expect(helper.deactivate_comment_path(@micro, @meso)).to eq(deactivate_actor_comment_path(@micro, @meso))
+      end
+    end
   end
 
   context 'For acts' do
@@ -85,6 +99,20 @@ describe RoutesHelper, type: :helper do
     context 'Edit relation link' do
       it 'edit macro' do
         expect(helper.edit_relation(@micro, @meso)).to eq(act_edit_act_relation_path(@micro, @meso))
+      end
+    end
+
+    context 'For comments' do
+      it 'new comment path' do
+        expect(helper.new_comment(@micro)).to eq(act_comments_path(@micro))
+      end
+
+      it 'activate comment path' do
+        expect(helper.activate_comment_path(@micro, @meso)).to eq(activate_act_comment_path(@micro, @meso))
+      end
+
+      it 'deactivate comment path' do
+        expect(helper.deactivate_comment_path(@micro, @meso)).to eq(deactivate_act_comment_path(@micro, @meso))
       end
     end
   end
