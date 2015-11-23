@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 gem 'rails', '4.2.4'
+gem 'pg'
 
 # Assets managment
 gem 'sass-rails', '~> 5.0'
@@ -21,8 +22,6 @@ end
 gem 'slim-rails'
 gem 'simple_form'
 
-# Active record
-gem 'pg'
 gem 'acts_as_tree'
 
 # User management
