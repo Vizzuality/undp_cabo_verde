@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118153736) do
+ActiveRecord::Schema.define(version: 20151119171011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,20 @@ ActiveRecord::Schema.define(version: 20151118153736) do
 
   add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
+  create_table "comments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.text     "body",                            null: false
+    t.boolean  "active",           default: true, null: false
+    t.datetime "deactivated_at"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
   create_table "localizations", force: :cascade do |t|
     t.integer  "user_id"
     t.boolean  "active",         default: true, null: false
@@ -199,5 +213,6 @@ ActiveRecord::Schema.define(version: 20151118153736) do
   add_foreign_key "actors", "users"
   add_foreign_key "acts", "users"
   add_foreign_key "admin_users", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "localizations", "users"
 end

@@ -1,0 +1,4 @@
+= simple_form_for [commentable, Comment.new], url: new_comment(commentable) do |f|
+  = f.input :body
+  .form-actions
+    = f.button :submit, 'Create comment'

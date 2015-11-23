@@ -1,5 +1,5 @@
 class ActsController < ApplicationController
-  load_and_authorize_resource param_method: :act_params
+  load_and_authorize_resource
   
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:create, :link_act]
