@@ -11,7 +11,7 @@ I want to register
     And I fill in "Firstname" with "Pepe"
     And I fill in "Institution" with "Columpio"
     And I press "Sign up"
-    Then I should be on the home page
+    Then I should be on the dashboard page
     And I should see "Welcome! You have signed up successfully."
     And I should see "Hello Pepe"
     And I should have an user

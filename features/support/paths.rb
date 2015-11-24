@@ -19,15 +19,15 @@ module NavigationHelpers
     when /the profile edit page for "(.*)"$/
       edit_user_registration_path(User.find_by_email($1))
     when /the dashboard page/
-      authenticated_root_path
+      dashboard_path
     when /the users page with filter active/
-      '/users?active=true'
+      '/manage/users?active=true'
     when /the user page for "(.*)"$/
       user_path(User.find_by_email($1))
     when /the edit user page for "(.*)"$/
       edit_user_path(User.find_by_email($1))
     when /the actors page with filter active/
-      '/actors?active=true'
+      '/manage/actors?active=true'
     when /the user actors page for "(.*)"$/
       user_actors_path(User.find_by_email($1))
     when /the actor page for "(.*)"$/
@@ -39,7 +39,7 @@ module NavigationHelpers
     when /the edit meso member actor page for "(.*)"$/
       membership_actor_path(Actor.find_by_name($1))
     when /the acts page with filter active/
-      '/acts?active=true'
+      '/manage/acts?active=true'
     when /the user acts page for "(.*)"$/
       user_acts_path(User.find_by_email($1))
     when /the act page for "(.*)"$/
@@ -51,7 +51,7 @@ module NavigationHelpers
     when /the edit meso member act page for "(.*)"$/
       membership_act_path(Act.find_by_name($1))
     when /the categories page/
-      '/categories'
+      '/manage/categories'
     when /the category page for "(.*)"$/
       category_path(Category.find_by_name($1))
     when /the edit category page for "(.*)"$/

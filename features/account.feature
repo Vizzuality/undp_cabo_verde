@@ -19,7 +19,7 @@ I want to edit account
 
   Scenario: User account delete
     Given I am authenticated user
-    And I am on the home page
+    And I am on the dashboard page
     When I go to the profile edit page for "test_user@sample.com"
     And I should see "Edit User"
     When I follow "Cancel my account"
