@@ -33,11 +33,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'raddocs'
 
-# Server
-gem 'dotenv-rails'
-gem 'puma'
-gem 'rails_12factor', group: :production
-
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -67,3 +62,11 @@ group :test do
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
 end
+
+# Monitoring
+gem 'newrelic_rpm'
+
+# Server
+gem 'dotenv-rails'
+gem 'puma'
+gem 'rails_12factor', group: :production
