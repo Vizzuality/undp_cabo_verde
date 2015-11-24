@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rspec_api_documentation'
   gem 'bullet'
   gem 'rubocop', require: false
+  gem 'faker'
 end
 
 group :development do
@@ -53,6 +54,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
+  gem 'seed-fu'
 end
 
 group :test do
@@ -61,7 +63,6 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'faker'
   gem 'email_spec'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
