@@ -9,109 +9,111 @@ Rails.application.routes.draw do
                                         registrations: 'users/registrations',
                                         passwords: 'users/passwords'
                                       }
-
-  devise_scope :user do
-    post   'account/register', to: 'users/registrations#create', as: :register 
-    post   'account/password', to: 'users/passwords#create',     as: :secret
-    post   'account/edit',     to: 'users/registrations#edit',   as: :account_edit
-
-    authenticated :user do
-      root 'users#dashboard', as: :authenticated_root
-    end
-  end
   
-  resources :users, except: [:destroy, :new, :create] do
-    patch 'deactivate', on: :member
-    patch 'activate',   on: :member
-    patch 'make_admin', on: :member
-    patch 'make_user',  on: :member
-    resources :actors,  controller: 'users/actors',  only: :index
-    resources :acts, controller: 'users/acts', only: :index
-  end
-  
-  # Actors
-  resources :actors do
-    resources :localizations, controller: 'localizations', except: :index do
-      patch 'deactivate', on: :member
-      patch 'activate',   on: :member
+  scope :account do
+    devise_scope :user do
+      post 'register',  to: 'users/registrations#create', as: :register 
+      post 'password',  to: 'users/passwords#create',     as: :secret
+      post 'edit',      to: 'users/registrations#edit',   as: :account_edit
     end
+  end
 
-    resources :comments, only: [:create, :activate, :deactivate] do
+  get  'dashboard', to: 'users#dashboard', as: :dashboard
+
+  scope :manage do
+    resources :users, except: [:destroy, :new, :create] do
       patch 'deactivate', on: :member
       patch 'activate',   on: :member
-    end
-
-    patch 'link_actor',   on: :member
-    patch 'unlink_actor', on: :member
-
-    get   'membership', on: :member
-    get   'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
-  end
-
-  resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
-  end
-
-  resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
-  end
-
-  resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
-    patch 'activate',   on: :member
-    patch 'deactivate', on: :member
-  end
-
-  with_options only: :update do |is_only|
-    is_only.resources :actor_relations, param: :relation_id
-  end
-  # End Actors
-
-  # Acts
-  resources :acts do
-    resources :localizations, controller: 'localizations', except: :index do
-      patch 'deactivate', on: :member
-      patch 'activate',   on: :member
+      patch 'make_admin', on: :member
+      patch 'make_user',  on: :member
+      resources :actors,  controller: 'users/actors',  only: :index
+      resources :acts, controller: 'users/acts', only: :index
     end
     
-    resources :comments, only: [:create, :activate, :deactivate] do
-      patch 'deactivate', on: :member
-      patch 'activate',   on: :member
+    # Actors
+    resources :actors do
+      resources :localizations, controller: 'localizations', except: :index do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+
+      resources :comments, only: [:create, :activate, :deactivate] do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+
+      patch 'link_actor',   on: :member
+      patch 'unlink_actor', on: :member
+
+      get   'membership', on: :member
+      get   'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
     end
 
-    patch 'link_act',   on: :member
-    patch 'unlink_act', on: :member
+    resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
+      patch 'activate',   on: :member
+      patch 'deactivate', on: :member
+    end
 
-    get   'membership', on: :member
-    get   'membership/:parent_id/edit', to: 'act_relations#edit', as: :edit_act_relation
+    resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
+      patch 'activate',   on: :member
+      patch 'deactivate', on: :member
+    end
+
+    resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
+      patch 'activate',   on: :member
+      patch 'deactivate', on: :member
+    end
+
+    with_options only: :update do |is_only|
+      is_only.resources :actor_relations, param: :relation_id
+    end
+    # End Actors
+
+    # Acts
+    resources :acts do
+      resources :localizations, controller: 'localizations', except: :index do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+      
+      resources :comments, only: [:create, :activate, :deactivate] do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+
+      patch 'link_act',   on: :member
+      patch 'unlink_act', on: :member
+
+      get   'membership', on: :member
+      get   'membership/:parent_id/edit', to: 'act_relations#edit', as: :edit_act_relation
+    end
+
+    resources :act_micros, controller: 'acts', type: 'ActMicro' do
+      patch 'activate',    on: :member
+      patch 'deactivate',  on: :member
+    end
+
+    resources :act_mesos, controller: 'acts', type: 'ActMeso' do
+      patch 'activate',    on: :member
+      patch 'deactivate',  on: :member
+    end
+
+    resources :act_macros, controller: 'acts', type: 'ActMacro' do
+      patch 'activate',    on: :member
+      patch 'deactivate',  on: :member
+    end
+
+    with_options only: :update do |is_only|
+      is_only.resources :act_relations, param: :relation_id
+    end
+    # End Acts
+     
+    # Categories
+    resources :categories
+    resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
+    resources :other_domains,          controller: 'categories', type: 'OtherDomain'
   end
 
-  resources :act_micros, controller: 'acts', type: 'ActMicro' do
-    patch 'activate',    on: :member
-    patch 'deactivate',  on: :member
-  end
-
-  resources :act_mesos, controller: 'acts', type: 'ActMeso' do
-    patch 'activate',    on: :member
-    patch 'deactivate',  on: :member
-  end
-
-  resources :act_macros, controller: 'acts', type: 'ActMacro' do
-    patch 'activate',    on: :member
-    patch 'deactivate',  on: :member
-  end
-
-  with_options only: :update do |is_only|
-    is_only.resources :act_relations, param: :relation_id
-  end
-  # End Acts
-   
-  # Categories
-  resources :categories
-  resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
-  resources :other_domains,          controller: 'categories', type: 'OtherDomain'
-  
   # # API routes
   # namespace :api, defaults: {format: 'json'} do
   #   # Set APIVersion.new(version: X, default: true) for dafault API version
