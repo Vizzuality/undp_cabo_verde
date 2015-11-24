@@ -1,0 +1,13 @@
+.nav-items {
+  a {
+    @include font(helvetica, small, regular, 1);
+    color: $color-5;
+    text-transform: uppercase;
+    padding: 5px;
+    border-top: 3px solid transparent;
+
+    &.is-active {
+      border-color: $color-3;
+    }
+  }
+}
