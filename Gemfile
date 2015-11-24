@@ -33,11 +33,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'raddocs'
 
-# Server
-gem 'dotenv-rails'
-gem 'puma'
-gem 'rails_12factor', group: :production
-
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -46,6 +41,7 @@ group :development, :test do
   gem 'rspec_api_documentation'
   gem 'bullet'
   gem 'rubocop', require: false
+  gem 'faker'
 end
 
 group :development do
@@ -53,6 +49,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
+  gem 'seed-fu'
 end
 
 group :test do
@@ -61,8 +58,15 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'faker'
   gem 'email_spec'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
 end
+
+# Monitoring
+gem 'newrelic_rpm'
+
+# Server
+gem 'dotenv-rails'
+gem 'puma'
+gem 'rails_12factor', group: :production

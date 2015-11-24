@@ -28,6 +28,10 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
 
     bundle install
 
+### Load sample data: ###
+    
+    rake db:seed_fu
+
 ### Run application: ###
 
     foreman start
