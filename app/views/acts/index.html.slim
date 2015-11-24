@@ -2,8 +2,13 @@ h1 Acts
 
 = render 'index_tabs'
 
-- @acts.each do |act|
-  p
-    = link_to act.name, act_path(act)
-    | 
-    = " (#{act.status})"
+table
+  thead
+    tr
+      th Title
+      th Status
+  tbody
+    - @acts.each do |act|
+      tr
+        td = link_to act.name, act_path(act)
+        td = "#{act.status}"
