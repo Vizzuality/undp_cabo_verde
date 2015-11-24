@@ -1,6 +1,6 @@
 .nav-items {
   a {
-    @include font(helvetica, small, regular, 1);
+    @include font(helvetica, small, medium, 1);
     color: $color-5;
     text-transform: uppercase;
     padding: 5px;
