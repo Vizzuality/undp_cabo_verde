@@ -1,0 +1,17 @@
+@mixin font($font-family: null, $font-size: null, $font-weight: null, $line-height: null) {
+  @if ($font-family != null) {
+    font-family: map-get($m-font-family, $font-family), sans-serif;
+  }
+
+  @if ($font-size != null) {
+    font-size: map-get($m-font-size, $font-size);
+  }
+
+  @if ($font-weight != null) {
+    font-weight: map-get($m-font-weight, $font-weight);
+  }
+
+  @if ($line-height != null) {
+    line-height: $line-height;
+  }
+}

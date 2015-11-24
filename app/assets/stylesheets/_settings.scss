@@ -1,1 +1,37 @@
+$max-width-size: 1200px;
+$min-width-size: 960px;
 
+// Colors
+$white: #fff;
+$black: #000;
+$blue: #1f497f;
+$olive: #a49f8e;
+$dark-grey: #4a4a4a;
+
+$color-1: $white;
+$color-2: $black;
+$color-3: $blue;
+$color-4: $olive;
+$color-5: $dark-grey;
+
+
+// Typography
+$m-font-size: (
+  x-small:     14px,
+  small:       16px,
+  regular:     18px,
+  large:       36px
+);
+
+$m-font-weight: (
+  light:   300,
+  regular: 400,
+  bold:    700
+);
+
+$m-font-family: (
+  // source-sans: 'Source Sans',
+  // trade-gothic: 'Trade Gothic',
+  // open-sans: 'Open Sans'
+  helvetica: 'Helvetica'
+);

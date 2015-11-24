@@ -1,7 +1,13 @@
 //= require_self
 
 @import
-  'foundation_settings',
   'foundation',
+  'foundation_settings',
+
+  'mixins',
   'settings',
-  'layouts/*';
+  'base',
+
+
+  'layouts/*',
+  'components/*';
