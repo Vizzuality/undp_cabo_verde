@@ -4,3 +4,10 @@
 
   background-color: $white;
 }
+
+.nav-items {
+  padding-top: 25px;
+  > li {
+    padding-left: 10px;
+  }
+}

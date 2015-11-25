@@ -1,5 +1,23 @@
-= form.error_notification
+// = form.error_notification
 .form-inputs
-  = form.input :name
-  = form.input :observation
-  = form.input :category_ids, collection: @categories, as: :check_boxes
+  .row
+    .column.medium-3
+      = form.label :name, class: 'right inline'
+    .column.medium-9
+      = form.input :name, label: false
+  .row
+    .column.medium-3
+      = form.label :observation, class: 'right inline'
+    .column.medium-9
+      = form.input :observation, label: false
+  .row
+    .column.medium-3
+      = form.label :category_ids, class: 'right'
+    .column.medium-9
+      = form.input :category_ids, collection: @categories, as: :check_boxes, label: false
+
+// = form.error_notification
+//   = form.label :name
+//   = form.input :name, label: false
+//   = form.input :observation
+//   = form.input :category_ids, collection: @categories, as: :check_boxes

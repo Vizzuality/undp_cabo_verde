@@ -1,0 +1,10 @@
+body {
+  @include font(helvetica, regular, regular, 1);
+  #undp-logo {
+    height: 120px;
+  }
+
+  input[type="checkbox"] {
+    margin: 0 0.5rem 1rem 0;
+  }
+}

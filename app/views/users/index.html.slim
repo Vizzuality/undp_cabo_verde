@@ -1,6 +1,12 @@
 h1 Users
 
-- @users.each do |user|
-  p
-    = link_to user.name, user_path(user)
-    = " (#{user.status})"
+table
+  thead
+    tr
+      th Name
+      th Status
+  tbody
+    - @users.each do |user|
+      tr
+        td = link_to user.name, user_path(user)
+        td = user.status
