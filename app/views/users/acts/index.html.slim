@@ -13,7 +13,8 @@ table
     - @acts.each do |act|
       tr
         td = link_to act.name, act_path(act)
-        td = "#{act.type}"
-        td = "#{act.status}"
-        - if (can? :manage, act)
-        td = link_to 'Edit act', edit_act_path(act)
+        td = act.type
+        td = act.status
+        td 
+          - if (can? :manage, act)
+            = link_to 'Edit act', edit_act_path(act)

@@ -9,4 +9,4 @@ table
     - @users.each do |user|
       tr
         td = link_to user.name, user_path(user)
-        td = "#{user.status}"
+        td = user.status
