@@ -1,5 +1,5 @@
 nav.right
-  ul.inline-list
+  ul.inline-list.nav-items
     li = link_to 'Home', root_path, class: "#{'is-active' if menu_highlight?(:home)}"
     li = link_to 'Users', users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to 'Actors', actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"

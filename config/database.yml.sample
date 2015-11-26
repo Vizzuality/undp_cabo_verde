@@ -1,0 +1,17 @@
+postgres: &postgres
+  adapter:  postgresql
+
+development:
+  <<: *postgres
+  database: umdp_dev
+
+test: &test
+  <<: *postgres
+  database: umdp_test
+
+production: 
+  <<: *postgres
+  database: umdp_pro
+
+cucumber:
+  <<: *test
