@@ -10,7 +10,7 @@ unless Rails.env.production?
     require 'rspec/core/rake_task'
     RSpec::Core::RakeTask.new(:spec)
   rescue LoadError
-    # no rspec available
+    'no rspec available'
   end
 
   task default: [:cucumber, :spec, :teaspoon]
