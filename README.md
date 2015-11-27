@@ -61,6 +61,30 @@ Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde
 
 ## API ##
 
+### SAMPLE ###
+  
+  Getting a list of enabled actors
+  
+    curl "http://localhost:5000/api/actors" -X GET \
+    -H "Accept: application/json; application/gfwc-v1+json" \
+    -H "Content-Type: application/json"
+
+  Getting a specific country
+  
+    curl "http://localhost:5000/api/actors/1" -X GET \
+    -H "Accept: application/json; application/undp-cabo-verde-v1+json" \
+    -H "Content-Type: application/json"
+
+### API DOCUMENTATION ###
+   
+   For API documentation visit http://localhost:5000/api
+
+   Generate the docs!
+
+```ruby
+rake docs:generate
+```
+
 ## DEPLOYMENT ##
 
 ### Heroku ###
