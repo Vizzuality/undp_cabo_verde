@@ -113,7 +113,7 @@ class ActsController < ApplicationController
 
     def set_parents
       # ToDo: change it to search function
-      @all_macros = Act.filter_actives.not_macros_parents(@act) unless @act.macro?
+      @all_macros = Act.filter_actives.not_macros_parents(@act)
       @all_mesos  = Act.filter_actives.not_mesos_parents(@act)  if @act.micro?
     end
 
