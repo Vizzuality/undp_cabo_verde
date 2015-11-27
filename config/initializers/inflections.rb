@@ -16,5 +16,6 @@
 # end
 
 ActiveSupport::Inflector.inflections do |inflect|
+  inflect.acronym 'API'
   inflect.irregular 'child', 'children'
 end

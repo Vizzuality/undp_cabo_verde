@@ -1,6 +1,9 @@
 nav.right
   ul.inline-list.nav-items
-    li = link_to 'Home', root_path, class: "#{'is-active' if menu_highlight?(:home)}"
+    - if user_signed_in?
+      li = link_to 'Dashboard', dashboard_path, class: "#{'is-active' if menu_highlight?(:home)}"
+    - else
+      li = link_to 'Home', root_path, class: "#{'is-active' if menu_highlight?(:home)}"
     li = link_to 'Users', users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to 'Actors', actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
     li = link_to 'Acts', acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
