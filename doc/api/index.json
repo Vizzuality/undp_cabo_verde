@@ -1,0 +1,23 @@
+{
+  "resources": [
+    {
+      "name": "Actors",
+      "examples": [
+        {
+          "description": "Getting a list of actors",
+          "link": "actors/getting_a_list_of_actors.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific actor",
+          "link": "actors/getting_a_specific_actor.json",
+          "groups": "all",
+          "route": "/api/actors/:id",
+          "method": "get"
+        }
+      ]
+    }
+  ]
+}

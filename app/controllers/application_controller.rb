@@ -1,16 +1,19 @@
+require 'application_responder'
+
 class ApplicationController < ActionController::Base
   before_action :expire_sts_headers
   before_action :menu_highlight
   
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  self.responder = ApplicationResponder
+  respond_to :html
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(*)
     dashboard_path
   end
 
