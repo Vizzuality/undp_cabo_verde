@@ -2,8 +2,13 @@ h1 Actors
 
 = render 'index_tabs'
 
-- @actors.each do |actor|
-  p
-    = link_to actor.name, actor_path(actor)
-    | 
-    = " (#{actor.status})"
+table
+  thead
+    tr
+      th Category
+      th Status
+  tbody
+    - @actors.each do |actor|
+      tr
+        td = link_to actor.name, actor_path(actor)
+        td = actor.status

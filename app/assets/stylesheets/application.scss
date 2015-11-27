@@ -1,7 +1,14 @@
 //= require_self
 
 @import
-  'foundation_settings',
   'foundation',
+  'foundation_settings',
+
   'settings',
-  'layouts/*';
+  'fonts',
+  'mixins',
+  'base',
+
+
+  'layouts/*',
+  'components/*';

@@ -29,7 +29,10 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 
 # API
-gem 'jbuilder', '~> 2.0'
+gemspec path: 'api'
+gem 'responders', '~> 2.0'
+gem 'active_model_serializers'
+gem 'oj'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'raddocs'
 
@@ -41,7 +44,6 @@ group :development, :test do
   gem 'rspec_api_documentation'
   gem 'bullet'
   gem 'rubocop', require: false
-  gem 'faker'
 end
 
 group :development do
@@ -49,7 +51,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
-  gem 'seed-fu'
 end
 
 group :test do
@@ -62,6 +63,10 @@ group :test do
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
 end
+
+# Data seed
+gem 'seed-fu'
+gem 'faker'
 
 # Monitoring
 gem 'newrelic_rpm'

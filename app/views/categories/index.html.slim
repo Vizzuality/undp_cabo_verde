@@ -1,7 +1,7 @@
 h1 Categories
 
 - if (can? :manage, Category)
-  p= link_to 'Create category', new_category_path
+  p= link_to 'Create category', new_category_path, class: "button small"
 
 - @categories.walk_tree do |category, level|
   p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
