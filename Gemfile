@@ -29,7 +29,10 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 
 # API
-gem 'jbuilder', '~> 2.0'
+gemspec path: 'api'
+gem 'responders', '~> 2.0'
+gem 'active_model_serializers'
+gem 'oj'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'raddocs'
 
