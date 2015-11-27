@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'acceptance_helper'
 
-resource 'Actor V1' do
+resource 'Actors' do
   header "Accept", "application/json; application/undp-cabo-verde-v1+json"
   header "Content-Type", "application/json"
   header 'Host', 'undp-cabo-verde.herokuapp.com'
@@ -10,7 +10,7 @@ resource 'Actor V1' do
     @user = FactoryGirl.create(:random_user)
   end
 
-  context 'Actors' do
+  context 'Actors API Version 1' do
     let!(:actors) do
       actors = []
 
@@ -26,7 +26,7 @@ resource 'Actor V1' do
     
     context 'List json' do
       get "/api/actors" do
-        example_request 'Get a list of actors for V1' do
+        example_request 'Getting a list of actors' do
           actor_1 = JSON.parse(response_body)['actors'][0]
           actor_2 = JSON.parse(response_body)['actors'][1]
 
@@ -41,9 +41,9 @@ resource 'Actor V1' do
       get "/api/actors/:id" do
         let(:id) { actors.first.id }
 
-        example_request 'Get a list of actors for V1' do
+        example_request 'Getting a specific actor' do
           actor = JSON.parse(response_body)['actor']
-          
+
           expect(status).to eq(200)
           expect(actor['name']).to eq('Economy Organization')
         end
