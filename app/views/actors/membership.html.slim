@@ -2,18 +2,17 @@ h1 "Edit Membership for #{@actor.name}"
 
 = render 'edit_tabs', location: @actor
 hr
-- if @actor.micro_or_meso?
-  h3 Macros
-  - @macros.each do |macro|
-    p
-      = macro.name 
-      |  | 
-      = macro.membership_date(@actor, macro) 
-    - if (can? :manage, macro)
-      p.edit_meso
-        = link_to 'Edit', edit_relation(@actor, macro)
-      p.remove_macro
-        = link_to 'Remove', unlink_actor(@actor, macro), method: :patch
+h3 Macros
+- @macros.each do |macro|
+  p
+    = macro.name 
+    |  | 
+    = macro.membership_date(@actor, macro) 
+  - if (can? :manage, macro)
+    p.edit_meso
+      = link_to 'Edit', edit_relation(@actor, macro)
+    p.remove_macro
+      = link_to 'Remove', unlink_actor(@actor, macro), method: :patch
 
 hr
 - if @actor.micro?
@@ -29,13 +28,13 @@ hr
       p.remove_meso
         = link_to 'Remove', unlink_actor(@actor, meso), method: :patch
   hr
-- if @actor.micro_or_meso?
-  h4 Link Macros
-  - @all_macros.each do |macro|
-    p= macro.name
-    - if (can? :manage, macro)
-      p.add_macro
-        = link_to 'Add', link_actor(@actor, macro), method: :patch
+
+h4 Link Macros
+- @all_macros.each do |macro|
+  p= macro.name
+  - if (can? :manage, macro)
+    p.add_macro
+      = link_to 'Add', link_actor(@actor, macro), method: :patch
 - if @actor.micro?
   hr
   h4 Link Mesos
