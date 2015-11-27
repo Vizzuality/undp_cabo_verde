@@ -113,7 +113,7 @@ class ActorsController < ApplicationController
 
     def set_parents
       # ToDo: change it to search function
-      @all_macros = Actor.filter_actives.not_macros_parents(@actor) unless @actor.macro?
+      @all_macros = Actor.filter_actives.not_macros_parents(@actor)
       @all_mesos  = Actor.filter_actives.not_mesos_parents(@actor)  if @actor.micro?
     end
 
