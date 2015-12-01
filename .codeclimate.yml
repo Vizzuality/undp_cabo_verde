@@ -35,3 +35,5 @@ exclude_paths:
 - "spec/teaspoon_env.rb"
 - "features/step_definitions/web_steps.rb"
 - "features/support/paths.rb"
+- "db/fixtures/development/01_users.rb"
+- "db/fixtures/production/01_users.rb"
