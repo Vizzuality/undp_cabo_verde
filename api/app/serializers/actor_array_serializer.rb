@@ -7,7 +7,11 @@ class ActorArraySerializer < BaseSerializer
   has_many :localizations, key: :locations, serializer: LocalizationArraySerializer
 
   def level
-    object.type
+    case object.type
+    when 'ActorMacro' then 'macro'
+    when 'ActorMeso'  then 'meso'
+    when 'ActorMicro' then 'micro'
+    end
   end
 
   def cache_key

@@ -16,6 +16,7 @@ engines:
       Rubocop/Lint/AmbiguousRegexpLiteral:
         enabled: false
     exclude_fingerprints:
+    - f671155df1b448b678e8a7368d4ef4cf
     - 9536ae61d580ef18029cc6350cef40bd
   eslint:
     enabled: true
