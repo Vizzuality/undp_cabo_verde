@@ -13,6 +13,13 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.cache_store = :dalli_store, (ENV["MEMCACHIER_SERVERS"] || "").split(","), { 
+                                      :username => ENV["MEMCACHIER_USERNAME"],
+                                      :password => ENV["MEMCACHIER_PASSWORD"],
+                                      :failover => true,
+                                      :socket_timeout => 1.5,
+                                      :socket_failure_delay => 0.2
+                                     }
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
