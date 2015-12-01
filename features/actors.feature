@@ -196,10 +196,10 @@ I want to manage an actor
     Given I am authenticated user
     And person
     And department
+    And actors relation
     When I go to the edit actor page for "Person one"
     And I follow "Edit membership"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
-    When I select "partners with" from "actor_relation_title"
-    And I select "partners with" from "actor_relation_title_reverse"
+    When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"
     Then I press "Update"

@@ -9,6 +9,8 @@ nav.right
     li = link_to 'Acts', acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
     li = link_to 'Categories', categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
     - if user_signed_in?
+      - if (can? :manage, RelationType)
+        li = link_to 'Relation types', relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
       li = link_to 'Edit account', edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
       li = link_to 'Logout', destroy_user_session_path, method: 'delete'
     - else

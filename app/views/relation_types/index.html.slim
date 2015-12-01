@@ -1,0 +1,11 @@
+h1 Relation types
+
+- if (can? :manage, RelationType)
+  p= link_to 'Create relation type', new_relation_type_path, class: "button small"
+
+- @relation_types.each do |relation_type|
+  p= "#{relation_type.relation_categories} (#{relation_type.title} - #{relation_type.title_reverse})"
+  p
+    = link_to 'Edit relation type', edit_relation_type_path(relation_type)
+    |  | 
+    = link_to "Delete", relation_type_path(relation_type), data: { confirm: 'Are you sure?' }, method: :delete

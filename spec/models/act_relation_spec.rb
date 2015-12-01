@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ActRelation, type: :model do
   before :each do
+    @relation_type = create(:acts_relation_type)
     @user  = create(:user)
     @meso  = create(:act_meso, user_id: @user.id)
     @micro = create(:act_micro, user_id: @user.id)
   end
 
   let!(:meso_micro_params) do 
-    { parent_id: @meso.id, child_id: @micro.id }
+    { parent_id: @meso.id, child_id: @micro.id, relation_type_id: @relation_type.id }
   end
 
   it 'Create Relation meso micro' do

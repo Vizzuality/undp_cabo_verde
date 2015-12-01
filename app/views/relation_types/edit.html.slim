@@ -1,0 +1,10 @@
+h1 
+  Edit
+
+= simple_form_for @relation_type do |f|
+  = render partial: f
+
+  .form-actions
+    = f.button :submit, 'Update'
+
+p= link_to "Back", :back
