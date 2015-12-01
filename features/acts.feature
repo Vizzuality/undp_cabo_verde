@@ -196,10 +196,10 @@ I want to manage an act
     Given I am authenticated user
     And third act
     And second act
+    And acts relation
     When I go to the edit act page for "Third one"
     And I follow "Edit membership"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
-    When I select "belongs to" from "act_relation_title"
-    And I select "contains" from "act_relation_title_reverse"
+    When I select "action - action (relational namespaces: belongs to - contains)" from "act_relation_relation_type_id"
     Then I press "Update"

@@ -25,6 +25,7 @@ module Abilities
       end
 
       cannot [:activate, :deactivate], ::Localization
+      cannot :read, ::RelationType
     end
   end
 end
