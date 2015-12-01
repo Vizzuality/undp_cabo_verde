@@ -3,8 +3,8 @@ module API::V1
     before_action :set_actor, only: :show
 
     def index
-      @actors = Actor.filter_actives
-      respond_with @actors, each_serializer: ActorArraySerializer
+      @actors = Actor.filter_actives.recent.includes(:localizations)
+      respond_with @actors, each_serializer: ActorArraySerializer, root: 'actors', meta: { size: @actors.size, cache_date: @actors.last_max_update }
     end
 
     def show
