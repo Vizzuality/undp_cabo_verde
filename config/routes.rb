@@ -1,18 +1,20 @@
 Rails.application.routes.draw do
 
-  devise_for :users, path: 'account', path_names: { 
-                                        sign_in: 'login', sign_out: 'logout', 
-                                        password: 'secret', sign_up: 'register' 
-                                      }, 
+  get 'prototype' => 'prototype#index'
+
+  devise_for :users, path: 'account', path_names: {
+                                        sign_in: 'login', sign_out: 'logout',
+                                        password: 'secret', sign_up: 'register'
+                                      },
                                       controllers: {
                                         sessions: 'users/sessions',
                                         registrations: 'users/registrations',
                                         passwords: 'users/passwords'
                                       }
-  
+
   scope :account do
     devise_scope :user do
-      post 'register',  to: 'users/registrations#create', as: :register 
+      post 'register',  to: 'users/registrations#create', as: :register
       post 'password',  to: 'users/passwords#create',     as: :secret
       post 'edit',      to: 'users/registrations#edit',   as: :account_edit
     end
@@ -29,7 +31,7 @@ Rails.application.routes.draw do
       resources :actors,  controller: 'users/actors',  only: :index
       resources :acts, controller: 'users/acts', only: :index
     end
-    
+
     # Actors
     resources :actors do
       resources :localizations, controller: 'localizations', except: :index do
@@ -75,7 +77,7 @@ Rails.application.routes.draw do
         patch 'deactivate', on: :member
         patch 'activate',   on: :member
       end
-      
+
       resources :comments, only: [:create, :activate, :deactivate] do
         patch 'deactivate', on: :member
         patch 'activate',   on: :member
@@ -107,7 +109,7 @@ Rails.application.routes.draw do
       is_only.resources :act_relations, param: :relation_id
     end
     # End Acts
-     
+
     # Categories
     resources :categories
     resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
