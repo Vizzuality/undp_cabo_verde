@@ -9,10 +9,20 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
-
+  # Caching.
+  if ENV['DEV_CACHE'] == 'enabled'
+    config.consider_all_requests_local       = false
+    config.action_controller.perform_caching = true
+    config.cache_store = :dalli_store, '127.0.0.1:11215', {
+                                         namespace: Undp,
+                                         expires_in: 10.minutes,
+                                         compress: true
+                                       }
+  else
+    # Show full error reports and disable caching.
+    config.consider_all_requests_local       = true
+    config.action_controller.perform_caching = false
+  end
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
