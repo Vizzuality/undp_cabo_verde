@@ -51,6 +51,7 @@
     $ brew doctor
     $ brew install memcached
     $ memcached -p 11215 -vv
+    $ echo 'flush_all' | nc localhost 11215
   ```
 
 ### Run application: ###

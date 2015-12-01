@@ -32,8 +32,10 @@ resource 'Actors' do
           actor_2 = JSON.parse(response_body)['actors'][1]
 
           expect(status).to eq(200)
-          expect(actor_1['name']).to eq('Education Institution')
-          expect(actor_2['name']).to eq('Economy Organization')
+          expect(actor_1['name']).to  eq('Education Institution')
+          expect(actor_1['level']).to eq('ActorMacro')
+          expect(actor_2['name']).to  eq('Economy Organization')
+
           expect(actor_2['locations'][0]['lat']).not_to be_nil
           expect(actor_1['locations'].size).to eq(0)
         end
@@ -48,7 +50,9 @@ resource 'Actors' do
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
-          expect(actor['name']).to eq('Economy Organization')
+          expect(actor['name']).to  eq('Economy Organization')
+          expect(actor['level']).to eq('ActorMacro')
+          
           expect(actor['locations'][0]['lat']).not_to  be_nil
           expect(actor['locations'][0]['long']).not_to be_nil
         end
