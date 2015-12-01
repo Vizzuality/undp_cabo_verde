@@ -1,0 +1,26 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title
+      = content_for?(:title) ? yield(:title) : "UNDP"
+    = stylesheet_link_tag    "prototype"
+    = csrf_meta_tags
+  body
+    .container
+      .l-map
+      aside.l-sidebar aria-hidden="false"
+        ul.tab-navigation role="tablist"
+            li.tab role="tab"
+            a.link.-active href="#overall-tab"
+              | Overall
+              a.link href="#about-tab"
+                | About
+
+        /! TODO: update the structure
+        #overall-tab role="tabpanel" aria-labelledby="overall-tab"
+          | Overall content
+        #about-tab role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
+          | About content
+    = javascript_include_tag "prototype"

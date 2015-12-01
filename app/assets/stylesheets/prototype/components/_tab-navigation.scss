@@ -1,0 +1,32 @@
+/*
+  ul.tab-navigation  role="tablist"
+    li.tab role="tab"
+      a.link href="#tab1"
+        | Tab 1
+    li.tab role="tab"
+      a.link href="#tab2"
+        | Tab 2
+*/
+
+.tab-navigation {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+
+  >.tab {
+    margin: 0;
+    padding: 0;
+    height: 60px;
+  }
+
+  >.link {
+    width: 100%;
+    line-height: 60px;
+    text-align: center;
+  }
+
+  >.link.-active {
+    background-color: red;
+  }
+}

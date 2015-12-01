@@ -1,0 +1,17 @@
+.l-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 370px;
+  height: 100%;
+  transform: translateX(0);
+  transition: transform .3s;
+
+  /* NOTE: temporal */
+  background-color: black;
+  color: white;
+
+  &.-hidden {
+    transform: translateX(100%);
+  }
+}
