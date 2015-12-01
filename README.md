@@ -46,13 +46,18 @@
 ### Setup memcached store: ###
 
   Installing memcached on OS X with Homebrew
-  ```
-    $ brew update
-    $ brew doctor
-    $ brew install memcached
-    $ memcached -p 11215 -vv
-    $ echo 'flush_all' | nc localhost 11215
-  ```
+
+```
+  $ brew update
+  $ brew doctor
+  $ brew install memcached
+
+  Run memcached server:
+  $ memcached -p 11215 -vv
+
+  Flush:
+  $ echo 'flush_all' | nc localhost 11215
+```
 
 ### Run application: ###
 
@@ -60,22 +65,26 @@
 
 ## TEST ##
 
-  Run rspec: 
-  ```ruby
-    bin/rspec
-  ```
-  Run teaspoon: 
-  ```ruby  
-    rake teaspoon
-  ```
-  Run cucumber: 
-  ```ruby  
-    rake cucumber
-  ```
-  Run all (cucumber, spec): 
-  ```ruby
-    rake
-  ```
+  Run rspec:
+
+```ruby
+  bin/rspec
+```
+  Run teaspoon:
+
+```ruby  
+  rake teaspoon
+```
+  Run cucumber:
+
+```ruby  
+  rake cucumber
+```
+  Run all (cucumber, spec):
+  
+```ruby
+  rake
+```
 
 ## BEFORE CREATING A PULL REQUEST
 

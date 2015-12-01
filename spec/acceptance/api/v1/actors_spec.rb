@@ -33,7 +33,7 @@ resource 'Actors' do
 
           expect(status).to eq(200)
           expect(actor_1['name']).to  eq('Education Institution')
-          expect(actor_1['level']).to eq('ActorMacro')
+          expect(actor_1['level']).to eq('macro')
           expect(actor_2['name']).to  eq('Economy Organization')
 
           expect(actor_2['locations'][0]['lat']).not_to be_nil
@@ -51,7 +51,7 @@ resource 'Actors' do
 
           expect(status).to eq(200)
           expect(actor['name']).to  eq('Economy Organization')
-          expect(actor['level']).to eq('ActorMacro')
+          expect(actor['level']).to eq('macro')
           
           expect(actor['locations'][0]['lat']).not_to  be_nil
           expect(actor['locations'][0]['long']).not_to be_nil
