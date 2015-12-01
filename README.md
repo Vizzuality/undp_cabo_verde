@@ -45,7 +45,7 @@
 
 ### Setup memcached store: ###
 
-  Installing memcached on OS X with Homebrew and Lunchy
+  Installing memcached on OS X with Homebrew
   ```
     $ brew update
     $ brew doctor
