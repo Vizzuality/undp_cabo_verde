@@ -110,14 +110,35 @@ FactoryGirl.define do
     lat
     long
   end
-
+  
+  # Categories
   factory :category do
     name 'Category one'
     type 'OtherDomain'
   end
-
+  
+  # Comments
   factory :comment do
     body Faker::Lorem.paragraph(2, true, 4)
+  end
+
+  # Relation types
+  factory :actors_relation_type, class: RelationType do
+    title         'partners with'
+    title_reverse 'partners with'
+    relation_category 1
+  end
+
+  factory :act_actor_relation_type, class: RelationType do
+    title         'implements'
+    title_reverse 'implemented by'
+    relation_category 3
+  end
+
+  factory :acts_relation_type, class: RelationType do
+    title         'contains'
+    title_reverse 'belongs to'
+    relation_category 7
   end
 
 end

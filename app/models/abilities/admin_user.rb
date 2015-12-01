@@ -18,6 +18,7 @@ module Abilities
       can :manage, ::Localization
       can :manage, ::Category 
       can :manage, ::Comment
+      can :manage, ::RelationType
       can [:activate, :deactivate], ::Localization
       can [:activate, :deactivate], ::Comment
 

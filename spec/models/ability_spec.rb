@@ -17,7 +17,7 @@ RSpec.describe Ability, type: :model do
 
   context 'admin' do
     it 'can manage objects' do
-      [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro, ActMeso, ActMacro, ActRelation, Localization, Category, Comment].each do |model|
+      [User, Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro, ActMeso, ActMacro, ActRelation, Localization, Category, Comment, RelationType].each do |model|
         Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, model)
       end
       Abilities::AdminUser.any_instance.should_receive(:can).with([:activate, :deactivate], Localization)
@@ -43,6 +43,7 @@ RSpec.describe Ability, type: :model do
       Abilities::User.any_instance.should_receive(:cannot).with([:activate, :deactivate], Localization)
 
       Abilities::User.any_instance.should_receive(:can).with(:read, :all)
+      Abilities::User.any_instance.should_receive(:cannot).with(:read, RelationType)
       Abilities::User.new @user
     end
   end
@@ -50,6 +51,7 @@ RSpec.describe Ability, type: :model do
   context 'guest' do
     it 'can read objects' do
       Abilities::Guest.any_instance.should_receive(:can).with(:read, :all)
+      Abilities::Guest.any_instance.should_receive(:cannot).with(:read, RelationType)
       Abilities::Guest.new @user
     end
   end
