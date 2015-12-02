@@ -6,10 +6,11 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) : "UNDP"
     = stylesheet_link_tag    "prototype"
+    link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
     = csrf_meta_tags
   body
     .container
-      .l-map
+      .l-map#map
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
@@ -25,4 +26,6 @@ html lang="en"
           | Overall content
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
+
+    script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
     = javascript_include_tag "prototype"

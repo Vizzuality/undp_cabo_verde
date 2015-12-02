@@ -3,7 +3,9 @@
 //= require backbone
 
 //= require prototype/router
+//= require_tree ./prototype/helpers
 //= require_tree ./prototype/views
+//= require_tree ./prototype/collections
 
 (function(root) {
 
@@ -33,7 +35,16 @@
 
     initialize: function() {
       this.router = new root.app.Router();
-      this.sidebarView = new root.app.View.sidebarView();
+
+      this.actorsCollection = new root.app.Collection.actorsCollection();
+
+      this.sidebarView = new root.app.View.sidebarView({
+        actorsCollection: this.actorsCollection
+      });
+      this.mapView = new root.app.View.mapView({
+        actorsCollection: this.actorsCollection
+      });
+
       this.setListeners();
     },
 
@@ -43,7 +54,7 @@
     },
 
     welcomePage: function() {
-
+      this.actorsCollection.fetch();
     },
 
     aboutPage: function() {
