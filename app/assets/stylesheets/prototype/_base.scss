@@ -9,6 +9,12 @@ html, body {
 body {
   overflow: hidden;
   padding: 12px;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: $color-3;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 
   /* This wrapper is mandatory in order to insure that all its children will be
    * contained in its viewport (including floating ones) */

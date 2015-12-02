@@ -10,17 +10,19 @@ html lang="en"
   body
     .container
       .l-map
-      aside.l-sidebar aria-hidden="false"
+      aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
+        a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
-            li.tab role="tab"
-            a.link.-active href="#overall-tab"
-              | Overall
-              a.link href="#about-tab"
+            li.tab.-active data-tab="overall"
+              a.link href="#overall-tab" role="tab"
+                | Overall
+            li.tab data-tab="about"
+              a.link href="#about-tab"  role="tab"
                 | About
 
         /! TODO: update the structure
-        #overall-tab role="tabpanel" aria-labelledby="overall-tab"
+        #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
           | Overall content
-        #about-tab role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
+        #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
     = javascript_include_tag "prototype"
