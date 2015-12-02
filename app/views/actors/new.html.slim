@@ -1,7 +1,7 @@
 .form-actions
 fieldset
   legend
-    | General Info
+    = t('shared.general_info')
   .row
     .column.medium-9.medium-offset-1
       = simple_form_for @actor do |f|
@@ -11,4 +11,4 @@ fieldset
           .column.medium-9
             = f.input :type, label: false, collection: @types, as: :collection_select
         = render partial: f
-        = f.button :submit, 'Create'
+        = f.button :submit, t('shared.create')

@@ -37,3 +37,4 @@ exclude_paths:
 - "features/support/paths.rb"
 - "db/fixtures/development/01_users.rb"
 - "db/fixtures/production/01_users.rb"
+- "db/fixtures/development/01_users.rb"

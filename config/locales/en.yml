@@ -222,3 +222,93 @@ en:
     : "Socio cultural domain"
     ? "OtherDomain"
     : "Other domains"
+
+  shared:
+    edit: 'Edit'
+    update: 'Update'
+    delete: 'Delete'
+    create: 'Create'
+    back: 'Back'
+    confirm_message: 'Are you sure?'
+    view: 'View'
+    edit_info: 'Edit info'
+    edit_relations: 'Edit relations'
+    add_localization: 'Add locations'
+    name: 'Name'
+    status: 'Status'
+    remove: 'Remove'
+    add: 'Add'
+    general_info: 'General Info'
+    activate: 'Activate'
+    deactivate: 'Deactivate'
+    deactivated_at: 'Deactivated at'
+    relation_details: 'Relation details'
+
+  actors:
+    actors: 'Actors'
+    actor_macros: 'Macros'
+    actor_mesos: 'Mesos'
+    actor_micros: 'Micros'
+    actor_macro: 'Macro'
+    actor_meso: 'Meso'
+    actor_micro: 'Micro'
+    link_macros: 'Add macro relation'
+    link_mesos: 'Add meso relation'
+    edit_actor: 'Edit actor'
+    operational_field: 'Scale'
+    observation: 'Observation'
+    gender: 'Gender'
+    date_of_birth: 'Date of birth'
+
+  acts:
+    acts: 'Actions'
+    act_macros: 'Macros'
+    act_mesos: 'Mesos'
+    act_micros: 'Micros'
+    act_macro: 'Macro'
+    act_meso: 'Meso'
+    act_micro: 'Micro'
+    link_macros: 'Add macro relation'
+    link_mesos: 'Add meso relation'
+    edit_act: 'Edit action'
+    description: 'Description'
+
+  categories:
+    categories: 'Categories'
+    create_category: 'Create Category'
+    edit_category: 'Edit category'
+    parent: 'Main category'
+    child: 'Subcategory'
+    children: 'Subcategories'
+
+  comments:
+    comments: 'Comments'
+    create_comment: 'Create comment'
+
+  localizations:
+    localizations: 'Locations'
+    edit_localization: 'Edit location'
+    deactivate: 'Deacticate'
+
+  navbar:
+    dashboard: 'Dashboard'
+    home: 'Home'
+    users: 'Users'
+    actors: 'Actors'
+    acts: 'Actions'
+    categories: 'Categories'
+    relation_types: 'Relation types'
+    edit_account: 'Edit account'
+    logout: 'Logout'
+    login: 'Login'
+    register: 'Register'
+
+  relations:
+    relation_category: 'Relation category'
+    relation_types: 'Relation types'
+    create_relation_type: 'Create relation type'
+    edit_relation_type: 'Edit relation type'
+
+  users:
+    my_actors: 'My actors'
+    user: 'User'

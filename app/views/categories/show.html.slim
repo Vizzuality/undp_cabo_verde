@@ -2,12 +2,12 @@ h1
   = @category.name
 
 - if (can? :manage, @category)
-  p= link_to 'Edit', edit_category_path(@category)
+  p= link_to t('categories.edit_category'), edit_category_path(@category)
 
 h4
   = @category.name
   - if @category.has_parent?
-    = " (parent: #{link_to @category.parent_name, category_path(@category.parent)})".html_safe
+    = " (#{t('categories.parent')}: #{link_to @category.parent_name, category_path(@category.parent)})".html_safe
 
 - if @category.has_children?
   ul
@@ -16,4 +16,4 @@ h4
         = link_to sub_category.name, category_path(sub_category)
         |  | 
         - if (can? :manage, sub_category)
-          = link_to 'Edit', edit_category_path(sub_category)
+          = link_to t('shared.edit'), edit_category_path(sub_category)

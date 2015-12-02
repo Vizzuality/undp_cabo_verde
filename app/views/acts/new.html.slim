@@ -1,6 +1,15 @@
-h1 Create Act
-= simple_form_for @act do |f|
-  = f.input :type, collection: @types, as: :collection_select
-  = render partial: f
-  .form-actions
-    = f.button :submit, 'Create'
+.form-actions
+fieldset
+  legend
+    = t('shared.general_info')
+  .row
+    .column.medium-9.medium-offset-1
+      = simple_form_for @act do |f|
+        .row
+          .column.medium-3
+            = f.label :type, class: 'right inline'
+          .column.medium-9
+            = f.input :type, label: false, collection: @types, as: :collection_select
+        = render partial: f
+        = f.button :submit, t('shared.create')
+

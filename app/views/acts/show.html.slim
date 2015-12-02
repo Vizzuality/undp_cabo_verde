@@ -1,10 +1,10 @@
 h1
   = @act.name
   | 
-  = " (#{@act.type})"
+  = " (" + t("types.#{@act.type.constantize}") + ")"
 
 - if (can? :manage, @act)
-  p= link_to 'Edit act', edit_act_path(@act)
+  p= link_to t('acts.edit_act'), edit_act_path(@act)
 
 - if current_user
   p= render 'shared/deactivatable_links', location: @act
@@ -12,7 +12,7 @@ h1
 - if @act.micro_or_meso?
   - @macros.each do |macro|
     p
-      | Macro: 
+      = "#{t('acts.act_macro')}: "
       = link_to macro.name, act_path(macro)
       |  | 
       = macro.membership_date(@act, macro)
@@ -20,45 +20,45 @@ h1
 - if @act.micro?
   - @mesos.each do |meso|
     p
-      | Meso: 
+      = "#{t('acts.act_meso')}: " 
       = link_to meso.name, act_path(meso)
       |  | 
       = meso.membership_date(@act, meso)
 
 p
-  | User: 
+  = "#{t('users.user')}: " 
   = @act.user.name
 
 p
-  | Description 
+  = "#{t('acts.description')}: "
   = @act.description
 
 - if @act.localizations?
   hr
-  h3 Localizations:
+  h3= "#{t('localizations.localizations')}: "
   - @localizations.each do |localization|
     p= localization.name
     - if (can? :manage, localization)
-      p= link_to 'Edit localization', edit_act_localization_path(@act, localization)
+      p= link_to t('localizations.edit_localization'), edit_act_localization_path(@act, localization)
     - if (can? [:activate, :deactivate], localization)
       - if localization.activated?
         p.deactivate_localization
-          = link_to 'Deactivate', deactivate_act_localization_path(@act, localization), method: :patch
+          = link_to t('shared.deactivate'), deactivate_act_localization_path(@act, localization), method: :patch
       - if localization.deactivated?
         p
-          | Deactivated at: 
+          = "#{t('shared.dactivated_at')}: " 
           = localization.deactivated_at.to_time
         p.activate_localization
-          = link_to 'Activate', activate_act_localization_path(@act, localization), method: :patch
+          = link_to t('shared.activate'), activate_act_localization_path(@act, localization), method: :patch
 
 - if @act.categories?
   hr
-  h3 Categories:
+  h3= "#{t('categories.categories')}: "
   - @categories.each do |category|
     p= link_to category.name, category_path(category)
 
 #comments
-  h3 Comments
+  h3= "#{t('comments.comments')}: "
   - if (can? :create, Comment)
     = render partial: 'comments/form',   locals: { commentable: @act }
   - if @act.comments?

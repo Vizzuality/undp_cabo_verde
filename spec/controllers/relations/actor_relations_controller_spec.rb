@@ -34,7 +34,7 @@ RSpec.describe ActorRelationsController, type: :controller do
       get :edit, actor_id: @meso.id, parent_id: @macro.id, type: 'ActorMeso'
       expect(response).to be_success
       expect(response).to have_http_status(200)
-      expect(response.body).to match('Membership details')
+      expect(response.body).to match('Relation details')
     end
 
     it 'update actor relation' do
@@ -55,7 +55,7 @@ RSpec.describe ActorRelationsController, type: :controller do
       get :edit, actor_id: @meso.id, parent_id: @macro.id, type: 'ActorMeso'
       expect(response).to be_success
       expect(response).to have_http_status(200)
-      expect(response.body).to match('Membership details')
+      expect(response.body).to match('Relation details')
     end
 
     it 'update actor relation' do

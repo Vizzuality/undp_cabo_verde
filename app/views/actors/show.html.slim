@@ -3,10 +3,10 @@ h1
     = "#{@actor.title_txt}. "
   = @actor.name
   | 
-  = " (#{@actor.type})"
+  = " (" + t("types.#{@actor.type.constantize}") + ")"
 
 - if (can? :manage, @actor)
-  p= link_to 'Edit actor', edit_actor_path(@actor)
+  p= link_to t('actors.edit_actor'), edit_actor_path(@actor)
 
 - if current_user
   p= render 'shared/deactivatable_links', location: @actor
@@ -14,66 +14,66 @@ h1
 - if @actor.micro_or_meso?
   - @macros.each do |macro|
     p
-      | Macro: 
+      = "#{t('actors.actor_macro')}: "
       = link_to macro.name, actor_path(macro)
       |  | 
       = macro.membership_date(@actor, macro)
 
 - if @actor.macro?
   p
-    | Category: 
+    = "#{t('actors.operational_field')}: " 
     = @actor.operational_filed_txt
 
 - if @actor.micro?
   - @mesos.each do |meso|
     p
-      | Meso: 
+      = "#{t('actors.actor_meso')}: " 
       = link_to meso.name, actor_path(meso)
       |  | 
       = meso.membership_date(@actor, meso)
 
 p
-  | User: 
+  = "#{t('users.user')}: " 
   = @actor.user.name
 
 p
-  | Description 
+  = "#{t('actors.observation')}: " 
   = @actor.observation
 
 - if @actor.micro?
   p
-    | Gender: 
+    = "#{t('actors.gender')}: "
     = @actor.gender_txt
   p
-    | Date of birth: 
+    = "#{t('actors.date_of_birth')}: "
     = @actor.birth
 
 - if @actor.localizations?
   hr
-  h5 Localizations:
+  h3= "#{t('localizations.localizations')}: "
   - @localizations.each do |localization|
     p= localization.name
     - if (can? :manage, localization)
-      p= link_to 'Edit localization', edit_actor_localization_path(@actor, localization)
+      p= link_to t('localizations.edit_localization'), edit_actor_localization_path(@actor, localization)
     - if (can? [:activate, :deactivate], localization)
       - if localization.activated?
         p.deactivate_localization
-          = link_to 'Deactivate', deactivate_actor_localization_path(@actor, localization), method: :patch
+          = link_to t('shared.deactivate'), deactivate_actor_localization_path(@actor, localization), method: :patch
       - if localization.deactivated?
         p
-          | Deactivated at: 
+          = "#{t('shared.dactivated_at')}: "
           = localization.deactivated_at.to_time
         p.activate_localization
-          = link_to 'Activate', activate_actor_localization_path(@actor, localization), method: :patch
+          = link_to t('shared.activate'), activate_actor_localization_path(@actor, localization), method: :patch
 
 - if @actor.categories?
   hr
-  h5 Categories:
+  h3= "#{t('categories.categories')}: "
   - @categories.each do |category|
     p= link_to category.name, category_path(category)
 
 #comments
-  h3 Comments
+  h3= "#{t('comments.comments')}: "
   - if (can? :create, Comment)
     = render partial: 'comments/form',   locals: { commentable: @actor }
   - if @actor.comments?
