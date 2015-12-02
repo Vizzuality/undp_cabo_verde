@@ -1,12 +1,13 @@
-h1 Actors
+h1
+  = t('actors.actors')
 
 = render 'index_tabs'
 
 table
   thead
     tr
-      th Category
-      th Status
+      th= t('shared.name')
+      th= t('shared.status')
   tbody
     - @actors.each do |actor|
       tr

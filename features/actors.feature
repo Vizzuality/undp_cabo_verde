@@ -12,7 +12,7 @@ I want to manage an actor
     And I should see "Organization by admin"
     When I follow "Organization by admin"
     Then I should be on the actor page for "Organization by admin"
-    And I should see "Organization by admin (ActorMacro)"
+    And I should see "Organization by admin (Macro)"
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user
@@ -64,17 +64,17 @@ I want to manage an actor
     And organization
     And department
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_macro"
     When I go to the actor page for "Person one"
     Then I should see "Organization one"
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership"    
+    And I follow "Edit relation"    
     And I follow "Add" within ".add_meso"
     When I go to the actor page for "Person one"
     Then I should see "Department one"
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership" 
+    And I follow "Edit relation" 
     Then I should not see ".add_meso"   
     When I follow "Remove" within ".remove_meso"
     And I go to the actor page for "Person one"
@@ -85,12 +85,12 @@ I want to manage an actor
     And organization
     And department
     When I go to the edit actor page for "Department one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_macro"
     When I go to the actor page for "Department one"
     Then I should see "Organization one"
     When I go to the edit actor page for "Department one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     Then I should not see ".add_macro" 
     When I follow "Remove" within ".remove_macro"
     Then I go to the actor page for "Department one"
@@ -184,7 +184,7 @@ I want to manage an actor
     And person
     And department
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
     When I select datetime "1990 March 10" as the "actor_relation_start_date"
@@ -198,7 +198,7 @@ I want to manage an actor
     And department
     And actors relation
     When I go to the edit actor page for "Person one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
     When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"

@@ -12,7 +12,7 @@ I want to manage an act
     And I should see "First act by admin"
     When I follow "First act by admin"
     Then I should be on the act page for "First act by admin"
-    And I should see "First act by admin (ActMacro)"
+    And I should see "First act by admin (Macro)"
 
   Scenario: User can edit owned act micro
     Given I am authenticated user
@@ -64,17 +64,17 @@ I want to manage an act
     And first act
     And second act
     When I go to the edit act page for "Third one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_macro"
     When I go to the act page for "Third one"
     Then I should see "First one"
     When I go to the edit act page for "Third one"
-    And I follow "Edit membership"    
+    And I follow "Edit relation"    
     And I follow "Add" within ".add_meso"
     When I go to the act page for "Third one"
     Then I should see "Second one"
     When I go to the edit act page for "Third one"
-    And I follow "Edit membership" 
+    And I follow "Edit relation" 
     Then I should not see ".add_meso"   
     When I follow "Remove" within ".remove_meso"
     And I go to the act page for "Third one"
@@ -85,12 +85,12 @@ I want to manage an act
     And first act
     And second act
     When I go to the edit act page for "Second one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_macro"
     When I go to the act page for "Second one"
     Then I should see "First one"
     When I go to the edit act page for "Second one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     Then I should not see ".add_macro" 
     When I follow "Remove" within ".remove_macro"
     Then I go to the act page for "Second one"
@@ -184,7 +184,7 @@ I want to manage an act
     And third act
     And second act
     When I go to the edit act page for "Third one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
     When I select datetime "1990 March 10" as the "act_relation_start_date"
@@ -198,7 +198,7 @@ I want to manage an act
     And second act
     And acts relation
     When I go to the edit act page for "Third one"
-    And I follow "Edit membership"
+    And I follow "Edit relation"
     And I follow "Add" within ".add_meso"
     And I follow "Edit" within ".edit_meso"
     When I select "action - action (relational namespaces: belongs to - contains)" from "act_relation_relation_type_id"

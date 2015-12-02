@@ -1,6 +1,7 @@
-h1 Create Category
+h1
+  = t('categories.create_category')
 = simple_form_for @category do |f|
   = f.input :type, collection: @types, as: :collection_select
   = render partial: f
   .form-actions
-    = f.button :submit, 'Create'
+    = f.button :submit, t('shared.create')
