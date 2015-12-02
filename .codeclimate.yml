@@ -15,6 +15,9 @@ engines:
         enabled: false
       Rubocop/Lint/AmbiguousRegexpLiteral:
         enabled: false
+    exclude_fingerprints:
+    - f671155df1b448b678e8a7368d4ef4cf
+    - 9536ae61d580ef18029cc6350cef40bd
   eslint:
     enabled: true
   bundler-audit:
@@ -32,3 +35,6 @@ exclude_paths:
 - "spec/teaspoon_env.rb"
 - "features/step_definitions/web_steps.rb"
 - "features/support/paths.rb"
+- "db/fixtures/development/01_users.rb"
+- "db/fixtures/production/01_users.rb"
+- "db/fixtures/development/01_users.rb"

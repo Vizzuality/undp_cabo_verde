@@ -16,12 +16,23 @@
   Create .env file with:
 
 ```
-RACK_ENV=development
-GMAIL_DOMAIN=gmail.com
-GMAIL_USERNAME=abc@gmail.com
-GMAIL_PASSWORD=your_password
-EMAIL=your_sender_email
-SECRET_KEY=abc # Run 'rake secret' to generate one 
+  RACK_ENV=development
+  GMAIL_DOMAIN=gmail.com
+  GMAIL_USERNAME=abc@gmail.com
+  GMAIL_PASSWORD=your_password
+  EMAIL=your_sender_email
+  SECRET_KEY=abc # Run 'rake secret' to generate one
+```
+
+  More .env options:
+
+```
+  ACCESS=public - "enable Auth::Basic with user and password"
+  ACCESS_USER=xxx
+  ACCESS_PASSWORD=xxx
+  CODECLIMATE_REPO_TOKEN=xxx - "please ask for token"
+  FORCE_NON_SSL=true - "true or false"
+  DEV_CACHE=enabled - "enable cache store on development"
 ```
 
 ### Install gems: ###
@@ -32,28 +43,48 @@ SECRET_KEY=abc # Run 'rake secret' to generate one
     
     rake db:seed_fu
 
+### Setup memcached store: ###
+
+  Installing memcached on OS X with Homebrew
+
+```
+  $ brew update
+  $ brew doctor
+  $ brew install memcached
+
+  Run memcached server:
+  $ memcached -p 11215 -vv
+
+  Flush:
+  $ echo 'flush_all' | nc localhost 11215
+```
+
 ### Run application: ###
 
     foreman start
 
 ## TEST ##
 
-  Run rspec: 
-  ```ruby
-    bin/rspec
-  ```
-  Run teaspoon: 
-  ```ruby  
-    rake teaspoon
-  ```
-  Run cucumber: 
-  ```ruby  
-    rake cucumber
-  ```
-  Run all (cucumber, spec): 
-  ```ruby
-    rake
-  ```
+  Run rspec:
+
+```ruby
+  bin/rspec
+```
+  Run teaspoon:
+
+```ruby  
+  rake teaspoon
+```
+  Run cucumber:
+
+```ruby  
+  rake cucumber
+```
+  Run all (cucumber, spec):
+  
+```ruby
+  rake
+```
 
 ## BEFORE CREATING A PULL REQUEST
 
@@ -82,7 +113,7 @@ Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde
    Generate the docs!
 
 ```ruby
-rake docs:generate
+  rake docs:generate
 ```
 
 ## DEPLOYMENT ##

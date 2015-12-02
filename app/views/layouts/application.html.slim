@@ -1,11 +1,11 @@
 doctype html
-html lang="en"
+html lang='en'
   head
-    meta charset="utf-8"
-    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1.0'
     title
-      = content_for?(:title) ? yield(:title) : "UNDP Manage"
-    = stylesheet_link_tag    "application"
+      = content_for?(:title) ? yield(:title) : 'UNDP Manage'
+    = stylesheet_link_tag 'application'
     = csrf_meta_tags
   body
     .l-page
@@ -18,16 +18,16 @@ html lang="en"
         .l-alerts
           .row: .small-12.medium-12.large-12.columns
             - if alert
-              .alert-box.alert data-alert="true"
+              .alert-box.alert data-alert='true'
                 div = alert
-                a.close href="#" &times;
+                a.close href='#' &times;
             - else
-              .alert-box.alert data-alert="true"
+              .alert-box.alert data-alert='true'
                 div = notice
-                a.close href="#" &times;
+                a.close href='#' &times;
 
       .l-content
         .row: .small-12.medium-12.large-12.columns
           = yield
 
-    = javascript_include_tag "application"
+    = javascript_include_tag 'application'

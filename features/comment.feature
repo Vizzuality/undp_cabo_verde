@@ -7,7 +7,7 @@ I want to create activate and deactivate a comment
     Given I am authenticated user
     And third act
     When I go to the act page for "Third one"
-    Then I should see "Third one (ActMicro)"
+    Then I should see "Third one (Micro)"
     When I fill in "comment_body" with "Lorem ipsum..."
     And I press "Create comment"
     Then I should be on the act page for "Third one"

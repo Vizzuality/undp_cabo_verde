@@ -84,9 +84,6 @@ RSpec.describe CommentsController, type: :controller do
         render_views
 
         it 'User should not be able to create comment without body' do
-          # expect {
-          #   post :create, actor_id: @macro.id, comment: attri_fail, user_id: @user.id
-          # }.to raise_exception("Comment's body can't be blank")
           post :create, actor_id: @macro.id, comment: attri_fail, user_id: @user.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
@@ -178,9 +175,6 @@ RSpec.describe CommentsController, type: :controller do
         render_views
 
         it 'User should not be able to create comment without body' do
-          # expect {
-          #   post :create, act_id: @macro.id, comment: attri_fail, user_id: @user.id
-          # }.to raise_exception("Comment's body can't be blank")
           post :create, act_id: @macro.id, comment: attri_fail, user_id: @user.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)

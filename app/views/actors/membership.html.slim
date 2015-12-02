@@ -1,8 +1,9 @@
-h1 "Edit Membership for #{@actor.name}"
+h1
+  = "#{t('shared.edit_relations')} for #{@actor.name}"
 
 = render 'edit_tabs', location: @actor
 hr
-h3 Macros
+h3= t('actors.actor_macros')
 - @macros.each do |macro|
   p
     = macro.name 
@@ -10,13 +11,13 @@ h3 Macros
     = macro.membership_date(@actor, macro) 
   - if (can? :manage, macro)
     p.edit_meso
-      = link_to 'Edit', edit_relation(@actor, macro)
+      = link_to t('shared.edit'), edit_relation(@actor, macro)
     p.remove_macro
-      = link_to 'Remove', unlink_actor(@actor, macro), method: :patch
+      = link_to t('shared.remove'), unlink_actor(@actor, macro), method: :patch
 
 hr
 - if @actor.micro?
-  h3 Mesos
+  h3= t('actors.actor_mesos')
   - @mesos.each do |meso|
     p
       = meso.name 
@@ -24,22 +25,22 @@ hr
       = meso.membership_date(@actor, meso)
     - if (can? :manage, meso)
       p.edit_meso
-        = link_to 'Edit', edit_relation(@actor, meso)
+        = link_to t('shared.edit'), edit_relation(@actor, meso)
       p.remove_meso
-        = link_to 'Remove', unlink_actor(@actor, meso), method: :patch
+        = link_to t('shared.remove'), unlink_actor(@actor, meso), method: :patch
   hr
 
-h4 Link Macros
+h4= t('actors.link_macros')
 - @all_macros.each do |macro|
   p= macro.name
   - if (can? :manage, macro)
     p.add_macro
-      = link_to 'Add', link_actor(@actor, macro), method: :patch
+      = link_to t('shared.add'), link_actor(@actor, macro), method: :patch
 - if @actor.micro?
   hr
-  h4 Link Mesos
+  h4= t('actors.link_mesos')
   - @all_mesos.each do |meso|
     p= meso.name
     - if (can? :manage, meso)
       p.add_meso
-        = link_to 'Add', link_actor(@actor, meso), method: :patch
+        = link_to t('shared.add'), link_actor(@actor, meso), method: :patch

@@ -5,11 +5,11 @@
     - if (can? [:activate, :deactivate], comment)
       - if comment.activated?
         p.deactivate_comment
-          = link_to 'Deactivate', deactivate_comment_path(commentable, comment), method: :patch
+          = link_to t('shared.deactivate'), deactivate_comment_path(commentable, comment), method: :patch
       - else comment.deactivated?
         p
-          | Deactivated at: 
+          = "#{t('shared.dactivated_at')}: " 
           = comment.deactivated_at.to_time
         p.activate_comment
-          = link_to 'Activate', activate_comment_path(commentable, comment), method: :patch
+          = link_to t('shared.activate'), activate_comment_path(commentable, comment), method: :patch
   hr

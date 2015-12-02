@@ -1,0 +1,10 @@
+h1 
+  = t('relations.create_relation_type')
+
+= simple_form_for @relation_type do |f|
+  = render partial: f
+
+  .form-actions
+    = f.button :submit, t('shared.create')
+    
+p= link_to t('shared.back'), :back

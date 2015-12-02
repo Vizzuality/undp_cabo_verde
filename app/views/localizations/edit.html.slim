@@ -1,10 +1,10 @@
 h1 
-  Edit
+  = t('shared.edit')
 
 = simple_form_for [@owner, @localization], url: polymorphic_localization_path(@owner, @localization) do |f|
   = render partial: f
 
   .form-actions
-    = f.button :submit, 'Update'
+    = f.button :submit, t('shared.update')
 
-p= link_to "Back", :back
+p= link_to t('shared.back'), :back

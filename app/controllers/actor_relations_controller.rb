@@ -36,7 +36,6 @@ class ActorRelationsController < ApplicationController
     end
 
     def set_selection
-      @titles         = %w(partners\ with belongs\ to)
-      @titles_reverse = %w(partners\ with contains)
+      @relation_types = RelationType.includes_actor_relations.collect { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
     end
 end

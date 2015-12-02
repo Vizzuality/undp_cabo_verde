@@ -114,6 +114,9 @@ Rails.application.routes.draw do
     resources :categories
     resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
     resources :other_domains,          controller: 'categories', type: 'OtherDomain'
+
+    # Relation types
+    resources :relation_types, except: :show, path: 'relation-types'
   end
 
   root 'home#index'

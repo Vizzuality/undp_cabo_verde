@@ -1,15 +1,16 @@
 FactoryGirl.define do
   
-  sequence(:id) { |n| "#{n+2}" }
-  sequence(:email) { |n| "person-#{n}@example.com" }
-  sequence(:name) { Faker::Name.name }
-  sequence(:country) { Faker::Address.country }
-  sequence(:city) { Faker::Address.city }
+  sequence(:id)       { |n| "#{n+2}" }
+  sequence(:email)    { |n| "person-#{n}@example.com" }
+  sequence(:name)     { Faker::Name.name }
+  sequence(:country)  { Faker::Address.country }
+  sequence(:city)     { Faker::Address.city }
   sequence(:zip_code) { Faker::Address.zip_code }
-  sequence(:state) { Faker::Address.state }
+  sequence(:state)    { Faker::Address.state }
   sequence(:district) { Faker::Name.name }
-  sequence(:lat) { Faker::Address.latitude }
-  sequence(:long) { Faker::Address.longitude }
+  sequence(:web_url)  { Faker::Internet.url }
+  sequence(:lat)      { Faker::Address.latitude }
+  sequence(:long)     { Faker::Address.longitude }
 
   # Users #
   factory :random_user, class: User do
@@ -107,17 +108,39 @@ FactoryGirl.define do
     zip_code
     state
     district
+    web_url
     lat
     long
   end
-
+  
+  # Categories
   factory :category do
     name 'Category one'
     type 'OtherDomain'
   end
-
+  
+  # Comments
   factory :comment do
     body Faker::Lorem.paragraph(2, true, 4)
+  end
+
+  # Relation types
+  factory :actors_relation_type, class: RelationType do
+    title         'partners with'
+    title_reverse 'partners with'
+    relation_category 1
+  end
+
+  factory :act_actor_relation_type, class: RelationType do
+    title         'implements'
+    title_reverse 'implemented by'
+    relation_category 3
+  end
+
+  factory :acts_relation_type, class: RelationType do
+    title         'contains'
+    title_reverse 'belongs to'
+    relation_category 7
   end
 
 end

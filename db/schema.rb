@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119171011) do
+ActiveRecord::Schema.define(version: 20151202095044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,10 +22,9 @@ ActiveRecord::Schema.define(version: 20151119171011) do
     t.integer  "actor_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "title"
-    t.string   "title_reverse"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "relation_type_id"
   end
 
   add_index "act_actor_relations", ["act_id", "actor_id"], name: "index_act_actor", unique: true, using: :btree
@@ -49,10 +48,9 @@ ActiveRecord::Schema.define(version: 20151119171011) do
     t.integer  "child_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "title"
-    t.string   "title_reverse"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "relation_type_id"
   end
 
   add_index "act_relations", ["child_id"], name: "index_act_relations_on_child_id", using: :btree
@@ -76,10 +74,9 @@ ActiveRecord::Schema.define(version: 20151119171011) do
     t.integer  "child_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.string   "title"
-    t.string   "title_reverse"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "relation_type_id"
   end
 
   add_index "actor_relations", ["child_id"], name: "index_actor_relations_on_child_id", using: :btree
@@ -100,6 +97,9 @@ ActiveRecord::Schema.define(version: 20151119171011) do
     t.datetime "date_of_birth"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "short_name"
+    t.string   "legal_status"
+    t.string   "other_names"
   end
 
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
@@ -183,6 +183,14 @@ ActiveRecord::Schema.define(version: 20151119171011) do
   end
 
   add_index "localizations", ["user_id"], name: "index_localizations_on_user_id", using: :btree
+
+  create_table "relation_types", force: :cascade do |t|
+    t.integer  "relation_category"
+    t.string   "title"
+    t.string   "title_reverse"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",   null: false

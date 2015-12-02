@@ -20,16 +20,21 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :categories
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
-
+  
+  validates :type, presence: true
+  validates :name, presence: true
+  
+  # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
                                           child.id) }
   scope :not_mesos_parents,  -> (child) { where(type: 'ActorMeso').
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
                                           child.id) }
-  
-  validates :type, presence: true
-  validates :name, presence: true
+                                          
+  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601 }
+  scope :recent,             -> { order('updated_at DESC')             }
+  # End scopes
 
   def self.types
     %w(ActorMacro ActorMeso ActorMicro)
@@ -110,6 +115,10 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMicro') || type.include?('ActorMeso')
   end
 
+  def meso_or_macro?
+    type.include?('ActorMeso') || type.include?('ActorMacro')
+  end
+
   def localizations?
     localizations.any?
   end
@@ -124,6 +133,10 @@ class Actor < ActiveRecord::Base
 
   def underscore
     to_s.underscore
+  end
+
+  def updated
+    updated_at.to_s
   end
 
   private
