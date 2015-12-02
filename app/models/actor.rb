@@ -115,6 +115,10 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMicro') || type.include?('ActorMeso')
   end
 
+  def meso_or_macro?
+    type.include?('ActorMeso') || type.include?('ActorMacro')
+  end
+
   def localizations?
     localizations.any?
   end

@@ -1,6 +1,6 @@
 = form.error_notification
 .form-inputs
-  = form.input :relation_type_id, label: false, collection: @relation_types, as: :collection_select
+  = form.input :relation_type_id, collection: @relation_types, as: :collection_select
   = form.input :start_date, as: :date, start_year: Date.today.year,
                                  end_year: Date.today.year - 90,
                                  order: [:day, :month, :year]

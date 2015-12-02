@@ -1,12 +1,13 @@
-h1 Acts
+h1
+  = t('acts.acts')
 
 = render 'index_tabs'
 
 table
   thead
     tr
-      th Title
-      th Status
+      th= t('shared.name')
+      th= t('shared.status')
   tbody
     - @acts.each do |act|
       tr
