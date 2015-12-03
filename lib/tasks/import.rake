@@ -7,6 +7,7 @@ namespace :import do
     Rake::Task['import:categories'].invoke
     Rake::Task['import:individuals'].invoke
     Rake::Task['import:groups'].invoke
+    Rake::Task['import:actions'].invoke
   end
 
 
