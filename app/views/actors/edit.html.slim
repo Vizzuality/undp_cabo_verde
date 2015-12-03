@@ -6,6 +6,12 @@ h1
 = render 'edit_tabs', location: @actor
 hr
 = simple_form_for @actor do |f|
+  .row
+    .column.medium-3
+      = f.label :type, class: 'right inline'
+    .column.medium-9
+      = f.input :type, label: false, collection: @types, as: :collection_select
+            
   - if @actor.micro?
     = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
     = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select

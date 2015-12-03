@@ -45,11 +45,23 @@ I want to manage an actor
     And organization
     When I go to the edit actor page for "Organization one"
     And I fill in "actor_macro_name" with "New Organization"
-    And I fill in "actor_macro_observation" with "It's description for department"
+    And I fill in "actor_macro_observation" with "It's description for organization"
     When I select "International" from "actor_macro_operational_filed"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
     And I should see "New Organization"
+
+  Scenario: User can change actor type from macro to meso
+    Given I am authenticated user
+    And organization
+    When I go to the edit actor page for "Organization one"
+    And I select "Meso" from "actor_macro_type"
+    And I fill in "actor_macro_name" with "New Department"
+    And I fill in "actor_macro_observation" with "It's description for department"
+    And I press "Update"
+    Then I should be on the edit meso member actor page for "New Department"
+    And I should have one actor meso
+    And I should see "New Department"
 
   Scenario: Adminuser can edit not owned actor
     Given user

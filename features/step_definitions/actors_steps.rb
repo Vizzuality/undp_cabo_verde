@@ -6,6 +6,10 @@ Then /^I should have one actor$/ do
   Actor.all.size.should >= 1
 end
 
+Then /^I should have one actor meso$/ do
+  ActorMeso.all.size.should >= 1
+end
+
 Then /^I should have two actors$/ do
   AdminUser.all.size.should >= 2
 end

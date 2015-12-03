@@ -23,6 +23,12 @@ RSpec.describe ActorsController, type: :controller do
     }
   end
 
+  let!(:attri_meso) do 
+    { name: 'New first', observation: 'Lorem ipsum dolor...', 
+      active: true, title: 'Test', type: 'ActorMeso' 
+    }
+  end
+
   let!(:attri_fail) do
     { name: '' }
   end
@@ -90,6 +96,14 @@ RSpec.describe ActorsController, type: :controller do
     it 'Validate operational_field for update actor macro' do
       put :update, id: @macro.id, actor: attri
       expect(response.body).to match('can&#39;t be blank')
+    end
+
+    it 'update actor macro with new type and redirect to actor_path' do
+      put :update, id: @macro.id, actor: attri_meso
+      @new_meso = Actor.find(@macro.id).reload
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@new_meso.meso?).to eq(true)
     end
 
     it 'delete actor' do

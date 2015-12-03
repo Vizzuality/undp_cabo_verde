@@ -16,7 +16,7 @@ h3= t('actors.actor_macros')
       = link_to t('shared.remove'), unlink_actor(@actor, macro), method: :patch
 
 hr
-- if @actor.micro?
+- if @actor.micro_or_meso?
   h3= t('actors.actor_mesos')
   - @mesos.each do |meso|
     p
@@ -36,7 +36,7 @@ h4= t('actors.link_macros')
   - if (can? :manage, macro)
     p.add_macro
       = link_to t('shared.add'), link_actor(@actor, macro), method: :patch
-- if @actor.micro?
+- if @actor.micro_or_meso?
   hr
   h4= t('actors.link_mesos')
   - @all_mesos.each do |meso|
