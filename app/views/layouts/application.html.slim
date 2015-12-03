@@ -10,8 +10,9 @@ html lang='en'
   body
     .l-page
       .l-header
-        .row: .small-12.medium-12.large-12.columns
-          = link_to (image_tag 'undp-logo.png', id: 'undp-logo'), root_path
+        .row: .small-12.medium-12.large-12.columns#header
+          #undp-logo
+            = link_to (image_tag 'undp-logo.png'), "#"
           = render 'shared/navbar'
         
       - if notice or alert
