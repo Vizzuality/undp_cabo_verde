@@ -21,7 +21,7 @@
       if(!this.map) {
         this.map = new L.Map('map', {
           center: [14.91, -23.51],
-          zoom: 14
+          zoom: 13
         });
       }
 
