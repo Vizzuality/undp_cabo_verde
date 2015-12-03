@@ -1,11 +1,11 @@
 .button {
-  margin: 5px;
   @include font(null, xxsmall, medium, null);
   text-transform: uppercase;
   text-align: center;
   height: 35px;
   line-height: 5px;
   border: 1px solid transparent;
+  margin: 0;
 
   &.-large {
     width: 220px;

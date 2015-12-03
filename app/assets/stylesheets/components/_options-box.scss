@@ -1,0 +1,13 @@
+.options-box {
+  border: 1px solid $color-4;
+  padding: 40px 120px;
+  display: inline-block;
+
+  > .title {
+    text-align: center;
+    @include font(null, regular, light, null);
+  }
+
+  > .options {
+  }
+}
