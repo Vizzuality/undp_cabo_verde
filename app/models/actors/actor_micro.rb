@@ -1,7 +1,7 @@
 class ActorMicro < Actor
   validates :title, presence: true, on: :update
 
-  GENDERS = %(Other Male Female)
+  GENDERS = %w(Other Male Female)
   TITLES = %w(Mr. Ms. Mrs. Miss Dr. Prof. Rev. Other Eng.)
 
   def gender_txt
