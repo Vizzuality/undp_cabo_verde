@@ -108,7 +108,9 @@ class ActsController < ApplicationController
       @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros     = ActMacro.filter_actives
       @mesos      = ActMeso.filter_actives
-      @categories = Category.all
+      @organization_types     = OrganizationType.all
+      @socio_cultural_domains = SocioCulturalDomain.all
+      @other_domains          = OtherDomain.all
     end
 
     def set_parents

@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     # End Actors
 
     # Acts
-    resources :acts do
+    resources :acts, path: 'actions' do
       resources :localizations, controller: 'localizations', except: :index do
         patch 'deactivate', on: :member
         patch 'activate',   on: :member

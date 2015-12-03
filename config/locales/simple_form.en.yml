@@ -24,31 +24,55 @@ en:
           observation: 'Observation'
           type: 'Level'
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       actor_micro:
         edit:
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       actor_meso:
         edit:
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       actor_macro:
         edit:
           category_ids: 'Categories'
           operational_filed: 'Scale'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
 
       act:
         new:
           name: 'Name'
           type: 'Level'
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       act_micro:
         edit:
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       act_meso:
         edit:
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
       act_macro:
         edit:
           category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
 
       category:
         new:
