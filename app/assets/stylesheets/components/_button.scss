@@ -1,9 +1,10 @@
 .button {
   margin: 5px;
-  padding: 5px;
-  @include font(null, xxsmall, bold, null);
+  @include font(null, xxsmall, medium, null);
   text-transform: uppercase;
+  text-align: center;
   height: 35px;
+  line-height: 5px;
   border: 1px solid transparent;
 
   &.-large {
@@ -28,11 +29,11 @@
     background-color: $color-1;
     color: $color-4;
     border: 1px solid $color-4;
+  }
 
   &.-primary {
     background-color: $color-5;
     color: $color-1;
-  }
   }
 
   &:hover {
