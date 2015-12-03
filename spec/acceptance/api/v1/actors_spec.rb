@@ -18,8 +18,8 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2, @category_3])
-      actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 2)
+      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2, @category_3])
+      actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 2)
       actors << Actor.create(id: 3, type: 'ActorMeso',  name: 'Department of Education', user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
       actors << Actor.create(id: 4, type: 'ActorMicro', name: 'Director of Department',  user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], gender: 2, date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, categories: [@category_2])
       
@@ -113,7 +113,7 @@ resource 'Actors' do
           expect(status).to eq(200)
           expect(actor['level']).to  eq('micro')
           expect(actor['gender']).to eq('Male')
-          expect(actor['title']).to  eq('Ms')
+          expect(actor['title']).to  eq('Ms.')
           expect(actor['date_of_birth']).not_to be_nil
 
           expect(actor['socio_cultural_domains'][0]['name']).to eq('Category SCD')
