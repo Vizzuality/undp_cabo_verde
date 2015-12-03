@@ -7,7 +7,9 @@ class CategoriesController < ApplicationController
   before_action :set_selection, only: [:new, :edit]
   
   def index
-    @categories = type_class.with_children
+    @ot  = OrganizationType.with_children
+    @od  = OtherDomain.with_children
+    @scd = SocioCulturalDomain.with_children
   end
 
   def show

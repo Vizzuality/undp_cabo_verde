@@ -26,6 +26,6 @@ class Category < ActiveRecord::Base
   end
 
   def self.types
-    %w(SocioCulturalDomain OtherDomain)
+    %w(OrganizationType SocioCulturalDomain OtherDomain)
   end
 end
