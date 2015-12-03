@@ -4,6 +4,9 @@ require 'csv'
 namespace :import do
   desc 'Import data from sample CSV files'
   task data: :enviroment do
+    Rake::Task['import:categories'].invoke
+    Rake::Task['import:individuals'].invoke
+    Rake::Task['import:groups'].invoke
   end
 
 
