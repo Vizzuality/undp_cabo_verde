@@ -1,13 +1,18 @@
 .nav-items {
   a {
     @include font(helvetica, small, medium, 1);
-    color: $color-5;
     text-transform: uppercase;
-    padding: 5px;
-    border-top: 3px solid transparent;
+    color: $color-3;
+
+    border-top: 4px solid transparent;
+    padding: 26px 30px 10px 30px;
 
     &.is-active {
-      border-color: $color-3;
+      border-color: $color-8;
+    }
+
+    &:hover {
+      background-color: $color-6;
     }
   }
 }
