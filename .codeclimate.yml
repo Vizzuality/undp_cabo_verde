@@ -39,3 +39,4 @@ exclude_paths:
 - "db/fixtures/development/01_users.rb"
 - "db/fixtures/production/01_users.rb"
 - "db/fixtures/development/01_users.rb"
+- "db/fixtures/development/01_users.rb"

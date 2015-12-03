@@ -18,7 +18,7 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_3])
+      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2, @category_3])
       actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 2)
       actors << Actor.create(id: 3, type: 'ActorMeso',  name: 'Department of Education', user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
       actors << Actor.create(id: 4, type: 'ActorMicro', name: 'Director of Department',  user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], gender: 2, date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, categories: [@category_2])
@@ -54,7 +54,7 @@ resource 'Actors' do
 
     context 'Actor details' do
       get "/api/actors/:id" do
-        example 'Getting a macro actor' do
+        example 'Getting a specific actor' do
           do_request(id: 1)
           actor = JSON.parse(response_body)['actor']
 
@@ -86,7 +86,7 @@ resource 'Actors' do
           expect(actor['organization_types'][0]['type']).to eq('Organization type')
         end
 
-        example 'Getting a meso actor' do
+        example 'Getting a meso actor', document: false do
           do_request(id: 3)
           actor = JSON.parse(response_body)['actor']
 
@@ -106,7 +106,7 @@ resource 'Actors' do
           expect(actor['other_domains'][0]['type']).to eq('Other domains')
         end
 
-        example 'Getting a micro actor' do
+        example 'Getting a micro actor', document: false do
           do_request(id: 4)
           actor = JSON.parse(response_body)['actor']
 

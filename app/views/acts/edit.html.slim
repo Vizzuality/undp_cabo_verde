@@ -8,8 +8,6 @@ hr
 = simple_form_for @act do |f|
   - if @act.micro?
   = render partial: f
-  hr
-  = f.input :category_ids, collection: @categories, as: :check_boxes
 
   .form-actions
     = f.button :submit, t('shared.update')
