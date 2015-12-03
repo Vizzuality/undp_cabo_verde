@@ -62,6 +62,7 @@ namespace :import do
     table.shift
     table.each do |row|
       ActorMicro.create(
+        active: true,
         name: row[0].presence,
         short_name: row[1].presence,
         title: ActorMicro::TITLES.index(row[2])+1,
@@ -96,6 +97,7 @@ namespace :import do
     table.shift
     table.each do |row|
       Actor.create(
+        active: true,
         type: "Actor"+row[11].titleize,
         name: row[0].presence,
         short_name: row[1].presence,
@@ -113,10 +115,8 @@ namespace :import do
             active: true
           })
         ],
-        categories: Category.where(name: row[7].titleize,
+        categories: Category.where(name: row[12].titleize,
                          type: "SocioCulturalDomain") +
-                    Category.where(name: row[8] && row[8].split(",").map(&:titleize),
-                                   type: "OtherDomain") +
                     Category.where(name: row[12].titleize,
                                    type: 'SocioCulturalDomain') +
                     Category.where(name: row[13] && row[13].titleize,
@@ -129,5 +129,48 @@ namespace :import do
     end
     puts "#{Actor.where(type: ['ActorMeso', 'ActorMacro']).
       count} actors in the database"
+  end
+
+  desc 'Import Actions from sample CSV file'
+  task actions: :environment do
+    Act.delete_all
+    puts "Importing actions"
+    file = File.join('lib', 'data', 'actions.csv')
+    table = CSV.read(file)
+    table.shift
+    table.each do |row|
+      Act.create(
+        name: row[0].presence,
+        alternative_name: row[1].presence,
+        short_name: row[2].presence,
+        localizations: [
+          Localization.create({
+            lat: row[3],
+            long: row[4]
+          })
+        ],
+        comments: [
+          Comment.create({
+            body: row[13],
+            active: true
+          })
+        ],
+        event: row[5].downcase == 'event',
+        human: row[6].downcase == 'human',
+        active: true,
+        action_type: row[7],
+        type: "Act"+row[8].titleize,
+        start_date: row[9] && Date.parse(row[9]),
+        end_date: row[10] && Date.parse(row[10]),
+        description: row[11].presence,
+        budget: row[12].presence,
+        categories: Category.where(name: row[14] && row[14].titleize,
+                         type: "SocioCulturalDomain") +
+                    Category.where(name: row[15] && row[15].split(",").map(&:titleize),
+                                   type: "OtherDomain")
+      )
+    end
+
+    puts "#{Act.count} actions in the database"
   end
 end

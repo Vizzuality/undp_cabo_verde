@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203160626) do
+ActiveRecord::Schema.define(version: 20151203170724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,8 @@ ActiveRecord::Schema.define(version: 20151203160626) do
     t.datetime "end_date"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "action_type"
+    t.string   "budget"
   end
 
   add_index "acts", ["type"], name: "index_acts_on_type", using: :btree
