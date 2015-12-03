@@ -64,8 +64,8 @@ namespace :import do
       ActorMicro.create(
         name: row[0].presence,
         short_name: row[1].presence,
-        title: ActorMicro::TITLES.index(row[2]),
-        gender: row[3] == "male" ? 1 : 2,
+        title: ActorMicro::TITLES.index(row[2])+1,
+        gender: row[3] == "male" ? 2: 3,
         localizations: [
           Localization.create({
             lat: row[4],
