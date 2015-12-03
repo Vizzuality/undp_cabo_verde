@@ -24,7 +24,7 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.actorsCollection, 'change', this.addMarkers);
+      this.listenTo(this.actorsCollection, 'sync change', this.addActorsMarkers);
       this.map.on('zoomend', this.updateMarkersSize.bind(this));
     },
 
@@ -54,8 +54,10 @@
         });
     },
 
-    /* Add the markers for the actors */
-    addActorsMarkers: function() {
+    /* Add the markers for the actors
+     * NOTE: we debounce the method so it's not called twice because the
+     * collection gets populated right after this view is instanciated */
+    addActorsMarkers: _.debounce(function() {
       if(!this.isMapInstanciated) {
         this.queue.push([this.addActorsMarkers, null]);
         return;
@@ -78,7 +80,7 @@
           }).addTo(this.map);
         }, this);
       }, this);
-    },
+    }, 15),
 
     /* Update the markers' size according to the map's zoom level */
     updateMarkersSize: function() {
