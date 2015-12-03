@@ -39,7 +39,7 @@ module NavigationHelpers
     when /the edit meso member actor page for "(.*)"$/
       membership_actor_path(Actor.find_by_name($1))
     when /the acts page with filter active/
-      '/manage/acts?active=true'
+      '/manage/actions?active=true'
     when /the user acts page for "(.*)"$/
       user_acts_path(User.find_by_email($1))
     when /the act page for "(.*)"$/

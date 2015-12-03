@@ -18,6 +18,7 @@ engines:
     exclude_fingerprints:
     - f671155df1b448b678e8a7368d4ef4cf
     - 9536ae61d580ef18029cc6350cef40bd
+    - f671155df1b448b678e8a7368d4ef4cf
   eslint:
     enabled: true
   bundler-audit:
@@ -37,4 +38,5 @@ exclude_paths:
 - "features/support/paths.rb"
 - "db/fixtures/development/01_users.rb"
 - "db/fixtures/production/01_users.rb"
+- "db/fixtures/development/01_users.rb"
 - "db/fixtures/development/01_users.rb"

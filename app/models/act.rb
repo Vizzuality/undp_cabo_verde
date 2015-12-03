@@ -17,7 +17,11 @@ class Act < ActiveRecord::Base
 
   has_many :comments, as: :commentable
 
+  # Categories
   has_and_belongs_to_many :categories
+  has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
+  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
+  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

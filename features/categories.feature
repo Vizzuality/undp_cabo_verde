@@ -31,28 +31,29 @@ I want to manage a category
     And category_three
     When I go to the edit category page for "Category one"
     And I fill in "other_domain_name" with "Category new name"
-    And I select "Category two" from "other_domain_parent_id"
-    And I check "Category three"
+    # And I select "Category two" from "other_domain_parent_id"
+    # And I check "Category three"
     And I press "Update"
     Then I should be on the categories page
-    When I go to the category page for "Category new name"
-    Then I should see "Category two"
-    And I should see "Category three"
+    And I should see "Category new name"
+    # When I go to the category page for "Category new name"
+    # Then I should see "Category two"
+    # And I should see "Category three"
 
   Scenario: User can create category for owned actor
     Given I am authenticated adminuser
     And category_two
     And category_three
     When I go to the new category page
-    And I select "Other domains" from "category_type"
+    And I select "Organization type" from "category_type"
     And I fill in "category_name" with "Category new name"
-    And I select "Category two" from "category_parent_id"
-    And I check "Category three"
+    # And I select "Category two" from "category_parent_id"
+    # And I check "Category three"
     And I press "Create"
     Then I should have three categories
     Then I go to the category page for "Category new name"
-    Then I should see "Category two"
-    And I should see "Category three"
+    # Then I should see "Category two"
+    # And I should see "Category three"
 
   Scenario: Adminuser can not edit category without name
     Given I am authenticated adminuser

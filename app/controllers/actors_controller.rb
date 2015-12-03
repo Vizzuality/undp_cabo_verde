@@ -108,13 +108,15 @@ class ActorsController < ApplicationController
       @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros     = ActorMacro.filter_actives
       @mesos      = ActorMeso.filter_actives
-      @categories = Category.all
+      @organization_types     = OrganizationType.all
+      @socio_cultural_domains = SocioCulturalDomain.all
+      @other_domains          = OtherDomain.all
     end
 
     def set_parents
       # ToDo: change it to search function
       @all_macros = Actor.filter_actives.not_macros_parents(@actor)
-      @all_mesos  = Actor.filter_actives.not_mesos_parents(@actor) if @actor.micro?
+      @all_mesos  = Actor.filter_actives.not_mesos_parents(@actor) if @actor.micro_or_meso?
     end
 
     def set_memberships

@@ -72,7 +72,7 @@ Rails.application.routes.draw do
     # End Actors
 
     # Acts
-    resources :acts do
+    resources :acts, path: 'actions' do
       resources :localizations, controller: 'localizations', except: :index do
         patch 'deactivate', on: :member
         patch 'activate',   on: :member
@@ -114,6 +114,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
     resources :other_domains,          controller: 'categories', type: 'OtherDomain'
+    resources :organization_types,     controller: 'categories', type: 'OrganizationType'
 
     # Relation types
     resources :relation_types, except: :show, path: 'relation-types'

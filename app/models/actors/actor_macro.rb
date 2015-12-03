@@ -4,4 +4,8 @@ class ActorMacro < Actor
   def operational_filed_txt
     %w(Global International National)[operational_filed - 1]
   end
+
+  def empty_relations?
+    parents.empty?
+  end
 end
