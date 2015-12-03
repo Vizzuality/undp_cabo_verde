@@ -19,7 +19,7 @@ hr
                               end_year: Date.today.year - 90,
                               order: [:day, :month, :year]
   - if @actor.macro?
-    = f.input :operational_filed, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
+    = f.input :operational_field, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
   - if @actor.meso_or_macro?
     = f.input :short_name
     = f.input :legal_status

@@ -46,7 +46,7 @@ I want to manage an actor
     When I go to the edit actor page for "Organization one"
     And I fill in "actor_macro_name" with "New Organization"
     And I fill in "actor_macro_observation" with "It's description for organization"
-    When I select "International" from "actor_macro_operational_filed"
+    When I select "International" from "actor_macro_operational_field"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
     And I should see "New Organization"
