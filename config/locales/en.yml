@@ -218,6 +218,8 @@ en:
     : "Meso"
     ? "ActMicro"
     : "Micro"
+    ? "OrganizationType"
+    : "Organization type"
     ? "SocioCulturalDomain"
     : "Socio cultural domain"
     ? "OtherDomain"
@@ -280,6 +282,9 @@ en:
     parent: 'Main category'
     child: 'Subcategory'
     children: 'Subcategories'
+    socio_cultural_domains: 'Socio cultural domains'
+    other_domains: 'Other domains'
+    organization_types: 'Organization types'
 
   comments:
     comments: 'Comments'

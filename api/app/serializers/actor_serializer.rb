@@ -4,8 +4,12 @@ class ActorSerializer < BaseSerializer
 
   attributes :id, :level, :name, :observation
 
-  has_many :localizations, key: :locations, serializer: LocalizationSerializer
-  has_many :categories,    serializer: CategorySerializer
+  has_many :localizations, key: :locations
+  
+  # Categories
+  has_many :organization_types
+  has_many :socio_cultural_domains
+  has_many :other_domains
 
   def level
     case object.type
@@ -16,18 +20,25 @@ class ActorSerializer < BaseSerializer
   end
 
   def attributes
-    hash = super
+    data = super
     if object.meso_or_macro?
-      hash['scale']         = object.operational_filed_txt if object.macro?
-      hash['short_name']    = object.short_name
-      hash['legal_status']  = object.legal_status
-      hash['other_names']   = object.other_names
+      data['scale']         = object.operational_filed_txt if object.macro?
+      data['short_name']    = object.short_name
+      data['legal_status']  = object.legal_status
+      data['other_names']   = object.other_names
     elsif object.micro?
-      hash['title']         = object.title_txt
-      hash['gender']        = object.gender_txt
-      hash['date_of_birth'] = object.birth
+      data['title']         = object.title_txt
+      data['gender']        = object.gender_txt
+      data['date_of_birth'] = object.birth
     end
-    hash
+    data
+  end
+
+  def include_associations!
+    include! :localizations,          serializer: LocalizationSerializer
+    include! :organization_types,     serializer: CategorySerializer
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
   end
 
   def cache_key

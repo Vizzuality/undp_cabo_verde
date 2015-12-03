@@ -11,13 +11,14 @@ resource 'Actors' do
     @location   = FactoryGirl.create(:localization)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
+    @category_3 = FactoryGirl.create(:category, name: 'Category OT',  type: 'OrganizationType')
   end
 
   context 'Actors API Version 1' do
     let!(:actors) do
       actors = []
 
-      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name)
+      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_3])
       actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 2)
       actors << Actor.create(id: 3, type: 'ActorMeso',  name: 'Department of Education', user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
       actors << Actor.create(id: 4, type: 'ActorMicro', name: 'Director of Department',  user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], gender: 2, date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, categories: [@category_2])
@@ -80,6 +81,9 @@ resource 'Actors' do
           expect(actor['title']).to         be_nil
           expect(actor['gender']).to        be_nil
           expect(actor['date_of_birth']).to be_nil
+
+          expect(actor['organization_types'][0]['name']).to eq('Category OT')
+          expect(actor['organization_types'][0]['type']).to eq('Organization type')
         end
 
         example 'Getting a meso actor' do
@@ -98,8 +102,8 @@ resource 'Actors' do
           expect(actor['gender']).to        be_nil
           expect(actor['date_of_birth']).to be_nil
 
-          expect(actor['categories'][0]['name']).to eq('Category OD')
-          expect(actor['categories'][0]['type']).to eq('Other domains')
+          expect(actor['other_domains'][0]['name']).to eq('Category OD')
+          expect(actor['other_domains'][0]['type']).to eq('Other domains')
         end
 
         example 'Getting a micro actor' do
@@ -112,8 +116,8 @@ resource 'Actors' do
           expect(actor['title']).to  eq('Ms')
           expect(actor['date_of_birth']).not_to be_nil
 
-          expect(actor['categories'][0]['name']).to eq('Category SCD')
-          expect(actor['categories'][0]['type']).to eq('Socio cultural domain')
+          expect(actor['socio_cultural_domains'][0]['name']).to eq('Category SCD')
+          expect(actor['socio_cultural_domains'][0]['type']).to eq('Socio cultural domain')
 
           # Macro meso specific
           expect(actor['short_name']).to   be_nil
