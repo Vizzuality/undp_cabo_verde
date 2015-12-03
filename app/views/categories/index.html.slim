@@ -4,6 +4,18 @@ h1
 - if (can? :manage, Category)
   p= link_to t('categories.create_category'), new_category_path, class: "button small"
 
-- @categories.walk_tree do |category, level|
+h3
+  = t('categories.organization_types')
+- @ot.walk_tree do |category, level|
+  p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+    =link_to "#{"--"*level}#{category.name}", category_path(category)
+h3
+  = t('categories.other_domains')
+- @od.walk_tree do |category, level|
+  p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+    =link_to "#{"--"*level}#{category.name}", category_path(category)
+h3
+  = t('categories.socio_cultural_domains')
+- @scd.walk_tree do |category, level|
   p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
     =link_to "#{"--"*level}#{category.name}", category_path(category)

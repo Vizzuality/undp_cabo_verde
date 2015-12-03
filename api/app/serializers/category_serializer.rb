@@ -6,6 +6,7 @@ class CategorySerializer < BaseSerializer
 
   def type
     case object.type
+    when 'OrganizationType'    then 'Organization type'
     when 'OtherDomain'         then 'Other domains'
     when 'SocioCulturalDomain' then 'Socio cultural domain'
     end

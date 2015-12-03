@@ -1,0 +1,2 @@
+class OrganizationType < Category
+end

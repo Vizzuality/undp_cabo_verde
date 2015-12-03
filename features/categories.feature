@@ -44,7 +44,7 @@ I want to manage a category
     And category_two
     And category_three
     When I go to the new category page
-    And I select "Other domains" from "category_type"
+    And I select "Organization type" from "category_type"
     And I fill in "category_name" with "Category new name"
     And I select "Category two" from "category_parent_id"
     And I check "Category three"
