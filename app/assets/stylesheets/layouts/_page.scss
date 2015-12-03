@@ -5,9 +5,36 @@
   background-color: $white;
 }
 
-.nav-items {
-  padding-top: 25px;
-  > li {
-    padding-left: 10px;
+#header {
+  > #undp-logo {
+    display: inline;
+  }
+  > nav {
+    width: 800px;
+  }
+
+}
+
+#home {
+  // title
+  .section:nth-of-type(1) {
+    width: 740px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section:nth-of-type(3) {
+    height: 900px;
+  }
+}
+
+#actors {
+  .section.content {
+    > .title {
+      float: left;
+    }
+    > .button {
+      float: right;
+    }
   }
 }
