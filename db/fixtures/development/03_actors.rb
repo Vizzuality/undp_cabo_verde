@@ -14,9 +14,9 @@ Actor.seed(:id,
   # Micros
   {id: 11, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 1, gender: 1, name: Faker::Name.title, category_ids: [2, 3, 4, 20]},
   {id: 12, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, gender: 2, name: Faker::Name.title, category_ids: [3, 4, 5, 23]},
-  {id: 13, type: 'ActorMicro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 3, gender: 3, name: Faker::Name.title, category_ids: [4, 5, 6, 24]},
+  {id: 13, type: 'ActorMacro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 3, gender: 3, name: Faker::Name.title, category_ids: [4, 5, 6, 24]},
   {id: 14, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 4, gender: 1, name: Faker::Name.title, category_ids: [5, 6, 7, 25]},
-  {id: 15, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 5, gender: 2, name: Faker::Name.title, category_ids: [6, 7, 8, 26]}
+  {id: 15, type: 'ActorMeso', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 5, gender: 2, name: Faker::Name.title, category_ids: [6, 7, 8, 26]}
 )
 
 ActorRelation.seed(:id,

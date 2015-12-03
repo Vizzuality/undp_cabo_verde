@@ -1,0 +1,18 @@
+/*
+  .map-marker
+*/
+
+.map-marker {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: $color-1;
+  /* The transform's scale value is updated with the zoom changes */
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform .3s;
+
+  &.-macro { background-color: $color-6; }
+  &.-meso { background-color: $color-7; }
+  &.-micro { background-color: $color-8; }
+}
