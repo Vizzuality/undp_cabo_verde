@@ -1,12 +1,20 @@
 body {
-  @include font(helvetica, regular, regular, 1);
+  @include font(helvetica, regular, light, 1);
   color: $color-3;
-
-  #undp-logo {
-    height: 120px;
-  }
 
   input[type="checkbox"] {
     margin: 0 0.5rem 1rem 0;
   }
+
+  h1 {
+    @include font(null, xlarge, light, 1.2);
+    color: $color-7;
+  }
+
+  h2 {
+    @include font(null, large, bold, 1);
+    text-transform: uppercase;
+    color: $color-5;
+  }
 }
+
