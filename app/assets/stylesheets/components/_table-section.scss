@@ -1,0 +1,30 @@
+.table-section {
+  table {
+    width: 100%;
+    border: none;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    height: 80px;
+    background-color: transparent;
+  }
+
+  tr > td:nth-of-type(1) > a {
+    font-size: 22px;
+    color: black;
+  }
+
+  td {
+    padding: 0;
+  }
+
+  // pushes date to line below the name
+  .dates {
+    display: block;
+  }
+
+}

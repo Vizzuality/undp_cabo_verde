@@ -1,0 +1,19 @@
+.section-container {
+  margin-top: 50px;
+  .section {
+    margin-top: 15px;
+    margin-bottom: 30px;
+
+    &.-centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    &.title-section {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
