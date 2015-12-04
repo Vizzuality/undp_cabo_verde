@@ -1,5 +1,6 @@
 .l-page {
-  max-width: $row-width;
+  max-width: $max-width-size;
+  min-width: $min-width-size;
   margin: auto;
 
   background-color: $white;
