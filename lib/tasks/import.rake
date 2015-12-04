@@ -57,12 +57,14 @@ namespace :import do
   desc 'Import micro actors data from sample CSV files'
   task individuals: :environment do
     ActorMicro.delete_all
+    user = User.where(email: "admin@vizzuality.com").first
     puts "Importing actors"
     file = File.join('lib', 'data', 'actors_individuals.csv')
     table = CSV.read(file)
     table.shift
     table.each do |row|
       ActorMicro.create(
+        user_id: user.id,
         active: true,
         name: row[0].presence,
         short_name: row[1].presence,
@@ -95,12 +97,14 @@ namespace :import do
   desc 'Import meso macro actors data from sample CSV files'
   task groups: :environment do
     Actor.where(type: ["ActorMeso", "ActorMacro"]).delete_all
+    user = User.where(email: "admin@vizzuality.com").first
     puts "Importing groups"
     file = File.join('lib', 'data', 'actors_groups.csv')
     table = CSV.read(file)
     table.shift
     table.each do |row|
       Actor.create(
+        user_id: user.id,
         active: true,
         type: "Actor"+row[11].titleize,
         name: row[0].presence,
@@ -141,12 +145,14 @@ namespace :import do
   desc 'Import Actions from sample CSV file'
   task actions: :environment do
     Act.delete_all
+    user = User.where(email: "admin@vizzuality.com").first
     puts "Importing actions"
     file = File.join('lib', 'data', 'actions.csv')
     table = CSV.read(file)
     table.shift
     table.each do |row|
       Act.create(
+        user_id: user.id,
         name: row[0].presence,
         alternative_name: row[1].presence,
         short_name: row[2].presence,
