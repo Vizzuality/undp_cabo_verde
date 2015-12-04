@@ -13,13 +13,13 @@ RSpec.describe ActorsController, type: :controller do
   
   let!(:attri) do 
     { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: '', operational_filed: '' 
+      active: true, title: '', operational_field: '' 
     }
   end
 
   let!(:attri_macro_micro) do 
     { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: 'Test', operational_filed: 2 
+      active: true, title: 'Test', operational_field: 2 
     }
   end
 
@@ -121,7 +121,7 @@ RSpec.describe ActorsController, type: :controller do
 
       let!(:attri_macro_micro_with_cat) do 
         { name: 'New first', observation: 'Lorem ipsum dolor...', 
-          active: true, title: 'Test', operational_filed: 2, category_ids: [@child_cat]
+          active: true, title: 'Test', operational_field: 2, category_ids: [@child_cat]
         }
       end
 

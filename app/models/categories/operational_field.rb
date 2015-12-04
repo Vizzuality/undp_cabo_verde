@@ -1,0 +1,2 @@
+class OperationalField < Category
+end

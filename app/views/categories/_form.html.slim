@@ -1,5 +1,6 @@
 = form.error_notification
 .form-inputs
   = form.input :name
-  = form.input :parent_id, collection: @categories, as: :select
-  = form.input :child_ids, collection: @categories, as: :check_boxes
+  / Parent - children categories disabled
+  / # = form.input :parent_id, collection: @categories, as: :select
+  / # = form.input :child_ids, collection: @categories, as: :check_boxes
