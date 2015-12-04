@@ -66,15 +66,14 @@ namespace :import do
       ActorMicro.create(
         user_id: user.id,
         active: true,
-        name: row[0].presence,
-        short_name: row[1].presence,
-        title: ActorMicro::TITLES.index(row[2])+1,
+        name: row[0] && row[0].strip,
+        short_name: row[1] && row[1].strip,
+        title: ActorMicro::TITLES.index(row[2].strip)+1,
         gender: row[3] == "male" ? 2: 3,
-        user_id: 1,
         localizations: [
           Localization.create({
-            lat: row[4],
-            long: row[5],
+            lat: row[4].strip,
+            long: row[5].strip,
             user_id: 1
           })
         ],
@@ -82,10 +81,10 @@ namespace :import do
           Comment.create({
             body: row[10],
             active: true,
-            user_id: 1
+            user_id: user.id
           })
         ],
-        categories: Category.where(name: row[7].titleize,
+        categories: Category.where(name: row[7].strip.titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[8] && row[8].split(",").map(&:titleize),
                                    type: "OtherDomain")
@@ -103,29 +102,34 @@ namespace :import do
     table = CSV.read(file)
     table.shift
     table.each do |row|
+      location = if row[3] && row[4]
+                   [Localization.create({
+                     lat: row[3].strip,
+                     long: row[4].strip,
+                     user_id: user.id
+                   })]
+                 else
+                   []
+                 end
+      comment = if row[7]
+                  [Comment.create({
+                    body: row[7],
+                    active: true,
+                    user_id: user.id
+                  })]
+                else
+                  []
+                end
       Actor.create(
         user_id: user.id,
         active: true,
         type: "Actor"+row[11].titleize,
-        name: row[0].presence,
-        short_name: row[1].presence,
-        other_names: row[2].presence,
-        legal_status: row[10].presence,
-        user_id: 1,
-        localizations: [
-          Localization.create({
-            lat: row[3],
-            long: row[4],
-            user_id: 1
-          })
-        ],
-        comments: [
-          Comment.create({
-            body: row[7],
-            active: true,
-            user_id: 1
-          })
-        ],
+        name: row[0] && row[0].strip,
+        short_name: row[1] && row[1].strip,
+        other_names: row[2] && row[2].strip,
+        legal_status: row[10] && row[10].strip,
+        localizations: location,
+        comments: comment,
         categories: Category.where(name: row[12].titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[12].titleize,
@@ -151,31 +155,36 @@ namespace :import do
     table = CSV.read(file)
     table.shift
     table.each do |row|
+      location = if row[3] && row[4]
+                   [Localization.create({
+                     lat: row[3].strip,
+                     long: row[4].strip,
+                     user_id: user.id
+                   })]
+                 else
+                   []
+                 end
+      comment = if row[13]
+                  [Comment.create({
+                    body: row[13],
+                    active: true,
+                    user_id: user.id
+                  })]
+                else
+                  []
+                end
       Act.create(
         user_id: user.id,
-        name: row[0].presence,
-        alternative_name: row[1].presence,
-        short_name: row[2].presence,
-        user_id: 1,
-        localizations: [
-          Localization.create({
-            lat: row[3],
-            long: row[4],
-            user_id: 1
-          })
-        ],
-        comments: [
-          Comment.create({
-            body: row[13],
-            active: true,
-            user_id: 1
-          })
-        ],
-        event: row[5].downcase == 'event',
-        human: row[6].downcase == 'human',
+        name: row[0] && row[0].strip,
+        alternative_name: row[1] && row[1].strip,
+        short_name: row[2] && row[2].strip,
+        localizations: location,
+        comments: comment,
+        event: row[5].strip.downcase == 'event',
+        human: row[6].strip.downcase == 'human',
         active: true,
-        action_type: row[7],
-        type: "Act"+row[8].titleize,
+        action_type: row[7].strip,
+        type: "Act"+row[8].strip.titleize,
         start_date: row[9] && Date.parse(row[9]),
         end_date: row[10] && Date.parse(row[10]),
         description: row[11].presence,
@@ -186,7 +195,6 @@ namespace :import do
                                    type: "OtherDomain")
       )
     end
-
     puts "#{Act.count} actions in the database"
   end
 end
