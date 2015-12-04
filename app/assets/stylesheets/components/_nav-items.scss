@@ -6,19 +6,22 @@
   }
 
   a {
-    @include font(null, small, medium, 1);
+    @include font(null, xsmall, medium, 1);
     text-transform: uppercase;
     color: $color-3;
-
     border-top: 4px solid transparent;
-    padding: 26px 30px 10px 30px;
+    padding: 30px 15px 6px;
+
+    @media screen and (max-width: 1060px) {
+      padding: 30px 8px 6px;
+    }
 
     &.is-active {
       border-color: $color-8;
     }
 
     &:hover {
-      background-color: $color-6;
+      background-color: $color-7;
 
       &.is-active {
         background-color: transparent;

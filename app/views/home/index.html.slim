@@ -15,20 +15,34 @@
   .section.title-section
     h2
       | Last updates on your profile
-  .section.table-section
-    ul.list
-    .pagination-centered
-      ul.pagination
-        li.arrow.unavailable
-          a &laquo;
-        li.current
-          a 1
-        li
-          a 2
-        li
-          a 3
-        li
-          a &raquo;
+
+    .table-container.-disabled
+      .table-row
+        .data-primary
+          span.data.-primary
+            | It seems there's no updates to display
+          span.data
+            | Created: Oct 9, 2014 / Last update: Oct 9, 2014
+        .data-secondary
+          span.data
+            | Actor
+          span.data
+             | Published
+          span.data
+            a.-hoverlink
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data
+            a.-hoverlink
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data
+            a.-hoverlink
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
 
   .section.-centered
     .options-box

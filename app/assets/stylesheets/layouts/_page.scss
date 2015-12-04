@@ -7,13 +7,10 @@
 }
 
 #header {
-  > #undp-logo {
-    display: inline;
-  }
-  > nav {
-    width: 800px;
-  }
-
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 #home {
@@ -24,8 +21,12 @@
     margin-left: auto;
     margin-right: auto;
   }
+
   .section:nth-of-type(3) {
-    height: 900px;
+    margin-top: 80px;
+    display: block;
+
+    h2 { margin-bottom: 40px; }
   }
 }
 
