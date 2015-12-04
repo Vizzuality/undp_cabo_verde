@@ -28,6 +28,11 @@
 
     h2 { margin-bottom: 40px; }
   }
+
+  .section:last-of-type {
+    margin-top: 100px;
+    padding-bottom: 60px;
+  }
 }
 
 #actors {

@@ -77,8 +77,14 @@
         }
       }
     }
-
   }
 
+  &.-disabled {
+    .data-primary .data:not(:first-of-type),
+    .data-secondary {
+      opacity: .3;
+      pointer-events: none;
+    }
+  }
 
 }
