@@ -1,17 +1,17 @@
 .form-actions
   .row
-    .column.medium-10.medium-offset-1
+    .column.medium-8.medium-offset-1
       .row
-        .column.medium-9.medium-offset-3
+        .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
   .row
-    .column.medium-10.medium-offset-1
+    .column.medium-8.medium-offset-1
       = simple_form_for @actor do |f|
         .row
-          .column.medium-3
+          .column.medium-4
             = f.label :type, class: 'right inline'
-          .column.medium-9
+          .column.medium-8
             = f.input :type, label: false, collection: @types, as: :collection_select, prompt: 'Select a level'
         #form-actor.micro._hidden
           = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
@@ -27,4 +27,7 @@
           = f.input :other_names
 
         = render partial: f
-        = f.button :submit, t('shared.create')
+
+        .row
+          .column.medium-8.medium-offset-4
+            = f.button :submit, t('shared.create')
