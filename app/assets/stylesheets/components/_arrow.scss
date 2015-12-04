@@ -1,0 +1,28 @@
+.section-arrow {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  margin-left: 5px;
+
+  &.-dark {
+    border-color: $color-2;
+  }
+
+  &.-down {
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    margin-bottom: 10px;
+  }
+
+  &.-up {
+    border-left: 2px solid;
+    border-top: 2px solid;
+    margin-top: 10px;
+  }
+
+  &.-left {
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    margin-left: 10px;
+  }
+}
