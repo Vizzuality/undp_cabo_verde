@@ -4,8 +4,6 @@
       h2.title
         = t('actors.actors' + ' List')
     .button-collection
-      a.button.-large.-type-a
-        = t('actors.new')
       = render 'index_tabs'
 
   .section.table-container
@@ -15,10 +13,10 @@
           span.data.-primary
             = link_to actor.name, actor_path(actor)
           span.data
-            | Created: 
+            | Created:
             = actor.created_at.to_formatted_s(:short).to_s
           span.data
-            | &nbsp;/ Updated: 
+            | &nbsp;/ Updated:
             = actor.updated_at.to_formatted_s(:short).to_s
 
         .data-secondary

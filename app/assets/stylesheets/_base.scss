@@ -43,12 +43,13 @@ select {
 }
 
 input[type="text"],
+input[type="email"],
 textarea,
 textarea:focus {
   border: none;
   box-shadow: none;
   background: none;
-  color: $color-15;
+  color: $color-11;
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
@@ -57,7 +58,8 @@ textarea:focus {
 
 textarea { min-height: 150px; }
 
-input[type="text"] {
+input[type="text"],
+input[type="email"] {
   border-bottom: 1px solid $color-13;
 }
 
