@@ -1,12 +1,33 @@
-h1 Users
+.section-container#users
+  .section.title-section
+    div
+      h2.title
+        //- = t('users.users' + ' List')
+        = t('users.users')
 
-table
-  thead
-    tr
-      th Name
-      th Status
-  tbody
+  .section.table-container
     - @users.each do |user|
-      tr
-        td = link_to user.name, user_path(user)
-        td = user.status
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to user.name, user_path(user)
+          span.data
+            | Created: 
+            = user.created_at.to_formatted_s(:short).to_s
+          span.data
+            | &nbsp;/ Updated: 
+            = user.updated_at.to_formatted_s(:short).to_s
+
+        .data-secondary
+          span.data
+             = user.status
+          span.data.-linkdata
+            = link_to edit_user_path(user), :class => "-hoverlink" do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to user_path(user), data: { confirm: t('shared.confirm_message') }, method: :delete, :class => "-hoverlink" do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
