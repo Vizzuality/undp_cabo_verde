@@ -1,11 +1,13 @@
 .section-container#actors
   .section.title-section
-    h2.title
-      = t('actors.actors' + ' List') 
-    a.button.-large.-type-a
-      | Add new actor
+    div
+      h2.title
+        = t('actors.actors' + ' List')
+    .button-collection
+      a.button.-large.-type-a
+        | Add new actor
+      = render 'index_tabs'
 
-    = render 'index_tabs'
   .section.table-section
     table
       thead
@@ -16,18 +18,18 @@
       tbody
         - @actors.each do |actor|
           tr
-            td 
+            td
               = link_to actor.name, actor_path(actor)
               span.dates
                 span.date#date1
                   = actor.created_at.to_formatted_s(:long).to_s
-                |  / 
+                |  /
                 span.date#date2
                   = actor.updated_at.to_formatted_s(:long).to_s
 
             td.secondary-info
               = t("types.#{actor.type.constantize}")
-            td.secondary-info 
+            td.secondary-info
               = actor.status
             td.secondary-info
               = link_to t('shared.edit'), edit_actor_path(actor)
