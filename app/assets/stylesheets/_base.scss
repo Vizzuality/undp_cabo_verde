@@ -24,7 +24,7 @@ h2 {
 }
 
 select {
-  background-color: rgba($color-10, .3);
+  background-color: rgba($color-15, .3);
   color: $color-11;
   border: none;
   background-image: url("form-arrow.png");
@@ -37,7 +37,7 @@ select {
 *:not(.checkbox) > label {
   @include font(helvetica, null, light, null);
   font-size: 20px;
-  color: $color-12;
+  color: $color-4;
   line-height: 37px;
   padding: 0 !important;
 }
@@ -48,12 +48,14 @@ textarea:focus {
   border: none;
   box-shadow: none;
   background: none;
-  color: $color-11;
+  color: $color-15;
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
   line-height: 32px;
 }
+
+textarea { min-height: 150px; }
 
 input[type="text"] {
   border-bottom: 1px solid $color-13;
@@ -64,4 +66,16 @@ textarea:focus {
   background-image: url("textarea-bg.png");
   background-repeat: repeat;
   background-size: 1px;
+}
+
+
+.form-actions  {
+  padding-bottom: 70px;
+
+  h2 { margin-bottom: 20px; }
+}
+
+.form-inputs .row {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
