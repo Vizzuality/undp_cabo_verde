@@ -15,10 +15,10 @@
             = link_to actor.name, actor_path(actor)
           span.data
             | Created: 
-            = actor.created_at.to_formatted_s(:long).to_s
+            = actor.created_at.to_formatted_s(:short).to_s
           span.data
             | &nbsp;/ Updated: 
-            = actor.updated_at.to_formatted_s(:long).to_s
+            = actor.updated_at.to_formatted_s(:short).to_s
         .data-secondary
           span.data
             = t("types.#{actor.type.constantize}")
