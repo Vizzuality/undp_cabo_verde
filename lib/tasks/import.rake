@@ -4,6 +4,7 @@ require 'csv'
 namespace :import do
   desc 'Import data from sample CSV files'
   task data: :environment do
+    Rake::Task['db:seed'].invoke
     Rake::Task['import:categories'].invoke
     Rake::Task['import:individuals'].invoke
     Rake::Task['import:groups'].invoke
@@ -67,16 +68,19 @@ namespace :import do
         short_name: row[1].presence,
         title: ActorMicro::TITLES.index(row[2])+1,
         gender: row[3] == "male" ? 2: 3,
+        user_id: 1,
         localizations: [
           Localization.create({
             lat: row[4],
-            long: row[5]
+            long: row[5],
+            user_id: 1
           })
         ],
         comments: [
           Comment.create({
             body: row[10],
-            active: true
+            active: true,
+            user_id: 1
           })
         ],
         categories: Category.where(name: row[7].titleize,
@@ -103,16 +107,19 @@ namespace :import do
         short_name: row[1].presence,
         other_names: row[2].presence,
         legal_status: row[10].presence,
+        user_id: 1,
         localizations: [
           Localization.create({
             lat: row[3],
-            long: row[4]
+            long: row[4],
+            user_id: 1
           })
         ],
         comments: [
           Comment.create({
             body: row[7],
-            active: true
+            active: true,
+            user_id: 1
           })
         ],
         categories: Category.where(name: row[12].titleize,
@@ -143,16 +150,19 @@ namespace :import do
         name: row[0].presence,
         alternative_name: row[1].presence,
         short_name: row[2].presence,
+        user_id: 1,
         localizations: [
           Localization.create({
             lat: row[3],
-            long: row[4]
+            long: row[4],
+            user_id: 1
           })
         ],
         comments: [
           Comment.create({
             body: row[13],
-            active: true
+            active: true,
+            user_id: 1
           })
         ],
         event: row[5].downcase == 'event',
