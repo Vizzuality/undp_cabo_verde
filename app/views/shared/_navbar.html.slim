@@ -1,4 +1,4 @@
-nav.right
+nav
   ul.inline-list
     - if user_signed_in?
       li = link_to t('navbar.dashboard'), dashboard_path, class: "#{'is-active' if menu_highlight?(:home)}"
