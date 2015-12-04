@@ -3,7 +3,7 @@
 require 'csv'
 namespace :import do
   desc 'Import data from sample CSV files'
-  task data: :enviroment do
+  task data: :environment do
     Rake::Task['import:categories'].invoke
     Rake::Task['import:individuals'].invoke
     Rake::Task['import:groups'].invoke
@@ -44,7 +44,6 @@ namespace :import do
      end
 
      puts "Import Scales (OperationalField)"
-     state; county; municipality; national; regional; global; local
      ["State", "County", "Municipality", "National", "Regional",
       "Global", "Local"].each do |scale|
        Category.create(
