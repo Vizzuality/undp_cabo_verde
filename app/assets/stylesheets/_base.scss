@@ -1,7 +1,7 @@
 body {
   @include font(helvetica, regular, light, 1);
   -webkit-font-smoothing:antialiased;
-  color: $color-3;
+  color: $color-4;
 }
 
 
@@ -11,7 +11,7 @@ input[type="checkbox"] {
 
 h1 {
   @include font(null, xlarge, light, 1.2);
-  color: $color-7;
+  color: $color-8;
 }
 
 h2 {
