@@ -28,35 +28,33 @@
         position: relative;
         border-left: 1px solid $color-12;
 
-      }
+        &.-linkdata {
+          padding: 0;
+          border-left: 1px solid transparent;
 
-      .data:nth-of-type(3),
-      .data:nth-of-type(4),
-      .data:nth-of-type(5) {
-        padding: 0;
-        border-left: 1px solid transparent;
-
-        a {
-          padding:10px 20px 6px;
+          a {
+            padding:10px 20px 6px;
 
 
-          &.-hoverlink {
-            border: 1px solid transparent;
-            border-left: 1px solid $color-12;
-            margin-right: -3px;
+            &.-hoverlink {
+              border: 1px solid transparent;
+              border-left: 1px solid $color-12;
+              margin-right: -3px;
 
-            >.icon {
-              padding-right: 5px;
-              padding-bottom: 4px;
+              >.icon {
+                padding-right: 5px;
+                padding-bottom: 4px;
+              }
             }
-          }
 
-          &.-hoverlink:hover {
-            background-color: $color-14;
-            border: 1px solid $color-12;
+            &.-hoverlink:hover {
+              background-color: $color-14;
+              border: 1px solid $color-12;
+            }
           }
         }
       }
+
     }
 
     .data {
