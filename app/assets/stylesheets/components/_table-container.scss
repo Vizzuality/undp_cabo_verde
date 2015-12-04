@@ -3,7 +3,7 @@
 
   >.table-row {
     height: 125px;
-    border-bottom: 1px solid $color-4;
+    border-bottom: 1px solid $color-12;
 
     display: flex;
     flex-direction: row;
@@ -22,7 +22,7 @@
         padding:10px 20px 6px;
         border: 1px solid transparent;
         position: relative;
-        border-left: 1px solid $color-11;
+        border-left: 1px solid $color-12;
 
       }
 
@@ -38,7 +38,7 @@
 
           &.-hoverlink {
             border: 1px solid transparent;
-            border-left: 1px solid $color-11;
+            border-left: 1px solid $color-12;
             margin-right: -3px;
 
             >.icon {
@@ -48,8 +48,8 @@
           }
 
           &.-hoverlink:hover {
-            background-color: $color-10;
-            border: 1px solid $color-11;
+            background-color: $color-14;
+            border: 1px solid $color-12;
           }
         }
       }
@@ -58,18 +58,18 @@
     .data {
       display: inline;
       @include font(null, xxsmall, null, null);
-      color: $color-4;
+      color: $color-3;
 
       a {
-        color: $color-4;
+        color: $color-3;
       }
 
       &.-primary {
         @include font(null, regular, null, null);
-        color: $color-3;
+        color: $color-4;
 
         a {
-          color: $color-3;
+          color: $color-4;
         }
       }
     }
