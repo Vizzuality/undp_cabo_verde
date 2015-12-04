@@ -9,6 +9,8 @@ namespace :import do
     Rake::Task['import:individuals'].invoke
     Rake::Task['import:groups'].invoke
     Rake::Task['import:actions'].invoke
+    Rake::Task['import:relationship_types'].invoke
+    Rake::Task['import:relationships'].invoke
   end
 
 
@@ -196,5 +198,70 @@ namespace :import do
       )
     end
     puts "#{Act.count} actions in the database"
+  end
+
+  desc "Import relationship types"
+  task relationship_types: :environment do
+    RelationType.delete_all
+    puts "Adding relation types"
+    [
+      ["Belongs to", "Contains"],
+      ["Indicators", "Indicator of"],
+      ["Implements", "Implemented by"],
+      ["Partners with", "Partners with"],
+      ["Heads", "Headed by"],
+      ["Benefits", "Benefits funds"],
+      ["Funds", "Funded by"],
+      ["Implements", "Implemented by"]
+    ].each do |type|
+      RelationType.create(
+        title: type[0],
+        title_reverse: type[1]
+      )
+    end
+
+    puts "#{RelationType.count} relation types added"
+  end
+
+  desc "Import relationships"
+  task relationships: :environment do
+    ActorRelation.delete_all
+    ActActorRelation.delete_all
+    user = User.where(email: "admin@vizzuality.com").first
+    file = File.join('lib', 'data', 'relationships.csv')
+    table = CSV.read(file)
+    table.shift
+    table.each do |row|
+      next if [row[1], row[4]].include?("Artifact")
+      row[3].split(",").each do |types|
+        type = RelationType.where("LOWER(title) = LOWER(?)", types.strip).first
+        actor = Actor.where("UPPER(name) =  UPPER(?)", row[2].strip).first
+        debugger unless type
+        if row[4] == 'Action'
+          action = Act.where("UPPER(name) = UPPER(?)", row[5].strip).first
+          ActActorRelation.create(
+            user_id: user.id,
+            actor_id: actor.id,
+            act_id: action.id,
+            relation_type_id: type.id,
+            start_date: row[7] && Date.parse(row[7]),
+            end_date: row[8] && Date.parse(row[8])
+          )
+        else
+          parent = Actor.where("UPPER(name) =  UPPER(?)", row[5].strip).first
+          next unless parent
+          ActorRelation.create(
+            child_id: actor.id,
+            parent_id: parent.id,
+            user_id: user.id,
+            start_date: row[7] && Date.parse(row[7]),
+            end_date: row[8] && Date.parse(row[8]),
+            relation_type_id: type.id
+          )
+        end
+      end
+    end
+    puts "#{ActorRelation.count} actor relations added"
+    puts "#{ActActorRelation.count} actor actions relations added"
   end
 end
