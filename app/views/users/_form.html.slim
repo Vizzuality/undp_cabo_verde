@@ -1,9 +1,28 @@
 = simple_form_for(@user, html: { method: :put }) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :firstname
-    = f.input :lastname
-    = f.input :institution
-    = f.input :email, required: true, autofocus: true
-  .form-actions
-    = f.button :submit, "Update"
+    .row
+      .column.medium-4
+        = f.label :firstname, class: 'right inline'
+      .column.medium-8
+        = f.input :firstname, label: false
+    .row
+      .column.medium-4
+        = f.label :lastname, class: 'right inline'
+      .column.medium-8
+        = f.input :lastname, label: false
+    .row
+      .column.medium-4
+        = f.label :institution, class: 'right inline'
+      .column.medium-8
+        = f.input :institution, label: false
+    .row
+      .column.medium-4
+        = f.label :email, class: 'right inline'
+      .column.medium-8
+        = f.input :email, label: false, required: true, autofocus: true
+
+    .row
+      .column.medium-8.medium-offset-4
+        .form-actions
+          = f.button :submit, "Update"
