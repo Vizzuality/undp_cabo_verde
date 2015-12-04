@@ -1,4 +1,3 @@
 - if current_user
-  = link_to t('actors.new_actor'), new_actor_path, class: 'button small'
-  | &nbsp;
-  = link_to t('users.my_actors'), user_actors_path(current_user), class: 'button small'
+  = link_to t('actors.new_actor'), new_actor_path, class: 'button small -medium'
+  = link_to t('users.my_actors'), user_actors_path(current_user), class: 'button small -medium'
