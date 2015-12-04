@@ -2,25 +2,29 @@ $max-width-size: 1200px;
 $min-width-size: 960px;
 
 // Colors
-$white:       #fff;
-$black:       #000;
-$dark-grey:   #4a4a4a;
-$grey:        #a3a3a3;
-$olive:       #a49f8e;
-$white-grey:  #f1f1f1;
-$d-blue:      #063460;
-$blue:        #1f497f;
-$l-blue:      #175ca0;
+$white:         #fff;
+$black:         #000;
+$grey:          #a3a3a3;
+$grey-2:        #4a4a4a;
+$grey-3:        #e6e6e6;
+$olive:         #a49f8e;
+$white-grey:    #f1f1f1;
+$white-grey-2:  #f6f6f4;
+$d-blue:        #063460;
+$blue:          #1f497f;
+$l-blue:        #175ca0;
 
-$color-1: $white;
-$color-2: $black;
-$color-3: $dark-grey;
-$color-4: $grey;
-$color-5: $olive;
-$color-6: $white-grey;
-$color-7: $d-blue;
-$color-8: $blue;
-$color-9: $l-blue;
+$color-1:       $white;
+$color-2:       $black;
+$color-3:       $grey-2;
+$color-4:       $grey;
+$color-5:       $olive;
+$color-6:       $white-grey;
+$color-7:       $d-blue;
+$color-8:       $blue;
+$color-9:       $l-blue;
+$color-10:      $white-grey-2;
+$color-11:      $grey-3;
 
 // Typography
 $m-font-size: (

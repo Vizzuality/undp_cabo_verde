@@ -13,17 +13,58 @@
     background-color: transparent;
   }
 
-  tr > td:nth-of-type(1) > a {
-    font-size: 22px;
-    color: black;
-  }
-
   td {
+    color: $color-3;
     padding: 0;
+
+    &:not(:nth-of-type(1)){
+      color: $color-4;
+      a {
+        color: $color-4;
+      }
+    }
+
+    &:nth-of-type(1) {
+
+      > a {
+        color: $color-3;
+        font-size: 22px;
+      }
+    }
+
+
+    &.secondary-info {
+      // position: relative;
+      text-align: center;
+      display: inline-block;
+      padding: 5px 25px;
+      margin: 20px 0px;
+      border: 1px solid transparent;
+
+      // border-left: 1px solid $color-4;
+
+      &:hover {
+        background-color: $color-10;
+
+        border: 1px solid $color-4;
+      }
+
+      // &:after {
+      //   content: '';
+      //   position: absolute;
+      //   display: block;
+      //   top: 0px;
+      //   left: 0px;
+      //   height: 35px;
+      //   width: 0;
+      //   border-left: 1px solid $color-4;
+      // }
+    }
   }
 
   // pushes date to line below the name
   .dates {
+    color: $color-3;
     display: block;
   }
 

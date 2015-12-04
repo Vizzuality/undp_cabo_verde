@@ -3,33 +3,39 @@
     h2.title
       = t('actors.actors' + ' List') 
     a.button.-large.-type-a
-      | Add new actor
+      = t("actors.new")
 
     = render 'index_tabs'
-  .section.table-section
-    table
-      thead
-        tr
-          th= t('shared.name')
-          th= t('shared.status')
-          th
-      tbody
-        - @actors.each do |actor|
-          tr
-            td 
-              = link_to actor.name, actor_path(actor)
-              span.dates
-                span.date#date1
-                  = actor.created_at.to_formatted_s(:long).to_s
-                |  / 
-                span.date#date2
-                  = actor.updated_at.to_formatted_s(:long).to_s
 
-            td.secondary-info
-              = t("types.#{actor.type.constantize}")
-            td.secondary-info 
-              = actor.status
-            td.secondary-info
-              = link_to t('shared.edit'), edit_actor_path(actor)
-            td.secondary-info
-              = link_to t('shared.delete'), actor_path(actor), data: { confirm: t('shared.confirm_message') }, method: :delete
+  .section.table-container
+    - @actors.each do |actor|
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to actor.name, actor_path(actor)
+          span.data
+            | Created: 
+            = actor.created_at.to_formatted_s(:long).to_s
+          span.data
+            | &nbsp;/ Updated: 
+            = actor.updated_at.to_formatted_s(:long).to_s
+        .data-secondary
+          span.data
+            = t("types.#{actor.type.constantize}")
+          span.data
+             = actor.status
+          span.data
+            = link_to edit_actor_path(actor), :class => "-hoverlink" do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data
+            = link_to edit_actor_path(actor), :class => "-hoverlink" do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data
+            = link_to actor_path(actor), data: { confirm: t('shared.confirm_message') }, method: :delete, :class => "-hoverlink" do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')

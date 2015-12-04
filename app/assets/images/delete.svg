@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="10px" height="14px" viewBox="0 0 10 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.3 (16044) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="BACK-OFFICE" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="ACTORS-LIST" sketch:type="MSArtboardGroup" transform="translate(-925.000000, -449.000000)" fill="#666666">
+            <g id="Created:-Oct-9,-2014-+-Group" sketch:type="MSLayerGroup" transform="translate(40.000000, 433.000000)">
+                <g id="Group" sketch:type="MSShapeGroup">
+                    <g>
+                        <g id="Delete-+-Shape-Copy" transform="translate(885.000000, 14.000000)">
+                            <path d="M7.0000123,3.50000405 L7.0000123,2.5 L3.00000527,2.5 L3.00000527,3.50000405 L0,3.50000405 L0,5.50001216 L10,5.50001216 L10,3.50000405 L6.99999473,3.50000405 L7.0000123,3.50000405 Z M1.00000176,6.49999865 L1.00000176,15.5 L8.99999824,15.5 L8.99999824,6.49999865 L1.00000176,6.49999865 L1.00000176,6.49999865 Z" id="Shape-Copy"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
