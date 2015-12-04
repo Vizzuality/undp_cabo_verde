@@ -16,12 +16,12 @@
   }
 
   &.-type-a {
-    background-color: $color-9;
+    background-color: $color-10;
     color: $color-1;
   }
 
   &.-type-b {
-    background-color: $color-7;
+    background-color: $color-8;
     color: $color-1;
   }
 
@@ -39,14 +39,14 @@
   &:hover {
     &.-type-a {
       background-color: $color-1;
-      color: $color-9;
-      border: 1px solid $color-9;
+      color: $color-10;
+      border: 1px solid $color-10;
     }
 
     &.-type-b {
       background-color: $color-1;
-      color: $color-7;
-      border: 1px solid $color-7;
+      color: $color-8;
+      border: 1px solid $color-8;
     }
 
     &.-secondary {
