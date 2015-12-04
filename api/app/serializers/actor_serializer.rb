@@ -22,7 +22,7 @@ class ActorSerializer < BaseSerializer
   def attributes
     data = super
     if object.meso_or_macro?
-      data['scale']         = object.operational_filed_txt if object.macro?
+      data['scale']         = object.operational_field_txt if object.macro?
       data['short_name']    = object.short_name
       data['legal_status']  = object.legal_status
       data['other_names']   = object.other_names

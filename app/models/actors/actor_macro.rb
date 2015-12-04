@@ -1,8 +1,10 @@
 class ActorMacro < Actor
-  validates :operational_filed, presence: true, on: :update
+  validates :operational_field, presence: true, on: :update
 
-  def operational_filed_txt
-    %w(Global International National)[operational_filed - 1]
+  OPERATIONAL_FIELDS = %w(Global International National)
+
+  def operational_field_txt
+    OPERATIONAL_FIELDS[operational_field - 1]
   end
 
   def empty_relations?
