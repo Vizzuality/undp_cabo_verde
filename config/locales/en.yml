@@ -10,7 +10,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -36,7 +36,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - January
     - February
     - March
@@ -247,8 +247,10 @@ en:
     deactivate: 'Deactivate'
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
+    view_map: 'View on map'
 
   actors:
+    actor: 'Actor'
     actors: 'Actors'
     actor_macros: 'Macros'
     actor_mesos: 'Mesos'
@@ -263,8 +265,10 @@ en:
     observation: 'Observation'
     gender: 'Gender'
     date_of_birth: 'Date of birth'
+    new: 'Add new actor'
 
   acts:
+    act: 'Action'
     acts: 'Actions'
     act_macros: 'Macros'
     act_mesos: 'Mesos'
@@ -276,6 +280,7 @@ en:
     link_mesos: 'Add meso relation'
     edit_act: 'Edit action'
     description: 'Description'
+    new: 'Add new act'
 
   categories:
     categories: 'Categories'
@@ -319,3 +324,4 @@ en:
   users:
     my_actors: 'My actors'
     user: 'User'
+    users: 'Users'

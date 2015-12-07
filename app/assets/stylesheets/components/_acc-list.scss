@@ -1,0 +1,60 @@
+.acc-list {
+  margin: 15px 5px 5px;
+  padding: 10px;
+  display: inline-block;
+  list-style: none;
+  position: relative;
+  background: $color-1;
+
+  -webkit-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.53);
+  -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.53);
+  box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.25);
+
+
+  &:after {
+    content: " ";
+    position: absolute;
+    height: 0;
+    width: 0;
+
+    bottom: 93%;
+    left: 50%;
+
+    box-sizing: border-box;
+
+    border: 1em solid black;
+    border-color:  $color-1 transparent transparent $color-1;
+    border-width: 10px;
+    margin-left: -3px;
+
+    transform-origin: 0 0;
+    transform: rotate(45deg);
+
+    -webkit-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+  }
+
+  > li {
+    margin: 0 auto;
+    padding: 5px 10px 0px;
+    border: 1px solid transparent;
+    text-align: center;
+
+
+    &:hover {
+      background-color: $color-14;
+      border: 1px solid $color-12;
+    }
+
+    > a {
+      text-transform: capitalize;
+      padding: 0px;
+      margin: 0px;
+      border: none;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

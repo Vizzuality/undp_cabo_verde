@@ -34,9 +34,20 @@ var filterForms = function() {
   });
 };
 
+var showAccount = function() {
+  var acc_name =  document.querySelector('#js-acc-name');
+
+  if(acc_name) {
+    acc_name.addEventListener('click', function() {
+
+      acc_name.classList.toggle('account-active');
+    });
+  }
+}
 
 function onReady() {
   filterForms();
+  showAccount();
 }
 
 document.addEventListener('DOMContentLoaded', onReady);

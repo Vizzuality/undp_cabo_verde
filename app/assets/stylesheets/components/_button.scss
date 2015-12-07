@@ -1,0 +1,68 @@
+.button {
+  @include font(null, xxsmall, medium, null);
+  text-transform: uppercase;
+  text-align: center;
+  height: 35px;
+  line-height: 5px;
+  border: 1px solid transparent;
+  margin: 0;
+
+  &.-large {
+    width: 220px;
+  }
+
+  &.-xlarge {
+    width: 270px;
+  }
+
+  &.-medium {
+    width: 150px;
+  }
+
+  &.-type-a {
+    background-color: $color-10;
+    color: $color-1;
+  }
+
+  &.-type-b {
+    background-color: $color-8;
+    color: $color-1;
+  }
+
+  &.-secondary {
+    background-color: $color-1;
+    color: $color-4;
+    border: 1px solid $color-4;
+  }
+
+  &.-primary {
+    background-color: $color-5;
+    color: $color-1;
+  }
+
+  &:hover {
+    &.-type-a {
+      background-color: $color-1;
+      color: $color-10;
+      border: 1px solid $color-10;
+    }
+
+    &.-type-b {
+      background-color: $color-1;
+      color: $color-8;
+      border: 1px solid $color-8;
+    }
+
+    &.-secondary {
+      background-color: $color-4;
+      color: $color-1;
+      border: 1px solid $color-1;
+    }
+
+    &.-primary {
+      background-color: $color-1;
+      color: $color-5;
+      border: 1px solid $color-5;
+    }
+  }
+}
