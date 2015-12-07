@@ -118,7 +118,6 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(response.body).not_to match('Random User')
-      expect(response.body).not_to match('<span class="data -primary"><a href="/manage/actors/#{@user.id}">Juanito Lolito</a></span>')
       expect(response.body).to match('Pepe Moreno')
     end
   end
