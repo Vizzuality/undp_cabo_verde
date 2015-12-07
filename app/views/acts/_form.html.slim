@@ -1,30 +1,66 @@
 = form.error_notification
 .form-inputs
-  = form.input :name
-  = form.input :event
-  = form.input :human
-  = form.input :alternative_name
-  = form.input :short_name
-  = form.input :start_date, as: :date, start_year: Date.today.year,
-                                 end_year: Date.today.year - 90,
-                                 order: [:day, :month, :year]
-  = form.input :end_date, as: :date, start_year: Date.today.year,
-                               end_year: Date.today.year - 90,
-                               order: [:day, :month, :year], include_blank: true
-  = form.input :description
+  .row
+    .column.medium-4
+      = form.label :name, class: 'right inline'
+    .column.medium-8
+      = form.input :name, label: false
+  .row
+    .column.medium-4
+      | &nbsp;
+    .column.medium-8
+      = form.input :event
+    .column.medium-4
+      | &nbsp;
+    .column.medium-8
+      = form.input :human
 
   .row
-    .column.medium-3
+    .column.medium-4
+      = form.label :alternative_name, class: 'right inline'
+    .column.medium-8
+      = form.input :alternative_name, label: false
+  .row
+    .column.medium-4
+      = form.label :short_name, class: 'right inline'
+    .column.medium-8
+      = form.input :short_name, label: false
+  .row
+    .column.medium-4
+      = form.label :start_date, class: 'right inline'
+    .column.medium-8
+      = form.input :start_date, as: :date, 
+        start_year: Date.today.year,
+        end_year: Date.today.year - 90,
+        order: [:day, :month, :year],
+        label: false
+  .row
+    .column.medium-4
+      = form.label :end_date, class: 'right inline'
+    .column.medium-8
+      = form.input :end_date, as: :date, 
+        start_year: Date.today.year,
+        end_year: Date.today.year - 90,
+        order: [:day, :month, :year], include_blank: true,
+        label: false
+  .row
+    .column.medium-4
+      = form.label :description, class: 'right inline'
+    .column.medium-8
+      = form.input :description, label: false
+
+  .row
+    .column.medium-4
       = form.label :organization_type_ids, class: 'right'
-    .column.medium-9
+    .column.medium-8
       = form.input :organization_type_ids, collection: @organization_types, as: :check_boxes, label: false
   .row
-    .column.medium-3
+    .column.medium-4
       = form.label :socio_cultural_domain_ids, class: 'right'
-    .column.medium-9
+    .column.medium-8
       = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :check_boxes, label: false
   .row
-    .column.medium-3
+    .column.medium-4
       = form.label :other_domain_ids, class: 'right'
-    .column.medium-9
+    .column.medium-8
       = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
