@@ -13,19 +13,18 @@
             = f.label :type, class: 'right inline'
           .column.medium-8
             = f.input :type, label: false, collection: @types, as: :collection_select, prompt: 'Select a level'
-        #form-actor.micro._hidden
-          = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
-          = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select
-          = f.input :date_of_birth, as: :date, start_year: Date.today.year - 12,
-                                    end_year: Date.today.year - 90,
-                                    order: [:day, :month, :year]
-        #form-actor.macro._hidden
-          = f.input :operational_field, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
-        #form-actor.meso.macro._hidden
-          = f.input :short_name, placeholder: 'test'
-          = f.input :legal_status
-          = f.input :other_names
-
+            #form-actor.micro._hidden
+              = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
+              = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select
+              = f.input :date_of_birth, as: :date, start_year: Date.today.year - 12,
+                                        end_year: Date.today.year - 90,
+                                        order: [:day, :month, :year]
+            #form-actor.macro._hidden
+              = f.input :operational_field, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
+            #form-actor.meso.macro._hidden
+              = f.input :short_name, placeholder: 'test'
+              = f.input :legal_status
+              = f.input :other_names
         = render partial: f
 
         .row
