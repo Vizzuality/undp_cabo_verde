@@ -15,7 +15,7 @@ nav
           span class='acc-icon'
           a
             = current_user.name
-          ul class='acc-list'
+          ul class='dropdown-list'
             li = link_to t('navbar.edit_account'), edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
             li = link_to t('navbar.logout'), destroy_user_session_path, method: 'delete'
     - else
