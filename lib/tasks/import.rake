@@ -236,7 +236,6 @@ namespace :import do
       row[3].split(",").each do |types|
         type = RelationType.where("LOWER(title) = LOWER(?)", types.strip).first
         actor = Actor.where("UPPER(name) =  UPPER(?)", row[2].strip).first
-        debugger unless type
         if row[4] == 'Action'
           action = Act.where("UPPER(name) = UPPER(?)", row[5].strip).first
           ActActorRelation.create(
