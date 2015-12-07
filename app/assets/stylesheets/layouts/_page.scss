@@ -11,6 +11,51 @@
   flex-flow: row nowrap;
   align-items: flex-start;
   justify-content: space-between;
+
+  .inline-list {
+    height: 160px;
+  }
+
+  .acc-list {
+    opacity: 0;
+    display: none;
+  }
+
+  .acc-icon {
+    display: inline-block;
+    position: absolute;
+    margin: 22px 7px 0px;
+
+    background: $color-12;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+
+  .acc-name {
+    min-width: 160px;
+    > a {
+      padding-left: 50px; // space for span.acc-icon
+
+      -webkit-user-select: none; /* Chrome/Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+      text-transform: capitalize;
+      text-align: right;
+    }
+
+    > a:hover {
+      background-color: transparent;
+    }
+
+    &.account-active {
+      .acc-list {
+        opacity: 1;
+        display: block;
+      }
+    }
+  }
+
 }
 
 #home {
