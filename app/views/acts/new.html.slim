@@ -10,6 +10,8 @@ fieldset
             = f.label :type, class: 'right inline'
           .column.medium-9
             = f.input :type, label: false, collection: @types, as: :collection_select
+        #form-action.micro._hidden
+        #form-action.macro._hidden
+        #form-action.meso.macro._hidden
         = render partial: f
         = f.button :submit, t('shared.create')
-

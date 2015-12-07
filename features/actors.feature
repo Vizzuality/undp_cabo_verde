@@ -23,7 +23,7 @@ I want to manage an actor
     And I fill in "actor_micro_name" with "New Person"
     And I fill in "actor_micro_observation" with "It's description for person"
     And I select "Male" from "actor_micro_gender"
-    And I select "Mr" from "actor_micro_title"
+    And I select "Mr." from "actor_micro_title"
     When I select datetime "1990 March 10" as the "actor_micro_date_of_birth"
     And I press "Update"
     Then I should be on the edit micro member actor page for "New Person"

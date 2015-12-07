@@ -1,0 +1,7 @@
+.button-collection {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  >.button { margin: 0 5px; }
+}

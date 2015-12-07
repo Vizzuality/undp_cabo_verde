@@ -1,15 +1,41 @@
-h1
-  = t('actors.actors')
+.section-container#actors
+  .section.title-section
+    div
+      h2.title
+        = t('actors.actors' + ' List')
+    .button-collection  
+      = render 'index_tabs'
 
-= render 'index_tabs'
-
-table
-  thead
-    tr
-      th= t('shared.name')
-      th= t('shared.status')
-  tbody
+  .section.table-container
     - @actors.each do |actor|
-      tr
-        td = link_to actor.name, actor_path(actor)
-        td = actor.status
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to actor.name, actor_path(actor)
+          span.data
+            | Created:
+            = actor.created_at.to_formatted_s(:short).to_s
+          span.data
+            | &nbsp;/ Updated:
+            = actor.updated_at.to_formatted_s(:short).to_s
+
+        .data-secondary
+          span.data
+            = t("types.#{actor.type.constantize}")
+          span.data
+             = actor.status
+          span.data.-linkdata.-deactivated-map
+            = link_to edit_actor_path(actor), :class => "-hoverlink" do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data.-linkdata
+            = link_to edit_actor_path(actor), :class => "-hoverlink" do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to actor_path(actor), data: { confirm: t('shared.confirm_message') }, method: :delete, :class => "-hoverlink" do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
