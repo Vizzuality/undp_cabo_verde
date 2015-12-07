@@ -1,5 +1,5 @@
-nav.right
-  ul.inline-list.nav-items
+nav
+  ul.inline-list
     - if user_signed_in?
       li = link_to t('navbar.dashboard'), dashboard_path, class: "#{'is-active' if menu_highlight?(:home)}"
     - else
@@ -11,8 +11,13 @@ nav.right
     - if user_signed_in?
       - if (can? :manage, RelationType)
         li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
-      li = link_to t('navbar.edit_account'), edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
-      li = link_to t('navbar.logout'), destroy_user_session_path, method: 'delete'
+      li [class='acc-name' id='js-acc-name']
+          span class='acc-icon'
+          a
+            = current_user.name
+          ul class='acc-list'
+            li = link_to t('navbar.edit_account'), edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
+            li = link_to t('navbar.logout'), destroy_user_session_path, method: 'delete'
     - else
       li = link_to t('navbar.login'), new_user_session_path
       li = link_to t('navbar.register'), new_user_registration_path

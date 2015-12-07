@@ -1,33 +1,54 @@
 $max-width-size: 1200px;
-$min-width-size: 960px;
+$min-width-size: 980px;
 
 // Colors
-$white: #fff;
-$black: #000;
-$blue: #1f497f;
-$olive: #a49f8e;
-$dark-grey: #4a4a4a;
+$white:         #fff;
+$black:         #000;
+$dark-grey:     #4a4a4a;
+$dark-grey-2:   #333;
+$grey:          #a3a3a3;
+$olive:         #a49f8e;
+$white-grey:    #f1f1f1;
+$d-blue:        #063460;
+$blue:          #1f497f;
+$l-blue:        #175ca0;
+$grey-2:        #adadad;
+$grey-3:        #e6e6e6;
+$grey-4:        #979797;
+$white-grey-2:  #f6f6f4;
+$light-grey:    #d8d8d8;
 
-$color-1: $white;
-$color-2: $black;
-$color-3: $blue;
-$color-4: $olive;
-$color-5: $dark-grey;
-
+$color-1:       $white;
+$color-2:       $black;
+$color-3:       $dark-grey;
+$color-4:       $dark-grey-2;
+$color-5:       $grey;
+$color-6:       $olive;
+$color-7:       $white-grey;
+$color-8:       $d-blue;
+$color-9:       $blue;
+$color-10:      $l-blue;
+$color-11:      $grey-2;
+$color-12:      $grey-3;
+$color-13:      $grey-4;
+$color-14:      $white-grey-2;
+$color-15:      $light-grey;
 
 // Typography
 $m-font-size: (
-  x-small:     14px,
-  small:       16px,
-  regular:     18px,
-  large:       36px
+  xxsmall:    14px,
+  xsmall:     16px,
+  small:      18px,
+  regular:    21px,
+  large:      36px,
+  xlarge:     59px
 );
 
 $m-font-weight: (
-  light:   300,
-  regular: 400,
-  medium:  500,
-  bold:    700
+  light:      300,
+  regular:    400,
+  medium:     500,
+  bold:       700
 );
 
 $m-font-family: (

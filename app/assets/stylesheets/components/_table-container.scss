@@ -1,0 +1,93 @@
+.table-container {
+  width: 100%;
+
+  >.table-row {
+    height: 125px;
+    border-bottom: 1px solid $color-12;
+    border-bottom: 1px solid $color-12;
+
+    &:first-of-type {
+      border-top: 1px solid $color-12;
+    }
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    >.data-primary {
+      .data:nth-of-type(1) {
+        display: block;
+      }
+    }
+
+    >.data-secondary {
+      .data {
+        padding:10px 20px 6px;
+        border: 1px solid transparent;
+        position: relative;
+        border-left: 1px solid $color-12;
+
+        &.-linkdata {
+          padding: 0;
+          border-left: 1px solid transparent;
+
+          a {
+            padding:10px 20px 6px;
+
+
+            &.-hoverlink {
+              border: 1px solid transparent;
+              border-left: 1px solid $color-12;
+              margin-right: -3px;
+
+              >.icon {
+                padding-right: 5px;
+                padding-bottom: 4px;
+              }
+            }
+
+            &.-hoverlink:hover {
+              background-color: $color-14;
+              border: 1px solid $color-12;
+            }
+          }
+        }
+      }
+
+    }
+
+    .data {
+      display: inline;
+      @include font(null, xxsmall, null, null);
+      color: $color-3;
+
+      a {
+        color: $color-3;
+      }
+
+      &.-primary {
+        @include font(null, regular, null, null);
+        color: $color-4;
+
+        a {
+          color: $color-4;
+        }
+      }
+
+      &.-deactivated-map {
+        pointer-events: none;
+        opacity: .4;
+      }
+    }
+  }
+
+  &.-disabled {
+    .data-primary .data:not(:first-of-type),
+    .data-secondary {
+      opacity: .3;
+      pointer-events: none;
+    }
+  }
+
+}
