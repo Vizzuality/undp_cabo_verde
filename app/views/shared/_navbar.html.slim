@@ -11,7 +11,7 @@ nav
     - if user_signed_in?
       - if (can? :manage, RelationType)
         li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
-      li [class='acc-name' id='js-acc-name']
+      li [class='dropdown-src' id='js-dropdown-acc']
           span class='acc-icon'
           a
             = current_user.name

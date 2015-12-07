@@ -34,13 +34,23 @@ var filterForms = function() {
   });
 };
 
+var toggleDropdown = function(target) {
+  target.classList.toggle('dropdown-active');
+}
+
 var showAccount = function() {
-  var acc_name =  document.querySelector('#js-acc-name');
+  var account =  document.querySelector('#js-dropdown-acc');
+  var settings = document.querySelector('#js-dropdown-set');
 
-  if(acc_name) {
-    acc_name.addEventListener('click', function() {
+  if(account) {
+    account.addEventListener('click', function() {
+      toggleDropdown(account);
+    });
+  }
 
-      acc_name.classList.toggle('account-active');
+  if(settings) {
+    settings.addEventListener('click', function() {
+      toggleDropdown(settings);
     });
   }
 }

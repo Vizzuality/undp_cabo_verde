@@ -16,7 +16,7 @@
     height: 160px;
   }
 
-  .acc-list {
+  .dropdown-list {
     opacity: 0;
     display: none;
   }
@@ -32,7 +32,7 @@
     border-radius: 50%;
   }
 
-  .acc-name {
+  .dropdown-src {
     min-width: 160px;
     > a {
       padding-left: 50px; // space for span.acc-icon
@@ -48,8 +48,8 @@
       background-color: transparent;
     }
 
-    &.account-active {
-      .acc-list {
+    &.dropdown-active {
+      .dropdown-list {
         opacity: 1;
         display: block;
       }
