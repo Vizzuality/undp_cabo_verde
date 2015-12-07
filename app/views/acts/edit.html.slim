@@ -6,7 +6,6 @@ h1
 = render 'edit_tabs', location: @act
 hr
 = simple_form_for @act do |f|
-  - if @act.micro?
   = render partial: f
 
   .form-actions
