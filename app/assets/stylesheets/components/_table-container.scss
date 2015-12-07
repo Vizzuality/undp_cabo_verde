@@ -74,6 +74,11 @@
           color: $color-4;
         }
       }
+
+      &.-deactivated-map {
+        pointer-events: none;
+        opacity: .4;
+      }
     }
   }
 

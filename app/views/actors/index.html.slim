@@ -24,7 +24,7 @@
             = t("types.#{actor.type.constantize}")
           span.data
              = actor.status
-          span.data.-linkdata
+          span.data.-linkdata.-deactivated-map
             = link_to edit_actor_path(actor), :class => "-hoverlink" do
               = image_tag "map.svg", :class => "icon"
               span

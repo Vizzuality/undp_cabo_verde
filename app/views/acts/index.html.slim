@@ -24,7 +24,7 @@
             = t("types.#{act.type.constantize}")
           span.data
              = act.status
-          span.data.-linkdata
+          span.data.-linkdata.-deactivated-map
             = link_to edit_act_path(act), :class => "-hoverlink" do
               = image_tag "map.svg", :class => "icon"
               span
