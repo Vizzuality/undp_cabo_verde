@@ -205,18 +205,19 @@ namespace :import do
     RelationType.delete_all
     puts "Adding relation types"
     [
-      ["Belongs to", "Contains"],
-      ["Indicators", "Indicator of"],
-      ["Implements", "Implemented by"],
-      ["Partners with", "Partners with"],
-      ["Heads", "Headed by"],
-      ["Benefits", "Benefits funds"],
-      ["Funds", "Funded by"],
-      ["Implements", "Implemented by"]
+      ["Belongs to", "Contains", 1],
+      ["Indicators", "Indicator of", 6],
+      ["Implements", "Implemented by", 4],
+      ["Partners with", "Partners with", 1],
+      ["Heads", "Headed by", 1],
+      ["Benefits", "Benefits funds", 4],
+      ["Funds", "Funded by", 4],
+      ["Implements", "Implemented by", 4]
     ].each do |type|
       RelationType.create(
         title: type[0],
-        title_reverse: type[1]
+        title_reverse: type[1],
+        relation_category: type[2]
       )
     end
 
