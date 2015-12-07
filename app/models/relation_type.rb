@@ -3,7 +3,7 @@ class RelationType < ActiveRecord::Base
   has_many :act_relations
   has_many :actor_relations
 
-  RELATIONS_CATEGORY_NAMES = %w(all actor\ -\ actor\ (link) actor\ -\ actor\ (embeded) actor\ -\ action actor\ -\ artifact action\ -\ indicator action\ -\ artifact action\ -\ action)
+  RELATIONS_CATEGORY_NAMES = %w(actor\ -\ actor\ (link) actor\ -\ actor\ (embeded) actor\ -\ action actor\ -\ artifact action\ -\ indicator action\ -\ artifact action\ -\ action)
 
   validates :title,         presence: true
   validates :title_reverse, presence: true
