@@ -1,3 +1,7 @@
+//= require jquery2
+//= require jquery_ujs
+//= require_tree .
+
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
 var filterForms = function() {
