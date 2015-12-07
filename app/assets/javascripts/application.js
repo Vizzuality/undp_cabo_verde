@@ -38,26 +38,36 @@ var toggleDropdown = function(target) {
   target.classList.toggle('dropdown-active');
 }
 
-var showAccount = function() {
+var disableDropdown = function(target) {
+  target.classList.remove('dropdown-active');
+}
+
+var showDropdown = function() {
   var account =  document.querySelector('#js-dropdown-acc');
   var settings = document.querySelector('#js-dropdown-set');
 
   if(account) {
     account.addEventListener('click', function() {
       toggleDropdown(account);
+      if(settings.classList.contains('dropdown-active')) {
+        disableDropdown(settings);
+      }
     });
   }
 
   if(settings) {
     settings.addEventListener('click', function() {
       toggleDropdown(settings);
+      if(settings.classList.contains('dropdown-active')) {
+        disableDropdown(account);
+      }
     });
   }
 }
 
 function onReady() {
   filterForms();
-  showAccount();
+  showDropdown();
 }
 
 document.addEventListener('DOMContentLoaded', onReady);

@@ -312,6 +312,7 @@ en:
     logout: 'Logout'
     login: 'Login'
     register: 'Register'
+    settings: 'Settings'
 
   relations:
     relation_category: 'Relation category'
