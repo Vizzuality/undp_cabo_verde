@@ -111,6 +111,7 @@ class ActorsController < ApplicationController
       @organization_types     = OrganizationType.all
       @socio_cultural_domains = SocioCulturalDomain.all
       @other_domains          = OtherDomain.all
+      @operational_fields     = OperationalField.all
     end
 
     def set_parents

@@ -224,6 +224,8 @@ en:
     : "Socio cultural domain"
     ? "OtherDomain"
     : "Other domains"
+    ? "OperationalField"
+    : "Operational field"
 
   shared:
     edit: 'Edit'
