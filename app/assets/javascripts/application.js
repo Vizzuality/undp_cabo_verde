@@ -3,6 +3,7 @@
 //= require jquery-ui/datepicker
 //= require chosen-jquery
 //= require_tree .
+//= require chosen-jquery
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
@@ -44,13 +45,14 @@ var disableDropdown = function(target) {
   target.classList.remove('dropdown-active');
 };
 
-var showDropdown = function() {
+var dropdown = function() {
   var account =  document.querySelector('#js-dropdown-acc');
   var settings = document.querySelector('#js-dropdown-set');
 
   if(account) {
     account.addEventListener('click', function() {
       toggleDropdown(account);
+      // hide the other dropdown
       if(settings.classList.contains('dropdown-active')) {
         disableDropdown(settings);
       }
@@ -60,6 +62,7 @@ var showDropdown = function() {
   if(settings) {
     settings.addEventListener('click', function() {
       toggleDropdown(settings);
+      // hide the other dropdown
       if(settings.classList.contains('dropdown-active')) {
         disableDropdown(account);
       }
@@ -89,10 +92,25 @@ var showDatepicker = function() {
   }
 };
 
+
+var showMultiselect = function() {
+  console.log('hello');
+  var multiselects = $('.js-mselect');
+
+  for(var i = 0; i < multiselects.length; i++) {
+    multiselects[i].classList.add('chosen');
+    multiselects[i].classList.add('chosen-select');
+  }
+
+  multiselects.chosen();
+}
+
 function onReady() {
   filterForms();
-  showDropdown();
+  dropdown();
+  showMultiselect();
   showDatepicker();
-}
+};
+
 
 document.addEventListener('DOMContentLoaded', onReady);
