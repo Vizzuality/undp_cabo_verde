@@ -16,9 +16,11 @@
 
 .inline-list {
   height: 160px;
+  overflow: visible;
 
   .dropdown-src {
-    min-width: 162px;
+    position: relative;
+
 
     > .dropdown-text {
       display: flex;
@@ -46,7 +48,7 @@
 
         &.-with-icon {
           padding-left: 50px; // space for span.icon
-          text-align: right;
+          text-align: left;
           display: inline-block;
         }
 
@@ -57,6 +59,10 @@
     }
 
     > .dropdown-list {
+      min-width: 162px;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
       opacity: 0;
       display: none;
     }
@@ -67,8 +73,8 @@
         display: block;
       }
     }
-
   }
+
 }
 
 
