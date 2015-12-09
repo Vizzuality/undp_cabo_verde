@@ -1,5 +1,17 @@
 = form.error_notification
 .form-inputs
-  = form.input :relation_category, collection: @relation_categories, as: :collection_select
-  = form.input :title
-  = form.input :title_reverse
+  .row
+    .column.medium-4
+      = form.label :relation_category, class: 'right inline'
+    .column.medium-8
+      = form.input :relation_category, collection: @relation_categories, as: :collection_select, label: false
+  .row
+    .column.medium-4
+      = form.label :title, class: 'right inline'
+    .column.medium-8
+      = form.input :title, label: false
+  .row
+    .column.medium-4
+      = form.label :title_reverse, class: 'right inline'
+    .column.medium-8
+      = form.input :title_reverse, label: false
