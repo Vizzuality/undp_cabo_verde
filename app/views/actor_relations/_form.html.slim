@@ -1,9 +1,12 @@
 = form.error_notification
 .form-inputs
   = form.input :relation_type_id, collection: @relation_types, as: :collection_select
-  = form.input :start_date, as: :date, start_year: Date.today.year,
-                                 end_year: Date.today.year - 90,
-                                 order: [:day, :month, :year]
-  = form.input :end_date, as: :date, start_year: Date.today.year,
-                               end_year: Date.today.year - 90,
-                               order: [:day, :month, :year], include_blank: true
+  = form.label :start_date, class: 'inline'
+  = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                 'data-max-date': Date.today,
+                                 class: 'js-datepicker'
+  = form.label :end_date, class: 'inline'
+  = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                               'data-max-date': Date.today,
+                               'data-blank-date': true,
+                               class: 'js-datepicker'

@@ -10,6 +10,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
+gem 'chosen-rails', '~> 1.4', '>= 1.4.3'
 gem 'autoprefixer-rails'
 
 source 'https://rails-assets.org' do
