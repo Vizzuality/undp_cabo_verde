@@ -1,0 +1,125 @@
+en:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+    labels:
+      defaults:
+        password: 'Password'
+      # user:
+      #   new:
+      #     email: 'E-mail to sign in.'
+      #   edit:
+      #     email: 'E-mail.'
+      actor:
+        new:
+          name: 'Name'
+          observation: 'Observation'
+          type: 'Level'
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      actor_micro:
+        edit:
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      actor_meso:
+        edit:
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      actor_macro:
+        edit:
+          category_ids: 'Categories'
+          operational_filed: 'Scale'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+
+      act:
+        new:
+          name: 'Name'
+          type: 'Level'
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      act_micro:
+        edit:
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      act_meso:
+        edit:
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+      act_macro:
+        edit:
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+
+      category:
+        new:
+          parent_id: 'Main category'
+          child_ids: 'Subcategories'
+        edit:
+          parent_id: 'Main category'
+          child_ids: 'Subcategories'
+      socio_cultural_domain:
+        edit:
+          parent_id: 'Main category'
+          child_ids: 'Subcategories'
+      other_domain:
+        edit:
+          parent_id: 'Main category'
+          child_ids: 'Subcategories'
+
+      actor_relation:
+        edit:
+          relation_type_id: 'Relation category'
+      act_relation:
+        edit:
+          relation_type_id: 'Relation category'
+
+      localization:
+        new:
+          lat: 'Latitude'
+          long: 'Longtitude'
+        edit:
+          lat: 'Latitude'
+          long: 'Longtitude'
+
+      relation_type:
+        new:
+          relation_category: 'Relation category'
+          title_reverse: 'Reverse title'
+        edit:
+          relation_category: 'Relation category'
+          title_reverse: 'Reverse title'
+
+    hints:
+      defaults:
+        username: 'User name to sign in.'
+        password: 'No special characters, please.'
+    include_blanks:
+      defaults:
+        age: 'Rather not say'
+    prompts:
+      defaults:
+        age: 'Select your age'

@@ -14,9 +14,9 @@ hr
   - if @actor.micro?
     = f.input :title, collection: @actor.title_select, as: :collection_select
     = f.input :gender, collection: @actor.gender_select, as: :collection_select
-    = f.input :date_of_birth, as: :date, start_year: Date.today.year - 12,
-                              end_year: Date.today.year - 90,
-                              order: [:day, :month, :year]
+    = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                   'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
+                                   class: 'js-datepicker'
   - if @actor.macro?
     = f.input :operational_field, collection: @actor.operational_field_select, as: :collection_select
   - if @actor.meso_or_macro?

@@ -1,5 +1,7 @@
 //= require jquery2
 //= require jquery_ujs
+//= require jquery-ui/datepicker
+//= require chosen-jquery
 //= require_tree .
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
@@ -36,11 +38,11 @@ var filterForms = function() {
 
 var toggleDropdown = function(target) {
   target.classList.toggle('dropdown-active');
-}
+};
 
 var disableDropdown = function(target) {
   target.classList.remove('dropdown-active');
-}
+};
 
 var showDropdown = function() {
   var account =  document.querySelector('#js-dropdown-acc');
@@ -63,11 +65,34 @@ var showDropdown = function() {
       }
     });
   }
-}
+};
+
+var showDatepicker = function() {
+  var dateFields = document.querySelectorAll('.js-datepicker');
+  var minDate, startDate;
+  for(var i = 0, j = dateFields.length; i < j; i++) {
+    minDate = new Date(dateFields[i].getAttribute('data-min-date').split('-'));
+    maxDate = new Date(dateFields[i].getAttribute('data-max-date').split('-'));
+    if(!dateFields[i].getAttribute('data-blank-date') ||
+      dateFields[i].getAttribute('data-blank-date') !== 'true') {
+      dateFields[i].value = dateFields[i].getAttribute('data-min-date');
+    }
+    $(dateFields[i]).datepicker({
+      minDate: minDate,
+      maxDate: maxDate,
+      dateFormat: 'yy-mm-dd',
+      yearRange: dateFields[i].getAttribute('data-min-date').split('-')[0] + ':' +
+        dateFields[i].getAttribute('data-max-date').split('-')[0],
+      changeMonth: true,
+      changeYear: true
+    });
+  }
+};
 
 function onReady() {
   filterForms();
   showDropdown();
+  showDatepicker();
 }
 
 document.addEventListener('DOMContentLoaded', onReady);

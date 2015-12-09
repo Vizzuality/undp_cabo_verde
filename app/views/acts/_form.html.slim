@@ -29,20 +29,19 @@
     .column.medium-4
       = form.label :start_date, class: 'right inline'
     .column.medium-8
-      = form.input :start_date, as: :date, 
-        start_year: Date.today.year,
-        end_year: Date.today.year - 90,
-        order: [:day, :month, :year],
-        label: false
+      = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                     'data-max-date': Date.today,
+                                     class: 'js-datepicker',
+                                     label: false
   .row
     .column.medium-4
       = form.label :end_date, class: 'right inline'
     .column.medium-8
-      = form.input :end_date, as: :date, 
-        start_year: Date.today.year,
-        end_year: Date.today.year - 90,
-        order: [:day, :month, :year], include_blank: true,
-        label: false
+      = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                   'data-max-date': Date.today,
+                                   'data-blank-date': true,
+                                   class: 'js-datepicker',
+                                   label: false
   .row
     .column.medium-4
       = form.label :description, class: 'right inline'

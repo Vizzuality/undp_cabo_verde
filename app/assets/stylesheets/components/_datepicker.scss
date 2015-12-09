@@ -1,0 +1,52 @@
+.js-datepicker {
+  background: url("calendar.png") center right 20px/17px no-repeat !important;
+}
+
+#ui-datepicker-div {
+  border-radius: none;
+
+  &>.ui-datepicker-header {
+    border: none;
+    background: none;
+  }
+
+  .ui-state-default {
+    border: none;
+    background: none;
+    text-align: center;
+  }
+
+  .ui-state-active {
+    background-color: $color-13;
+    color: $color-1;
+  }
+
+  .ui-datepicker-next,
+  .ui-datepicker-prev {
+    border: none !important;
+    border-radius: none !important;
+    background: none !important;
+  }
+
+  .ui-datepicker-next {
+    right: 2px !important;
+    top: 2px !important;
+  }
+
+  .ui-datepicker-prev {
+    left: 2px !important;
+    top: 2px !important;
+  }
+
+  select {
+    background: none;
+    color: $color-2;
+    font-family: Verdana, Arial, sans-serif;
+    text-align: center;
+    font-size: 18px;
+    background-image: url("form-arrow.png");
+    background-size: 12px;
+    background-position: right 20px center;
+    background-repeat: no-repeat;
+  }
+}
