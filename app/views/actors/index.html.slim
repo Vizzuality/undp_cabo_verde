@@ -13,10 +13,10 @@
           span.data.-primary
             = link_to actor.name, actor_path(actor)
           span.data
-            | Created:
+            | Created:&nbsp;
             = actor.created_at.to_formatted_s(:short).to_s
           span.data
-            | &nbsp;/ Updated:
+            | &nbsp;/ Updated:&nbsp;
             = actor.updated_at.to_formatted_s(:short).to_s
 
         .data-secondary
