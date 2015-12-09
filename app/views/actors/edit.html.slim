@@ -18,7 +18,7 @@ hr
                               end_year: Date.today.year - 90,
                               order: [:day, :month, :year]
   - if @actor.macro?
-    = f.input :operational_field, collection: @actor.operational_field_select, as: :collection_select
+    = f.input :operational_field, collection: @operational_fields, as: :collection_select
   - if @actor.meso_or_macro?
     = f.input :short_name
     = f.input :legal_status

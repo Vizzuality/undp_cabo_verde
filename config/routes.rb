@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
     resources :other_domains,          controller: 'categories', type: 'OtherDomain'
     resources :organization_types,     controller: 'categories', type: 'OrganizationType'
+    resources :operational_fields,     controller: 'categories', type: 'OperationalField'
 
     # Relation types
     resources :relation_types, except: :show, path: 'relation-types'

@@ -9,6 +9,7 @@ RSpec.describe CategoriesController, type: :controller do
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id)
     @meso  = create(:actor_meso,  user_id: @user.id)
+    # First Category already created with actor_macro
     @category  = create(:category)
     @child_cat = create(:category, name: 'Category second', parent: @category, actors: [@micro, @meso])
   end
@@ -74,7 +75,7 @@ RSpec.describe CategoriesController, type: :controller do
         @macro.reload
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
-        expect(@macro.categories.first.name).to eq('New cat name')
+        expect(@macro.categories.second.name).to eq('New cat name')
       end
 
       it 'Delete category' do
@@ -82,7 +83,7 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(categories_path)
-        expect(Category.count).to eq(1)
+        expect(Category.count).to eq(2)
       end
     end
 
