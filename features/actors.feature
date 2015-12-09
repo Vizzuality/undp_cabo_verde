@@ -3,16 +3,13 @@ In order to manage actors
 As an adminuser
 I want to manage an actor
 
-  Scenario: User can view actors page and actor page
+  Scenario: User can not view actors page and actor page without login
     Given user
     And person
     And organization by admin
     When I go to the actors page
-    And I should see "Person one"
-    And I should see "Organization by admin"
-    When I follow "Organization by admin"
-    Then I should be on the actor page for "Organization by admin"
-    And I should see "Organization by admin (Macro)"
+    And I should see "You need to sign in or sign up before continuing."
+    Then I should be on the login page
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user
@@ -46,7 +43,7 @@ I want to manage an actor
     When I go to the edit actor page for "Organization one"
     And I fill in "actor_macro_name" with "New Organization"
     And I fill in "actor_macro_observation" with "It's description for organization"
-    When I select "International" from "actor_macro_operational_field"
+    When I select "Global" from "actor_macro_operational_field"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
     And I should see "New Organization"

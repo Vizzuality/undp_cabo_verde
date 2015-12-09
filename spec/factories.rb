@@ -12,6 +12,8 @@ FactoryGirl.define do
   sequence(:lat)      { Faker::Address.latitude }
   sequence(:long)     { Faker::Address.longitude }
 
+  sequence(:operational_field) { create(:operational_field).id }
+
   # Users #
   factory :random_user, class: User do
     id
@@ -79,6 +81,7 @@ FactoryGirl.define do
     name 'Organization one'
     type 'ActorMacro'
     observation 'Lorem ipsum...'
+    after(:build) { |macro| macro.update!(operational_field: create(:operational_field).id) }
   end
 
   # Acts
@@ -117,6 +120,11 @@ FactoryGirl.define do
   factory :category do
     name 'Category one'
     type 'OtherDomain'
+  end
+
+  factory :operational_field, class: OperationalField do
+    name 'Global'
+    type 'OperationalField'
   end
   
   # Comments

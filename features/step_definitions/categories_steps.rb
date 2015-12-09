@@ -22,6 +22,10 @@ Given /^category_three$/ do
   FactoryGirl.create(:category, name: 'Category three')
 end
 
+Given /^operational field$/ do
+  FactoryGirl.create(:operational_field, name: 'International')
+end
+
 Given /^category_tree$/ do
   @cat_1 = FactoryGirl.create(:category, id: 2, name: 'Category two')
   @cat_2 = FactoryGirl.create(:category, id: 3, name: 'Category three')

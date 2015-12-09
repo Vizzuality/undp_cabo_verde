@@ -20,7 +20,7 @@
                                     end_year: Date.today.year - 90,
                                     order: [:day, :month, :year]
         #form-actor.macro._hidden
-          = f.input :operational_field, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select
+          = f.input :operational_field, collection: @operational_fields, as: :collection_select
         #form-actor.meso.macro._hidden
           = f.input :short_name, placeholder: 'test'
           = f.input :legal_status
