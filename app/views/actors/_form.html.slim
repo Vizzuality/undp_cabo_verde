@@ -14,15 +14,15 @@
     .column.medium-4
       = form.label :organization_type_ids, class: 'right'
     .column.medium-8
-      = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, :input_html => { :multiple => true, class: "js-mselect"}
+      = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, :input_html => {:multiple => true, class: (@organization_types.length > 4 ? "js-mselect" : "")}
   .row
     .column.medium-4
       = form.label :socio_cultural_domain_ids, class: 'right'
     .column.medium-8
-      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, :input_html => {:multiple => true, class: "js-mselect"}
+      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, :input_html => {:multiple => true, class: (@socio_cultural_domains.length > 4 ? "js-mselect" : "")}
   .row
   .row
     .column.medium-4
       = form.label :other_domain_ids, class: 'right'
     .column.medium-8
-      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
+      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, :input_html => {:multiple => true, class: (@other_domains.length > 4 ? "js-mselect" : "")}
