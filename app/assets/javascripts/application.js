@@ -94,7 +94,6 @@ var showDatepicker = function() {
 
 
 var showMultiselect = function() {
-  console.log('hello');
   var multiselects = $('.js-mselect');
 
   for(var i = 0; i < multiselects.length; i++) {
