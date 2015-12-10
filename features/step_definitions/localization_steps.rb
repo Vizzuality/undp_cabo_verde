@@ -20,5 +20,5 @@ end
 Given /^user act with localization$/ do
   @user = FactoryGirl.create(:user)
   @act = FactoryGirl.create(:act_macro, name: 'First act by user', user: @user)
-  FactoryGirl.create(:localization, name: 'Test location', acts: [@act], user: @user)
+  FactoryGirl.create(:localization, acts: [@act], user: @user)
 end
