@@ -1,19 +1,17 @@
-h1 
-  = t('shared.edit')
-  | 
-  = " #{@act.name}"
-
-= render 'edit_tabs', location: @act
-hr
+.row
+  .column.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2
+          = t('shared.general_info')
+          
 = simple_form_for @act do |f|
-  .iuhuih
   = render partial: f
 
   .form-actions
-    = f.button :submit, t('shared.update')
-
-- if current_user
-  p= render 'shared/deactivatable_links', location: @act
-
-p= link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete
-p= link_to t('shared.back'), :back
+    .row
+      .button-collection.-formcollection
+        = link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
+        - if current_user
+          = render 'shared/deactivatable_links', location: @act
+        = f.button :submit, t('shared.update'), class: '-primary'

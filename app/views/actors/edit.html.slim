@@ -1,34 +1,68 @@
-h1 
-  = t('shared.edit')
-  | 
-  = " #{@actor.name}"
-
-= render 'edit_tabs', location: @actor
-hr
-= simple_form_for @actor do |f|
+.form-actions
   .row
-    .column.medium-3
-      = f.label :type, class: 'right inline'
-    .column.medium-9
-      = f.input :type, label: false, collection: @types, as: :collection_select
-  - if @actor.micro?
-    = f.input :title, collection: @actor.title_select, as: :collection_select
-    = f.input :gender, collection: @actor.gender_select, as: :collection_select
-    = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
-                                   'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
-                                   class: 'js-datepicker'
-  - if @actor.macro?
-    = f.input :operational_field, collection: @actor.operational_field_select, as: :collection_select
-  - if @actor.meso_or_macro?
-    = f.input :short_name
-    = f.input :legal_status
-    = f.input :other_names
-  = render partial: f
-  .form-actions
-    = f.button :submit, t('shared.update')
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
 
-- if current_user
-  p= render 'shared/deactivatable_links', location: @actor
-
-p= link_to t('shared.delete'), actor_path(@actor), data: { confirm: t('shared.confirm_message') }, method: :delete
-p= link_to t('shared.back'), :back
+  = simple_form_for @actor do |f|
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-4
+            = f.label :type, class: 'right inline'
+          .column.medium-8
+            = f.input :type, label: false, collection: @types, as: :collection_select
+        -if @actor.micro?
+          .row
+            .column.medium-4
+              = f.label :title, class: 'right inline'
+            .column.medium-8
+              = f.input :title, collection: @actor.title_select, as: :collection_select, label: false
+          .row
+            .column.medium-4
+              = f.label :gender, class: 'right inline'
+            .column.medium-8
+              = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false
+          .row
+            .column.medium-4
+              = f.label :date_of_birth, class: 'right inline'
+            .column.medium-8
+              = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                             'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
+                                             class: 'js-datepicker'
+                                             
+        - if @actor.macro?
+          .row
+            .column.medium-4
+              = f.label :operational_field, class: 'right inline'
+            .column.medium-8
+              = f.input :operational_field, collection: @actor.operational_field_select, as: :collection_select, label: false
+              
+        - if @actor.meso_or_macro?
+          .row
+            .column.medium-4
+              = f.label :short_name, class: 'right inline'
+            .column.medium-8
+              = f.input :short_name, label: false
+          .row
+            .column.medium-4
+              = f.label :legal_status, class: 'right inline'
+            .column.medium-8
+              = f.input :legal_status, label: false
+          .row
+            .column.medium-4
+              = f.label :other_names, class: 'right inline'
+            .column.medium-8
+              = f.input :other_names, label: false
+              
+        = render partial: f
+        
+    .form-actions
+      .row
+        .button-collection.-formcollection
+          = link_to t('shared.delete'), actor_path(@actor), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
+          - if current_user
+            = render 'shared/deactivatable_links', location: @actor
+          = f.button :submit, t('shared.update'), class: '-primary'

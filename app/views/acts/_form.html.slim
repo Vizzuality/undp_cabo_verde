@@ -1,65 +1,63 @@
 = form.error_notification
 .form-inputs
   .row
-    .column.medium-4
-      = form.label :name, class: 'right inline'
-    .column.medium-8
-      = form.input :name, label: false
-  .row
-    .column.medium-4
-      | &nbsp;
-    .column.medium-8
-      = form.input :event
-    .column.medium-4
-      | &nbsp;
-    .column.medium-8
-      = form.input :human
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-4
+          = form.label :name, class: 'right inline'
+        .column.medium-8
+          = form.input :name, label: false
+      .row
+        .column.medium-8.medium-offset-4
+          = form.input :event
+      .row
+        .column.medium-8.medium-offset-4
+          = form.input :human
+      .row
+        .column.medium-4
+          = form.label :alternative_name, class: 'right inline'
+        .column.medium-8
+          = form.input :alternative_name, label: false
+      .row
+        .column.medium-4
+          = form.label :short_name, class: 'right inline'
+        .column.medium-8
+          = form.input :short_name, label: false
+      .row
+        .column.medium-4
+          = form.label :start_date, class: 'right inline'
+        .column.medium-8
+          = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                         'data-max-date': Date.today,
+                                         class: 'js-datepicker',
+                                         label: false
+      .row
+        .column.medium-4
+          = form.label :end_date, class: 'right inline'
+        .column.medium-8
+          = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                       'data-max-date': Date.today,
+                                       'data-blank-date': true,
+                                       class: 'js-datepicker',
+                                       label: false
+      .row
+        .column.medium-4
+          = form.label :description, class: 'right inline'
+        .column.medium-8
+          = form.input :description, label: false
 
-  .row
-    .column.medium-4
-      = form.label :alternative_name, class: 'right inline'
-    .column.medium-8
-      = form.input :alternative_name, label: false
-  .row
-    .column.medium-4
-      = form.label :short_name, class: 'right inline'
-    .column.medium-8
-      = form.input :short_name, label: false
-  .row
-    .column.medium-4
-      = form.label :start_date, class: 'right inline'
-    .column.medium-8
-      = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
-                                     'data-max-date': Date.today,
-                                     class: 'js-datepicker',
-                                     label: false
-  .row
-    .column.medium-4
-      = form.label :end_date, class: 'right inline'
-    .column.medium-8
-      = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
-                                   'data-max-date': Date.today,
-                                   'data-blank-date': true,
-                                   class: 'js-datepicker',
-                                   label: false
-  .row
-    .column.medium-4
-      = form.label :description, class: 'right inline'
-    .column.medium-8
-      = form.input :description, label: false
-
-  .row
-    .column.medium-4
-      = form.label :organization_type_ids, class: 'right'
-    .column.medium-8
-      = form.input :organization_type_ids, collection: @organization_types, as: :check_boxes, label: false
-  .row
-    .column.medium-4
-      = form.label :socio_cultural_domain_ids, class: 'right'
-    .column.medium-8
-      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :check_boxes, label: false
-  .row
-    .column.medium-4
-      = form.label :other_domain_ids, class: 'right'
-    .column.medium-8
-      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
+      .row
+        .column.medium-4
+          = form.label :organization_type_ids, class: 'right'
+        .column.medium-8
+          = form.input :organization_type_ids, collection: @organization_types, as: :check_boxes, label: false
+      .row
+        .column.medium-4
+          = form.label :socio_cultural_domain_ids, class: 'right'
+        .column.medium-8
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :check_boxes, label: false
+      .row
+        .column.medium-4
+          = form.label :other_domain_ids, class: 'right'
+        .column.medium-8
+          = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false

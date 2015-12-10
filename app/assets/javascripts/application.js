@@ -9,7 +9,7 @@
  */
 var filterForms = function() {
   var forms = document.querySelectorAll('#form-actor, #form-action');
-  var level = document.querySelector('#actor_type, #act_type');
+  var level = document.querySelector('#actor_type, #act_type, #actor_micro_type');
 
   /* If the page doesn't have the necessary filter, we exit the function */
   if(!level) { return; }
@@ -76,9 +76,9 @@ var showDatepicker = function() {
   for(var i = 0, j = dateFields.length; i < j; i++) {
     minDate = new Date(dateFields[i].getAttribute('data-min-date').split('-'));
     maxDate = new Date(dateFields[i].getAttribute('data-max-date').split('-'));
-    if(!dateFields[i].getAttribute('data-blank-date') ||
-      dateFields[i].getAttribute('data-blank-date') !== 'true') {
-      dateFields[i].value = dateFields[i].getAttribute('data-min-date');
+    if(dateFields[i].value.length > 0) {
+      /* We remove the time from the value */
+      dateFields[i].value = dateFields[i].value.split(' ')[0];
     }
     $(dateFields[i]).datepicker({
       minDate: minDate,

@@ -6,9 +6,9 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
-  .row
-    .column.medium-8.medium-offset-1
-      = simple_form_for @act do |f|
+  = simple_form_for @act do |f|
+    .row
+      .column.medium-8.medium-offset-1
         .row
           .column.medium-4
             = f.label :type, class: 'right inline'
@@ -18,8 +18,8 @@
             #form-action.macro._hidden
             #form-action.meso.macro._hidden
 
-        = render partial: f
+    = render partial: f
 
-        .row
-          .column.medium-8.medium-offset-4
-            = f.button :submit, t('shared.create')
+    .row
+      .button-collection.-formcollection
+        = f.button :submit, t('shared.create'), class: '-primary'
