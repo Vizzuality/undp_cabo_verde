@@ -2,7 +2,7 @@ h1
   = t('shared.create')
 
 = simple_form_for [@owner, @localization], url: polymorphic_create_localization_path(@owner) do |f|
-  = render partial: f
+  = render 'form', f: f
 
   .form-actions
     = f.button :submit, t('shared.create')

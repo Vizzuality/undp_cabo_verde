@@ -1,7 +1,7 @@
 jQuery ->
   $(document).on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('fieldset').hide()
+    $(this).closest('.form-inputs').hide()
     event.preventDefault()
 
   $(document).on 'click', '.add_fields', (event) ->

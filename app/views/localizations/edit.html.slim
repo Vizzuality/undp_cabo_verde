@@ -2,7 +2,7 @@ h1
   = t('shared.edit')
 
 = simple_form_for [@owner, @localization], url: polymorphic_localization_path(@owner, @localization) do |f|
-  = render partial: f
+  = render 'form', f: f
 
   .form-actions
     = f.button :submit, t('shared.update')

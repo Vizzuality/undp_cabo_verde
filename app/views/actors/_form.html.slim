@@ -30,6 +30,7 @@
       = form.label :localizations, class: 'right'
     .column.medium-8
       = form.fields_for :localizations do |localizations_form|
-        = render 'localization_fields', f: localizations_form
-        = add_fields_link t('shared.add_localization'), form, :localizations
+        = render 'localizations/form', f: localizations_form
+      p
+        = add_location_path t('shared.add_localization'), form, :localizations
       
