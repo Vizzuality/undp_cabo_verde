@@ -1,6 +1,10 @@
 .form-inputs
   = f.input :name, input_html: { class: 'localization_name' }
+  = f.input :country, input_html: { class: 'localization_country' }, selected: 'CV'
+  = f.input :city, input_html: { class: 'localization_city' }
+  = f.input :zip_code, input_html: { class: 'localization_zip_code' }
   = f.input :lat, input_html: { class: 'localization_lat' }
   = f.input :long, input_html: { class: 'localization_long' }
+  = f.input :web_url, input_html: { class: 'localization_web_url' }
   = f.hidden_field :_destroy unless request.path.include?('/localizations/')
   = link_to t('shared.remove_location'), '#', class: 'remove_fields'
