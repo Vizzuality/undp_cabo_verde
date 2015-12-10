@@ -1,0 +1,21 @@
+.input.check_boxes {
+  padding-top: 5px;
+  height: 90px;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  width: 200px;
+  label {
+    @include font(helvetica, small, light, null);
+    color: $color-3;
+  }
+}
+
+label.checkbox {
+  @include font(helvetica, small, light, null);
+  color: $color-3;
+}

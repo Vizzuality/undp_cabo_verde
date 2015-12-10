@@ -1,6 +1,6 @@
 class ActorsController < ApplicationController
   load_and_authorize_resource
-  
+
   before_action :authenticate_user!
   before_action :set_current_user, only: [:create, :link_actor]
   before_action :set_actor, except: [:index, :new, :create]
@@ -10,7 +10,7 @@ class ActorsController < ApplicationController
   before_action :set_micro_selection, only: :new
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
-  
+
   def index
     @actors = if current_user && current_user.admin?
                 type_class.filter_actors(actor_filters)
@@ -80,7 +80,7 @@ class ActorsController < ApplicationController
   end
 
   private
-  
+
     def set_type
       @type = type
     end
