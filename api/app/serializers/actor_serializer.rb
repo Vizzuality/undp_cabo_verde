@@ -10,7 +10,6 @@ class ActorSerializer < BaseSerializer
   has_many :organization_types
   has_many :socio_cultural_domains
   has_many :other_domains
-  has_many :operational_fields
 
   def level
     case object.type
@@ -40,7 +39,6 @@ class ActorSerializer < BaseSerializer
     include! :organization_types,     serializer: CategorySerializer
     include! :socio_cultural_domains, serializer: CategorySerializer
     include! :other_domains,          serializer: CategorySerializer
-    include! :operational_fields,     serializer: CategorySerializer
   end
 
   def cache_key

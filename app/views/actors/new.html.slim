@@ -36,7 +36,7 @@
             .column.medium-4
               = f.label :operational_field, class: 'right inline'
             .column.medium-8
-              = f.input :operational_field, collection: [['Global', 1], ['International', 2], ['National', 3]], as: :collection_select, label: false
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
         #form-actor.meso.macro._hidden
           .row
             .column.medium-4

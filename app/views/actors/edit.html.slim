@@ -5,7 +5,7 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
-
+  
   = simple_form_for @actor do |f|
     .row
       .column.medium-8.medium-offset-1
@@ -38,7 +38,7 @@
             .column.medium-4
               = f.label :operational_field, class: 'right inline'
             .column.medium-8
-              = f.input :operational_field, collection: @actor.operational_field_select, as: :collection_select, label: false
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
               
         - if @actor.meso_or_macro?
           .row

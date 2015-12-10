@@ -1,12 +1,13 @@
 class ActorsController < ApplicationController
   load_and_authorize_resource
 
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :set_current_user, only: [:create, :link_actor]
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit]
+  before_action :set_micro_selection, only: :new
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
@@ -112,6 +113,11 @@ class ActorsController < ApplicationController
       @socio_cultural_domains = SocioCulturalDomain.all
       @other_domains          = OtherDomain.all
       @operational_fields     = OperationalField.all
+    end
+
+    def set_micro_selection
+      @title_select  = ActorMicro.new.title_select
+      @gender_select = ActorMicro.new.gender_select
     end
 
     def set_parents

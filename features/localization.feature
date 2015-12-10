@@ -15,20 +15,6 @@ I want to manage a actor and act localization
     When I go to the actor page for "Organization one"
     And I should see "New location"
 
-  Scenario: User can create localization for owned actor
-    Given I am authenticated user
-    And person
-    When I go to the edit actor page for "Person one"
-    And I follow "Add locations"
-    And I fill in "localization_name" with "Person localization"
-    And I fill in "localization_lat" with "4343244243432"
-    And I fill in "localization_long" with "4543656677568768"
-    And I press "Create"
-    Then I should be on the edit actor page for "Person one"
-    When I go to the actor page for "Person one"
-    Then I should have a localization
-    And I should see "Person localization"
-
   Scenario: Adminuser can not edit localization without latitude
     Given I am authenticated adminuser
     And user organization with localization
@@ -36,7 +22,7 @@ I want to manage a actor and act localization
     And I follow "Edit location"
     And I fill in "localization_lat" with ""
     And I press "Update"
-    Then I should see "Please review the problems below:"
+    Then I should see "can't be blank"
     And I should see "can't be blank"
 
   Scenario: Adminuser can deactivate and activate localization
@@ -62,19 +48,34 @@ I want to manage a actor and act localization
     When I go to the act page for "First one"
     And I should see "New location"
 
-  Scenario: User can create localization for owned act
-    Given I am authenticated user
-    And third act
-    When I go to the edit act page for "Third one"
-    And I follow "Add locations"
-    And I fill in "localization_name" with "Third localization"
-    And I fill in "localization_lat" with "4343244243432"
-    And I fill in "localization_long" with "4543656677568768"
-    And I press "Create"
-    Then I should be on the edit act page for "Third one"
-    When I go to the act page for "Third one"
-    Then I should have a localization
-    And I should see "Third localization"
+  # Add locations moved to actors and actions forms
+  # Scenario: User can create localization for owned actor
+  #   Given I am authenticated user
+  #   And person
+  #   When I go to the edit actor page for "Person one"
+  #   And I follow "Add locations"
+  #   And I fill in "localization_name" with "Person localization"
+  #   And I fill in "localization_lat" with "4343244243432"
+  #   And I fill in "localization_long" with "4543656677568768"
+  #   And I press "Create"
+  #   Then I should be on the edit actor page for "Person one"
+  #   When I go to the actor page for "Person one"
+  #   Then I should have a localization
+  #   And I should see "Person localization"
+
+  # Scenario: User can create localization for owned act
+  #   Given I am authenticated user
+  #   And third act
+  #   When I go to the edit act page for "Third one"
+  #   And I follow "Add locations"
+  #   And I fill in "localization_name" with "Third localization"
+  #   And I fill in "localization_lat" with "4343244243432"
+  #   And I fill in "localization_long" with "4543656677568768"
+  #   And I press "Create"
+  #   Then I should be on the edit act page for "Third one"
+  #   When I go to the act page for "Third one"
+  #   Then I should have a localization
+  #   And I should see "Third localization"
 
   Scenario: Adminuser can not edit localization without latitude
     Given I am authenticated adminuser
@@ -83,7 +84,7 @@ I want to manage a actor and act localization
     And I follow "Edit location"
     And I fill in "localization_lat" with ""
     And I press "Update"
-    Then I should see "Please review the problems below:"
+    Then I should see "can't be blank"
     And I should see "can't be blank"
 
   Scenario: Adminuser can deactivate and activate localization
@@ -96,4 +97,3 @@ I want to manage a actor and act localization
     When I follow "Activate" within ".activate_localization"
     And I go to the act page for "First act by user"
     Then I should see "Deactivate" within ".deactivate_localization"
-    

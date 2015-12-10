@@ -14,15 +14,22 @@
     .column.medium-4
       = form.label :organization_type_ids, class: 'right inline'
     .column.medium-8
-
-      = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, :input_html => {:multiple => true, class: (@organization_types.length > 4 ? "js-mselect" : "")}
+      = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }
   .row
     .column.medium-4
       = form.label :socio_cultural_domain_ids, class: 'right inline'
     .column.medium-8
-      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, :input_html => {:multiple => true, class: (@socio_cultural_domains.length > 4 ? "js-mselect" : "")}
+      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }
   .row
     .column.medium-4
       = form.label :other_domain_ids, class: 'right inline'
     .column.medium-8
-      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, :input_html => {:multiple => true, class: (@other_domains.length > 4 ? "js-mselect" : "")}
+      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, input_html: { multiple: true, class: ((OtherDomain.count > 4) ? "js-mselect" : "") }
+  .row
+    .column.medium-4
+      = form.label :localizations, class: 'right'
+    .column.medium-8
+      = form.fields_for :localizations do |localizations_form|
+        = render 'localizations/form', f: localizations_form
+      p
+        = add_location_path t('shared.add_location'), form, :localizations

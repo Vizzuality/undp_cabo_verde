@@ -46,4 +46,15 @@ module RoutesHelper
       deactivate_act_comment_path(commentable, comment)
     end
   end
+
+  def add_location_path(name, f, association)
+    new_object = f.object.send(association).klass.new
+    id         = new_object.object_id
+
+    fields = f.fields_for(association, new_object, child_index: id) do |localizations_form|
+      render('localizations/form', f: localizations_form)
+    end
+
+    link_to(name, '', class: 'add_fields', data: { id: id, fields: fields.gsub("\n", '')})
+  end
 end

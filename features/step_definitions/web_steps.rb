@@ -63,6 +63,13 @@ When /^(?:|I )fill in "([^"]*)" for "([^"]*)"(?: within "([^"]*)")?$/ do |value,
   end
 end
 
+When /^I fill in the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    find("#{div}").set("#{value}")
+  end
+end
+
+
 # Use this to fill in an entire form with data from a table. Example:
 #
 #   When I fill in the following:
