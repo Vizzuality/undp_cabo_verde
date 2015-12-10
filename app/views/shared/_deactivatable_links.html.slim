@@ -1,5 +1,5 @@
 - if (can? :activate, location) && location.activated?
-  p= link_to t('shared.deactivate'), "/manage/#{location.model_name.route_key}/#{location.id}/deactivate", method: :patch
+  = link_to t('shared.deactivate'), "/manage/#{location.model_name.route_key}/#{location.id}/deactivate", method: :patch, class: 'button -secondary'
 - if (can? :deactivate, location) && location.deactivated?
   p
     = "#{t('shared.deactivated_at')}: " 

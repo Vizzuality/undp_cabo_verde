@@ -5,29 +5,57 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
-  .row
-    .column.medium-8.medium-offset-1
-      = simple_form_for @actor do |f|
+  = simple_form_for @actor do |f|
+    .row
+      .column.medium-8.medium-offset-1
         .row
           .column.medium-4
             = f.label :type, class: 'right inline'
           .column.medium-8
             = f.input :type, label: false, collection: @types, as: :collection_select, prompt: 'Select a level'
         #form-actor.micro._hidden
-          = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select
-          = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select
-          = f.input :date_of_birth, as: :date, start_year: Date.today.year - 12,
-                                    end_year: Date.today.year - 90,
-                                    order: [:day, :month, :year]
+          .row
+            .column.medium-4
+              = f.label :title, class: 'right inline'
+            .column.medium-8
+              = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select, label: false
+          .row
+            .column.medium-4
+              = f.label :gender, class: 'right inline'
+            .column.medium-8
+              = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select, label: false
+          .row
+            .column.medium-4
+              = f.label :date_of_birth, class: 'right inline'
+            .column.medium-8
+              = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                             'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
+                                             class: 'js-datepicker'
         #form-actor.macro._hidden
-          = f.input :operational_field, collection: @operational_fields, as: :collection_select
+          .row
+            .column.medium-4
+              = f.label :operational_field, class: 'right inline'
+            .column.medium-8
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
         #form-actor.meso.macro._hidden
-          = f.input :short_name, placeholder: 'test'
-          = f.input :legal_status
-          = f.input :other_names
+          .row
+            .column.medium-4
+              = f.label :short_name, class: 'right inline'
+            .column.medium-8
+              = f.input :short_name, label: false
+          .row
+            .column.medium-4
+              = f.label :legal_status, class: 'right inline'
+            .column.medium-8
+              = f.input :legal_status, label: false
+          .row
+            .column.medium-4
+              = f.label :other_names, class: 'right inline'
+            .column.medium-8
+              = f.input :other_names, label: false
+              
+    = render partial: f
 
-        = render partial: f
-
-        .row
-          .column.medium-8.medium-offset-4
-            = f.button :submit, t('shared.create')
+    .row
+      .button-collection.-formcollection
+        = f.button :submit, t('shared.create'), class: '-primary'

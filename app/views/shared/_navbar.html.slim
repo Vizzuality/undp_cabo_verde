@@ -7,18 +7,24 @@ nav
     li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
     li = link_to t('navbar.acts'), acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
+    
     - if user_signed_in? && current_user.admin?
-      / # li Settings
-      - if (can? :manage, RelationType)
-        li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
-      - if (can? :manage, Category)
-        li = link_to t('navbar.categories'), categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
+      li [class='dropdown-src' id='js-dropdown-set']
+        .dropdown-text
+          a class='label'
+            = t('navbar.settings')
+        ul class='dropdown-list'
+          li = link_to t('navbar.categories'), categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
+          - if (can? :manage, RelationType)
+            li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
+
     - if user_signed_in?
-      li [class='acc-name' id='js-acc-name']
-        span class='acc-icon'
-        a
-          = current_user.name
-        ul class='acc-list'
+      li [class='dropdown-src' id='js-dropdown-acc']
+        .dropdown-text
+          span class='icon'
+          a class='label -with-icon'
+            = current_user.name
+        ul class='dropdown-list'
           li = link_to t('navbar.edit_account'), edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
           li = link_to t('navbar.logout'), destroy_user_session_path, method: 'delete'
     - else

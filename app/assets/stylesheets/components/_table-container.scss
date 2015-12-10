@@ -16,6 +16,7 @@
     align-items: center;
 
     >.data-primary {
+      max-width: 600px;
       .data:nth-of-type(1) {
         display: block;
       }
