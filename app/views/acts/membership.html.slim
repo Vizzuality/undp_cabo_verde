@@ -9,7 +9,7 @@ h3= t('acts.act_macros')
     = macro.name 
     |  | 
     = macro.membership_date(@act, macro) 
-  - if (can? :manage, macro)
+  - if (can? :manage, ActRelation)
     p.edit_meso
       = link_to t('shared.edit'), edit_relation(@act, macro)
     p.remove_macro
@@ -23,7 +23,7 @@ hr
       = meso.name 
       |  | 
       = meso.membership_date(@act, meso)
-    - if (can? :manage, meso)
+    - if (can? :manage, ActRelation)
       p.edit_meso
         = link_to t('shared.edit'), edit_relation(@act, meso)
       p.remove_meso
@@ -32,7 +32,7 @@ hr
 h4= t('acts.link_macros')
 - @all_macros.each do |macro|
   p= macro.name
-  - if (can? :manage, macro)
+  - if user_signed_in?
     p.add_macro
       = link_to t('shared.add'), link_act(@act, macro), method: :patch
 - if @act.micro?
@@ -40,6 +40,6 @@ h4= t('acts.link_macros')
   h4= t('acts.link_mesos')
   - @all_mesos.each do |meso|
     p= meso.name
-    - if (can? :manage, meso)
+    - if user_signed_in?
       p.add_meso
         = link_to t('shared.add'), link_act(@act, meso), method: :patch
