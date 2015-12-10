@@ -25,3 +25,12 @@
       = form.label :other_domain_ids, class: 'right'
     .column.medium-8
       = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
+  .row
+    .column.medium-4
+      = form.label :localizations, class: 'right'
+    .column.medium-8
+      = form.fields_for :localizations do |localizations_form|
+        = render 'localizations/form', f: localizations_form
+      p
+        = add_location_path t('shared.add_location'), form, :localizations
+      
