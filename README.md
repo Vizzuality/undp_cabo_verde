@@ -86,6 +86,17 @@
   rake
 ```
 
+capybara-webkit depends on a WebKit implementation from Qt (version >= 4.8), a cross-platform development toolkit. You'll need to download the Qt libraries to build and install the gem. [more](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit)
+
+OS X Mavericks:
+
+    brew update
+    brew install qt
+
+In cucumber, tag scenarios with '@javascript' to run them using a headless WebKit browser.
+
+In RSpec, use the 'js: true' flag. See the [capybara documentation](http://rubydoc.info/gems/capybara#Using_Capybara_with_RSpec) for more information about using capybara with RSpec.
+
 ## BEFORE CREATING A PULL REQUEST
 
 Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde/blob/master/CONTRIBUTING.md).
