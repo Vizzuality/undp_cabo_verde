@@ -76,6 +76,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-webkit (1.7.1)
+      capybara (>= 2.3.0, < 2.6.0)
+      json
     codeclimate-test-reporter (0.4.8)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
@@ -344,6 +347,7 @@ DEPENDENCIES
   byebug
   cancancan (~> 1.10)
   capybara
+  capybara-webkit
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   cucumber-rails

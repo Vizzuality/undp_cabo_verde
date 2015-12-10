@@ -238,6 +238,8 @@ en:
     edit_info: 'Edit info'
     edit_relations: 'Edit relations'
     add_localization: 'Add locations'
+    add_location: 'Add location'
+    remove_location: 'Remove location'
     name: 'Name'
     status: 'Status'
     remove: 'Remove'

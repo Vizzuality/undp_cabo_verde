@@ -212,3 +212,25 @@ I want to manage an actor
     And I follow "Edit" within ".edit_meso"
     When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"
     Then I press "Update"
+  
+  @javascript
+  Scenario: User can add location to actor
+    Given I am authenticated user
+    And person with relations
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_fields"
+    And I fill in the following field ".localization_name" with "Test location" within ".actor_micro_localizations_name"
+    And I fill in the following field ".localization_lat" with "22.22222" within ".actor_micro_localizations_lat"
+    And I fill in the following field ".localization_long" with "11.11111" within ".actor_micro_localizations_long"
+    And I press "Update"
+    Then I should be on the actor page for "Person one"
+    And I should see "Test location"
+
+  Scenario: User can remove location from actor
+    Given I am authenticated adminuser
+    And user organization with localization
+    When I go to the edit actor page for "Organization by user"
+    And I click on ".remove_fields"
+    And I press "Update"
+    Then I should be on the actor page for "Organization by user"
+    And I should not see "Test location"
