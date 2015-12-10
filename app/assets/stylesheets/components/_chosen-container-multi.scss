@@ -2,6 +2,7 @@
   border: none !important ;
   background-image: none !important;
   color: $color-11 !important;
+  margin-bottom: 20px !important;
 }
 .chosen-container-active .chosen-choices {
   box-shadow: none !important;
@@ -9,7 +10,6 @@
 
 .chosen-container-multi ul.chosen-choices {
   min-height: 35px !important;
-  margin-bottom: 20px;
 }
 
 .chosen-choices {
