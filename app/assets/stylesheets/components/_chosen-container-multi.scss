@@ -61,7 +61,20 @@
 }
 
 .search-choice-close {
-  top: 7px !important;
+  top: 6px !important;
+  right: 5px !important;
+  background-repeat: no-repeat !important;
+  background: url(light_cross.png) !important;
+  width: 10px !important;
+  height: 11px !important;
+}
+
+.search-choice-close:hover {
+  background-repeat: no-repeat !important;
+  background: url(dark_cross.png) !important;
+  background-position: initial;
+  width: 10px !important;
+  height: 11px !important;
 }
 
 .active-result {
