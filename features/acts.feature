@@ -203,3 +203,25 @@ I want to manage an act
     And I follow "Edit" within ".edit_meso"
     When I select "action - action (relational namespaces: belongs to - contains)" from "act_relation_relation_type_id"
     Then I press "Update"
+
+  @javascript
+  Scenario: User can add location to action
+    Given I am authenticated user
+    And action with relations
+    When I go to the edit act page for "Action one"
+    And I click on ".add_fields"
+    And I fill in the following field ".localization_name" with "Test location" within ".act_micro_localizations_name"
+    And I fill in the following field ".localization_lat" with "22.22222" within ".act_micro_localizations_lat"
+    And I fill in the following field ".localization_long" with "11.11111" within ".act_micro_localizations_long"
+    And I press "Update"
+    Then I should be on the act page for "Action one"
+    And I should see "Test location"
+
+  Scenario: User can remove location from action
+    Given I am authenticated adminuser
+    And user act with localization
+    When I go to the edit act page for "First act by user"
+    And I click on ".remove_fields"
+    And I press "Update"
+    Then I should be on the act page for "First act by user"
+    And I should not see "Test location"

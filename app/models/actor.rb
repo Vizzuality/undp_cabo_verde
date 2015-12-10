@@ -22,8 +22,10 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
-  has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
+  has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
   
+  accepts_nested_attributes_for :localizations, allow_destroy: true
+
   before_update :deactivate_dependencies, if: '!active and active_changed?'
   
   validates :type, presence: true
@@ -142,6 +144,11 @@ class Actor < ActiveRecord::Base
 
   def updated
     updated_at.to_s
+  end
+
+  def localizations_form
+    collection = localizations
+    collection.any? ? collection : localizations.build
   end
 
   private

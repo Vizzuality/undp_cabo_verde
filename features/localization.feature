@@ -36,7 +36,7 @@ I want to manage a actor and act localization
     And I follow "Edit location"
     And I fill in "localization_lat" with ""
     And I press "Update"
-    Then I should see "Please review the problems below:"
+    Then I should see "can't be blank"
     And I should see "can't be blank"
 
   Scenario: Adminuser can deactivate and activate localization
@@ -83,7 +83,7 @@ I want to manage a actor and act localization
     And I follow "Edit location"
     And I fill in "localization_lat" with ""
     And I press "Update"
-    Then I should see "Please review the problems below:"
+    Then I should see "can't be blank"
     And I should see "can't be blank"
 
   Scenario: Adminuser can deactivate and activate localization

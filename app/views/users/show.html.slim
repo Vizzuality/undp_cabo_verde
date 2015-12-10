@@ -14,5 +14,5 @@ p= "Institution: #{@user.institution}"
 
 - if can? :update, @user
   p= link_to 'Edit user', edit_user_path(@user)
-- if current_user && current_user.admin?
+- if user_signed_in? && current_user.admin?
   p= render 'shared/deactivatable_links', location: @user
