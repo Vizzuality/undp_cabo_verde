@@ -1,10 +1,5 @@
 //= require_self
 //= require chosen
-/*
- *= require jquery-ui/datepicker
- */
-
-
 
 @import
   'settings',
@@ -14,6 +9,9 @@
   'mixins',
   'base',
   'helpers',
+  'jquery.ui.core',
+  'jquery.ui.theme',
+  'jquery.ui.datepicker',
 
 
   'layouts/*',
