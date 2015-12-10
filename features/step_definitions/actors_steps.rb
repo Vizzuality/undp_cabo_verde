@@ -22,6 +22,11 @@ Given /^person$/ do
   FactoryGirl.create(:actor_micro, user_id: User.last.id)
 end
 
+Given /^person with relations$/ do
+  @meso = FactoryGirl.create(:actor_meso, user_id: User.last.id)
+  FactoryGirl.create(:actor_micro, user_id: User.last.id, parents: [@meso])
+end
+
 Given /^department$/ do
   FactoryGirl.create(:actor_meso, user_id: User.last.id)
 end

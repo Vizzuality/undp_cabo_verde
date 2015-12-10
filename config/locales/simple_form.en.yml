@@ -27,18 +27,21 @@ en:
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+          localizations: 'Location'
       actor_micro:
         edit:
           category_ids: 'Categories'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+          localizations: 'Location'
       actor_meso:
         edit:
           category_ids: 'Categories'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+          localizations: 'Location'
       actor_macro:
         edit:
           category_ids: 'Categories'
@@ -46,6 +49,7 @@ en:
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+          localizations: 'Location'
 
       act:
         new:
