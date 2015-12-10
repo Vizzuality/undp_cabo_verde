@@ -8,7 +8,8 @@
 }
 
 .chosen-container-multi ul.chosen-choices {
-  height: 35px !important;
+  min-height: 35px !important;
+  margin-bottom: 20px;
 }
 
 .chosen-choices {
