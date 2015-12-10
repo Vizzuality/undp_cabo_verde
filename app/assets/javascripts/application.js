@@ -70,6 +70,7 @@ var dropdown = function() {
   }
 };
 
+
 var showDatepicker = function() {
   var dateFields = document.querySelectorAll('.js-datepicker');
   var minDate, startDate;
@@ -110,6 +111,5 @@ function onReady() {
   showMultiselect();
   showDatepicker();
 };
-
 
 document.addEventListener('DOMContentLoaded', onReady);

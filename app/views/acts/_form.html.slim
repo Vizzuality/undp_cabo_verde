@@ -9,10 +9,10 @@
           = form.input :name, label: false
       .row
         .column.medium-8.medium-offset-4
-          = form.input :event
+          = form.input :event, class: 'checkbox'
       .row
         .column.medium-8.medium-offset-4
-          = form.input :human
+          = form.input :human, class: 'checkbox'
       .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
@@ -48,16 +48,16 @@
 
       .row
         .column.medium-4
-          = form.label :organization_type_ids, class: 'right'
+          = form.label :organization_type_ids, class: 'right inline'
         .column.medium-8
-          = form.input :organization_type_ids, collection: @organization_types, as: :check_boxes, label: false
+          = form.input :organization_type_ids, collection: @organization_types, as: (@organization_types.length > 4 ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: (@organization_types.length > 4 ? "js-mselect" : "")}
       .row
         .column.medium-4
-          = form.label :socio_cultural_domain_ids, class: 'right'
+          = form.label :socio_cultural_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :check_boxes, label: false
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: (@socio_cultural_domains.length > 4 ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: (@socio_cultural_domains.length > 4 ? "js-mselect" : "")}
       .row
         .column.medium-4
-          = form.label :other_domain_ids, class: 'right'
+          = form.label :other_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
+          = form.input :other_domain_ids, collection: @other_domains, as: (@other_domains.length > 4 ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: (@other_domains.length > 4 ? "js-mselect" : "")}
