@@ -209,7 +209,7 @@ I want to manage an act
     Given I am authenticated user
     And action with relations
     When I go to the edit act page for "Action one"
-    And I click on ".add_fields"
+    And I click on ".add_location"
     And I fill in the following field ".localization_name" with "Test location" within ".act_micro_localizations_name"
     And I fill in the following field ".localization_lat" with "22.22222" within ".act_micro_localizations_lat"
     And I fill in the following field ".localization_long" with "11.11111" within ".act_micro_localizations_long"
