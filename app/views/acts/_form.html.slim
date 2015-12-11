@@ -9,10 +9,10 @@
           = form.input :name, label: false
       .row
         .column.medium-8.medium-offset-4
-          = form.input :event, class: 'checkbox'
+          = form.input :event, as: :radio_buttons
       .row
         .column.medium-8.medium-offset-4
-          = form.input :human, class: 'checkbox'
+          = form.input :human, as: :radio_buttons
       .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
