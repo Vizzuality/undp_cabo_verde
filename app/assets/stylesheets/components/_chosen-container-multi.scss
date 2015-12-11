@@ -65,24 +65,29 @@
   top: 6px !important;
   right: 5px !important;
   background-repeat: no-repeat !important;
-  background: url(light_cross.png) !important;
+  background: url(asset_path("light_cross.png")) !important;
   width: 10px !important;
   height: 11px !important;
 }
 
 .search-choice-close:hover {
   background-repeat: no-repeat !important;
-  background: url(dark_cross.png) !important;
+  background: url(asset_path("dark_cross.png")) !important;
   background-position: initial;
   width: 10px !important;
   height: 11px !important;
 }
 
 .active-result {
-
-    &.highlighted {
-      color: $color-1 !important;
-      background-image: none !important;
-      background-color: $color-13 !important;
-    }
+  &.highlighted {
+    color: $color-1 !important;
+    background-image: none !important;
+    background-color: $color-13 !important;
   }
+}
+
+.chosen-container-multi.chosen-disabled {
+  .chosen-choices { background-color: $color-17 !important; }
+  .search-choice { background-color: $color-16 !important; }
+  .search-choice-close:hover { background: url(asset_path("light_cross.png")) !important; }
+}

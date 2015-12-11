@@ -3,38 +3,38 @@ In order to manage localizations
 As a user
 I want to manage a actor and act localization
 
-  Scenario: User can edit localization on owned actor
-    Given I am authenticated user
-    And organization
-    And organization_localization
-    When I go to the actor page for "Organization one"
-    And I follow "Edit location"
-    And I fill in "localization_name" with "New location"
-    And I press "Update"
-    Then I should be on the edit actor page for "Organization one"
-    When I go to the actor page for "Organization one"
-    And I should see "New location"
+  # Scenario: User can edit localization on owned actor
+  #   Given I am authenticated user
+  #   And organization
+  #   And organization_localization
+  #   When I go to the actor page for "Organization one"
+  #   And I follow "Edit location"
+  #   And I fill in "localization_name" with "New location"
+  #   And I press "Update"
+  #   Then I should be on the edit actor page for "Organization one"
+  #   When I go to the actor page for "Organization one"
+  #   And I should see "New location"
 
-  Scenario: Adminuser can not edit localization without latitude
-    Given I am authenticated adminuser
-    And user organization with localization
-    When I go to the actor page for "Organization by user"
-    And I follow "Edit location"
-    And I fill in "localization_lat" with ""
-    And I press "Update"
-    Then I should see "can't be blank"
-    And I should see "can't be blank"
+  # Scenario: Adminuser can not edit localization without latitude
+  #   Given I am authenticated adminuser
+  #   And user organization with localization
+  #   When I go to the actor page for "Organization by user"
+  #   And I follow "Edit location"
+  #   And I fill in "localization_lat" with ""
+  #   And I press "Update"
+  #   Then I should see "can't be blank"
+  #   And I should see "can't be blank"
 
-  Scenario: Adminuser can deactivate and activate localization
-    Given I am authenticated adminuser
-    And user organization with localization
-    When I go to the actor page for "Organization by user"
-    And I follow "Deactivate" within ".deactivate_localization"
-    And I go to the actor page for "Organization by user"
-    Then I should see "Activate" within ".activate_localization"
-    When I follow "Activate" within ".activate_localization"
-    And I go to the actor page for "Organization by user"
-    Then I should see "Deactivate" within ".deactivate_localization"
+  # Scenario: Adminuser can deactivate and activate localization
+  #   Given I am authenticated adminuser
+  #   And user organization with localization
+  #   When I go to the actor page for "Organization by user"
+  #   And I follow "Deactivate" within ".deactivate_localization"
+  #   And I go to the actor page for "Organization by user"
+  #   Then I should see "Activate" within ".activate_localization"
+  #   When I follow "Activate" within ".activate_localization"
+  #   And I go to the actor page for "Organization by user"
+  #   Then I should see "Deactivate" within ".deactivate_localization"
 
   Scenario: User can edit localization on owned act
     Given I am authenticated user

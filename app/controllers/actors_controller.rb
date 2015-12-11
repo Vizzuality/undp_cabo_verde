@@ -6,16 +6,16 @@ class ActorsController < ApplicationController
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit]
+  before_action :set_selection, only: [:new, :edit, :show]
   before_action :set_micro_selection, only: :new
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
     @actors = if current_user && current_user.admin?
-                type_class.filter_actors(actor_filters)
+                type_class.order(:name).filter_actors(actor_filters)
               else
-                type_class.filter_actives
+                type_class.order(:name).filter_actives
               end
   end
 
@@ -107,16 +107,18 @@ class ActorsController < ApplicationController
 
     def set_selection
       @types          = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
-      @macros         = ActorMacro.filter_actives
-      @mesos          = ActorMeso.filter_actives
-      @actor_relation_types   = RelationType.includes_actor_relations.collect     { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
-      @action_relation_types  = RelationType.includes_actor_act_relations.collect { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
-      @organization_types     = OrganizationType.all
-      @socio_cultural_domains = SocioCulturalDomain.all
-      @other_domains          = OtherDomain.all
-      @operational_fields     = OperationalField.all
-      @parents_to_select      = Actor.filter_actives.meso_and_macro
-      @actions_to_select      = Act.filter_actives
+      @macros         = ActorMacro.order(:name).filter_actives
+      @mesos          = ActorMeso.order(:name).filter_actives
+      @actor_relation_types   = RelationType.order(:title).
+        includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
+      @action_relation_types  = RelationType.order(:title).
+        includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
+      @organization_types     = OrganizationType.order(:name)
+      @socio_cultural_domains = SocioCulturalDomain.order(:name)
+      @other_domains          = OtherDomain.order(:name)
+      @operational_fields     = OperationalField.order(:name)
+      @parents_to_select      = Actor.order(:name).filter_actives.meso_and_macro
+      @actions_to_select      = Act.order(:name).filter_actives
     end
 
     def set_micro_selection
@@ -126,8 +128,8 @@ class ActorsController < ApplicationController
 
     def set_parents
       # ToDo: change it to search function
-      @all_macros = Actor.filter_actives.not_macros_parents(@actor)
-      @all_mesos  = Actor.filter_actives.not_mesos_parents(@actor) if @actor.micro_or_meso?
+      @all_macros = Actor.order(:name).filter_actives.not_macros_parents(@actor)
+      @all_mesos  = Actor.order(:name).filter_actives.not_mesos_parents(@actor) if @actor.micro_or_meso?
     end
 
     def set_memberships

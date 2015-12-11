@@ -6,9 +6,9 @@ hr
 h3= t('actors.actor_macros')
 - @macros.each do |macro|
   p
-    = macro.name 
-    |  | 
-    = macro.membership_date(@actor, macro) 
+    = macro.name
+    |  |
+    = macro.membership_date(@actor, macro)
   - if (can? :manage, ActorRelation)
     p.edit_meso
       = link_to t('shared.edit'), edit_relation(@actor, macro)
@@ -20,8 +20,8 @@ hr
   h3= t('actors.actor_mesos')
   - @mesos.each do |meso|
     p
-      = meso.name 
-      |  | 
+      = meso.name
+      |  |
       = meso.membership_date(@actor, meso)
     - if (can? :manage, ActorRelation)
       p.edit_meso

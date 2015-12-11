@@ -9,10 +9,12 @@
           = form.input :name, label: false
       .row
         .column.medium-8.medium-offset-4
-          = form.input :event, as: :radio_buttons
+          .radio-buttons
+            = form.collection_radio_buttons :event, [[true, "Event"], [false, "Activity"]], :first, :last
       .row
         .column.medium-8.medium-offset-4
-          = form.input :human, as: :radio_buttons
+          .radio-buttons
+            = form.collection_radio_buttons :human, [[true, "Human"], [false, "Natural"]], :first, :last
       .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
