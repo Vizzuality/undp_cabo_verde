@@ -78,7 +78,8 @@
 
       &.-deactivated-map {
         pointer-events: none;
-        opacity: .4;
+
+        a > * { opacity: .4; }
       }
     }
   }
