@@ -47,14 +47,23 @@ module RoutesHelper
     end
   end
 
-  def add_location_path(name, f, association)
+  def add_location_path(name, f, association, class_name=nil)
     new_object = f.object.send(association).klass.new
     id         = new_object.object_id
 
     fields = f.fields_for(association, new_object, child_index: id) do |localizations_form|
       render('localizations/form', f: localizations_form)
     end
+    link_to(name, '', class: "add_fields #{class_name}", data: { id: id, fields: fields.gsub("\n", '')})
+  end
 
-    link_to(name, '', class: 'add_fields', data: { id: id, fields: fields.gsub("\n", '')})
+  def add_actor_parent_path(name, f, association, class_name=nil)
+    new_object = f.object.send(association).klass.new
+    id         = new_object.object_id
+
+    fields = f.fields_for(association, new_object, child_index: id) do |actor_parents_form|
+      render('actor_relation_form', f: actor_parents_form)
+    end
+    link_to(name, '', class: "add_fields #{class_name}", data: { id: id, fields: fields.gsub("\n", '')})
   end
 end

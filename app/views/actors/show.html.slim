@@ -18,19 +18,17 @@ h1
       = link_to macro.name, actor_path(macro)
       |  | 
       = macro.membership_date(@actor, macro)
-
-- if @actor.macro?
-  p
-    = "#{t('actors.operational_field')}: " 
-    = @actor.operational_field_txt
-
-- if @actor.micro?
   - @mesos.each do |meso|
     p
       = "#{t('actors.actor_meso')}: " 
       = link_to meso.name, actor_path(meso)
       |  | 
       = meso.membership_date(@actor, meso)
+
+- if @actor.macro?
+  p
+    = "#{t('actors.operational_field')}: " 
+    = @actor.operational_field_txt
 
 p
   = "#{t('users.user')}: " 
