@@ -32,6 +32,12 @@ select {
   background-position: right 20px center;
   @include font(helvetica, null, regular, null);
   font-size: 18px;
+
+  &:disabled {
+    color: $color-1;
+    background-image: none;
+    background-color: $color-17;
+  }
 }
 
 *:not(.checkbox) > label {
@@ -57,6 +63,11 @@ textarea:focus {
   padding-bottom: 0;
   line-height: 32px;
   @include font(helvetica, null, light, null);
+
+  &:disabled {
+    color: $color-16;
+    background-color: $color-1;
+  }
 }
 
 textarea { min-height: 150px; }

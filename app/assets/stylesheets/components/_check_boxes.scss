@@ -26,6 +26,10 @@
       background-color: $color-13;
     }
 
+    input[type="checkbox"]:disabled:checked {
+      background-color: $color-17;
+    }
+
     input[type="checkbox"]:checked:before {
       position: absolute;
       content: "";
@@ -79,5 +83,4 @@ input[type="checkbox"]:checked:before {
   border-right: 2px solid $color-1;
   transform: rotate(45deg);
 }
-
 

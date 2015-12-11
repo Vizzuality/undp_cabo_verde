@@ -79,10 +79,15 @@
 }
 
 .active-result {
-
-    &.highlighted {
-      color: $color-1 !important;
-      background-image: none !important;
-      background-color: $color-13 !important;
-    }
+  &.highlighted {
+    color: $color-1 !important;
+    background-image: none !important;
+    background-color: $color-13 !important;
   }
+}
+
+.chosen-container-multi.chosen-disabled {
+  .chosen-choices { background-color: $color-17 !important; }
+  .search-choice { background-color: $color-16 !important; }
+  .search-choice-close:hover { background: url(asset_path("light_cross.png")) !important; }
+}
