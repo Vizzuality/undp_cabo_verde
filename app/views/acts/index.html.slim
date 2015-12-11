@@ -35,6 +35,11 @@
               span
                 = t("shared.edit")
           span.data.-linkdata
+            = link_to act_path(act), :class => "-hoverlink" do
+              = image_tag "view.svg", :class => "icon"
+              span
+                = t("shared.view")
+          span.data.-linkdata
             = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete, :class => "-hoverlink" do
               = image_tag "delete.svg", :class => "icon"
               span
