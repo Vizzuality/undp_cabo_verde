@@ -44,6 +44,7 @@ select {
 
 input[type="text"],
 input[type="email"],
+input[type="url"],
 textarea,
 textarea:focus {
   border: none;
@@ -54,12 +55,14 @@ textarea:focus {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 32px;
+  @include font(helvetica, null, light, null);
 }
 
 textarea { min-height: 150px; }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="url"] {
   border-bottom: 1px solid $color-13;
 }
 
