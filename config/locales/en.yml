@@ -325,6 +325,9 @@ en:
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
+    relations: 'Relations'
+    add_relation: 'Add relation'
+    remove_relation: 'Remove relation'
 
   users:
     my_actors: 'My actors'
