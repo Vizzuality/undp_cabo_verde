@@ -1,6 +1,6 @@
 class ActsController < ApplicationController
   load_and_authorize_resource
-  
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:create, :link_act]
   before_action :set_act, except: [:index, :new, :create]
@@ -9,7 +9,7 @@ class ActsController < ApplicationController
   before_action :set_selection, only: [:new, :edit]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
-  
+
   def index
     @acts = if current_user && current_user.admin?
               type_class.filter_acts(act_filters)
@@ -79,7 +79,7 @@ class ActsController < ApplicationController
   end
 
   private
-  
+
     def set_type
       @type = type
     end
@@ -106,11 +106,11 @@ class ActsController < ApplicationController
 
     def set_selection
       @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
-      @macros     = ActMacro.filter_actives
-      @mesos      = ActMeso.filter_actives
-      @organization_types     = OrganizationType.all
-      @socio_cultural_domains = SocioCulturalDomain.all
-      @other_domains          = OtherDomain.all
+      @macros     = ActMacro.order(:name).filter_actives
+      @mesos      = ActMeso.order(:name).filter_actives
+      @organization_types     = OrganizationType.order(:name)
+      @socio_cultural_domains = SocioCulturalDomain.order(:name)
+      @other_domains          = OtherDomain.order(:name)
     end
 
     def set_parents

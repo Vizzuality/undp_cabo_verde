@@ -113,10 +113,10 @@ class ActorsController < ApplicationController
         includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
       @action_relation_types  = RelationType.order(:title).
         includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
-      @organization_types     = OrganizationType.all
-      @socio_cultural_domains = SocioCulturalDomain.all
-      @other_domains          = OtherDomain.all
-      @operational_fields     = OperationalField.all
+      @organization_types     = OrganizationType.order(:name)
+      @socio_cultural_domains = SocioCulturalDomain.order(:name)
+      @other_domains          = OtherDomain.order(:name)
+      @operational_fields     = OperationalField.order(:name)
       @parents_to_select      = Actor.order(:name).filter_actives.meso_and_macro
       @actions_to_select      = Act.order(:name).filter_actives
     end
