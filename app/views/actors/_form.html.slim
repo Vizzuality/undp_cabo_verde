@@ -32,7 +32,7 @@
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = :localizations
+        h2 = t('localizations.localizations')
       
     = form.fields_for :localizations do |localizations_form|
       = render 'localizations/form', f: localizations_form
