@@ -61,11 +61,15 @@
           = form.label :other_domain_ids, class: 'right inline'
         .column.medium-8
           = form.input :other_domain_ids, collection: @other_domains, as: ((OtherDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OtherDomain.count > 4) ? "js-mselect" : "")}
-      .row
-        .column.medium-4
-          = form.label :localizations, class: 'right'
-        .column.medium-8
-          = form.fields_for :localizations do |localizations_form|
-            = render 'localizations/form', f: localizations_form
-          p
-            = add_location_path t('shared.add_location'), form, :localizations
+.row
+  .columns.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('localizations.localizations')
+
+    = form.fields_for :localizations do |localizations_form|
+      = render 'localizations/form', f: localizations_form
+    .row
+      .column
+        p.text-right
+          = add_location_path t('shared.add_location'), form, :localizations
