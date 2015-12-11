@@ -227,6 +227,7 @@ I want to manage an actor
     And I go to the actor page for "Person one with relation"
     Then I should see "Test location"
   
+  @javascript
   Scenario: User can remove location from actor
     Given I am authenticated adminuser
     And user organization with localization
@@ -249,12 +250,13 @@ I want to manage an actor
     And I go to the actor page for "Person one"
     Then I should see "Organization one"
   
+  @javascript
   Scenario: User can remove location from actor
     Given actor with relations
     And I am authenticated adminuser
     When I go to the actor page for "Person one with relation"
     Then I should see "Department one"
-    And I follow "Edit actor"
+    When I follow "Edit actor"
     And I click on ".remove_fields"
     And I press "Update"
     And I go to the actor page for "Person one with relation"

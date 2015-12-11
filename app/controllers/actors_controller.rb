@@ -114,6 +114,7 @@ class ActorsController < ApplicationController
       @socio_cultural_domains = SocioCulturalDomain.all
       @other_domains          = OtherDomain.all
       @operational_fields     = OperationalField.all
+      @parents_to_select      = Actor.filter_actives.meso_and_macro
     end
 
     def set_micro_selection

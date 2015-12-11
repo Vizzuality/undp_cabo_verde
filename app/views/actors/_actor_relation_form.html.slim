@@ -4,7 +4,7 @@
     .column.medium-4
       = f.label :parent_id, class: 'right inline'
     .column.medium-8
-      = f.input :parent_id, collection: ActorMacro.filter_actives, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }
+      = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }
   .row
     .column.medium-4
       = f.label :relation_type_id, class: 'right inline'
