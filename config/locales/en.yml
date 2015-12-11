@@ -272,6 +272,7 @@ en:
     remove_actor: 'Remove actor'
     add_action: 'Add action'
     remove_action: 'Remove action'
+    actions: 'Actions'
 
   acts:
     act: 'Action'
