@@ -2,7 +2,8 @@
   width: 100%;
 
   >.table-row {
-    height: 125px;
+    min-height: 100px;
+    padding: 20px 0px;
     border-bottom: 1px solid $color-12;
     border-bottom: 1px solid $color-12;
 
