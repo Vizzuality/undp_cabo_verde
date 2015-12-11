@@ -18,12 +18,12 @@
             .column.medium-4
               = f.label :title, class: 'right inline'
             .column.medium-8
-              = f.input :title, collection: [['Mr', 1], ['Ms', 2], ['Mrs', 3], ['Miss', 4], ['Dr', 5], ['Prof', 6], ['Rev', 7], ['Other', 8]], as: :collection_select, label: false
+              = f.input :title, collection: @title_select, as: :collection_select, label: false
           .row
             .column.medium-4
               = f.label :gender, class: 'right inline'
             .column.medium-8
-              = f.input :gender, collection: [['Unisex', 1], ['Male', 2], ['Female', 3]], as: :collection_select, label: false
+              = f.input :gender, collection: @gender_select, as: :collection_select, label: false
           .row
             .column.medium-4
               = f.label :date_of_birth, class: 'right inline'

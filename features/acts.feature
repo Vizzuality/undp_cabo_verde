@@ -33,7 +33,7 @@ I want to manage an act
     And second act
     When I go to the edit act page for "Second one"
     And I fill in "act_meso_name" with "New Second"
-    And I check "act_meso_human"
+    And I choose "act_meso_human_true"
     And I fill in "act_meso_alternative_name" with "New alternative Second"
     And I fill in "act_meso_short_name" with "New short Second"
     And I fill in "act_meso_description" with "Lorem ipsum..."
@@ -46,7 +46,7 @@ I want to manage an act
     And first act
     When I go to the edit act page for "First one"
     And I fill in "act_macro_name" with "New First"
-    And I check "act_macro_event"
+    And I choose "act_macro_event_true"
     And I press "Update"
     Then I should be on the act page for "New First"
     And I should see "New First"
