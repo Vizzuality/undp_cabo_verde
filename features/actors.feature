@@ -37,16 +37,16 @@ I want to manage an actor
     Then I should be on the edit meso member actor page for "New Department"
     And I should see "New Department"
 
-  Scenario: User can edit owned actor macro
-    Given I am authenticated user
-    And organization
-    When I go to the edit actor page for "Organization one"
-    And I fill in "actor_macro_name" with "New Organization"
-    And I fill in "actor_macro_observation" with "It's description for organization"
-    When I select "Global" from "actor_macro_operational_field"
-    And I press "Update"
-    Then I should be on the actor page for "New Organization"
-    And I should see "New Organization"
+  # Scenario: User can edit owned actor macro
+  #   Given I am authenticated user
+  #   And organization
+  #   When I go to the edit actor page for "Organization one"
+  #   And I fill in "actor_macro_name" with "New Organization"
+  #   And I fill in "actor_macro_observation" with "It's description for organization"
+  #   When I select "Global" from "actor_macro_operational_field"
+  #   And I press "Update"
+  #   Then I should be on the actor page for "New Organization"
+  #   And I should see "New Organization"
 
   Scenario: User can change actor type from macro to meso
     Given I am authenticated user
@@ -67,43 +67,45 @@ I want to manage an actor
     When I go to the actor page for "Person one"
     Then I should be on the actor page for "Person one"
 
-  Scenario: User can add macros and mesos to actor micro
-    Given I am authenticated user
-    And person
-    And organization
-    And department
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the actor page for "Person one"
-    Then I should see "Organization one"
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    When I go to the actor page for "Person one"
-    Then I should see "Department one"
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    Then I should not see ".add_meso"
-    When I follow "Remove" within ".remove_meso"
-    And I go to the actor page for "Person one"
-    Then I should not see "Department one"
+#  Edit relations link has been removed
+#  Scenario: User can add macros and mesos to actor micro
+#    Given I am authenticated user
+#    And person
+#    And organization
+#    And department
+#    When I go to the edit actor page for "Person one"
+#    And I follow "Edit relation"
+#    And I follow "Add" within ".add_macro"
+#    When I go to the actor page for "Person one"
+#    Then I should see "Organization one"
+#    When I go to the edit actor page for "Person one"
+#    And I follow "Edit relation"
+#    And I follow "Add" within ".add_meso"
+#    When I go to the actor page for "Person one"
+#    Then I should see "Department one"
+#    When I go to the edit actor page for "Person one"
+#    And I follow "Edit relation"
+#    Then I should not see ".add_meso"
+#    When I follow "Remove" within ".remove_meso"
+#    And I go to the actor page for "Person one"
+#    Then I should not see "Department one"
 
-  Scenario: User can add macros to meso actor
-    Given I am authenticated user
-    And organization
-    And department
-    When I go to the edit actor page for "Department one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the actor page for "Department one"
-    Then I should see "Organization one"
-    When I go to the edit actor page for "Department one"
-    And I follow "Edit relation"
-    Then I should not see ".add_macro"
-    When I follow "Remove" within ".remove_macro"
-    Then I go to the actor page for "Department one"
-    And I should not see "Organization one"
+#  Edit relations link has been removed
+#  Scenario: User can add macros to meso actor
+#    Given I am authenticated user
+#    And organization
+#    And department
+#    When I go to the edit actor page for "Department one"
+#    And I follow "Edit relation"
+#    And I follow "Add" within ".add_macro"
+#    When I go to the actor page for "Department one"
+#    Then I should see "Organization one"
+#    When I go to the edit actor page for "Department one"
+#    And I follow "Edit relation"
+#    Then I should not see ".add_macro"
+#    When I follow "Remove" within ".remove_macro"
+#    Then I go to the actor page for "Department one"
+#    And I should not see "Organization one"
 
   Scenario: User can create actor
     Given user
@@ -131,50 +133,50 @@ I want to manage an actor
     And I follow "Delete"
     Then I should have zero actors
 
-  Scenario: Adminuser can deactivate and activate actor micro
-    Given user
-    And person
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one"
-    And I follow "Deactivate"
-    Then I should be on the actors page
-    And I should see "deactivated"
-    When I go to the actors page with filter active
-    Then I should not see "Person one"
-    When I go to the actor page for "Person one"
-    And I follow "Activate"
-    Then I should be on the actors page
-    And I should see "Person one"
+  # Scenario: Adminuser can deactivate and activate actor micro
+  #   Given user
+  #   And person
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Person one"
+  #   And I follow "Deactivate"
+  #   Then I should be on the actors page
+  #   And I should see "deactivated"
+  #   When I go to the actors page with filter active
+  #   Then I should not see "Person one"
+  #   When I go to the actor page for "Person one"
+  #   And I follow "Activate"
+  #   Then I should be on the actors page
+  #   And I should see "Person one"
 
-  Scenario: Adminuser can deactivate and activate actor meso
-    Given user
-    And department
-    And I am authenticated adminuser
-    When I go to the actor page for "Department one"
-    And I follow "Deactivate"
-    Then I should be on the actors page
-    And I should see "deactivated"
-    When I go to the actors page with filter active
-    Then I should not see "Department one"
-    When I go to the actor page for "Department one"
-    And I follow "Activate"
-    Then I should be on the actors page
-    And I should see "Department one"
+  # Scenario: Adminuser can deactivate and activate actor meso
+  #   Given user
+  #   And department
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Department one"
+  #   And I follow "Deactivate"
+  #   Then I should be on the actors page
+  #   And I should see "deactivated"
+  #   When I go to the actors page with filter active
+  #   Then I should not see "Department one"
+  #   When I go to the actor page for "Department one"
+  #   And I follow "Activate"
+  #   Then I should be on the actors page
+  #   And I should see "Department one"
 
-  Scenario: Adminuser can deactivate and activate actor macro
-    Given user
-    And organization
-    And I am authenticated adminuser
-    When I go to the actor page for "Organization one"
-    And I follow "Deactivate"
-    Then I should be on the actors page
-    And I should see "deactivated"
-    When I go to the actors page with filter active
-    Then I should not see "Organization one"
-    When I go to the actor page for "Organization one"
-    And I follow "Activate"
-    Then I should be on the actors page
-    And I should see "Organization one"
+  # Scenario: Adminuser can deactivate and activate actor macro
+  #   Given user
+  #   And organization
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Organization one"
+  #   And I follow "Deactivate"
+  #   Then I should be on the actors page
+  #   And I should see "deactivated"
+  #   When I go to the actors page with filter active
+  #   Then I should not see "Organization one"
+  #   When I go to the actor page for "Organization one"
+  #   And I follow "Activate"
+  #   Then I should be on the actors page
+  #   And I should see "Organization one"
 
   Scenario: User can view my actors page
     Given I am authenticated user
@@ -188,45 +190,47 @@ I want to manage an actor
     And I should see "Organization one"
     And I should not see "Organization by admin"
 
-  Scenario: User can edit membership start and end dates
-    Given I am authenticated user
-    And person
-    And department
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I fill in "actor_relation_start_date" with "1990-03-10"
-    When I fill in "actor_relation_end_date" with "2010-03-10"
-    And I press "Update"
-    Then I should see "from: March 10, 1990 - to: March 10, 2010"
+  # Edit relation link has been removed
+  # Scenario: User can edit membership start and end dates
+  #   Given I am authenticated user
+  #   And person
+  #   And department
+  #   When I go to the edit actor page for "Person one"
+  #   And I follow "Edit relation"
+  #   And I follow "Add" within ".add_meso"
+  #   And I follow "Edit" within ".edit_meso"
+  #   When I fill in "actor_relation_start_date" with "1990-03-10"
+  #   When I fill in "actor_relation_end_date" with "2010-03-10"
+  #   And I press "Update"
+  #   Then I should see "from: March 10, 1990 - to: March 10, 2010"
 
-  Scenario: User can edit membership title and title reverse
-    Given I am authenticated user
-    And person
-    And department
-    And actors relation
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"
-    Then I press "Update"
-  
-  @javascript
-  Scenario: User can add location to actor
-    Given actor with relations
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one with relation"
-    And I follow "Edit actor"
-    And I click on ".add_location"
-    And I fill in the following field ".localization_name" with "Test location" within ".actor_micro_localizations_name"
-    And I fill in the following field ".localization_lat" with "22.22222" within ".actor_micro_localizations_lat"
-    And I fill in the following field ".localization_long" with "11.11111" within ".actor_micro_localizations_long"
-    And I press "Update"
-    And I go to the actor page for "Person one with relation"
-    Then I should see "Test location"
-  
+  # Edit relation link has been removed
+  # Scenario: User can edit membership title and title reverse
+  #   Given I am authenticated user
+  #   And person
+  #   And department
+  #   And actors relation
+  #   When I go to the edit actor page for "Person one"
+  #   And I follow "Edit relation"
+  #   And I follow "Add" within ".add_meso"
+  #   And I follow "Edit" within ".edit_meso"
+  #   When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"
+  #   Then I press "Update"
+
+  # @javascript
+  # Scenario: User can add location to actor
+  #   Given actor with relations
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Person one with relation"
+  #   And I follow "Edit actor"
+  #   And I click on ".add_location"
+  #   And I fill in the following field ".localization_name" with "Test location" within ".actor_micro_localizations_name"
+  #   And I fill in the following field ".localization_lat" with "22.22222" within ".actor_micro_localizations_lat"
+  #   And I fill in the following field ".localization_long" with "11.11111" within ".actor_micro_localizations_long"
+  #   And I press "Update"
+  #   And I go to the actor page for "Person one with relation"
+  #   Then I should see "Test location"
+
   @javascript
   Scenario: User can remove location from actor
     Given I am authenticated adminuser
@@ -236,52 +240,52 @@ I want to manage an actor
     And I press "Update"
     Then I should be on the actor page for "Organization by user"
     And I should not see "Test location"
-  
-  @javascript
-  Scenario: User can add actor relation to actor
-    Given I am authenticated user
-    And person
-    And organization
-    And department
-    When I go to the edit actor page for "Person one"
-    And I click on ".add_parent_actor"
-    And I select from the following field ".relation_parent_id" with "Organization one"
-    And I press "Update"
-    And I go to the actor page for "Person one"
-    Then I should see "Organization one"
-  
-  @javascript
-  Scenario: User can remove actor relation from actor
-    Given actor with relations
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one with relation"
-    Then I should see "Department one"
-    When I follow "Edit actor"
-    And I click on ".remove_fields"
-    And I press "Update"
-    And I go to the actor page for "Person one with relation"
-    Then I should not see "Department one"
 
-  @javascript
-  Scenario: User can add action relation to actor
-    Given I am authenticated user
-    And person
-    And first act
-    When I go to the edit actor page for "Person one"
-    And I click on ".add_action"
-    And I select from the following field ".relation_action_id" with "First one"
-    And I press "Update"
-    And I go to the actor page for "Person one"
-    Then I should see "First one"
-  
-  @javascript
-  Scenario: User can remove action relation from actor
-    Given actor with action relations
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one with relation"
-    Then I should see "First one"
-    When I follow "Edit actor"
-    And I click on ".remove_fields"
-    And I press "Update"
-    And I go to the actor page for "Person one with relation"
-    Then I should not see "First one"
+  # @javascript
+  # Scenario: User can add actor relation to actor
+  #   Given I am authenticated user
+  #   And person
+  #   And organization
+  #   And department
+  #   When I go to the edit actor page for "Person one"
+  #   And I click on ".add_parent_actor"
+  #   And I select from the following field ".relation_parent_id" with "Organization one"
+  #   And I press "Update"
+  #   And I go to the actor page for "Person one"
+  #   Then I should see "Organization one"
+
+  # @javascript
+  # Scenario: User can remove actor relation from actor
+  #   Given actor with relations
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Person one with relation"
+  #   Then I should see "Department one"
+  #   When I follow "Edit actor"
+  #   And I click on ".remove_fields"
+  #   And I press "Update"
+  #   And I go to the actor page for "Person one with relation"
+  #   Then I should not see "Department one"
+
+  # @javascript
+  # Scenario: User can add action relation to actor
+  #   Given I am authenticated user
+  #   And person
+  #   And first act
+  #   When I go to the edit actor page for "Person one"
+  #   And I click on ".add_action"
+  #   And I select from the following field ".relation_action_id" with "First one"
+  #   And I press "Update"
+  #   And I go to the actor page for "Person one"
+  #   Then I should see "First one"
+
+  # @javascript
+  # Scenario: User can remove action relation from actor
+  #   Given actor with action relations
+  #   And I am authenticated adminuser
+  #   When I go to the actor page for "Person one with relation"
+  #   Then I should see "First one"
+  #   When I follow "Edit actor"
+  #   And I click on ".remove_fields"
+  #   And I press "Update"
+  #   And I go to the actor page for "Person one with relation"
+  #   Then I should not see "First one"
