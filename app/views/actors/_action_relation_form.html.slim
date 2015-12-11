@@ -2,7 +2,7 @@
   = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
   .row
     .column.medium-4
-      = f.label :act_id, class: 'right inline'
+      = f.label :act_id, "Action", class: 'right inline'
     .column.medium-8
       - if defined?(disabled) and disabled
         = f.input :act_id, collection: @actions_to_select, as: :collection_select, label: false, input_html: { class: 'relation_action_id' }, disabled: true
