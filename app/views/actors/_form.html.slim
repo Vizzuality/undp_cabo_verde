@@ -55,4 +55,18 @@
         p.text-right
           / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
           = add_actor_parent_path t('actors.add_actor'), form, :actor_relations_as_child, 'add_parent_actor'
+
+.row
+  .columns.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('actions.actions')
+      
+    = form.fields_for :act_actor_relations do |actions_form|
+      = render 'action_relation_form', f: actions_form
+    .row
+      .column
+        p.text-right
+          / Add more css classes to 'add_action', sample 'add_action your_class_name'
+          = add_action_path t('actors.add_action'), form, :act_actor_relations, 'add_action'
           

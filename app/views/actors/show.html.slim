@@ -25,6 +25,12 @@ h1
       |  | 
       = meso.membership_date(@actor, meso)
 
+- if @actions.any?
+  - @actions.each do |action|
+    p
+      = "#{t('actors.actions')}: "
+      = link_to action.name, act_path(action)
+
 - if @actor.macro?
   p
     = "#{t('actors.operational_field')}: " 

@@ -109,12 +109,14 @@ class ActorsController < ApplicationController
       @types          = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros         = ActorMacro.filter_actives
       @mesos          = ActorMeso.filter_actives
-      @relation_types = RelationType.includes_actor_relations.collect { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
+      @actor_relation_types   = RelationType.includes_actor_relations.collect { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
+      @action_relation_types  = RelationType.includes_act_relations.collect   { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
       @organization_types     = OrganizationType.all
       @socio_cultural_domains = SocioCulturalDomain.all
       @other_domains          = OtherDomain.all
       @operational_fields     = OperationalField.all
       @parents_to_select      = Actor.filter_actives.meso_and_macro
+      @actions_to_select      = Act.filter_actives
     end
 
     def set_micro_selection
@@ -129,9 +131,10 @@ class ActorsController < ApplicationController
     end
 
     def set_memberships
-      @macros = @actor.macros_parents
-      @mesos  = @actor.mesos_parents
-      @micros = @actor.micros_parents
+      @macros  = @actor.macros_parents
+      @mesos   = @actor.mesos_parents
+      @micros  = @actor.micros_parents
+      @actions = @actor.acts.filter_actives
     end
 
     def update_actor_flow
