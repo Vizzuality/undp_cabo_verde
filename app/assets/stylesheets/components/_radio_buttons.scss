@@ -1,0 +1,39 @@
+.radio-buttons{
+  margin-bottom: 20px;
+
+
+  label {
+    @include font(helvetica, small, light, null);
+    color: $color-3;
+    display: inline;
+    min-width: 70px;
+  }
+}
+
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  position: relative;
+  margin: 0;
+  margin-top: 5px;
+  width: 16px;
+  height: 16px;
+  background-color: $color-7;
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  background-color: $color-13;
+}
+
+input[type="radio"]:checked:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  background-color: $color-7;
+  border-radius: 50%;
+}

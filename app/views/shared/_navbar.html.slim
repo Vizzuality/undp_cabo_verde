@@ -1,13 +1,11 @@
 nav
   ul.inline-list
-    - if user_signed_in?
-      li = link_to t('navbar.dashboard'), dashboard_path, class: "#{'is-active' if menu_highlight?(:home)}"
-    - else
-      li = link_to t('navbar.home'), root_path, class: "#{'is-active' if menu_highlight?(:home)}"
+    //li = link_to t('navbar.dashboard'), root_pathb, class: "#{'is-active' if menu_highlight?(:home)}"
+    li = link_to t('navbar.home'), root_path, class: "#{'is-active' if menu_highlight?(:home)}"
     li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
     li = link_to t('navbar.acts'), acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
-    
+
     - if user_signed_in? && current_user.admin?
       li [class='dropdown-src' id='js-dropdown-set']
         .dropdown-text

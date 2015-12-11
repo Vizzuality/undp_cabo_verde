@@ -1,4 +1,10 @@
 = simple_form_for [commentable, Comment.new], url: new_comment(commentable) do |f|
-  = f.input :body
   .form-actions
-    = f.button :submit, t('comments.create_comment')
+    .row
+      .column.medium-4
+        = f.label :body, class: 'right inline'
+      .column.medium-8
+        = f.input :body, label: false
+    .row
+      .column.medium-8.medium-offset-4
+        = f.button :submit, t('comments.create_comment'), class: 'button -secondary'
