@@ -251,7 +251,7 @@ I want to manage an actor
     Then I should see "Organization one"
   
   @javascript
-  Scenario: User can remove location from actor
+  Scenario: User can remove actor relation from actor
     Given actor with relations
     And I am authenticated adminuser
     When I go to the actor page for "Person one with relation"
@@ -261,3 +261,27 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one with relation"
     Then I should not see "Department one"
+
+  @javascript
+  Scenario: User can add action relation to actor
+    Given I am authenticated user
+    And person
+    And first act
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_action"
+    And I select from the following field ".relation_action_id" with "First one"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then I should see "First one"
+  
+  @javascript
+  Scenario: User can remove action relation from actor
+    Given actor with action relations
+    And I am authenticated adminuser
+    When I go to the actor page for "Person one with relation"
+    Then I should see "First one"
+    When I follow "Edit actor"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the actor page for "Person one with relation"
+    Then I should not see "First one"

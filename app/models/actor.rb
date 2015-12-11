@@ -26,6 +26,7 @@ class Actor < ActiveRecord::Base
   
   accepts_nested_attributes_for :localizations,            allow_destroy: true
   accepts_nested_attributes_for :actor_relations_as_child, allow_destroy: true
+  accepts_nested_attributes_for :act_actor_relations,      allow_destroy: true
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
   
@@ -156,6 +157,11 @@ class Actor < ActiveRecord::Base
   def actor_parents_form
     collection = actor_relations_as_child
     collection.any? ? collection : actor_relations_as_child.build
+  end
+
+  def actions_form
+    collection = act_actor_relations
+    collection.any? ? collection : act_actor_relations.build
   end
 
   private

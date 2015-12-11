@@ -270,6 +270,8 @@ en:
     new: 'Add new actor'
     add_actor: 'Add actor'
     remove_actor: 'Remove actor'
+    add_action: 'Add action'
+    remove_action: 'Remove action'
 
   acts:
     act: 'Action'
@@ -325,7 +327,8 @@ en:
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
-    relations: 'Relations'
+    actors_relations: 'Actors Relations'
+    actions_relations: 'Actions Relations'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
 
