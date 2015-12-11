@@ -31,7 +31,7 @@
   .row
     .column.medium-4
       = f.label :end_date, class: 'right inline'
-    .column.medium-8   
+    .column.medium-8
       - if defined?(disabled) and disabled
         = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,
@@ -42,7 +42,7 @@
                                   'data-max-date': Date.today,
                                   'data-blank-date': true,
                                   class: 'js-datepicker', input_html: { class: 'relation_end_date' }
-                                  
+
   - unless defined?(disabled) and disabled
     .row
       .column

@@ -5,7 +5,7 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
-  
+
   = simple_form_for @actor do |f|
     .row
       .column.medium-8.medium-offset-1
@@ -32,14 +32,14 @@
               = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
                                              'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
                                              class: 'js-datepicker'
-                                             
+
         - if @actor.macro?
           .row
             .column.medium-4
               = f.label :operational_field, class: 'right inline'
             .column.medium-8
               = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
-              
+
         - if @actor.meso_or_macro?
           .row
             .column.medium-4
@@ -56,9 +56,9 @@
               = f.label :other_names, class: 'right inline'
             .column.medium-8
               = f.input :other_names, label: false
-              
+
     = render partial: f, locals: { disabled: false }
-        
+
     .form-actions
       .row
         .button-collection.-formcollection
