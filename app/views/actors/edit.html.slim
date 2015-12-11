@@ -57,7 +57,7 @@
             .column.medium-8
               = f.input :other_names, label: false
               
-    = render partial: f
+    = render partial: f, locals: { disabled: false }
         
     .form-actions
       .row
@@ -65,5 +65,4 @@
           = link_to t('shared.delete'), actor_path(@actor), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
           - if current_user
             = render 'shared/deactivatable_links', location: @actor
-          = link_to t('shared.edit_relations'), membership_actor_path(@actor), class: 'button -secondary'
           = f.button :submit, t('shared.update'), class: '-primary'

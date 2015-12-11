@@ -1,85 +1,77 @@
-h1
-  - if @actor.micro?
-    = "#{@actor.title_txt}. "
-  = @actor.name
-  | 
-  = " (" + t("types.#{@actor.type.constantize}") + ")"
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
+  
+  = simple_form_for @actor do |f|
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-4
+            = f.label :type, class: 'right inline'
+          .column.medium-8
+            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
+        -if @actor.micro?
+          .row
+            .column.medium-4
+              = f.label :title, class: 'right inline'
+            .column.medium-8
+              = f.input :title, collection: @actor.title_select, as: :collection_select, label: false, disabled: true
+          .row
+            .column.medium-4
+              = f.label :gender, class: 'right inline'
+            .column.medium-8
+              = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false, disabled: true
+          .row
+            .column.medium-4
+              = f.label :date_of_birth, class: 'right inline'
+            .column.medium-8
+              = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                             'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
+                                             class: 'js-datepicker', disabled: true
+                                             
+        - if @actor.macro?
+          .row
+            .column.medium-4
+              = f.label :operational_field, class: 'right inline'
+            .column.medium-8
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, disabled: true
+              
+        - if @actor.meso_or_macro?
+          .row
+            .column.medium-4
+              = f.label :short_name, class: 'right inline'
+            .column.medium-8
+              = f.input :short_name, label: false, disabled: true
+          .row
+            .column.medium-4
+              = f.label :legal_status, class: 'right inline'
+            .column.medium-8
+              = f.input :legal_status, label: false, disabled: true
+          .row
+            .column.medium-4
+              = f.label :other_names, class: 'right inline'
+            .column.medium-8
+              = f.input :other_names, label: false, disabled: true
+              
+    = render partial: f, locals: { disabled: true }
+    
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('comments.comments')
+            
+      #comments
+        - if @actor.comments?
+          = render partial: 'comments/comments', locals: { commentable: @actor }
+        - if (can? :create, Comment)
+          = render partial: 'comments/form',   locals: { commentable: @actor }
 
-- if (can? :manage, @actor)
-  p= link_to t('actors.edit_actor'), edit_actor_path(@actor)
-
-- if current_user
-  p= render 'shared/deactivatable_links', location: @actor
-
-- if @actor.micro_or_meso?
-  - @macros.each do |macro|
-    p
-      = "#{t('actors.actor_macro')}: "
-      = link_to macro.name, actor_path(macro)
-      |  | 
-      = macro.membership_date(@actor, macro)
-  - @mesos.each do |meso|
-    p
-      = "#{t('actors.actor_meso')}: " 
-      = link_to meso.name, actor_path(meso)
-      |  | 
-      = meso.membership_date(@actor, meso)
-
-- if @actions.any?
-  - @actions.each do |action|
-    p
-      = "#{t('actors.actions')}: "
-      = link_to action.name, act_path(action)
-
-- if @actor.macro?
-  p
-    = "#{t('actors.operational_field')}: " 
-    = @actor.operational_field_txt
-
-p
-  = "#{t('users.user')}: " 
-  = @actor.user.name
-
-p
-  = "#{t('actors.observation')}: " 
-  = @actor.observation
-
-- if @actor.micro?
-  p
-    = "#{t('actors.gender')}: "
-    = @actor.gender_txt
-  p
-    = "#{t('actors.date_of_birth')}: "
-    = @actor.birth
-
-- if @actor.localizations?
-  hr
-  h3= "#{t('localizations.localizations')}: "
-  - @localizations.each do |localization|
-    p= localization.name
-    - if (can? :manage, localization)
-      p= link_to t('localizations.edit_localization'), edit_actor_localization_path(@actor, localization)
-    - if (can? [:activate, :deactivate], localization)
-      - if localization.activated?
-        p.deactivate_localization
-          = link_to t('shared.deactivate'), deactivate_actor_localization_path(@actor, localization), method: :patch
-      - if localization.deactivated?
-        p
-          = "#{t('shared.dactivated_at')}: "
-          = localization.deactivated_at.to_time
-        p.activate_localization
-          = link_to t('shared.activate'), activate_actor_localization_path(@actor, localization), method: :patch
-
-- if @actor.categories?
-  hr
-  h3= "#{t('categories.categories')}: "
-  - @categories.each do |category|
-    p= link_to category.name, category_path(category)
-
-#comments
-  h3= "#{t('comments.comments')}: "
-  - if (can? :create, Comment)
-    = render partial: 'comments/form',   locals: { commentable: @actor }
-  - if @actor.comments?
-    hr
-    = render partial: 'comments/comments', locals: { commentable: @actor }
+  .row
+    .button-collection.-formcollection
+      a = link_to t('shared.edit'), edit_actor_path(@actor), class: 'button -type-a'

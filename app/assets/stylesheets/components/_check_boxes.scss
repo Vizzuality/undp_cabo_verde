@@ -25,6 +25,10 @@
       background-color: $color-13;
     }
 
+    input[type="checkbox"]:disabled:checked {
+      background-color: $color-17;
+    }
+
     input[type="checkbox"]:checked:before {
       content: "";
       position: absolute;
@@ -76,4 +80,3 @@
     transform: rotate(45deg);
   }
 }
-
