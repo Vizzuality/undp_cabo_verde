@@ -328,8 +328,8 @@ en:
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
-    actors_relations: 'Actors Relations'
-    actions_relations: 'Actions Relations'
+    actors_relations: 'Connect with Actors'
+    actions_relations: 'Connect with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
 
