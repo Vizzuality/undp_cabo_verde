@@ -17,18 +17,26 @@
     align-items: center;
 
     >.data-primary {
-      max-width: 600px;
+      flex-basis: calc(100% - 650px);
+
       .data:nth-of-type(1) {
         display: block;
       }
     }
 
     >.data-secondary {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-basis: 650px;
+      flex-wrap: nowrap;
+
       .data {
         padding:10px 20px 6px;
         border: 1px solid transparent;
         position: relative;
         border-left: 1px solid $color-12;
+        text-align: center;
 
         &.-linkdata {
           padding: 0;
@@ -56,6 +64,12 @@
           }
         }
       }
+
+      .data:first-of-type  { flex-basis: 80px; }
+      .data:nth-of-type(2) { flex-basis: 112px; }
+      .data:nth-of-type(3) { flex-basis: 140px; }
+      .data:nth-of-type(4) { flex-basis: 82px; }
+      .data:last-of-type   { flex-basis: 100px; }
 
     }
 
