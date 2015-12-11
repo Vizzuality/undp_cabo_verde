@@ -69,7 +69,6 @@ var dropdown = function() {
   }
 };
 
-
 var showDatepicker = function() {
   var dateFields = document.querySelectorAll('.js-datepicker');
   var minDate, startDate;
@@ -91,7 +90,6 @@ var showDatepicker = function() {
     });
   }
 };
-
 
 var showMultiselect = function() {
   var multiselects = $('.js-mselect');
