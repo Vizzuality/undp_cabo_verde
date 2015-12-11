@@ -1,0 +1,33 @@
+.form-inputs
+  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
+  .row
+    .column.medium-4
+      = f.label :parent_id, class: 'right inline'
+    .column.medium-8
+      = f.input :parent_id, collection: ActorMacro.filter_actives, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }
+  .row
+    .column.medium-4
+      = f.label :relation_type_id, class: 'right inline'
+    .column.medium-8
+      = f.input :relation_type_id, collection: @relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }
+  .row
+    .column.medium-4
+      = f.label :start_date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                  'data-max-date': Date.today,
+                                  class: 'js-datepicker', input_html: { class: 'relation_start_date' }
+  .row
+    .column.medium-4
+      = f.label :end_date, class: 'right inline'
+    .column.medium-8                 
+      = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                'data-max-date': Date.today,
+                                'data-blank-date': true,
+                                class: 'js-datepicker', input_html: { class: 'relation_end_date' }
+  .row
+    .column
+      p.text-right.remove_link
+        / Do not move this field!
+        = f.hidden_field :_destroy
+        = link_to t('actors.remove_actor'), '#', class: 'remove_fields'

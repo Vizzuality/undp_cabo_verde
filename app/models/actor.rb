@@ -4,10 +4,10 @@ class Actor < ActiveRecord::Base
   belongs_to :user
 
   has_many :actor_relations_as_parent, class_name: 'ActorRelation', foreign_key: :parent_id
-  has_many :actor_relations_as_child, class_name: 'ActorRelation', foreign_key: :child_id
+  has_many :actor_relations_as_child,  class_name: 'ActorRelation', foreign_key: :child_id
 
   has_many :children, through: :actor_relations_as_parent, dependent: :destroy
-  has_many :parents, through: :actor_relations_as_child, dependent: :destroy
+  has_many :parents,  through: :actor_relations_as_child,  dependent: :destroy
 
   has_many :actor_localizations, foreign_key: :actor_id
   has_many :localizations, through: :actor_localizations, dependent: :destroy
@@ -24,7 +24,8 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
   
-  accepts_nested_attributes_for :localizations, allow_destroy: true
+  accepts_nested_attributes_for :localizations,            allow_destroy: true
+  accepts_nested_attributes_for :actor_relations_as_child, allow_destroy: true
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
   
@@ -149,6 +150,11 @@ class Actor < ActiveRecord::Base
   def localizations_form
     collection = localizations
     collection.any? ? collection : localizations.build
+  end
+
+  def actor_parents_form
+    collection = actor_relations_as_child
+    collection.any? ? collection : actor_relations_as_child.build
   end
 
   private

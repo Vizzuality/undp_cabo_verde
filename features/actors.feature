@@ -215,17 +215,18 @@ I want to manage an actor
   
   @javascript
   Scenario: User can add location to actor
-    Given I am authenticated user
-    And person with relations
-    When I go to the edit actor page for "Person one"
-    And I click on ".add_fields"
+    Given actor with relations
+    And I am authenticated adminuser
+    When I go to the actor page for "Person one with relation"
+    And I follow "Edit actor"
+    And I click on ".add_location"
     And I fill in the following field ".localization_name" with "Test location" within ".actor_micro_localizations_name"
     And I fill in the following field ".localization_lat" with "22.22222" within ".actor_micro_localizations_lat"
     And I fill in the following field ".localization_long" with "11.11111" within ".actor_micro_localizations_long"
     And I press "Update"
-    Then I should be on the actor page for "Person one"
-    And I should see "Test location"
-
+    And I go to the actor page for "Person one with relation"
+    Then I should see "Test location"
+  
   Scenario: User can remove location from actor
     Given I am authenticated adminuser
     And user organization with localization
@@ -234,3 +235,27 @@ I want to manage an actor
     And I press "Update"
     Then I should be on the actor page for "Organization by user"
     And I should not see "Test location"
+  
+  @javascript
+  Scenario: User can add actor relation to actor
+    Given I am authenticated user
+    And person
+    And organization
+    And department
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_parent_actor"
+    And I select from the following field ".relation_parent_id" with "Organization one"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then I should see "Organization one"
+  
+  Scenario: User can remove location from actor
+    Given actor with relations
+    And I am authenticated adminuser
+    When I go to the actor page for "Person one with relation"
+    Then I should see "Department one"
+    And I follow "Edit actor"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the actor page for "Person one with relation"
+    Then I should not see "Department one"

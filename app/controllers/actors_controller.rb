@@ -106,9 +106,10 @@ class ActorsController < ApplicationController
     end
 
     def set_selection
-      @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
-      @macros     = ActorMacro.filter_actives
-      @mesos      = ActorMeso.filter_actives
+      @types          = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
+      @macros         = ActorMacro.filter_actives
+      @mesos          = ActorMeso.filter_actives
+      @relation_types = RelationType.includes_actor_relations.collect { |rt| [ "#{rt.relation_categories} (relational namespaces: #{rt.title_reverse} - #{rt.title})", rt.id ] }
       @organization_types     = OrganizationType.all
       @socio_cultural_domains = SocioCulturalDomain.all
       @other_domains          = OtherDomain.all
