@@ -268,6 +268,11 @@ en:
     gender: 'Gender'
     date_of_birth: 'Date of birth'
     new: 'Add new actor'
+    add_actor: 'Add actor'
+    remove_actor: 'Remove actor'
+    add_action: 'Add action'
+    remove_action: 'Remove action'
+    actions: 'Actions'
 
   acts:
     act: 'Action'
