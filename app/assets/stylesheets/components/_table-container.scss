@@ -35,6 +35,7 @@
         border: 1px solid transparent;
         position: relative;
         border-left: 1px solid $color-12;
+        text-align: center;
 
         &.-linkdata {
           padding: 0;
@@ -63,8 +64,8 @@
         }
       }
 
-      .data:first-of-type  { flex-basis: 85px; }
-      .data:nth-of-type(2) { flex-basis: 115px; }
+      .data:first-of-type  { flex-basis: 80px; }
+      .data:nth-of-type(2) { flex-basis: 112px; }
       .data:nth-of-type(3) { flex-basis: 140px; }
       .data:nth-of-type(4) { flex-basis: 82px; }
       .data:nth-of-type(5) { flex-basis: 96px; }
