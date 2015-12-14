@@ -14,8 +14,8 @@
     h2
       | Last updates on your profile
 
-    .table-container.-disabled
-      .table-row
+    .table-container
+      .table-row.-disabled
         .data-primary
           span.data.-primary
             | It seems there isn't any update to display
@@ -27,17 +27,17 @@
           span.data
              | Published
           span.data.-linkdata
-            a.-hoverlink
+            a
               = image_tag "map.svg", :class => "icon"
               span
                 = t("shared.view_map")
           span.data.-linkdata
-            a.-hoverlink
+            a
               = image_tag "edit.svg", :class => "icon"
               span
                 = t("shared.edit")
           span.data.-linkdata
-            a.-hoverlink
+            a
               = image_tag "delete.svg", :class => "icon"
               span
                 = t('shared.delete')

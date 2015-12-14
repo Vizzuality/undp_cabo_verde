@@ -1,110 +1,95 @@
 .table-container {
   width: 100%;
 
-  >.table-row {
-    min-height: 100px;
-    padding: 20px 0px;
-    border-bottom: 1px solid $color-12;
-    border-bottom: 1px solid $color-12;
-
-    &:first-of-type {
-      border-top: 1px solid $color-12;
-    }
-
+  & > .table-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    min-height: 100px;
+    padding: 20px 0px;
+    border-bottom: 1px solid $color-12;
 
-    >.data-primary {
-      flex-basis: calc(100% - 650px);
+    /* We want the table to have a border at its top position */
+    &:first-of-type { border-top: 1px solid $color-12; }
 
-      .data:nth-of-type(1) {
-        display: block;
-      }
+    & > .data-primary {
+      flex-basis: 45%;
     }
 
-    >.data-secondary {
+    & > .data-secondary {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      flex-basis: 650px;
       flex-wrap: nowrap;
+      flex-grow: 1;
+    }
 
-      .data {
-        padding:10px 20px 6px;
-        border: 1px solid transparent;
-        position: relative;
-        border-left: 1px solid $color-12;
-        text-align: center;
+    & > .data-primary > .data,
+    & > .data-secondary > .data {
+      @include font(null, xxsmall, null, null);
+      color: $color-13;
 
-        &.-linkdata {
-          padding: 0;
-          border-left: 1px solid transparent;
+      & > a { color: $color-13; }
 
-          a {
-            padding:10px 20px 6px;
+      &.-primary {
+        display: block;
+        @include font(null, regular, null, null);
+        color: $color-3;
+        & > a { color: $color-3; }
+      }
+    }
 
+    & > .data-secondary > .data {
+      position: relative;
+      padding:10px 20px 6px;
+      border: 1px solid transparent;
+      border-left: 1px solid $color-12;
+      text-align: center;
 
-            &.-hoverlink {
-              border: 1px solid transparent;
-              border-left: 1px solid $color-12;
-              margin-right: -3px;
+      /* We force the width of the first two elements to make sure they always
+       * have the same width whatever their content */
+      &:nth-of-type(1) { flex-basis: 81px; }
+      &:nth-of-type(2) { flex-basis: 112px; }
 
-              >.icon {
-                padding-right: 5px;
-                padding-bottom: 4px;
-              }
-            }
+      &.-disabled {
+        pointer-events: none;
+        /* The element itself doesn't have a reduced opacity because we still
+         * need to display the left border */
+        & > * { opacity: .3; }
+      }
 
-            &.-hoverlink:hover {
-              background-color: $color-14;
-              border: 1px solid $color-12;
-            }
+      &.-linkdata {
+        padding: 0;
+
+        &:hover {
+          background-color: $color-14;
+          border: 1px solid $color-12;
+          /* We remove the left border from the following sibling to avoid
+           * having twice the right border on the hovered element */
+          & + .data { border-left: 1px solid transparent; }
+        }
+
+        & > a {
+          padding:10px 20px 6px;
+          display: block;
+
+          & > .icon {
+            padding-right: 5px;
+            padding-bottom: 4px;
           }
         }
       }
-
-      .data:first-of-type  { flex-basis: 80px; }
-      .data:nth-of-type(2) { flex-basis: 112px; }
-      .data:nth-of-type(3) { flex-basis: 140px; }
-      .data:nth-of-type(4) { flex-basis: 82px; }
-      .data:last-of-type   { flex-basis: 100px; }
-
     }
 
-    .data {
-      display: inline;
-      @include font(null, xxsmall, null, null);
-      color: $color-3;
-
-      a {
-        color: $color-3;
-      }
-
-      &.-primary {
-        @include font(null, regular, null, null);
-        color: $color-4;
-
-        a {
-          color: $color-4;
-        }
-      }
-
-      &.-deactivated-map {
+    /* A disabled row has a reduced opacity except for the .data.-primary
+     * elements inside the .data-primary section */
+    &.-disabled {
+      .data-primary > .data:not(.-primary),
+      .data-secondary > .data {
+        opacity: .3;
         pointer-events: none;
-
-        a > * { opacity: .4; }
       }
     }
   }
-
-  &.-disabled {
-    .data-primary .data:not(:first-of-type),
-    .data-secondary {
-      opacity: .3;
-      pointer-events: none;
-    }
-  }
-
 }
