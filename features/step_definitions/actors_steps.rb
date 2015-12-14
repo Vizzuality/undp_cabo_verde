@@ -30,7 +30,7 @@ end
 
 Given /^actor with action relations$/ do
   @user = FactoryGirl.create(:user)
-  @act  = FactoryGirl.create(:act_macro, user_id: @user)
+  @act  = FactoryGirl.create(:act_macro, user_id: @user.id)
   FactoryGirl.create(:actor_micro, name: 'Person one with relation', user: @user, acts: [@act])
 end
 

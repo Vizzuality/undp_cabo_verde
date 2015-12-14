@@ -109,10 +109,8 @@ class ActorsController < ApplicationController
       @types          = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros         = ActorMacro.order(:name).filter_actives
       @mesos          = ActorMeso.order(:name).filter_actives
-      @actor_relation_types   = RelationType.order(:title).
-        includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
-      @action_relation_types  = RelationType.order(:title).
-        includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
+      @actor_relation_types   = RelationType.order(:title).includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
+      @action_relation_types  = RelationType.order(:title).includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
       @organization_types     = OrganizationType.order(:name)
       @socio_cultural_domains = SocioCulturalDomain.order(:name)
       @other_domains          = OtherDomain.order(:name)
