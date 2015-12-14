@@ -57,7 +57,7 @@
             .column.medium-8
               = f.input :other_names, label: false, disabled: true
 
-    = render partial: f, locals: { disabled: true }
+    = render partial: f
 
   .row
     .column.medium-8.medium-offset-1
@@ -71,7 +71,9 @@
           = render partial: 'comments/comments', locals: { commentable: @actor }
         - if (can? :create, Comment)
           = render partial: 'comments/form',   locals: { commentable: @actor }
-
-  .row
-    .button-collection.-formcollection
-      a = link_to t('shared.edit'), edit_actor_path(@actor), class: 'button -type-a'
+  
+  - if (can? :manage, @actor)
+    .row
+      .button-collection.-formcollection
+        = link_to t('shared.edit'), edit_actor_path(@actor), class: 'button -type-a'
+        = render 'shared/deactivatable_links', location: @actor

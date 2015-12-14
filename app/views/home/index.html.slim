@@ -7,10 +7,8 @@
       p.title
         | Choose what you want to add
       .options
-        a.button.-large.-type-a href="/manage/acts"
-          = t("acts.act")
-        a.button.-large.-type-b href="/manage/actors"
-          = t("actors.actor")
+        = link_to t('navbar.actors'), new_actor_path, class: "button -large -type-b"
+        = link_to t('navbar.acts'), new_act_path, class: "button -large -type-a"
 
   .section.title-section
     h2
@@ -49,7 +47,5 @@
       p.title
         | Choose what you want to add
       .options
-        a.button.-large.-type-a href="/manage/acts"
-          = t("acts.act")
-        a.button.-large.-type-b href="/manage/actors"
-          = t("actors.actor")
+        = link_to t('navbar.actors'), new_actor_path, class: "button -large -type-b"
+        = link_to t('navbar.acts'), new_act_path, class: "button -large -type-a"

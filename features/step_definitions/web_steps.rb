@@ -252,3 +252,15 @@ end
 Then /^I should have locale "([^\"]*)"$/ do |locale|
   I18n.locale.to_s.should == locale
 end
+
+Then /^the field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field_labeled(field, disabled: true).value.should =~ /#{value}/
+  end
+end
+
+Then /^the select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field_labeled(field, disabled: true).find('option[selected]').text =~ /#{value}/
+  end
+end
