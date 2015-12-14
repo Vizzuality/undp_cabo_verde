@@ -6,42 +6,27 @@
         .column.medium-4
           = form.label :name, class: 'right inline'
         .column.medium-8
-          - if defined?(disabled) and disabled
-            = form.input :name, label: false, disabled: true
-          - else
-            = form.input :name, label: false
+          = form.input :name, label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :observation, class: 'right inline'
         .column.medium-8
-          - if defined?(disabled) and disabled
-            = form.input :observation, label: false, disabled: true
-          - else
-            = form.input :observation, label: false
+          = form.input :observation, label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :organization_type_ids, class: 'right inline'
         .column.medium-8
-          - if defined?(disabled) and disabled
-            = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: true
-          - else
-            = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }
+          = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
       .row
         .column.medium-4
           = form.label :socio_cultural_domain_ids, class: 'right inline'
         .column.medium-8
-          - if defined?(disabled) and disabled
-            = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }, disabled: true
-          - else
-            = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
       .row
         .column.medium-4
           = form.label :other_domain_ids, class: 'right inline'
         .column.medium-8
-          - if defined?(disabled) and disabled
-            = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, input_html: { multiple: true, class: ((OtherDomain.count > 4) ? "js-mselect" : "") }, disabled: true
-          - else
-            = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, input_html: { multiple: true, class: ((OtherDomain.count > 4) ? "js-mselect" : "") }
+          = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, input_html: { multiple: true, class: ((OtherDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
 
 .row
   .columns.medium-8.medium-offset-1
@@ -50,9 +35,9 @@
         h2 = t('localizations.localizations')
 
     = form.fields_for :localizations do |localizations_form|
-      = render 'localizations/form', f: localizations_form, disabled: disabled
+      = render 'localizations/form', f: localizations_form
 
-    - unless defined?(disabled) and disabled
+    - unless common_form?
       .row
         .column
           p.text-right
@@ -66,9 +51,9 @@
         h2 = t('relations.actors_relations')
 
     = form.fields_for :actor_relations_as_child do |actor_parents_form|
-      = render 'actor_relation_form', f: actor_parents_form, disabled: disabled
+      = render 'actor_relation_form', f: actor_parents_form
 
-    - unless defined?(disabled) and disabled
+    - unless common_form?
       .row
         .column
           p.text-right
@@ -82,9 +67,9 @@
         h2 = t('relations.actions_relations')
 
     = form.fields_for :act_actor_relations do |actions_form|
-      = render 'action_relation_form', f: actions_form, disabled: disabled
+      = render 'action_relation_form', f: actions_form
 
-    - unless defined?(disabled) and disabled
+    - unless common_form?
       .row
         .column
           p.text-right

@@ -140,11 +140,7 @@ class ActorsController < ApplicationController
     end
 
     def update_actor_flow
-      if @actor.micro_or_meso? && @actor.empty_relations?
-        redirect_to membership_actor_path(@actor)
-      else
-        redirect_to actor_path(@actor)
-      end
+      redirect_to actor_path(@actor)
     end
 
     def link_actor_flow
