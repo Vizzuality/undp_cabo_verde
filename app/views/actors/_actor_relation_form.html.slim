@@ -2,7 +2,7 @@
   = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
   .row
     .column.medium-4
-      = f.label :parent_id, "Actor", class: 'right inline'
+      = f.label :parent_id, t('actors.actor'), class: 'right inline'
     .column.medium-8
       = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
   .row

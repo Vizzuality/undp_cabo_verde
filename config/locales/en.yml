@@ -288,6 +288,8 @@ en:
     edit_act: 'Edit action'
     description: 'Description'
     new: 'Add new action'
+    add_actor: 'Add actor'
+    remove_actor: 'Remove actor'
 
   categories:
     categories: 'Categories'

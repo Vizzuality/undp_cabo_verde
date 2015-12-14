@@ -52,13 +52,13 @@ module RoutesHelper
     common_nested_path(form_name, name, f, association, class_name)
   end
 
-  def add_actor_parent_path(name, f, association, class_name=nil)
-    form_name = 'actor_relation_form'
+  def add_action_relation_path(name, f, association, class_name=nil)
+    form_name = 'action_relation_form'
     common_nested_path(form_name, name, f, association, class_name)
   end
 
-  def add_action_path(name, f, association, class_name=nil)
-    form_name = 'action_relation_form'
+  def add_actor_relation_path(name, f, association, class_name=nil)
+    form_name = 'actor_relation_form'
     common_nested_path(form_name, name, f, association, class_name)
   end
 
