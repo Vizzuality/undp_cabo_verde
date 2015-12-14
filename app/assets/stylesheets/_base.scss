@@ -27,11 +27,17 @@ select {
   background-color: rgba($color-15, .3);
   color: $color-11;
   border: none;
-  background-image: url("form-arrow.png");
+  background-image: url(asset_path("form-arrow.png"));
   background-size: 12px;
   background-position: right 20px center;
   @include font(helvetica, null, regular, null);
   font-size: 18px;
+
+  &:disabled {
+    color: $color-1;
+    background-image: none;
+    background-color: $color-17;
+  }
 }
 
 *:not(.checkbox) > label {
@@ -44,6 +50,8 @@ select {
 
 input[type="text"],
 input[type="email"],
+input[type="url"],
+input[type="password"],
 textarea,
 textarea:focus {
   border: none;
@@ -54,18 +62,26 @@ textarea:focus {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 32px;
+  @include font(helvetica, null, light, null);
+
+  &:disabled {
+    color: $color-16;
+    background-color: $color-1;
+  }
 }
 
 textarea { min-height: 150px; }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="url"],
+input[type="password"] {
   border-bottom: 1px solid $color-13;
 }
 
 textarea,
 textarea:focus {
-  background-image: url("textarea-bg.png");
+  background-image: url(asset_path("textarea-bg.png"));
   background-repeat: repeat;
   background-size: 1px;
 }

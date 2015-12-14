@@ -288,6 +288,8 @@ en:
     edit_act: 'Edit action'
     description: 'Description'
     new: 'Add new action'
+    add_actor: 'Add actor'
+    remove_actor: 'Remove actor'
 
   categories:
     categories: 'Categories'
@@ -328,6 +330,10 @@ en:
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
+    actors_relations: 'Connect with Actors'
+    actions_relations: 'Connect with Actions'
+    add_relation: 'Add relation'
+    remove_relation: 'Remove relation'
 
   users:
     my_actors: 'My actors'
