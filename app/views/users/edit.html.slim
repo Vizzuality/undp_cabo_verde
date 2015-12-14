@@ -1,15 +1,22 @@
-h1
-  | Edit 
-  = @user.name || 'User'
-  |
-  = " (admin)" if @user.admin?
+.row
+  .column.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2
+          | Edit&nbsp;
+          = @user.name || 'User'
+          |
+          = " (admin)" if @user.admin?
+
+.row
+  .column.medium-8.medium-offset-1
+    = render 'form'
+
 
 - if (can? :make_user, @user) && @user.admin?
   p= link_to 'Make user', make_user_user_path(@user), method: :patch
 - if (can? :make_admin, @user) && !@user.admin?
   p= link_to 'Make admin', make_admin_user_path(@user), method: :patch
-
-= render 'form'
 
 - if current_user.admin?
   p= render 'shared/deactivatable_links', location: @user

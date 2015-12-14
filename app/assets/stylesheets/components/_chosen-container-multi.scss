@@ -1,0 +1,93 @@
+.chosen-container-multi {
+  border: none !important ;
+  background-image: none !important;
+  color: $color-11 !important;
+  margin-bottom: 20px !important;
+}
+.chosen-container-active .chosen-choices {
+  box-shadow: none !important;
+}
+
+.chosen-container-multi ul.chosen-choices {
+  min-height: 35px !important;
+}
+
+.chosen-choices {
+  background: $color-7 !important;
+  border: none !important;
+  height: 40px !important;
+  box-shadow: none !important;
+
+  >.search-field {
+    >input {
+      color: $color-11 !important;
+      @include font(helvetica, small, light, null);
+      width: 200px !important;
+      padding: 7px 0px 0px 3px !important;
+    }
+  }
+}
+
+.chosen-with-drop {
+  background: $color-12 !important;
+}
+
+
+.chosen-drop {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.chosen-results {
+  background-color: $color-7 !important;
+  color: $color-11 !important;
+
+  li {
+    line-height: 30px !important;
+  }
+
+}
+
+.search-choice {
+  border: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background: $color-13 !important;
+  margin: 5px !important;
+  padding: 8px 20px 2px 5px !important;
+}
+
+.search-choice span {
+  color: $color-1 !important;
+}
+
+.search-choice-close {
+  top: 6px !important;
+  right: 5px !important;
+  background-repeat: no-repeat !important;
+  background: url(asset_path("light_cross.png")) !important;
+  width: 10px !important;
+  height: 11px !important;
+}
+
+.search-choice-close:hover {
+  background-repeat: no-repeat !important;
+  background: url(asset_path("dark_cross.png")) !important;
+  background-position: initial;
+  width: 10px !important;
+  height: 11px !important;
+}
+
+.active-result {
+  &.highlighted {
+    color: $color-1 !important;
+    background-image: none !important;
+    background-color: $color-13 !important;
+  }
+}
+
+.chosen-container-multi.chosen-disabled {
+  .chosen-choices { background-color: $color-17 !important; }
+  .search-choice { background-color: $color-16 !important; }
+  .search-choice-close:hover { background: url(asset_path("light_cross.png")) !important; }
+}

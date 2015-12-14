@@ -1,13 +1,31 @@
-.nav-items {
+.inline-list {
+  margin: 0;
+
+  li {
+    margin-left: 0px;
+  }
+
   a {
-    @include font(helvetica, small, medium, 1);
-    color: $color-5;
+    @include font(null, xsmall, medium, 1);
     text-transform: uppercase;
-    padding: 5px;
-    border-top: 3px solid transparent;
+    color: $color-3;
+    border-top: 4px solid transparent;
+    padding: 30px 15px 6px;
+
+    @media screen and (max-width: 1060px) {
+      padding: 30px 8px 6px;
+    }
 
     &.is-active {
-      border-color: $color-3;
+      border-color: $color-8;
+    }
+
+    &:hover {
+      background-color: $color-7;
+
+      &.is-active {
+        background-color: transparent;
+      }
     }
   }
 }

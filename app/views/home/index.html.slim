@@ -1,1 +1,55 @@
-h1 UNDP Cabo Verde
+.section-container#home
+  .section.-centered
+    h1.title Welcome to UNDP – Climate Action Intelligence Tool
+
+  .section.-centered
+    .options-box
+      p.title
+        | Choose what you want to add
+      .options
+        a.button.-large.-type-a href="/manage/acts"
+          = t("acts.act")
+        a.button.-large.-type-b href="/manage/actors"
+          = t("actors.actor")
+
+  .section.title-section
+    h2
+      | Last updates on your profile
+
+    .table-container.-disabled
+      .table-row
+        .data-primary
+          span.data.-primary
+            | It seems there isn't any update to display
+          span.data
+            | Created: Oct 9, 2014 / Last update: Oct 9, 2014
+        .data-secondary
+          span.data
+            | Actor
+          span.data
+             | Published
+          span.data.-linkdata
+            a.-hoverlink
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data.-linkdata
+            a.-hoverlink
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            a.-hoverlink
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
+
+  .section.-centered
+    .options-box
+      p.title
+        | Choose what you want to add
+      .options
+        a.button.-large.-type-a href="/manage/acts"
+          = t("acts.act")
+        a.button.-large.-type-b href="/manage/actors"
+          = t("actors.actor")

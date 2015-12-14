@@ -3,16 +3,13 @@ In order to manage actors
 As an adminuser
 I want to manage an actor
 
-  Scenario: User can view actors page and actor page
+  Scenario: User can not view actors page and actor page without login
     Given user
     And person
     And organization by admin
     When I go to the actors page
-    And I should see "Person one"
-    And I should see "Organization by admin"
-    When I follow "Organization by admin"
-    Then I should be on the actor page for "Organization by admin"
-    And I should see "Organization by admin (Macro)"
+    And I should see "You need to sign in or sign up before continuing."
+    Then I should be on the login page
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user
@@ -23,11 +20,11 @@ I want to manage an actor
     And I fill in "actor_micro_name" with "New Person"
     And I fill in "actor_micro_observation" with "It's description for person"
     And I select "Male" from "actor_micro_gender"
-    And I select "Mr" from "actor_micro_title"
-    When I select datetime "1990 March 10" as the "actor_micro_date_of_birth"
+    And I select "Mr." from "actor_micro_title"
+    When I fill in "actor_micro_date_of_birth" with "1990-12-17"
     And I press "Update"
-    Then I should be on the edit micro member actor page for "New Person"
-    And I should see "New Person"
+    Then I should be on the actor page for "New Person"
+    And the field "Name" should contain "New Person"
 
   Scenario: User can edit owned actor meso
     Given I am authenticated user
@@ -37,19 +34,19 @@ I want to manage an actor
     And I fill in "actor_meso_name" with "New Department"
     And I fill in "actor_meso_observation" with "It's description for department"
     And I press "Update"
-    Then I should be on the edit meso member actor page for "New Department"
-    And I should see "New Department"
-
+    Then I should be on the actor page for "New Department"
+    And the field "Name" should contain "New Department"
+  
   Scenario: User can edit owned actor macro
     Given I am authenticated user
     And organization
     When I go to the edit actor page for "Organization one"
     And I fill in "actor_macro_name" with "New Organization"
     And I fill in "actor_macro_observation" with "It's description for organization"
-    When I select "International" from "actor_macro_operational_filed"
+    When I select "Global" from "actor_macro_operational_field"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
-    And I should see "New Organization"
+    And the field "Name" should contain "New Organization"
 
   Scenario: User can change actor type from macro to meso
     Given I am authenticated user
@@ -59,9 +56,9 @@ I want to manage an actor
     And I fill in "actor_macro_name" with "New Department"
     And I fill in "actor_macro_observation" with "It's description for department"
     And I press "Update"
-    Then I should be on the edit meso member actor page for "New Department"
+    Then I should be on the actor page for "New Department"
     And I should have one actor meso
-    And I should see "New Department"
+    And the field "Name" should contain "New Department"
 
   Scenario: Adminuser can edit not owned actor
     Given user
@@ -69,44 +66,6 @@ I want to manage an actor
     And I am authenticated adminuser
     When I go to the actor page for "Person one"
     Then I should be on the actor page for "Person one"
-
-  Scenario: User can add macros and mesos to actor micro
-    Given I am authenticated user
-    And person
-    And organization
-    And department
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the actor page for "Person one"
-    Then I should see "Organization one"
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"    
-    And I follow "Add" within ".add_meso"
-    When I go to the actor page for "Person one"
-    Then I should see "Department one"
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation" 
-    Then I should not see ".add_meso"   
-    When I follow "Remove" within ".remove_meso"
-    And I go to the actor page for "Person one"
-    Then I should not see "Department one"
-
-  Scenario: User can add macros to meso actor
-    Given I am authenticated user
-    And organization
-    And department
-    When I go to the edit actor page for "Department one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the actor page for "Department one"
-    Then I should see "Organization one"
-    When I go to the edit actor page for "Department one"
-    And I follow "Edit relation"
-    Then I should not see ".add_macro" 
-    When I follow "Remove" within ".remove_macro"
-    Then I go to the actor page for "Department one"
-    And I should not see "Organization one"
 
   Scenario: User can create actor
     Given user
@@ -191,27 +150,61 @@ I want to manage an actor
     And I should see "Organization one"
     And I should not see "Organization by admin"
 
-  Scenario: User can edit membership start and end dates
-    Given I am authenticated user
-    And person
-    And department
-    When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I select datetime "1990 March 10" as the "actor_relation_start_date"
-    And I select datetime "2010 March 10" as the "actor_relation_end_date"
-    And I press "Update"
-    Then I should see "from: March 10, 1990 - to: March 10, 2010"
+  # For locations see location.feature
 
-  Scenario: User can edit membership title and title reverse
+  @javascript
+  Scenario: User can add actor relation to actor
     Given I am authenticated user
     And person
+    And organization
     And department
-    And actors relation
     When I go to the edit actor page for "Person one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I select "actor - actor (link) (relational namespaces: partners with - partners with)" from "actor_relation_relation_type_id"
-    Then I press "Update"
+    And I click on ".add_parent_actor"
+    And I select from the following field ".relation_parent_id" with "Organization one"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then the select field "Actor" should contain "New Organization"
+    And the field "Start date" should contain "1990-03-10"
+    And the field "End date" should contain "2010-03-10"
+
+  @javascript
+  Scenario: User can remove actor relation from actor
+    Given actor with relations
+    And I am authenticated adminuser
+    When I go to the actor page for "Person one with relation"
+    And the select field "Actor" should contain "Department one"
+    When I follow "Edit"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the actor page for "Person one with relation"
+    Then I should not see "Department one"
+
+  @javascript
+  Scenario: User can add action relation to actor
+    Given I am authenticated user
+    And person
+    And first act
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_action"
+    And I select from the following field ".relation_action_id" with "First one"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then the select field "Action" should contain "First one"
+    And the field "Start date" should contain "1990-03-10"
+    And the field "End date" should contain "2010-03-10"
+
+  @javascript
+  Scenario: User can remove action relation from actor
+    Given actor with action relations
+    And I am authenticated adminuser
+    When I go to the actor page for "Person one with relation"
+    Then the select field "Action" should contain "First one"
+    When I follow "Edit"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the actor page for "Person one with relation"
+    Then I should not see "First one"

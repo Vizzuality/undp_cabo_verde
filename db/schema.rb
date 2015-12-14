@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202095044) do
+ActiveRecord::Schema.define(version: 20151209144736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20151202095044) do
   end
 
   add_index "actor_relations", ["child_id"], name: "index_actor_relations_on_child_id", using: :btree
-  add_index "actor_relations", ["parent_id", "child_id"], name: "index_actor_parent_child", unique: true, using: :btree
+  add_index "actor_relations", ["parent_id", "child_id", "relation_type_id"], name: "index_parent_child_relation_type", unique: true, using: :btree
   add_index "actor_relations", ["parent_id"], name: "index_actor_relations_on_parent_id", using: :btree
   add_index "actor_relations", ["user_id"], name: "index_actor_relations_on_user_id", using: :btree
 
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20151202095044) do
     t.datetime "deactivated_at"
     t.text     "observation"
     t.integer  "gender",            default: 1
-    t.integer  "operational_filed", default: 1
+    t.integer  "operational_field"
     t.integer  "title",             default: 1
     t.datetime "date_of_birth"
     t.datetime "created_at",                       null: false
@@ -125,6 +125,8 @@ ActiveRecord::Schema.define(version: 20151202095044) do
     t.datetime "end_date"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "action_type"
+    t.string   "budget"
   end
 
   add_index "acts", ["type"], name: "index_acts_on_type", using: :btree

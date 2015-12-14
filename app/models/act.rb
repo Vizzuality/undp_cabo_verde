@@ -22,7 +22,10 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
-
+  has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
+  
+  accepts_nested_attributes_for :localizations, allow_destroy: true
+  
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
@@ -136,6 +139,11 @@ class Act < ActiveRecord::Base
 
   def underscore
     to_s.underscore
+  end
+
+  def localizations_form
+    collection = localizations
+    collection.any? ? collection : localizations.build
   end
 
   private

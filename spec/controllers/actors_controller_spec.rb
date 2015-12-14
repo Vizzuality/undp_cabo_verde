@@ -6,6 +6,8 @@ RSpec.describe ActorsController, type: :controller do
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
 
+    @field = create(:operational_field)
+
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
     @meso  = create(:actor_meso, user_id: @user.id)
@@ -13,13 +15,20 @@ RSpec.describe ActorsController, type: :controller do
   
   let!(:attri) do 
     { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: '', operational_filed: '' 
+      active: true, title: '', operational_field: '' 
     }
   end
 
-  let!(:attri_macro_micro) do 
+  let!(:attri_micro) do 
     { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: 'Test', operational_filed: 2 
+      active: true, title: 'Test'
+    }
+  end
+
+  let!(:attri_macro) do
+    {
+      name: 'New first', observation: 'Lorem ipsum dolor...', 
+      active: true, title: 'Test', operational_field: @field.id
     }
   end
 
@@ -61,7 +70,7 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it 'update actor micro and redirect to membership_actor_micro_path' do
-      put :update, id: @micro.id, actor: attri_macro_micro
+      put :update, id: @micro.id, actor: attri_micro
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@micro.micro?).to eq(true)
@@ -75,7 +84,7 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it 'update actor macro and redirect to actor_path' do
-      put :update, id: @macro.id, actor: attri_macro_micro
+      put :update, id: @macro.id, actor: attri_macro
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@macro.macro?).to eq(true)
@@ -121,7 +130,7 @@ RSpec.describe ActorsController, type: :controller do
 
       let!(:attri_macro_micro_with_cat) do 
         { name: 'New first', observation: 'Lorem ipsum dolor...', 
-          active: true, title: 'Test', operational_filed: 2, category_ids: [@child_cat]
+          active: true, title: 'Test', operational_field: @field.id, category_ids: [@child_cat]
         }
       end
 
@@ -129,7 +138,8 @@ RSpec.describe ActorsController, type: :controller do
         put :update, id: @macro.id, actor: attri_macro_micro_with_cat
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
-        expect(@macro.categories.count).to eq(1)
+        expect(@macro.categories.count).to eq(2)
+        expect(@macro.operational_fields.count).to eq(1)
       end
     end
 
@@ -181,16 +191,18 @@ RSpec.describe ActorsController, type: :controller do
   end
 
   context 'Users' do
-    it 'GET index returns http success' do
+    it 'GET index returns access denied without login' do
       get :index
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
     end
 
-    it 'GET show returns http success' do
+    it 'GET show returns access denied de without login' do
       get :show, id: @micro.id, type: 'ActorMicro'
-      expect(response).to be_success
-      expect(response).to have_http_status(200)
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
     end
   end
 

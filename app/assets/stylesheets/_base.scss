@@ -1,10 +1,99 @@
 body {
-  @include font(helvetica, regular, regular, 1);
-  #undp-logo {
-    height: 120px;
-  }
+  @include font(helvetica, regular, light, 1);
+  -webkit-font-smoothing:antialiased;
+  color: $color-4;
+}
 
-  input[type="checkbox"] {
-    margin: 0 0.5rem 1rem 0;
+
+input[type="checkbox"] {
+  margin: 0 0.5rem 1rem 0;
+}
+
+h1 {
+  @include font(null, xlarge, light, 1.2);
+  color: $color-8;
+}
+
+h2 {
+  @include font(null, large, bold, 1);
+  text-transform: uppercase;
+  color: $color-6;
+  margin: 0;
+  padding: 0;
+  padding-top: 11px;
+}
+
+select {
+  background-color: rgba($color-15, .3);
+  color: $color-11;
+  border: none;
+  background-image: url(asset_path("form-arrow.png"));
+  background-size: 12px;
+  background-position: right 20px center;
+  @include font(helvetica, null, regular, null);
+  font-size: 18px;
+
+  &:disabled {
+    color: $color-1;
+    background-image: none;
+    background-color: $color-17;
   }
+}
+
+*:not(.checkbox) > label {
+  @include font(helvetica, null, light, null);
+  font-size: 20px;
+  color: $color-4;
+  line-height: 37px;
+  padding: 0 !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+textarea,
+textarea:focus {
+  border: none;
+  box-shadow: none;
+  background: none;
+  color: $color-11;
+  font-size: 18px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 32px;
+  @include font(helvetica, null, light, null);
+
+  &:disabled {
+    color: $color-16;
+    background-color: $color-1;
+  }
+}
+
+textarea { min-height: 150px; }
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"] {
+  border-bottom: 1px solid $color-13;
+}
+
+textarea,
+textarea:focus {
+  background-image: url(asset_path("textarea-bg.png"));
+  background-repeat: repeat;
+  background-size: 1px;
+}
+
+
+.form-actions  {
+  // padding-bottom: 70px;
+
+  h2 { margin-bottom: 20px; }
+}
+
+.form-inputs .row {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

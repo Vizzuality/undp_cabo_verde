@@ -26,6 +26,11 @@ Given /^first act$/ do
   FactoryGirl.create(:act_macro, user_id: User.last.id)
 end
 
+Given /^action with relations$/ do
+  @meso = FactoryGirl.create(:act_meso, user_id: User.last.id)
+  FactoryGirl.create(:act_micro, name: 'Action one', user_id: User.last.id, parents: [@meso])
+end
+
 Given /^first act by admin$/ do
   @admin = FactoryGirl.create(:adminuser)
   FactoryGirl.create(:admin)

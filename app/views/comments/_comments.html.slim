@@ -1,15 +1,12 @@
 - commentable.comments.each do |comment|
-  p
-    = comment.body
-    |
-    - if (can? [:activate, :deactivate], comment)
-      - if comment.activated?
-        p.deactivate_comment
-          = link_to t('shared.deactivate'), deactivate_comment_path(commentable, comment), method: :patch
-      - else comment.deactivated?
-        p
-          = "#{t('shared.dactivated_at')}: " 
-          = comment.deactivated_at.to_time
-        p.activate_comment
-          = link_to t('shared.activate'), activate_comment_path(commentable, comment), method: :patch
-  hr
+  .row
+    .column.medium-8.medium-offset-4
+      p = comment.body
+      - if (can? [:activate, :deactivate], comment)
+        - if comment.activated?
+          p.deactivate_comment
+            = link_to t('shared.deactivate'), deactivate_comment_path(commentable, comment), method: :patch
+        - else comment.deactivated?
+          p.activate_comment
+            = link_to t('shared.activate'), activate_comment_path(commentable, comment), method: :patch
+      hr

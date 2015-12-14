@@ -1,0 +1,17 @@
+.options-box {
+  border: 1px solid $color-12;
+  padding: 40px 120px;
+  display: inline-block;
+
+  >.title {
+    text-align: center;
+    @include font(null, regular, light, null);
+  }
+
+  >.options {
+    >.button {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+}

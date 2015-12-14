@@ -5,6 +5,7 @@ RSpec.describe Category, type: :model do
     @category  = create(:category, type: 'SocioCulturalDomain')
     @child_cat = create(:category, name: 'Category second', parent: @category)
     @org_type  = create(:category, name: 'Organization type', type: 'OrganizationType')
+    @field     = create(:category, name: 'Operational field', type: 'OperationalField')
   end
 
   it 'Create Category' do
@@ -14,10 +15,11 @@ RSpec.describe Category, type: :model do
   end
 
   it 'Order category by name and count' do
-    expect(Category.count).to            eq(3)
+    expect(Category.count).to            eq(4)
     expect(SocioCulturalDomain.count).to eq(1)
     expect(OtherDomain.count).to         eq(1)
     expect(OrganizationType.count).to    eq(1)
+    expect(OperationalField.count).to    eq(1)
   end
 
   it 'Fetch category parent and children' do

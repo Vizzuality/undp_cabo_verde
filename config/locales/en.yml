@@ -10,7 +10,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -36,7 +36,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - January
     - February
     - March
@@ -224,6 +224,8 @@ en:
     : "Socio cultural domain"
     ? "OtherDomain"
     : "Other domains"
+    ? "OperationalField"
+    : "Operational field"
 
   shared:
     edit: 'Edit'
@@ -236,6 +238,8 @@ en:
     edit_info: 'Edit info'
     edit_relations: 'Edit relations'
     add_localization: 'Add locations'
+    add_location: 'Add location'
+    remove_location: 'Remove location'
     name: 'Name'
     status: 'Status'
     remove: 'Remove'
@@ -245,8 +249,10 @@ en:
     deactivate: 'Deactivate'
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
+    view_map: 'View on map'
 
   actors:
+    actor: 'Actor'
     actors: 'Actors'
     actor_macros: 'Macros'
     actor_mesos: 'Mesos'
@@ -261,8 +267,15 @@ en:
     observation: 'Observation'
     gender: 'Gender'
     date_of_birth: 'Date of birth'
+    new: 'Add new actor'
+    add_actor: 'Add actor'
+    remove_actor: 'Remove actor'
+    add_action: 'Add action'
+    remove_action: 'Remove action'
+    actions: 'Actions'
 
   acts:
+    act: 'Action'
     acts: 'Actions'
     act_macros: 'Macros'
     act_mesos: 'Mesos'
@@ -274,6 +287,7 @@ en:
     link_mesos: 'Add meso relation'
     edit_act: 'Edit action'
     description: 'Description'
+    new: 'Add new action'
 
   categories:
     categories: 'Categories'
@@ -307,13 +321,19 @@ en:
     logout: 'Logout'
     login: 'Login'
     register: 'Register'
+    settings: 'Settings'
 
   relations:
     relation_category: 'Relation category'
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
+    actors_relations: 'Connect with Actors'
+    actions_relations: 'Connect with Actions'
+    add_relation: 'Add relation'
+    remove_relation: 'Remove relation'
 
   users:
     my_actors: 'My actors'
     user: 'User'
+    users: 'Users'

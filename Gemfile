@@ -10,6 +10,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
+gem 'jquery-ui-sass-rails'
+gem 'chosen-rails'
 gem 'autoprefixer-rails'
 
 source 'https://rails-assets.org' do
@@ -21,6 +23,7 @@ end
 # Templating
 gem 'slim-rails'
 gem 'simple_form'
+gem 'country_select'
 
 gem 'acts_as_tree'
 
@@ -56,6 +59,7 @@ end
 group :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'

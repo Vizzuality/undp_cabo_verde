@@ -11,8 +11,9 @@ Given /^act_localization$/ do
 end
 
 Given /^user organization with localization$/ do
-  @user = FactoryGirl.create(:user)
-  @actor = FactoryGirl.create(:actor_macro, name: 'Organization by user', user: @user)
+  @user  = FactoryGirl.create(:user)
+  @field = FactoryGirl.create(:operational_field)
+  @actor = FactoryGirl.create(:actor_macro, name: 'Organization by user', user: @user, operational_field: @field.id)
   FactoryGirl.create(:localization, actors: [@actor], user: @user)
 end
 

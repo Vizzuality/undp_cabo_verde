@@ -10,6 +10,7 @@ class CategoriesController < ApplicationController
     @ot  = OrganizationType.with_children
     @od  = OtherDomain.with_children
     @scd = SocioCulturalDomain.with_children
+    @of  = OperationalField.with_children
   end
 
   def show

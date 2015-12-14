@@ -1,30 +1,78 @@
 = form.error_notification
 .form-inputs
-  = form.input :name
-  = form.input :event
-  = form.input :human
-  = form.input :alternative_name
-  = form.input :short_name
-  = form.input :start_date, as: :date, start_year: Date.today.year,
-                                 end_year: Date.today.year - 90,
-                                 order: [:day, :month, :year]
-  = form.input :end_date, as: :date, start_year: Date.today.year,
-                               end_year: Date.today.year - 90,
-                               order: [:day, :month, :year], include_blank: true
-  = form.input :description
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-4
+          = form.label :name, class: 'right inline'
+        .column.medium-8
+          = form.input :name, label: false
+      .row
+        .column.medium-8.medium-offset-4
+          .radio-buttons
+            = form.collection_radio_buttons :event, [[true, "Event"], [false, "Activity"]], :first, :last
+      .row
+        .column.medium-8.medium-offset-4
+          .radio-buttons
+            = form.collection_radio_buttons :human, [[true, "Human"], [false, "Natural"]], :first, :last
+      .row
+        .column.medium-4
+          = form.label :alternative_name, class: 'right inline'
+        .column.medium-8
+          = form.input :alternative_name, label: false
+      .row
+        .column.medium-4
+          = form.label :short_name, class: 'right inline'
+        .column.medium-8
+          = form.input :short_name, label: false
+      .row
+        .column.medium-4
+          = form.label :start_date, class: 'right inline'
+        .column.medium-8
+          = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                         'data-max-date': Date.today,
+                                         class: 'js-datepicker',
+                                         label: false
+      .row
+        .column.medium-4
+          = form.label :end_date, class: 'right inline'
+        .column.medium-8
+          = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
+                                       'data-max-date': Date.today,
+                                       'data-blank-date': true,
+                                       class: 'js-datepicker',
+                                       label: false
+      .row
+        .column.medium-4
+          = form.label :description, class: 'right inline'
+        .column.medium-8
+          = form.input :description, label: false
 
-  .row
-    .column.medium-3
-      = form.label :organization_type_ids, class: 'right'
-    .column.medium-9
-      = form.input :organization_type_ids, collection: @organization_types, as: :check_boxes, label: false
-  .row
-    .column.medium-3
-      = form.label :socio_cultural_domain_ids, class: 'right'
-    .column.medium-9
-      = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :check_boxes, label: false
-  .row
-    .column.medium-3
-      = form.label :other_domain_ids, class: 'right'
-    .column.medium-9
-      = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false
+      .row
+        .column.medium-4
+          = form.label :organization_type_ids, class: 'right inline'
+        .column.medium-8
+          = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}
+      .row
+        .column.medium-4
+          = form.label :socio_cultural_domain_ids, class: 'right inline'
+        .column.medium-8
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((SocioCulturalDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "")}
+      .row
+        .column.medium-4
+          = form.label :other_domain_ids, class: 'right inline'
+        .column.medium-8
+          = form.input :other_domain_ids, collection: @other_domains, as: ((OtherDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OtherDomain.count > 4) ? "js-mselect" : "")}
+.row
+  .columns.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('localizations.localizations')
+
+    = form.fields_for :localizations do |localizations_form|
+      = render 'localizations/form', f: localizations_form
+    .row
+      .column
+        p.text-right
+          / Add more css classes to 'add_location', sample 'add_location your_class_name'
+          = add_location_path t('shared.add_location'), form, :localizations, 'add_location'

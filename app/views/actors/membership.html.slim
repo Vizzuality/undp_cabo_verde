@@ -6,10 +6,10 @@ hr
 h3= t('actors.actor_macros')
 - @macros.each do |macro|
   p
-    = macro.name 
-    |  | 
-    = macro.membership_date(@actor, macro) 
-  - if (can? :manage, macro)
+    = macro.name
+    |  |
+    = macro.membership_date(@actor, macro)
+  - if (can? :manage, ActorRelation)
     p.edit_meso
       = link_to t('shared.edit'), edit_relation(@actor, macro)
     p.remove_macro
@@ -20,10 +20,10 @@ hr
   h3= t('actors.actor_mesos')
   - @mesos.each do |meso|
     p
-      = meso.name 
-      |  | 
+      = meso.name
+      |  |
       = meso.membership_date(@actor, meso)
-    - if (can? :manage, meso)
+    - if (can? :manage, ActorRelation)
       p.edit_meso
         = link_to t('shared.edit'), edit_relation(@actor, meso)
       p.remove_meso
@@ -33,7 +33,7 @@ hr
 h4= t('actors.link_macros')
 - @all_macros.each do |macro|
   p= macro.name
-  - if (can? :manage, macro)
+  - if user_signed_in?
     p.add_macro
       = link_to t('shared.add'), link_actor(@actor, macro), method: :patch
 - if @actor.micro_or_meso?
@@ -41,6 +41,6 @@ h4= t('actors.link_macros')
   h4= t('actors.link_mesos')
   - @all_mesos.each do |meso|
     p= meso.name
-    - if (can? :manage, meso)
+    - if user_signed_in?
       p.add_meso
         = link_to t('shared.add'), link_actor(@actor, meso), method: :patch

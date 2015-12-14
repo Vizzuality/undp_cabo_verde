@@ -63,6 +63,18 @@ When /^(?:|I )fill in "([^"]*)" for "([^"]*)"(?: within "([^"]*)")?$/ do |value,
   end
 end
 
+When /^I fill in the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    find("#{div}").set("#{value}")
+  end
+end
+
+When /^I select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    find("#{div}").select("#{value}")
+  end
+end
+
 # Use this to fill in an entire form with data from a table. Example:
 #
 #   When I fill in the following:
@@ -239,4 +251,16 @@ end
 
 Then /^I should have locale "([^\"]*)"$/ do |locale|
   I18n.locale.to_s.should == locale
+end
+
+Then /^the field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field_labeled(field, disabled: true).value.should =~ /#{value}/
+  end
+end
+
+Then /^the select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field_labeled(field, disabled: true).find('option[selected]').text =~ /#{value}/
+  end
 end

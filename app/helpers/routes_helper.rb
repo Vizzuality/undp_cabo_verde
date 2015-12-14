@@ -46,4 +46,33 @@ module RoutesHelper
       deactivate_act_comment_path(commentable, comment)
     end
   end
+  
+  def add_location_path(name, f, association, class_name=nil)
+    form_name = 'localizations/form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
+  def add_actor_parent_path(name, f, association, class_name=nil)
+    form_name = 'actor_relation_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
+  def add_action_path(name, f, association, class_name=nil)
+    form_name = 'action_relation_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
+  def common_form?
+    (request.path.include?('/edit') || request.path.include?('/new')) ? false : true
+  end
+
+  def common_nested_path(form_name, name, f, association, class_name=nil)
+    new_object = f.object.send(association).klass.new
+    id         = new_object.object_id
+
+    fields = f.fields_for(association, new_object, child_index: id) do |actions_form|
+      render(form_name, f: actions_form)
+    end
+    link_to(name, '', class: "add_fields #{class_name}", data: { id: id, fields: fields.gsub("\n", '')})
+  end
 end

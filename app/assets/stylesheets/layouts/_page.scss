@@ -1,13 +1,121 @@
 .l-page {
-  max-width: $row-width;
+  max-width: $max-width-size;
+  min-width: $min-width-size;
   margin: auto;
 
   background-color: $white;
 }
 
-.nav-items {
-  padding-top: 25px;
-  > li {
-    padding-left: 10px;
+#header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+
+
+
+.inline-list {
+  height: 160px;
+  overflow: visible;
+
+  .dropdown-src {
+    position: relative;
+
+
+    > .dropdown-text {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      > .icon {
+        position: absolute;
+        margin: 20px 5px 0px;
+        display: inline-block;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        background-color: $color-13;
+      }
+
+      > .label {
+        background-color: transparent;
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        text-transform: capitalize;
+        text-align: center;
+
+        &.-with-icon {
+          padding-left: 50px; // space for span.icon
+          text-align: left;
+          display: inline-block;
+        }
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    > .dropdown-list {
+      min-width: 162px;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
+      opacity: 0;
+      display: none;
+    }
+
+    &.dropdown-active {
+      .dropdown-list {
+        opacity: 1;
+        display: block;
+      }
+    }
+  }
+
+}
+
+
+
+}
+
+#home {
+  // title
+  .section:nth-of-type(1) {
+    width: 740px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section:nth-of-type(3) {
+    margin-top: 80px;
+    display: block;
+
+    h2 { margin-bottom: 40px; }
+  }
+
+  .section:last-of-type {
+    margin-top: 100px;
+    padding-bottom: 60px;
+  }
+}
+
+#actors {
+  .section.content {
+    >.title {
+      float: left;
+    }
+    >.button {
+      float: right;
+    }
+  }
+}
+
+#reltypes {
+  .button {
+    margin: 5px;
   }
 }

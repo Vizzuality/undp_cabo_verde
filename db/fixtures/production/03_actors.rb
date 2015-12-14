@@ -1,10 +1,10 @@
 Actor.seed(:id,
   # Macros
-  {id: 1,  type: 'ActorMacro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, name: 'Economy Organization',  category_ids: [1, 2, 3]},
-  {id: 2,  type: 'ActorMacro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 2, name: 'Education Institution', category_ids: [2, 3, 4]},
-  {id: 3,  type: 'ActorMacro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 3, name: 'Faith Organization',    category_ids: [3, 4, 5]},
-  {id: 4,  type: 'ActorMacro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 1, name: 'Family Institution',    category_ids: [4, 5, 6]},
-  {id: 5,  type: 'ActorMacro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), operational_filed: 2, name: 'Politics Institution',  category_ids: [5, 6, 7]},
+  {id: 1,  type: 'ActorMacro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 1, name: 'Economy Organization',  category_ids: [1, 2, 3]},
+  {id: 2,  type: 'ActorMacro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 2, name: 'Education Institution', category_ids: [2, 3, 4]},
+  {id: 3,  type: 'ActorMacro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 3, name: 'Faith Organization',    category_ids: [3, 4, 5]},
+  {id: 4,  type: 'ActorMacro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 1, name: 'Family Institution',    category_ids: [4, 5, 6]},
+  {id: 5,  type: 'ActorMacro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: 2, name: 'Politics Institution',  category_ids: [5, 6, 7]},
   # Mesos
   {id: 6,  type: 'ActorMeso',  user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), name: 'Agriculture Department', category_ids: [6, 7, 8]},
   {id: 7,  type: 'ActorMeso',  user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), name: 'Fishery Department',     category_ids: [7, 8, 9]},

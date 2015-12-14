@@ -1,15 +1,25 @@
-.form-actions
-fieldset
-  legend
-    = t('shared.general_info')
-  .row
-    .column.medium-9.medium-offset-1
-      = simple_form_for @act do |f|
-        .row
-          .column.medium-3
-            = f.label :type, class: 'right inline'
-          .column.medium-9
-            = f.input :type, label: false, collection: @types, as: :collection_select
-        = render partial: f
-        = f.button :submit, t('shared.create')
 
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
+  = simple_form_for @act do |f|
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-4
+            = f.label :type, class: 'right inline'
+          .column.medium-8
+            = f.input :type, label: false, collection: @types, as: :collection_select
+            #form-action.micro._hidden
+            #form-action.macro._hidden
+            #form-action.meso.macro._hidden
+
+    = render partial: f
+
+    .row
+      .button-collection.-formcollection
+        = f.button :submit, t('shared.create'), class: '-primary'

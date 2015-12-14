@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Actor, type: :model do
   before :each do
     @user  = create(:user)
-    @macro = create(:actor_macro, user_id: @user.id)
+    @field = create(:operational_field)
+    @macro = create(:actor_macro, user_id: @user.id, operational_field: @field.id)
     @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
     @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
     @relation = ActorRelation.find_by(parent_id: @meso.id, child_id: @micro.id)
@@ -14,7 +15,7 @@ RSpec.describe Actor, type: :model do
     expect(@macro.mesos.first.name).to eq('Department one')
     expect(@macro.micros.first.name).to eq('Person one')
     expect(@macro.macro?).to eq(true)
-    expect(@macro.operational_filed_txt).to eq('Global')
+    expect(@macro.operational_field_txt).to eq('Global')
   end
 
   it 'Create ActorMeso' do
@@ -30,7 +31,7 @@ RSpec.describe Actor, type: :model do
     expect(@micro.mesos_parents.first.name).to eq('Department one')
     expect(@micro.micro?).to eq(true)
     expect(@micro.gender_txt).to eq('Male')
-    expect(@micro.title_txt).to eq('Ms')
+    expect(@micro.title_txt).to eq('Ms.')
     expect(@micro.birth).to eq((Time.zone.now - 30.years).to_date)
   end
 
