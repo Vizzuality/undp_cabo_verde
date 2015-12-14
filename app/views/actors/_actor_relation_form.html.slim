@@ -2,48 +2,31 @@
   = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
   .row
     .column.medium-4
-      = f.label :parent_id, "Actor", class: 'right inline'
+      = f.label :parent_id, t('actors.actor'), class: 'right inline'
     .column.medium-8
-      - if defined?(disabled) and disabled
-        = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: true
-      - else
-        = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }
+      = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :relation_type_id, class: 'right inline'
     .column.medium-8
-      - if defined?(disabled) and disabled
-        = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: true
-      - else
-        = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }
+      = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline'
     .column.medium-8
-      - if defined?(disabled) and disabled
-        = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+      = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                     'data-max-date': Date.today,
-                                    class: 'js-datepicker', input_html: { class: 'relation_start_date' }, disabled: true
-      - else
-        = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
-                                    'data-max-date': Date.today,
-                                    class: 'js-datepicker', input_html: { class: 'relation_start_date' }
+                                    class: 'js-datepicker relation_start_date', disabled: common_form?
   .row
     .column.medium-4
       = f.label :end_date, class: 'right inline'
     .column.medium-8
-      - if defined?(disabled) and disabled
-        = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+      = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,
                                   'data-blank-date': true,
-                                  class: 'js-datepicker', input_html: { class: 'relation_end_date' }, disabled: true
-      - else
-        = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
-                                  'data-max-date': Date.today,
-                                  'data-blank-date': true,
-                                  class: 'js-datepicker', input_html: { class: 'relation_end_date' }
+                                  class: 'js-datepicker relation_end_date', disabled: common_form?
 
-  - unless defined?(disabled) and disabled
+  - unless common_form?
     .row
       .column
         p.text-right.remove_link

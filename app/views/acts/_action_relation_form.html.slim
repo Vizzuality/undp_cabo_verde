@@ -1,10 +1,10 @@
 .form-inputs
-  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
+  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actions/new/')
   .row
     .column.medium-4
-      = f.label :act_id, t('acts.act'), class: 'right inline'
+      = f.label :parent_id, t('acts.act'), class: 'right inline'
     .column.medium-8
-      = f.input :act_id, collection: @actions_to_select, as: :collection_select, label: false, input_html: { class: 'relation_action_id' }, disabled: common_form?
+      = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :relation_type_id, class: 'right inline'
@@ -32,4 +32,4 @@
         p.text-right.remove_link
           / Do not move this field!
           = f.hidden_field :_destroy
-          = link_to t('actors.remove_action'), '#', class: 'remove_fields'
+          = link_to t('relations.remove_relation'), '#', class: 'remove_fields'
