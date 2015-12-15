@@ -3,8 +3,10 @@
     .row
       .column.medium-8.medium-offset-4
         h2
-          | Edit&nbsp;
+          | Edit
+          '
           = @user.name || 'User'
+          '
           |
           = " (admin)" if @user.admin?
 
