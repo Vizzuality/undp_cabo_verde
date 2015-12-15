@@ -19,18 +19,30 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field.id, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2, @category_3])
-      actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4))
-      actors << Actor.create(id: 3, type: 'ActorMeso',  name: 'Department of Education', user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
-      actors << Actor.create(id: 4, type: 'ActorMicro', name: 'Director of Department',  user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], gender: 2, date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, categories: [@category_2])
-      
+      actors << create(:actor_macro, name: 'Economy Organization', user: @user,
+        observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
+        localizations: [@location], short_name: Faker::Name.name,
+        legal_status: Faker::Name.name, other_names: Faker::Name.name,
+        categories: [@category_1, @category_2, @category_3])
+      actors << create(:actor_macro, name: 'Education Institution',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4))
+      actors << create(:actor_meso,  name: 'Department of Education',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+        localizations: [@location], short_name: Faker::Name.name,
+        legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
+      actors << create(:actor_micro, name: 'Director of Department',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+        localizations: [@location], gender: 2,
+        date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago),
+        title: 2, categories: [@category_2])
+
       actors.each do |a|
         a.touch
       end
 
       actors
     end
-    
+
     context 'Actors list' do
       get "/api/actors" do
         example_request 'Getting a list of actors' do

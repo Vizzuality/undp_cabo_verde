@@ -23,23 +23,24 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
-  
+
   accepts_nested_attributes_for :localizations,          allow_destroy: true
   accepts_nested_attributes_for :act_relations_as_child, allow_destroy: true
   accepts_nested_attributes_for :act_actor_relations,    allow_destroy: true
-  
+
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
-                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
   scope :not_mesos_parents,  -> (child) { where(type: 'ActMeso').
-                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
   scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
 
   validates :type, presence: true
   validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true
 
   def self.types
     %w(ActMacro ActMeso ActMicro)
@@ -160,7 +161,7 @@ class Act < ActiveRecord::Base
   end
 
   private
-  
+
     def deactivate_dependencies
       localizations.filter_actives.each do |localization|
         unless localization.deactivate
