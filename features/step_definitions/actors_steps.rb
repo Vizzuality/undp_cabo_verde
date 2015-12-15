@@ -47,3 +47,11 @@ Given /^organization by admin$/ do
   FactoryGirl.create(:admin)
   FactoryGirl.create(:actor_macro, name: 'Organization by admin', user: @admin)
 end
+
+Given /^relation_types$/ do
+  FactoryGirl.create(:actors_relation_type_belongs)
+end
+
+Given /^act_actor_relation_types$/ do
+  FactoryGirl.create(:act_actor_relation_type)
+end
