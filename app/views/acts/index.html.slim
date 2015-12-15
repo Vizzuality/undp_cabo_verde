@@ -24,18 +24,18 @@
             = t("types.#{act.type.constantize}")
           span.data
              = act.status
-          span.data.-linkdata.-deactivated-map
-            = link_to edit_act_path(act), :class => "-hoverlink" do
+          span.data.-linkdata.-disabled
+            = link_to edit_act_path(act) do
               = image_tag "map.svg", :class => "icon"
               span
                 = t("shared.view_map")
           span.data.-linkdata
-            = link_to edit_act_path(act), :class => "-hoverlink" do
+            = link_to edit_act_path(act) do
               = image_tag "edit.svg", :class => "icon"
               span
                 = t("shared.edit")
           span.data.-linkdata
-            = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete, :class => "-hoverlink" do
+            = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete do
               = image_tag "delete.svg", :class => "icon"
               span
                 = t('shared.delete')
