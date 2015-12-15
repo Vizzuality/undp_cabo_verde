@@ -83,7 +83,7 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(categories_path)
-        expect(Category.count).to eq(2)
+        expect(Category.count).to eq(5)
       end
     end
 
