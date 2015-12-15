@@ -277,6 +277,7 @@ en:
   acts:
     act: 'Action'
     acts: 'Actions'
+    acts_list: 'Actions List'
     act_macros: 'Macros'
     act_mesos: 'Mesos'
     act_micros: 'Micros'
@@ -288,6 +289,7 @@ en:
     edit_act: 'Edit action'
     description: 'Description'
     new: 'Add new action'
+    new_act: 'New Action'
     add_actor: 'Add actor'
     remove_actor: 'Remove actor'
 
@@ -337,5 +339,6 @@ en:
 
   users:
     my_actors: 'My actors'
+    my_acts: 'My actions'
     user: 'User'
     users: 'Users'
