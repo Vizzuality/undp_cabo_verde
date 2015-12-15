@@ -153,21 +153,46 @@ I want to manage an actor
     And I should not see "Organization by admin"
 
   # For locations see location.feature
-
   @javascript
-  Scenario: User can add actor relation to actor
+  Scenario: User can add actor child relation to actor
     Given I am authenticated user
     And person
     And organization
     And department
+    And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on ".add_parent_actor"
-    And I select from the following field ".relation_parent_id" with "Organization one"
+    And I click on ".add_child_actor" within ".add-relations"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    And I select from the following field ".relation_child_id" with "Organization one"
+    And I select from the following field ".relation_type_id" with "belongs to"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Actor" should contain "New Organization"
+    Then the select field "Relation title" should contain "belongs to"
+    And the field "Start date" should contain "1990-03-10"
+    And the field "End date" should contain "2010-03-10"
+
+  @javascript
+  Scenario: User can add actor parent relation to actor
+    Given I am authenticated user
+    And person
+    And organization
+    And department
+    And relation_types
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_child_actor" within ".add-relations"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    When I click on ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Organization one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then the select field "Actor" should contain "New Organization"
+    Then the select field "Relation title" should contain "belongs to"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 
@@ -188,14 +213,17 @@ I want to manage an actor
     Given I am authenticated user
     And person
     And first act
+    And act_actor_relation_types
     When I go to the edit actor page for "Person one"
     And I click on ".add_action"
     And I select from the following field ".relation_action_id" with "First one"
+    And I select from the following field ".relation_type_id" with "implements"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Action" should contain "First one"
+    Then the select field "Current actor" should contain "implements"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 

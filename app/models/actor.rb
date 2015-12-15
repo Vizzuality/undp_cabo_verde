@@ -24,9 +24,10 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
 
-  accepts_nested_attributes_for :localizations,            allow_destroy: true
-  accepts_nested_attributes_for :actor_relations_as_child, allow_destroy: true
-  accepts_nested_attributes_for :act_actor_relations,      allow_destroy: true
+  accepts_nested_attributes_for :localizations,             allow_destroy: true
+  accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
+  accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
+  accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
@@ -160,6 +161,11 @@ class Actor < ActiveRecord::Base
     collection.any? ? collection : actor_relations_as_child.build
   end
 
+  def actor_children_form
+    collection = actor_relations_as_parent
+    collection.any? ? collection : actor_relations_as_parent.build
+  end
+
   def actions_form
     collection = act_actor_relations
     collection.any? ? collection : act_actor_relations.build
@@ -185,5 +191,17 @@ class Actor < ActiveRecord::Base
           return false
         end
       end
+    end
+
+    def parent_invalid(attributes)
+      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def child_invalid(attributes)
+      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def action_invalid(attributes)
+      attributes['act_id'].empty? || attributes['relation_type_id'].empty?
     end
 end
