@@ -233,7 +233,9 @@ RSpec.describe ActsController, type: :controller do
     end
 
     it 'User should be able to create a new act' do
-      post :create, act: { name: 'New first', user_id: @adminuser.id, type: 'ActMacro' }
+      post :create, act: { name: 'New first', user_id: @adminuser.id,
+                           type: 'ActMacro',
+                           socio_cultural_domain_ids: [@socio_cultural_domain.id] }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.acts.count).to eq(1)

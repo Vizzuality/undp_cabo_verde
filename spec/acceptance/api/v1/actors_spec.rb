@@ -52,7 +52,6 @@ resource 'Actors' do
           actor_4 = JSON.parse(response_body)['actors'][3]
 
           expect(status).to eq(200)
-          expect(actor_1['id']).to    eq(4)
           expect(actor_1['level']).to eq('micro')
           expect(actor_2['level']).to eq('meso')
           expect(actor_3['name']).to  eq('Education Institution')
@@ -68,11 +67,11 @@ resource 'Actors' do
     context 'Actor details' do
       get "/api/actors/:id" do
         example 'Getting a specific actor' do
-          do_request(id: 1)
+          do_request(id: actors.first.id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
-          expect(actor['id']).to    eq(1)
+          expect(actor['id']).to    eq(actors.first.id)
           expect(actor['name']).to  eq('Economy Organization')
           expect(actor['level']).to eq('macro')
           expect(actor['scale']).to eq('Global')
@@ -100,7 +99,7 @@ resource 'Actors' do
         end
 
         example 'Getting a meso actor', document: false do
-          do_request(id: 3)
+          do_request(id: actors.third.id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
@@ -120,7 +119,7 @@ resource 'Actors' do
         end
 
         example 'Getting a micro actor', document: false do
-          do_request(id: 4)
+          do_request(id: actors[3].id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
