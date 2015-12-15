@@ -273,10 +273,18 @@ en:
     add_action: 'Add action'
     remove_action: 'Remove action'
     actions: 'Actions'
+    add_child: 'Add child actor'
+    add_parent: 'Add parent actor'
+    related_as: 'Related as'
+    current_actor: 'Current actor'
+    to_current_actor: 'To current actor'
+    to_actor: 'To actor'
+    relation_name: 'Relation title'
 
   acts:
     act: 'Action'
     acts: 'Actions'
+    acts_list: 'Actions List'
     act_macros: 'Macros'
     act_mesos: 'Mesos'
     act_micros: 'Micros'
@@ -288,6 +296,7 @@ en:
     edit_act: 'Edit action'
     description: 'Description'
     new: 'Add new action'
+    new_act: 'New Action'
     add_actor: 'Add actor'
     remove_actor: 'Remove actor'
 
@@ -334,8 +343,11 @@ en:
     actions_relations: 'Connect with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
+    actors_relations_as_parent: 'Connect with Actors as parent'
+    switch: 'Switch'
 
   users:
     my_actors: 'My actors'
+    my_acts: 'My actions'
     user: 'User'
     users: 'Users'

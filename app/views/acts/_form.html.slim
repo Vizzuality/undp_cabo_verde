@@ -77,7 +77,7 @@
         .column
           p.text-right
             / Add more css classes to 'add_location', sample 'add_location your_class_name'
-            = add_location_path t('shared.add_location'), form, :localizations, 'add_location'
+            = add_location_path t('shared.add_location'), form, :localizations, 'add_fields add_location'
 
 .row
   .columns.medium-8.medium-offset-1.action_relations
@@ -93,7 +93,7 @@
         .column
           p.text-right
             / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
-            = add_action_relation_path t('relations.add_relation'), form, :act_relations_as_child, 'add_parent_action'
+            = add_action_relation_path t('relations.add_relation'), form, :act_relations_as_child, 'add_fields add_parent_action'
 
 .row
   .columns.medium-8.medium-offset-1.actor_relations
@@ -109,4 +109,4 @@
         .column
           p.text-right
             / Add more css classes to 'add_actor', sample 'add_actor your_class_name'
-            = add_actor_relation_path t('acts.add_actor'), form, :act_actor_relations, 'add_actor'
+            = add_actor_relation_path t('acts.add_actor'), form, :act_actor_relations, 'add_fields add_actor'

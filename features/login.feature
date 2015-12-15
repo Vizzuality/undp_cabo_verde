@@ -10,7 +10,7 @@ I want to login, logout and reset password
     And I fill in "Password" with "password"
     And I press "Log in"
     Then I should see "Signed in successfully."
-    And I should be on the dashboard page
+    And I should be on the root page
 
   Scenario: User logout
     Given I am authenticated user
@@ -33,4 +33,4 @@ I want to login, logout and reset password
     And I fill in "Confirm your new password" with "qwertyui"
     And I press "Change my password"
     Then I should see "Your password has been changed successfully."
-    And I should be on the dashboard page
+    And I should be on the root page

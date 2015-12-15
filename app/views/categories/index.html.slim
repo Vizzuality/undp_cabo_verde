@@ -3,7 +3,7 @@
     div
       h2.title
         = t('categories.categories')
-    .button-collectionxx  
+    .button-collectionxx
       - if (can? :manage, Category)
         p= link_to t('categories.create_category'), new_category_path, class: "button -large -type-a"
 

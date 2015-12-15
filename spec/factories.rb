@@ -139,6 +139,12 @@ FactoryGirl.define do
     relation_category 1
   end
 
+  factory :actors_relation_type_belongs, class: RelationType do
+    title         'contains'
+    title_reverse 'belongs to'
+    relation_category 1
+  end
+
   factory :act_actor_relation_type, class: RelationType do
     title         'implements'
     title_reverse 'implemented by'
