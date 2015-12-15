@@ -34,11 +34,11 @@
       = f.label :web_url, class: 'right inline'
     .column.medium-8
       = f.input :web_url, input_html: { class: 'localization_web_url' }, label: false, disabled: common_form?
-        
+
   - unless common_form?
     .row
       .column
-        p.text-right 
+        p.text-right
           / Do not move this field!
           = f.hidden_field :_destroy unless request.path.include?('/localizations/')
           = link_to t('shared.remove_location'), '#', class: 'remove_fields' unless request.path.include?('/localizations/')

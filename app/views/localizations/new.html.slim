@@ -1,4 +1,4 @@
-h1 
+h1
   = t('shared.create')
 
 = simple_form_for [@owner, @localization], url: polymorphic_create_localization_path(@owner) do |f|
@@ -6,5 +6,5 @@ h1
 
   .form-actions
     = f.button :submit, t('shared.create')
-    
+
 p= link_to t('shared.back'), :back
