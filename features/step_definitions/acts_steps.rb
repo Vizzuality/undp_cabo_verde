@@ -27,8 +27,15 @@ Given /^first act$/ do
 end
 
 Given /^action with relations$/ do
-  @meso = FactoryGirl.create(:act_meso, user_id: User.last.id)
+  @user = FactoryGirl.create(:user)
+  @meso = FactoryGirl.create(:act_meso, user_id: @user.id)
   FactoryGirl.create(:act_micro, name: 'Action one', user_id: User.last.id, parents: [@meso])
+end
+
+Given /^action with actor relations$/ do
+  @user = FactoryGirl.create(:user)
+  @actor  = FactoryGirl.create(:actor_macro, user_id: @user.id)
+  FactoryGirl.create(:act_micro, name: 'Action one with relation', user: @user, actors: [@actor])
 end
 
 Given /^first act by admin$/ do

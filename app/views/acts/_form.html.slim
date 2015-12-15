@@ -6,25 +6,25 @@
         .column.medium-4
           = form.label :name, class: 'right inline'
         .column.medium-8
-          = form.input :name, label: false
+          = form.input :name, label: false, disabled: common_form?
       .row
         .column.medium-8.medium-offset-4
           .radio-buttons
-            = form.collection_radio_buttons :event, [[true, "Event"], [false, "Activity"]], :first, :last
+            = form.collection_radio_buttons :event, [[true, "Event", disabled: common_form?], [false, "Activity", disabled: common_form?]], :first, :last
       .row
         .column.medium-8.medium-offset-4
           .radio-buttons
-            = form.collection_radio_buttons :human, [[true, "Human"], [false, "Natural"]], :first, :last
+            = form.collection_radio_buttons :human, [[true, "Human", disabled: common_form?], [false, "Natural", disabled: common_form?]], :first, :last
       .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
         .column.medium-8
-          = form.input :alternative_name, label: false
+          = form.input :alternative_name, label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :short_name, class: 'right inline'
         .column.medium-8
-          = form.input :short_name, label: false
+          = form.input :short_name, label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :start_date, class: 'right inline'
@@ -32,7 +32,7 @@
           = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
                                          'data-max-date': Date.today,
                                          class: 'js-datepicker',
-                                         label: false
+                                         label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :end_date, class: 'right inline'
@@ -41,28 +41,28 @@
                                        'data-max-date': Date.today,
                                        'data-blank-date': true,
                                        class: 'js-datepicker',
-                                       label: false
+                                       label: false, disabled: common_form?
       .row
         .column.medium-4
           = form.label :description, class: 'right inline'
         .column.medium-8
-          = form.input :description, label: false
+          = form.input :description, label: false, disabled: common_form?
 
       .row
         .column.medium-4
           = form.label :organization_type_ids, class: 'right inline'
         .column.medium-8
-          = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}
+          = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}, disabled: common_form?
       .row
         .column.medium-4
           = form.label :socio_cultural_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((SocioCulturalDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "")}
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((SocioCulturalDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "")}, disabled: common_form?
       .row
         .column.medium-4
           = form.label :other_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :other_domain_ids, collection: @other_domains, as: ((OtherDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OtherDomain.count > 4) ? "js-mselect" : "")}
+          = form.input :other_domain_ids, collection: @other_domains, as: ((OtherDomain.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OtherDomain.count > 4) ? "js-mselect" : "")}, disabled: common_form?
 .row
   .columns.medium-8.medium-offset-1
     .row
@@ -71,8 +71,42 @@
 
     = form.fields_for :localizations do |localizations_form|
       = render 'localizations/form', f: localizations_form
+
+    - unless common_form?
+      .row
+        .column
+          p.text-right
+            / Add more css classes to 'add_location', sample 'add_location your_class_name'
+            = add_location_path t('shared.add_location'), form, :localizations, 'add_location'
+
+.row
+  .columns.medium-8.medium-offset-1.action_relations
     .row
-      .column
-        p.text-right
-          / Add more css classes to 'add_location', sample 'add_location your_class_name'
-          = add_location_path t('shared.add_location'), form, :localizations, 'add_location'
+      .column.medium-8.medium-offset-4
+        h2 = t('relations.actions_relations')
+
+    = form.fields_for :act_relations_as_child do |action_parents_form|
+      = render 'action_relation_form', f: action_parents_form
+
+    - unless common_form?
+      .row
+        .column
+          p.text-right
+            / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
+            = add_action_relation_path t('relations.add_relation'), form, :act_relations_as_child, 'add_parent_action'
+
+.row
+  .columns.medium-8.medium-offset-1.actor_relations
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('relations.actors_relations')
+
+    = form.fields_for :act_actor_relations do |actors_form|
+      = render 'actor_relation_form', f: actors_form
+
+    - unless common_form?
+      .row
+        .column
+          p.text-right
+            / Add more css classes to 'add_actor', sample 'add_actor your_class_name'
+            = add_actor_relation_path t('acts.add_actor'), form, :act_actor_relations, 'add_actor'

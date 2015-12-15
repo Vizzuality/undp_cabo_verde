@@ -4,7 +4,7 @@ class Act < ActiveRecord::Base
   belongs_to :user
 
   has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id
-  has_many :act_relations_as_child, class_name: 'ActRelation', foreign_key: :child_id
+  has_many :act_relations_as_child,  class_name: 'ActRelation', foreign_key: :child_id
 
   has_many :children, through: :act_relations_as_parent, dependent: :destroy
   has_many :parents, through: :act_relations_as_child, dependent: :destroy
@@ -24,7 +24,9 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
   
-  accepts_nested_attributes_for :localizations, allow_destroy: true
+  accepts_nested_attributes_for :localizations,          allow_destroy: true
+  accepts_nested_attributes_for :act_relations_as_child, allow_destroy: true
+  accepts_nested_attributes_for :act_actor_relations,    allow_destroy: true
   
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
@@ -34,7 +36,8 @@ class Act < ActiveRecord::Base
   scope :not_mesos_parents,  -> (child) { where(type: 'ActMeso').
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
                                           child.id) }
-  
+  scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
+
   validates :type, presence: true
   validates :name, presence: true
 
@@ -144,6 +147,16 @@ class Act < ActiveRecord::Base
   def localizations_form
     collection = localizations
     collection.any? ? collection : localizations.build
+  end
+
+  def action_parents_form
+    collection = act_relations_as_child
+    collection.any? ? collection : act_relations_as_child.build
+  end
+
+  def actors_form
+    collection = act_actor_relations
+    collection.any? ? collection : act_actor_relations.build
   end
 
   private
