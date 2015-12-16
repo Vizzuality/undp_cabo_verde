@@ -1,5 +1,5 @@
-.form-inputs
-  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new/')
+.form-inputs.form-inputs-action
+  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new')
   .row
     .column.medium-4
       = f.label :relation_type_id, t('actors.current_actor') + '*', class: 'right inline'

@@ -43,3 +43,7 @@ Given /^first act by admin$/ do
   FactoryGirl.create(:admin)
   FactoryGirl.create(:act_macro, name: 'First act by admin', user: @admin)
 end
+
+Given /^act_relation_types$/ do
+  FactoryGirl.create(:acts_relation_type)
+end

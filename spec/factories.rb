@@ -165,6 +165,6 @@ FactoryGirl.define do
   end
 
   factory :socio_cultural_domain, class: SocioCulturalDomain do
-    name           'Faith'
+    name 'Faith'
   end
 end
