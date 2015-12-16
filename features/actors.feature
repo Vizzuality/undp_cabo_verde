@@ -8,8 +8,8 @@ I want to manage an actor
     And person
     And organization by admin
     When I go to the actors page
-    And I should see "You need to sign in or sign up before continuing."
-    Then I should be on the login page
+    Then I should see "You need to sign in or sign up before continuing."
+    And I should be on the login page
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user

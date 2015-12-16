@@ -1,7 +1,8 @@
 class ActsController < ApplicationController
+  before_action :store_location
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:create, :link_act]
   before_action :set_act, except: [:index, :new, :create]
   before_action :act_filters, only: :index
