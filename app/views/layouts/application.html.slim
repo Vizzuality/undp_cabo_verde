@@ -6,6 +6,7 @@ html lang='en'
     title
       = content_for?(:title) ? yield(:title) : 'UNDP Manage'
     = stylesheet_link_tag 'application'
+    link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"
     = csrf_meta_tags
   body
     .l-page
@@ -31,4 +32,5 @@ html lang='en'
         .row: .small-12.medium-12.large-12.columns
           = yield
 
+    script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"
     = javascript_include_tag 'application'
