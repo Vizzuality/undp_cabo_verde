@@ -35,6 +35,11 @@ en:
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           localizations: 'Location'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
+        localizations: 'Location'
       actor_meso:
         edit:
           category_ids: 'Categories'
@@ -42,6 +47,11 @@ en:
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           localizations: 'Location'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
+        localizations: 'Location'
       actor_macro:
         edit:
           category_ids: 'Categories'
@@ -50,6 +60,11 @@ en:
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           localizations: 'Location'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
+        localizations: 'Location'
 
       act:
         new:
@@ -65,18 +80,30 @@ en:
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
       act_meso:
         edit:
           category_ids: 'Categories'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
       act_macro:
         edit:
           category_ids: 'Categories'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
+        category_ids: 'Categories'
+        organization_type_ids: 'Organization types'
+        socio_cultural_domain_ids: 'Socio cultural domains'
+        other_domain_ids: 'Other domains'
 
       category:
         new:

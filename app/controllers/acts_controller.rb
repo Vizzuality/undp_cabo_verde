@@ -41,7 +41,7 @@ class ActsController < ApplicationController
   def create
     @act = @user.acts.build(act_params)
     if @act.save
-      redirect_to edit_act_path(@act)
+      redirect_to act_path(@act)
     else
       render :new
     end
@@ -111,10 +111,11 @@ class ActsController < ApplicationController
       @organization_types     = OrganizationType.order(:name)
       @socio_cultural_domains = SocioCulturalDomain.order(:name)
       @other_domains          = OtherDomain.order(:name)
-      @parents_to_select      = Act.order(:name).filter_actives.meso_and_macro
+      @parents_to_select      = Act.order(:name).filter_actives
       @actors_to_select       = Actor.order(:name).filter_actives
-      @actor_relation_types   = RelationType.order(:title).includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
-      @action_relation_types  = RelationType.order(:title).includes_act_relations.collect       { |rt| [ rt.title, rt.id ] }
+      @actor_relation_types   = RelationType.order(:title).includes_actor_act_relations.collect   { |rt| [ rt.title, rt.id ]         }
+      @action_relation_types  = RelationType.order(:title).includes_act_relations.collect         { |rt| [ rt.title, rt.id ]         }
+      @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect { |rt| [ rt.title_reverse, rt.id ] }
     end
 
     def set_parents

@@ -44,10 +44,17 @@ RSpec.describe Actor, type: :model do
   end
 
   it 'actor name validation' do
-    @person_reject = ActorMicro.new(name: '', user_id: @user.id)
+    @person_reject = build(:actor_micro, name: '', user_id: @user.id)
 
     @person_reject.valid?
     expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
+  end
+
+  it 'actor socio cultural domain validation' do
+    @person_reject = build(:actor_micro, socio_cultural_domains: [], user_id: @user.id)
+
+    @person_reject.valid?
+    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank")
   end
 
   it 'actor with actor type' do

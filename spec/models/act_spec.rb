@@ -41,10 +41,17 @@ RSpec.describe Act, type: :model do
   end
 
   it 'act name validation' do
-    @act_reject = ActMicro.new(name: '', user_id: @user.id)
+    @act_reject = build(:act_micro, name: '', user_id: @user.id)
 
     @act_reject.valid?
     expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
+  end
+
+  it 'act socio cultural domain validation' do
+    @act_reject = build(:act_micro, socio_cultural_domains: [], user_id: @user.id)
+
+    @act_reject.valid?
+    expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank")
   end
 
   it 'act with act type' do

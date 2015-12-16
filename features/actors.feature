@@ -36,7 +36,7 @@ I want to manage an actor
     And I press "Update"
     Then I should be on the actor page for "New Department"
     And the field "Name" should contain "New Department"
-  
+
   Scenario: User can edit owned actor macro
     Given I am authenticated user
     And organization
@@ -67,6 +67,7 @@ I want to manage an actor
     When I go to the actor page for "Person one"
     Then I should be on the actor page for "Person one"
 
+  @javascript
   Scenario: User can create actor
     Given user
     And person
@@ -74,6 +75,7 @@ I want to manage an actor
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
+    And I check "Faith" within ".actor_socio_cultural_domain_ids"
     And I press "Create"
     Then I should have one actor
     And I should be on the edit actor page for "Orga by admin"
@@ -190,7 +192,7 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Actor" should contain "New Organization"
-    Then the select field "Relation title" should contain "belongs to"
+    And the select field "Relation title" should contain "belongs to"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 
