@@ -299,6 +299,15 @@ en:
     new_act: 'New Action'
     add_actor: 'Add actor'
     remove_actor: 'Remove actor'
+    actors: 'Actors'
+    add_child: 'Add child action'
+    add_parent: 'Add parent action'
+    related_as: 'Related as'
+    current_action: 'Current action'
+    to_current_action: 'To current action'
+    to_action: 'To action'
+    relation_name: 'Relation title'
+    add_action: 'Add action'
 
   categories:
     categories: 'Categories'

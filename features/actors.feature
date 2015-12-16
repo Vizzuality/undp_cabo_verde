@@ -190,7 +190,7 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Actor" should contain "New Organization"
-    Then the select field "Relation title" should contain "belongs to"
+    And the select field "Relation title" should contain "belongs to"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 

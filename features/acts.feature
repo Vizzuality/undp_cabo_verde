@@ -67,7 +67,7 @@ I want to manage an act
     And I fill in "act_name" with "Act by admin"
     And I press "Create"
     Then I should have one act
-    And I should be on the edit act page for "Act by admin"
+    And I should be on the act page for "Act by admin"
 
   Scenario: User can not edit not owned act
     Given I am authenticated user
@@ -173,16 +173,41 @@ I want to manage an act
     Given I am authenticated user
     And act
     And second act
+    And act_relation_types
     When I go to the edit act page for "Third one"
-    And I click on ".add_parent_action"
-    And I select from the following field ".relation_parent_id" with "Second one"
-    When I fill in the following field ".relation_start_date" with "1990-03-10"
-    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I click on ".add_child_action" within ".add-relations"
+    Then I should see "Third one" within ".current-action-wrapper"
+    When I select from the following field ".relation_child_id" with "Second one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    And I fill in the following field ".relation_start_date" with "1990-03-10"
+    And I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the act page for "Third one"
     Then the select field "Action" should contain "Second one"
-    And the field "Start date" should contain "1990-03-10" within ".action_relations"
-    And the field "End date" should contain "2010-03-10" within ".action_relations"
+    And the select field "Relation title" should contain "belongs to"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-child"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-child"
+
+  @javascript
+  Scenario: User can add action parent relation to action
+    Given I am authenticated user
+    And act
+    And second act
+    And act_relation_types
+    When I go to the edit act page for "Third one"
+    And I click on ".add_child_action" within ".add-relations"
+    Then I should see "Third one" within ".current-action-wrapper"
+    When I click on ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Second one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    Then I should be on the act page for "Third one"
+    And the select field "Action" should contain "Second one" within ".form-inputs-parent"
+    And the select field "Relation title" should contain "belongs to" within ".form-inputs-parent"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-parent"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-parent"
 
   @javascript
   Scenario: User can remove action relation from action
