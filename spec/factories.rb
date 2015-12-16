@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  
+
   sequence(:id)       { |n| "#{n+2}" }
   sequence(:email)    { |n| "person-#{n}@example.com" }
   sequence(:name)     { Faker::Name.name }
@@ -32,7 +32,7 @@ FactoryGirl.define do
     password  'password'
     password_confirmation { |u| u.password }
   end
-  
+
   # Admin users
   factory :adminuser, class: User do
     id 1
@@ -57,24 +57,27 @@ FactoryGirl.define do
   factory :admin_2, class: AdminUser do
     user_id 2
   end
-  
+
   # Actors
   factory :person_actor, class: ActorMicro do
     name 'Person two'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   factory :actor_micro, class: ActorMicro do
     name 'Person one'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   factory :actor_meso, class: ActorMeso do
     name 'Department one'
     type 'ActorMeso'
     observation 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   factory :actor_macro, class: ActorMacro do
@@ -82,6 +85,7 @@ FactoryGirl.define do
     type 'ActorMacro'
     observation 'Lorem ipsum...'
     after(:build) { |macro| macro.update!(operational_field: create(:operational_field).id) }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   # Acts
@@ -89,18 +93,21 @@ FactoryGirl.define do
     name 'Third one'
     type 'ActMicro'
     description 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   factory :act_meso, class: ActMeso do
     name 'Second one'
     type 'ActMeso'
     description 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   factory :act_macro, class: ActMacro do
     name 'First one'
     type 'ActMacro'
     description 'Lorem ipsum...'
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
   end
 
   # Localizations
@@ -115,7 +122,7 @@ FactoryGirl.define do
     lat
     long
   end
-  
+
   # Categories
   factory :category do
     name 'Category one'
@@ -126,7 +133,7 @@ FactoryGirl.define do
     name 'Global'
     type 'OperationalField'
   end
-  
+
   # Comments
   factory :comment do
     body Faker::Lorem.paragraph(2, true, 4)
@@ -157,4 +164,7 @@ FactoryGirl.define do
     relation_category 7
   end
 
+  factory :socio_cultural_domain, class: SocioCulturalDomain do
+    name           'Faith'
+  end
 end

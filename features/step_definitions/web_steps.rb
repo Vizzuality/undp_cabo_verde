@@ -100,6 +100,12 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"(?: within "([^"]*)")?$/ do |value,
   end
 end
 
+When /^(?:|I )select_chosen "([^"]*)" from "([^"]*)"(?: within "([^"]*)")?$/ do |value, field, selector|
+  with_scope(selector) do
+    select_from_chosen(value, :from => field)
+  end
+end
+
 When /^(?:|I )check "([^"]*)"(?: within "([^"]*)")?$/ do |field, selector|
   with_scope(selector) do
     check(field)

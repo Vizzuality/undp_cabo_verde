@@ -58,6 +58,7 @@ I want to manage an act
     When I go to the edit act page for "Third one"
     Then I should be on the edit act page for "Third one"
 
+  @javascript
   Scenario: User can create act
     Given user
     And third act
@@ -65,6 +66,7 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should have one act
     And I should be on the edit act page for "Act by admin"
