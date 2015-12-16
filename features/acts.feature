@@ -58,6 +58,7 @@ I want to manage an act
     When I go to the edit act page for "Third one"
     Then I should be on the edit act page for "Third one"
 
+  @javascript
   Scenario: User can create act
     Given user
     And third act
@@ -65,6 +66,7 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should have one act
     And I should be on the act page for "Act by admin"
@@ -226,16 +228,19 @@ I want to manage an act
     Given I am authenticated user
     And person
     And first act
+    And act_actor_relation_types
     When I go to the edit act page for "First one"
     And I click on ".add_actor"
     And I select from the following field ".relation_actor_id" with "Person one"
+    And I select from the following field ".relation_type_id" with "implements"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the act page for "First one"
     Then the select field "Actor" should contain "Person one"
-    And the field "Start date" should contain "1990-03-10" within ".actor_relations"
-    And the field "End date" should contain "2010-03-10" within ".actor_relations"
+    Then the select field "Current action" should contain "implements"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-actor"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-actor"
 
   @javascript
   Scenario: User can remove actor relation from action

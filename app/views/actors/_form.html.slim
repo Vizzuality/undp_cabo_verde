@@ -21,7 +21,7 @@
         .column.medium-4
           = form.label :socio_cultural_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: :select, label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((SocioCulturalDomain.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
       .row
         .column.medium-4
           = form.label :other_domain_ids, class: 'right inline'

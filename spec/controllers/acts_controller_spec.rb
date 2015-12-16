@@ -9,13 +9,14 @@ RSpec.describe ActsController, type: :controller do
     @micro = create(:act_micro, user_id: @user.id)
     @macro = create(:act_macro, user_id: @user.id, active: false)
     @meso  = create(:act_meso, user_id: @user.id)
+    @socio_cultural_domain = create(:socio_cultural_domain)
   end
-  
-  let!(:attri) do 
+
+  let!(:attri) do
     { name: 'New first', active: true }
   end
 
-  let!(:attri_macro_micro) do 
+  let!(:attri_macro_micro) do
     { name: 'New first', active: true }
   end
 
@@ -87,12 +88,15 @@ RSpec.describe ActsController, type: :controller do
     context 'User should be able to add categories to acts' do
       before :each do
         @category  = create(:category)
-        @child_cat = create(:category, name: 'Category second', parent: @category, acts: [@micro, @meso])
+        @child_cat = create(:socio_cultural_domain, name: 'Category second',
+                            parent: @category, acts: [@micro, @meso])
       end
 
       let!(:attri_macro_micro_with_cat) do 
-        { name: 'New first', 
-          active: true, category_ids: [@child_cat]
+        {
+          name: 'New first',
+          active: true,
+          category_ids: [@child_cat]
         }
       end
 
@@ -229,7 +233,9 @@ RSpec.describe ActsController, type: :controller do
     end
 
     it 'User should be able to create a new act' do
-      post :create, act: { name: 'New first', user_id: @adminuser.id, type: 'ActMacro' }
+      post :create, act: { name: 'New first', user_id: @adminuser.id,
+                           type: 'ActMacro',
+                           socio_cultural_domain_ids: [@socio_cultural_domain.id] }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.acts.count).to eq(1)

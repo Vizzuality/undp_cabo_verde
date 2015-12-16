@@ -11,11 +11,12 @@ RSpec.describe ActorsController, type: :controller do
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
     @meso  = create(:actor_meso, user_id: @user.id)
+    @socio_cultural_domain = create(:socio_cultural_domain)
   end
-  
+
   let!(:attri) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: '', operational_field: '' 
+    { name: 'New first', observation: 'Lorem ipsum dolor...',
+      active: true, title: '', operational_field: ''
     }
   end
 
@@ -125,12 +126,14 @@ RSpec.describe ActorsController, type: :controller do
     context 'User should be able to add categories to actors' do
       before :each do
         @category  = create(:category)
-        @child_cat = create(:category, name: 'Category second', parent: @category, actors: [@micro, @meso])
+        @child_cat = create(:socio_cultural_domain, name: 'Category second',
+                            parent: @category, actors: [@micro, @meso])
       end
 
-      let!(:attri_macro_micro_with_cat) do 
-        { name: 'New first', observation: 'Lorem ipsum dolor...', 
-          active: true, title: 'Test', operational_field: @field.id, category_ids: [@child_cat]
+      let!(:attri_macro_micro_with_cat) do
+        { name: 'New first', observation: 'Lorem ipsum dolor...',
+          active: true, title: 'Test', operational_field: @field.id,
+          category_ids: [@child_cat]
         }
       end
 
@@ -270,7 +273,8 @@ RSpec.describe ActorsController, type: :controller do
     end
 
     it 'User should be able to create a new actor' do
-      post :create, actor: { name: 'New first', user_id: @adminuser.id, type: 'ActorMacro' }
+      post :create, actor: { name: 'New first', user_id: @adminuser.id, type: 'ActorMacro',
+                             socio_cultural_domain_ids: [@socio_cultural_domain.id] }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@adminuser.actors.count).to eq(1)
