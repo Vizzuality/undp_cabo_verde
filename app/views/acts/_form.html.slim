@@ -1,7 +1,7 @@
-= form.error_notification
-.form-inputs
-  .row
-    .column.medium-8.medium-offset-1
+.row
+  .column.medium-8.medium-offset-1
+    = form.error_notification
+    .form-inputs
       .row
         .column.medium-4
           = form.label :name, class: 'right inline'
@@ -70,7 +70,7 @@
         h2 = t('localizations.localizations')
 
     = form.fields_for :localizations do |localizations_form|
-      = render 'localizations/form', f: localizations_form
+      p= render 'localizations/form', f: localizations_form
 
     - unless common_form?
       .row
@@ -86,14 +86,22 @@
         h2 = t('relations.actions_relations')
 
     = form.fields_for :act_relations_as_child do |action_parents_form|
-      = render 'action_relation_form', f: action_parents_form
+      p= render 'action_relation_form', f: action_parents_form
 
-    - unless common_form?
-      .row
+.row
+  .columns.medium-8.medium-offset-1
+    = form.fields_for :act_relations_as_parent do |action_children_form|
+      p= render 'action_relation_children_form', f: action_children_form
+
+- unless common_form?
+  .row
+    .columns.medium-8.medium-offset-1
+      .row.add-relations
         .column
           p.text-right
+            = add_action_relation_path t('acts.add_action'), form, :act_relations_as_child, 'add_parent_action hidden mini-text add_actions_fields'
             / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
-            = add_action_relation_path t('relations.add_relation'), form, :act_relations_as_child, 'add_fields add_parent_action'
+            = add_action_relation_children_path t('acts.add_action'), form, :act_relations_as_parent, 'add_child_action add_actions_fields'
 
 .row
   .columns.medium-8.medium-offset-1.actor_relations

@@ -13,16 +13,16 @@ RSpec.describe CategoriesController, type: :controller do
     @category  = create(:category)
     @child_cat = create(:category, name: 'Category second', parent: @category, actors: [@micro, @meso])
   end
-  
-  let!(:attri) do 
+
+  let!(:attri) do
     { name: 'New cat name' }
   end
 
-  let!(:attri_fail) do 
+  let!(:attri_fail) do
     { name: '' }
   end
 
-  let!(:attri_with_actor) do 
+  let!(:attri_with_actor) do
     { name: 'New cat name', actor_ids: [@macro], type: 'SocioCulturalDomain' }
   end
 
@@ -75,7 +75,7 @@ RSpec.describe CategoriesController, type: :controller do
         @macro.reload
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
-        expect(@macro.categories.second.name).to eq('New cat name')
+        expect(@macro.categories.third.name).to eq('New cat name')
       end
 
       it 'Delete category' do
@@ -83,7 +83,7 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(categories_path)
-        expect(Category.count).to eq(2)
+        expect(Category.count).to eq(5)
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       render_views
-      
+
       it 'AdminUser should not be able to update category without name' do
         put :update, id: @category.id, category: attri_fail
         expect(response.body).to match('can&#39;t be blank')
