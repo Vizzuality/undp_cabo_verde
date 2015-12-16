@@ -1,7 +1,7 @@
 class RelationTypesController < ApplicationController
-  load_and_authorize_resource
-  
   before_action :authenticate_user!
+  load_and_authorize_resource
+
   before_action :set_relation_type, only: [:edit, :update, :destroy]
   before_action :set_selection, except: [:index, :destroy]
 

@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource
-  
-  before_action :authenticate_user!, except: [:index, :show]
+
   before_action :set_type
   before_action :set_category, except: [:index, :new, :create]
   before_action :set_selection, only: [:new, :edit]
