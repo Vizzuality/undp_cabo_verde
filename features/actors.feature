@@ -21,7 +21,6 @@ I want to manage an actor
     And I fill in "actor_micro_observation" with "It's description for person"
     And I select "Male" from "actor_micro_gender"
     And I select "Mr." from "actor_micro_title"
-    When I fill in "actor_micro_date_of_birth" with "1990-12-17"
     And I press "Update"
     Then I should be on the actor page for "New Person"
     And the field "Name" should contain "New Person"
