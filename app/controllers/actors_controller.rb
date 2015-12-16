@@ -1,7 +1,8 @@
 class ActorsController < ApplicationController
+  before_action :store_location
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!
   before_action :set_current_user, only: [:create, :link_actor]
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index

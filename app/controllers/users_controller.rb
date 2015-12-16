@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: :dashboard
   before_action :set_user, except: [:index, :dashboard]
   before_action :user_filters, only: :index

@@ -1,6 +1,7 @@
 class ActRelationsController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource
-
+  
   before_action :set_edit_relation, only: :edit
   before_action :set_update_relation, only: :update
   before_action :set_selection, only: [:edit, :update]

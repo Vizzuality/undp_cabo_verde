@@ -3,16 +3,13 @@ In order to manage acts
 As an adminuser
 I want to manage an act
 
-  Scenario: User can view acts page and act page
+  Scenario: User can not view acts page and act page without login
     Given user
     And third act
     And first act by admin
     When I go to the acts page
-    And I should see "Third one"
-    And I should see "First act by admin"
-    When I follow "First act by admin"
-    Then I should be on the act page for "First act by admin"
-    And the field "Name" should contain "First act by admin"
+    Then I should see "You need to sign in or sign up before continuing."
+    And I should be on the login page
 
   Scenario: User can edit owned act micro
     Given I am authenticated user

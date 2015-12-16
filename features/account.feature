@@ -15,7 +15,7 @@ I want to edit account
     And I fill in "user_current_password" with "password"
     And I press "Update"
     Then I should see "Your account has been updated successfully."
-    And I should see "Welcome to UNDP – Climate Action Intelligence Tool"
+    And I should be on the home page
 
   Scenario: User account delete
     Given I am authenticated user

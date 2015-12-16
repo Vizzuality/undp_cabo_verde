@@ -3,14 +3,15 @@ In order to manage categories
 As a adminuser
 I want to manage a category
 
-  Scenario: Anyone can view categories
+  Scenario: User can not view categories page and category page without login
     Given category
     When I go to the categories page
-    Then I should be on the categories page
-    And I should see "Category one"
+    And I should see "You need to sign in or sign up before continuing."
+    Then I should be on the login page
 
   Scenario: Anyone can view categories tree
     Given category_tree
+    And I am authenticated user
     When I go to the categories page
     Then I should be on the categories page
     And I should see "Category one"

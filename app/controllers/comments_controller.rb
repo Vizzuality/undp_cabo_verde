@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!
   before_action :set_comment, except: :create
   before_action :build_comment, only: :create
 

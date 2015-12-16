@@ -1,4 +1,5 @@
 class ActorRelationsController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource
 
   before_action :set_edit_relation, only: :edit
