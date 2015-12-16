@@ -20,10 +20,6 @@ class ActorMicro < Actor
     TITLES.map.with_index(1).to_a
   end
 
-  def birth
-    date_of_birth.to_date if date_of_birth.present?
-  end
-
   def empty_relations?
     parents.empty?
   end
