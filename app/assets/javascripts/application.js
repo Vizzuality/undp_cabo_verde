@@ -198,31 +198,36 @@ var initPreviewMap = function(container) {
     marker = dropMarkerOn(map, latField.value, lngField.value);
   }
 
-  /* When the user click on the map, we display a marker and updates the inputs
-   * accordingly */
-  map.on('click', function(e) {
-    var lat = e.latlng.lat,
-        lng = e.latlng.lng;
-    if(marker) { removeMarkerFrom(map, marker); }
-    marker = dropMarkerOn(map, lat, lng);
-    retrieveAddressFrom(lat, lng).done(function(address) {
-      autocompleteInputs(address, { force: true });
-    });
-  });
+  /* We watch the inputs changes and map clicks only if the user is able to
+   * modify the form (ie if it's not disabled) */
+  if(!container.classList.contains('disabled')) {
 
-  /* When the user fills the inputs, we try to autocomplete the others */
-  var inputsListener = function() {
-    if(latField.value.length === 0 || lngField.value.length === 0) {
-      return;
-    }
-    retrieveAddressFrom(latField.value,
-      lngField.value).done(autocompleteInputs);
-    /* We add a marker to the location */
-    if(marker) { removeMarkerFrom(map, marker); }
-    marker = dropMarkerOn(map, latField.value, lngField.value);
-  };
-  $(latField).on('change', inputsListener);
-  $(lngField).on('change', inputsListener);
+    /* When the user click on the map, we display a marker and updates the inputs
+     * accordingly */
+    map.on('click', function(e) {
+      var lat = e.latlng.lat,
+          lng = e.latlng.lng;
+      if(marker) { removeMarkerFrom(map, marker); }
+      marker = dropMarkerOn(map, lat, lng);
+      retrieveAddressFrom(lat, lng).done(function(address) {
+        autocompleteInputs(address, { force: true });
+      });
+    });
+
+    /* When the user fills the inputs, we try to autocomplete the others */
+    var inputsListener = function() {
+      if(latField.value.length === 0 || lngField.value.length === 0) {
+        return;
+      }
+      retrieveAddressFrom(latField.value,
+        lngField.value).done(autocompleteInputs);
+      /* We add a marker to the location */
+      if(marker) { removeMarkerFrom(map, marker); }
+      marker = dropMarkerOn(map, latField.value, lngField.value);
+    };
+    $(latField).on('change', inputsListener);
+    $(lngField).on('change', inputsListener);
+  }
 };
 
 /* Polyfill for Element.matches
@@ -256,8 +261,12 @@ function onReady() {
   showDatepicker();
   /* Initialize the mini maps attached to the location forms */
   var previewMaps = document.querySelectorAll('.map-preview');
+  var form;
   for(var i = 0, j = previewMaps.length; i < j; i++) {
-    initPreviewMap(getClosestParent(previewMaps[i], '.form-inputs'));
+    form = getClosestParent(previewMaps[i], '.form-inputs');
+    if(form) {
+      initPreviewMap(getClosestParent(previewMaps[i], '.form-inputs'));
+    }
   }
 }
 
