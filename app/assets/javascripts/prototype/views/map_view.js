@@ -11,6 +11,7 @@
 
     initialize: function(options) {
       this.actorsCollection = options.actorsCollection;
+      this.router = options.router;
       /* queue is an array of methods and arguments ([ func, args ]) that is
        * stored in order to wait for the map to be instanced. Once done, each
        * queue's methods are called. The queue is FIFO. */
@@ -73,14 +74,23 @@
         });
       };
 
+      var marker;
       _.each(this.actorsCollection.toJSON(), function(actor) {
         _.each(actor.locations, function(location) {
-          L.marker([location.lat, location.long], {
-            icon: makeIcon(actor.level)
-          }).addTo(this.map);
+          marker = L.marker([location.lat, location.long], {
+            icon: makeIcon(actor.level),
+            id: actor.id
+          });
+          marker.addTo(this.map);
+          marker.on('click', this.actorMarkerOnClick.bind(this));
         }, this);
       }, this);
     }, 15),
+
+    /* Triggers an event with the id of the clicked actor */
+    actorMarkerOnClick: function(e) {
+      this.router.navigate('/actors/' + e.target.options.id, { trigger: true });
+    },
 
     /* Update the markers' size according to the map's zoom level */
     updateMarkersSize: function() {

@@ -15,7 +15,10 @@
 
     initialize: function(options) {
       this.status = new Status();
-      this.tabNavigationView = new root.app.View.tabNavigationView();
+      this.router = options.router;
+      this.tabNavigationView = new root.app.View.tabNavigationView({
+        router: options.router
+      });
       this.$toggleSwitch = this.$el.find('.toggleswitch');
       this.actorsCollection = options.actorsCollection;
       this.setListeners();
@@ -24,6 +27,7 @@
     setListeners: function() {
       this.listenTo(this.status, 'change:isHidden', this.triggerVisibility);
       this.listenTo(this.tabNavigationView, 'tab:change', this.switchContent);
+      this.listenTo(this.router, 'route:actor', this.showSidebar);
       this.$toggleSwitch.on('click', this.toggleSidebar.bind(this));
     },
 
@@ -43,11 +47,24 @@
     /* Toggle the sidebar by using a CSS transform translateX property and
      * update the model's attribute isHidden */
     toggleSidebar: function(e) {
-      e.preventDefault();
+      if(e) { e.preventDefault(); }
       var isHidden = this.el.classList.toggle('-hidden');
       this.el.setAttribute('aria-hidden', isHidden);
       this.$toggleSwitch[0].setAttribute('aria-expanded', !isHidden);
       this.status.set('isHidden', isHidden);
+    },
+
+    showSidebar: function() {
+      if(this.status.get('isHidden')) {
+        this.toggleSidebar();
+      }
+    },
+
+    /* Hide the sidebar */
+    hideSidebar: function() {
+      if(!this.status.get('isHidden')) {
+        this.toggleSidebar();
+      }
     },
 
     /* Trigger the sidebar's visibility with the object:

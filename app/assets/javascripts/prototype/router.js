@@ -8,7 +8,8 @@
 
     routes: {
       '(/)': 'welcome',
-      'about(/)': 'about'
+      'about(/)': 'about',
+      'actors/:id(/)': 'actor'
     }
 
   });

@@ -39,10 +39,12 @@
       this.actorsCollection = new root.app.Collection.actorsCollection();
 
       this.sidebarView = new root.app.View.sidebarView({
-        actorsCollection: this.actorsCollection
+        actorsCollection: this.actorsCollection,
+        router: this.router
       });
       this.mapView = new root.app.View.mapView({
-        actorsCollection: this.actorsCollection
+        actorsCollection: this.actorsCollection,
+        router: this.router
       });
 
       this.setListeners();
@@ -50,15 +52,22 @@
 
     setListeners: function() {
       this.listenTo(this.router, 'route:welcome', this.welcomePage);
+      this.listenTo(this.router, 'route:actor', this.fetchCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
     },
 
     welcomePage: function() {
-      this.actorsCollection.fetch();
+      this.fetchCollections();
     },
 
     aboutPage: function() {
 
+    },
+
+    fetchCollections: function() {
+      if(this.actorsCollection.length === 0) {
+        this.actorsCollection.fetch();
+      }
     },
 
     start: function() {
