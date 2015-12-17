@@ -1,0 +1,16 @@
+h1 My indicators
+
+table
+  thead
+    tr
+      th Name
+      th Status
+      th Options
+  tbody
+    - @indicators.each do |indicator|
+      tr
+        td = link_to indicator.name, indicator_path(indicator)
+        td = indicator.status
+        td 
+          - if (can? :manage, indicator)
+            = link_to 'Edit indicator', edit_indicator_path(indicator)

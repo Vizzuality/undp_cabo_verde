@@ -191,4 +191,10 @@ FactoryGirl.define do
     value   '100.001'
     details Faker::Lorem.paragraph(2, true, 4)
   end
+
+  factory :act_indicator_relation_type_belongs, class: RelationType do
+    title         'contains'
+    title_reverse 'belongs to'
+    relation_category 5
+  end
 end

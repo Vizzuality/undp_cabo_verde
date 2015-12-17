@@ -5,6 +5,7 @@ nav
       li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
     li = link_to t('navbar.acts'), acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
+    li = link_to t('navbar.indicators'), indicators_path, class: "#{'is-active' if menu_highlight?(:indicators)}"
 
     - if user_signed_in? && current_user.admin?
       li [class='dropdown-src' id='js-dropdown-set']

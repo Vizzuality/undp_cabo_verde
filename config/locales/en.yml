@@ -357,5 +357,14 @@ en:
   users:
     my_actors: 'My actors'
     my_acts: 'My actions'
+    my_indicators: 'My indicators'
     user: 'User'
     users: 'Users'
+
+  indicators:
+    indicators: 'Indicators'
+    create_category: 'Create Indicator'
+    edit_indicator: 'Edit indicator'
+    socio_cultural_domains: 'Socio cultural domains'
+    other_domains: 'Other domains'
+    organization_types: 'Organization types'

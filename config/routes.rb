@@ -26,8 +26,10 @@ Rails.application.routes.draw do
       patch 'activate',   on: :member
       patch 'make_admin', on: :member
       patch 'make_user',  on: :member
-      resources :actors,  controller: 'users/actors',  only: :index
-      resources :acts, controller: 'users/acts', only: :index
+
+      resources :actors,     controller: 'users/actors',     only: :index
+      resources :acts,       controller: 'users/acts',       only: :index
+      resources :indicators, controller: 'users/indicators', only: :index
     end
     
     # Actors
@@ -107,6 +109,22 @@ Rails.application.routes.draw do
       is_only.resources :act_relations, param: :relation_id
     end
     # End Acts
+
+    # Indicators
+    resources :indicators do
+      patch 'activate',   on: :member
+      patch 'deactivate', on: :member
+      
+      resources :localizations, controller: 'localizations', except: :index do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+
+      resources :comments, only: [:create, :activate, :deactivate] do
+        patch 'deactivate', on: :member
+        patch 'activate',   on: :member
+      end
+    end
      
     # Categories
     resources :categories

@@ -4,6 +4,7 @@ class ActIndicatorRelation < ActiveRecord::Base
   belongs_to :act,       foreign_key: :act_id
   belongs_to :indicator, foreign_key: :indicator_id
   belongs_to :unit,      foreign_key: :unit_id
+  belongs_to :relation_type
   
   has_many :measurements, dependent: :destroy
   

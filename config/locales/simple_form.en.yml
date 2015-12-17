@@ -144,6 +144,24 @@ en:
           relation_category: 'Relation category'
           title_reverse: 'Reverse title'
 
+      indicators:
+        new:
+          name: 'Name'
+          alternative_name: 'Alternative name'
+          description: 'Description'
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+        edit:
+          name: 'Name'
+          alternative_name: 'Alternative name'
+          description: 'Description'
+          category_ids: 'Categories'
+          organization_type_ids: 'Organization types'
+          socio_cultural_domain_ids: 'Socio cultural domains'
+          other_domain_ids: 'Other domains'
+
     hints:
       defaults:
         username: 'User name to sign in.'

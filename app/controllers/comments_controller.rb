@@ -32,6 +32,8 @@ class CommentsController < ApplicationController
                        Actor.find(params[:actor_id])
                      elsif params[:act_id]
                        Act.find(params[:act_id])
+                     elsif params[:indicator_id]
+                       Indicator.find(params[:indicator_id])
                      end
     end
 
@@ -46,6 +48,8 @@ class CommentsController < ApplicationController
     def redirect_paths
       if @commentable.class.name.include?('Actor')
         actor_path(@commentable)
+      elsif @commentable.class.name.include?('Indicator')
+        indicator_path(@commentable)
       else
         act_path(@commentable)
       end

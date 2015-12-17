@@ -8,9 +8,10 @@ class RelationType < ActiveRecord::Base
   validates :title,         presence: true
   validates :title_reverse, presence: true
 
-  scope :includes_actor_relations,     -> { where(relation_category: [1, 2]) }
-  scope :includes_act_relations,       -> { where(relation_category: [7])    }
-  scope :includes_actor_act_relations, -> { where(relation_category: [3])    }
+  scope :includes_actor_relations,         -> { where(relation_category: [1, 2]) }
+  scope :includes_act_relations,           -> { where(relation_category: [7])    }
+  scope :includes_actor_act_relations,     -> { where(relation_category: [3])    }
+  scope :includes_act_indicator_relations, -> { where(relation_category: [5, 6]) }
 
   def relation_categories
     RELATIONS_CATEGORY_NAMES[relation_category - 1]
