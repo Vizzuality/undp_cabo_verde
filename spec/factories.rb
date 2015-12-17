@@ -131,7 +131,10 @@ FactoryGirl.define do
 
   factory :operational_field, class: OperationalField do
     name 'Global'
-    type 'OperationalField'
+  end
+
+  factory :socio_cultural_domain, class: SocioCulturalDomain do
+    name 'Faith'
   end
 
   # Comments
@@ -164,7 +167,28 @@ FactoryGirl.define do
     relation_category 7
   end
 
-  factory :socio_cultural_domain, class: SocioCulturalDomain do
-    name 'Faith'
+  # Indicators
+  factory :indicator, class: Indicator do
+    name             'Indicator one'
+    alternative_name 'Indicator one alternative'
+    description      Faker::Lorem.paragraph(2, true, 4)
+  end
+
+  factory :act_indicator_relation, class: ActIndicatorRelation do
+    start_date   { Time.zone.now }
+    end_date     { 5.days.from_now }
+    deadline     { 7.days.from_now }
+    target_value '100.001'
+  end
+
+  factory :unit, class: Unit do
+    name   'Euro'
+    symbol '€'
+  end
+
+  factory :measurement, class: Measurement do
+    date    Time.zone.now
+    value   '100.001'
+    details Faker::Lorem.paragraph(2, true, 4)
   end
 end

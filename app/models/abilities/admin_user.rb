@@ -19,6 +19,11 @@ module Abilities
       can :manage, ::Category 
       can :manage, ::Comment
       can :manage, ::RelationType
+      can :manage, ::Unit
+      can :manage, ::Indicator
+      can :manage, ::ActActorRelation
+      can :manage, ::ActIndicatorRelation
+      can :manage, ::Measurement
       can [:activate, :deactivate], ::Localization
       can [:activate, :deactivate], ::Comment
 

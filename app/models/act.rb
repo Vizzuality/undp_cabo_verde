@@ -15,6 +15,9 @@ class Act < ActiveRecord::Base
   has_many :act_actor_relations, foreign_key: :act_id
   has_many :actors, through: :act_actor_relations, dependent: :destroy
 
+  has_many :act_indicator_relations, foreign_key: :act_id
+  has_many :indicators, through: :act_indicator_relations, dependent: :destroy
+
   has_many :comments, as: :commentable
 
   # Categories
