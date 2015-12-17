@@ -1,4 +1,7 @@
-.form-inputs
+.form-inputs class=(common_form? ? 'disabled' : '')
+  .row
+    .column.medium-8.medium-offset-4
+      .map-preview
   .row
     .column.medium-4
       = f.label :name, class: 'right inline'
