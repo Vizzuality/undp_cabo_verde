@@ -29,7 +29,6 @@ class ActorSerializer < BaseSerializer
     elsif object.micro?
       data['title']         = object.title_txt
       data['gender']        = object.gender_txt
-      data['date_of_birth'] = object.birth
     end
     data
   end

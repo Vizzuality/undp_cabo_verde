@@ -1,15 +1,15 @@
-.form-inputs.form-inputs-action
-  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new')
+.form-inputs.form-inputs-actor
+  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actions/new')
   .row
     .column.medium-4
-      = f.label :relation_type_id, t('actors.current_actor') + '*', class: 'right inline'
+      = f.label :actor_id, t('actors.actor') + '*', class: 'right inline'
     .column.medium-8
-      = f.input :relation_type_id, collection: @action_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
+      = f.input :actor_id, collection: @actors_to_select, as: :collection_select, label: false, input_html: { class: 'relation_actor_id' }, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :act_id, t('acts.act') + '*', class: 'right inline'
+      = f.label :relation_type_id, t('acts.current_action') + '*', class: 'right inline'
     .column.medium-8
-      = f.input :act_id, collection: @actions_to_select, as: :collection_select, label: false, input_html: { class: 'relation_action_id' }, disabled: common_form?
+      = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline'

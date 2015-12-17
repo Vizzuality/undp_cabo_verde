@@ -28,7 +28,7 @@ I want to manage a actor and act localization
 
   @javascript
   Scenario: User can add location to action
-    Given I am authenticated user
+    Given I am authenticated adminuser
     And action with relations
     When I go to the edit act page for "Action one"
     And I click on ".add_location"
@@ -37,7 +37,7 @@ I want to manage a actor and act localization
     And I fill in the following field ".localization_long" with "11.11111" within ".act_micro_localizations_long"
     And I press "Update"
     Then I should be on the act page for "Action one"
-    And I should see "Test location"
+    And the field "Lat" should contain "22.22222" within ".act_micro_localizations_lat"
   
   @javascript
   Scenario: User can remove location from action

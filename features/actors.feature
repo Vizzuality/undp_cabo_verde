@@ -8,8 +8,8 @@ I want to manage an actor
     And person
     And organization by admin
     When I go to the actors page
-    And I should see "You need to sign in or sign up before continuing."
-    Then I should be on the login page
+    Then I should see "You need to sign in or sign up before continuing."
+    And I should be on the login page
 
   Scenario: User can edit owned actor micro
     Given I am authenticated user
@@ -21,7 +21,6 @@ I want to manage an actor
     And I fill in "actor_micro_observation" with "It's description for person"
     And I select "Male" from "actor_micro_gender"
     And I select "Mr." from "actor_micro_title"
-    When I fill in "actor_micro_date_of_birth" with "1990-12-17"
     And I press "Update"
     Then I should be on the actor page for "New Person"
     And the field "Name" should contain "New Person"
@@ -36,7 +35,7 @@ I want to manage an actor
     And I press "Update"
     Then I should be on the actor page for "New Department"
     And the field "Name" should contain "New Department"
-  
+
   Scenario: User can edit owned actor macro
     Given I am authenticated user
     And organization
@@ -67,6 +66,7 @@ I want to manage an actor
     When I go to the actor page for "Person one"
     Then I should be on the actor page for "Person one"
 
+  @javascript
   Scenario: User can create actor
     Given user
     And person
@@ -74,6 +74,7 @@ I want to manage an actor
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
+    And I check "Faith" within ".actor_socio_cultural_domain_ids"
     And I press "Create"
     Then I should have one actor
     And I should be on the edit actor page for "Orga by admin"
@@ -151,21 +152,46 @@ I want to manage an actor
     And I should not see "Organization by admin"
 
   # For locations see location.feature
-
   @javascript
-  Scenario: User can add actor relation to actor
+  Scenario: User can add actor child relation to actor
     Given I am authenticated user
     And person
     And organization
     And department
+    And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on ".add_parent_actor"
-    And I select from the following field ".relation_parent_id" with "Organization one"
+    And I click on ".add_child_actor" within ".add-relations"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    And I select from the following field ".relation_child_id" with "Organization one"
+    And I select from the following field ".relation_type_id" with "belongs to"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Actor" should contain "New Organization"
+    Then the select field "Relation title" should contain "belongs to"
+    And the field "Start date" should contain "1990-03-10"
+    And the field "End date" should contain "2010-03-10"
+
+  @javascript
+  Scenario: User can add actor parent relation to actor
+    Given I am authenticated user
+    And person
+    And organization
+    And department
+    And relation_types
+    When I go to the edit actor page for "Person one"
+    And I click on ".add_child_actor" within ".add-relations"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    When I click on ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Organization one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the actor page for "Person one"
+    Then the select field "Actor" should contain "New Organization"
+    And the select field "Relation title" should contain "belongs to"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 
@@ -186,14 +212,17 @@ I want to manage an actor
     Given I am authenticated user
     And person
     And first act
+    And act_actor_relation_types
     When I go to the edit actor page for "Person one"
     And I click on ".add_action"
     And I select from the following field ".relation_action_id" with "First one"
+    And I select from the following field ".relation_type_id" with "implements"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Action" should contain "First one"
+    Then the select field "Current actor" should contain "implements"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 

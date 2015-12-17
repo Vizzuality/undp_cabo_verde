@@ -3,16 +3,13 @@ In order to manage acts
 As an adminuser
 I want to manage an act
 
-  Scenario: User can view acts page and act page
+  Scenario: User can not view acts page and act page without login
     Given user
     And third act
     And first act by admin
     When I go to the acts page
-    And I should see "Third one"
-    And I should see "First act by admin"
-    When I follow "First act by admin"
-    Then I should be on the act page for "First act by admin"
-    And I should see "First act by admin (Macro)"
+    Then I should see "You need to sign in or sign up before continuing."
+    And I should be on the login page
 
   Scenario: User can edit owned act micro
     Given I am authenticated user
@@ -24,8 +21,8 @@ I want to manage an act
     When I fill in "act_micro_start_date" with "1990-03-10"
     When I fill in "act_micro_end_date" with "2010-03-10"
     And I press "Update"
-    Then I should be on the edit micro member act page for "New Third"
-    And I should see "New Third"
+    Then I should be on the act page for "New Third"
+    And the field "Name" should contain "New Third"
 
   Scenario: User can edit owned act meso
     Given I am authenticated user
@@ -38,8 +35,8 @@ I want to manage an act
     And I fill in "act_meso_short_name" with "New short Second"
     And I fill in "act_meso_description" with "Lorem ipsum..."
     And I press "Update"
-    Then I should be on the edit meso member act page for "New Second"
-    And I should see "New Second"
+    Then I should be on the act page for "New Second"
+    And the field "Name" should contain "New Second"
 
   Scenario: User can edit owned act macro
     Given I am authenticated user
@@ -49,7 +46,7 @@ I want to manage an act
     And I choose "act_macro_event_true"
     And I press "Update"
     Then I should be on the act page for "New First"
-    And I should see "New First"
+    And the field "Name" should contain "New First"
 
   Scenario: Adminuser can edit not owned act
     Given user
@@ -58,44 +55,7 @@ I want to manage an act
     When I go to the edit act page for "Third one"
     Then I should be on the edit act page for "Third one"
 
-  Scenario: User can add macros and mesos to act micro
-    Given I am authenticated user
-    And third act
-    And first act
-    And second act
-    When I go to the edit act page for "Third one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the act page for "Third one"
-    Then I should see "First one"
-    When I go to the edit act page for "Third one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    When I go to the act page for "Third one"
-    Then I should see "Second one"
-    When I go to the edit act page for "Third one"
-    And I follow "Edit relation"
-    Then I should not see ".add_meso"
-    When I follow "Remove" within ".remove_meso"
-    And I go to the act page for "Third one"
-    Then I should not see "Second one"
-
-  Scenario: User can add macros to meso act
-    Given I am authenticated user
-    And first act
-    And second act
-    When I go to the edit act page for "Second one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_macro"
-    When I go to the act page for "Second one"
-    Then I should see "First one"
-    When I go to the edit act page for "Second one"
-    And I follow "Edit relation"
-    Then I should not see ".add_macro"
-    When I follow "Remove" within ".remove_macro"
-    Then I go to the act page for "Second one"
-    And I should not see "First one"
-
+  @javascript
   Scenario: User can create act
     Given user
     And third act
@@ -103,9 +63,10 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should have one act
-    And I should be on the edit act page for "Act by admin"
+    And I should be on the act page for "Act by admin"
 
   Scenario: User can not edit not owned act
     Given I am authenticated user
@@ -205,3 +166,87 @@ I want to manage an act
     Then I press "Update"
 
   # for locations see location.feature
+
+  @javascript
+  Scenario: User can add action relation to action
+    Given I am authenticated user
+    And act
+    And second act
+    And act_relation_types
+    When I go to the edit act page for "Third one"
+    And I click on ".add_child_action" within ".add-relations"
+    Then I should see "Third one" within ".current-action-wrapper"
+    When I select from the following field ".relation_child_id" with "Second one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    And I fill in the following field ".relation_start_date" with "1990-03-10"
+    And I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the act page for "Third one"
+    Then the select field "Action" should contain "Second one"
+    And the select field "Relation title" should contain "belongs to"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-child"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-child"
+
+  @javascript
+  Scenario: User can add action parent relation to action
+    Given I am authenticated user
+    And act
+    And second act
+    And act_relation_types
+    When I go to the edit act page for "Third one"
+    And I click on ".add_child_action" within ".add-relations"
+    Then I should see "Third one" within ".current-action-wrapper"
+    When I click on ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Second one"
+    And I select from the following field ".relation_type_id" with "belongs to"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    Then I should be on the act page for "Third one"
+    And the select field "Action" should contain "Second one" within ".form-inputs-parent"
+    And the select field "Relation title" should contain "belongs to" within ".form-inputs-parent"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-parent"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-parent"
+
+  @javascript
+  Scenario: User can remove action relation from action
+    Given action with relations
+    And I am authenticated adminuser
+    When I go to the act page for "Action one"
+    And the select field "Action" should contain "Second one"
+    When I follow "Edit"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the act page for "Action one"
+    Then I should not see "Department one"
+
+  @javascript
+  Scenario: User can add actor relation to action
+    Given I am authenticated user
+    And person
+    And first act
+    And act_actor_relation_types
+    When I go to the edit act page for "First one"
+    And I click on ".add_actor"
+    And I select from the following field ".relation_actor_id" with "Person one"
+    And I select from the following field ".relation_type_id" with "implements"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    When I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I press "Update"
+    And I go to the act page for "First one"
+    Then the select field "Actor" should contain "Person one"
+    Then the select field "Current action" should contain "implements"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-actor"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-actor"
+
+  @javascript
+  Scenario: User can remove actor relation from action
+    Given action with actor relations
+    And I am authenticated adminuser
+    When I go to the act page for "Action one with relation"
+    Then the select field "Actor" should contain "Person one"
+    When I follow "Edit"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the act page for "Action one with relation"
+    Then I should not see "First one"

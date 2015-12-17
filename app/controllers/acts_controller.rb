@@ -1,12 +1,13 @@
 class ActsController < ApplicationController
+  before_action :store_location
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:create, :link_act]
   before_action :set_act, except: [:index, :new, :create]
   before_action :act_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit]
+  before_action :set_selection, only: [:new, :edit, :show]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
@@ -41,7 +42,7 @@ class ActsController < ApplicationController
   def create
     @act = @user.acts.build(act_params)
     if @act.save
-      redirect_to edit_act_path(@act)
+      redirect_to act_path(@act)
     else
       render :new
     end
@@ -111,12 +112,17 @@ class ActsController < ApplicationController
       @organization_types     = OrganizationType.order(:name)
       @socio_cultural_domains = SocioCulturalDomain.order(:name)
       @other_domains          = OtherDomain.order(:name)
+      @parents_to_select      = Act.order(:name).filter_actives
+      @actors_to_select       = Actor.order(:name).filter_actives
+      @actor_relation_types   = RelationType.order(:title).includes_actor_act_relations.collect   { |rt| [ rt.title, rt.id ]         }
+      @action_relation_types  = RelationType.order(:title).includes_act_relations.collect         { |rt| [ rt.title, rt.id ]         }
+      @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect { |rt| [ rt.title_reverse, rt.id ] }
     end
 
     def set_parents
       # ToDo: change it to search function
       @all_macros = Act.filter_actives.not_macros_parents(@act)
-      @all_mesos  = Act.filter_actives.not_mesos_parents(@act) if @act.micro?
+      @all_mesos  = Act.filter_actives.not_mesos_parents(@act) if @act.micro_or_meso?
     end
 
     def set_memberships
@@ -126,11 +132,7 @@ class ActsController < ApplicationController
     end
 
     def update_act_flow
-      if @act.micro_or_meso? && @act.empty_relations?
-        redirect_to membership_act_path(@act)
-      else
-        redirect_to act_path(@act)
-      end
+      redirect_to act_path(@act)
     end
 
     def link_act_flow

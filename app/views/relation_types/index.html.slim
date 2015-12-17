@@ -3,7 +3,7 @@
     div
       h2.title
         = t('relations.relation_types')
-    .button-collection  
+    .button-collection
       - if (can? :manage, RelationType)
         p= link_to t('relations.create_relation_type'), new_relation_type_path, class: "button -xlarge -type-a"
 

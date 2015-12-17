@@ -6,7 +6,7 @@ RSpec.describe Actor, type: :model do
     @field = create(:operational_field)
     @macro = create(:actor_macro, user_id: @user.id, operational_field: @field.id)
     @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
-    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2, date_of_birth: Time.zone.now - 30.years)
+    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2)
     @relation = ActorRelation.find_by(parent_id: @meso.id, child_id: @micro.id)
   end
 
@@ -32,7 +32,6 @@ RSpec.describe Actor, type: :model do
     expect(@micro.micro?).to eq(true)
     expect(@micro.gender_txt).to eq('Male')
     expect(@micro.title_txt).to eq('Ms.')
-    expect(@micro.birth).to eq((Time.zone.now - 30.years).to_date)
   end
 
   it 'order actor by name' do
@@ -44,10 +43,17 @@ RSpec.describe Actor, type: :model do
   end
 
   it 'actor name validation' do
-    @person_reject = ActorMicro.new(name: '', user_id: @user.id)
+    @person_reject = build(:actor_micro, name: '', user_id: @user.id)
 
     @person_reject.valid?
     expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
+  end
+
+  it 'actor socio cultural domain validation' do
+    @person_reject = build(:actor_micro, socio_cultural_domains: [], user_id: @user.id)
+
+    @person_reject.valid?
+    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank")
   end
 
   it 'actor with actor type' do

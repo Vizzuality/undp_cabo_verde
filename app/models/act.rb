@@ -4,7 +4,7 @@ class Act < ActiveRecord::Base
   belongs_to :user
 
   has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id
-  has_many :act_relations_as_child, class_name: 'ActRelation', foreign_key: :child_id
+  has_many :act_relations_as_child,  class_name: 'ActRelation', foreign_key: :child_id
 
   has_many :children, through: :act_relations_as_parent, dependent: :destroy
   has_many :parents, through: :act_relations_as_child, dependent: :destroy
@@ -24,19 +24,24 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
   
-  accepts_nested_attributes_for :localizations, allow_destroy: true
+  accepts_nested_attributes_for :localizations,           allow_destroy: true
+  accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
+  accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
+  accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
-                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
   scope :not_mesos_parents,  -> (child) { where(type: 'ActMeso').
-                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
-  
-  validates :type, presence: true
-  validates :name, presence: true
+  scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
+
+  validates :type,                      presence: true
+  validates :name,                      presence: true
+  validates :socio_cultural_domain_ids, presence: true
 
   def self.types
     %w(ActMacro ActMeso ActMicro)
@@ -146,8 +151,23 @@ class Act < ActiveRecord::Base
     collection.any? ? collection : localizations.build
   end
 
+  def action_parents_form
+    collection = act_relations_as_child
+    collection.any? ? collection : act_relations_as_child.build
+  end
+
+  def action_children_form
+    collection = act_relations_as_parent
+    collection.any? ? collection : act_relations_as_parent.build
+  end
+
+  def actors_form
+    collection = act_actor_relations
+    collection.any? ? collection : act_actor_relations.build
+  end
+
   private
-  
+
     def deactivate_dependencies
       localizations.filter_actives.each do |localization|
         unless localization.deactivate
@@ -166,5 +186,17 @@ class Act < ActiveRecord::Base
           return false
         end
       end
+    end
+
+    def parent_invalid(attributes)
+      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def child_invalid(attributes)
+      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def actor_invalid(attributes)
+      attributes['actor_id'].empty? || attributes['relation_type_id'].empty?
     end
 end

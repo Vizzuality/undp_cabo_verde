@@ -1,7 +1,6 @@
 nav
   ul.inline-list
     //li = link_to t('navbar.dashboard'), root_pathb, class: "#{'is-active' if menu_highlight?(:home)}"
-    li = link_to t('navbar.home'), root_path, class: "#{'is-active' if menu_highlight?(:home)}"
     - if current_user && current_user.admin?
       li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
     li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"

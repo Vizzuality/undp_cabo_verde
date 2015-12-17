@@ -19,18 +19,29 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      actors << Actor.create(id: 1, type: 'ActorMacro', name: 'Economy Organization',    user: @user, observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field.id, localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2, @category_3])
-      actors << Actor.create(id: 2, type: 'ActorMacro', name: 'Education Institution',   user: @user, observation: Faker::Lorem.paragraph(2, true, 4))
-      actors << Actor.create(id: 3, type: 'ActorMeso',  name: 'Department of Education', user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], short_name: Faker::Name.name, legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
-      actors << Actor.create(id: 4, type: 'ActorMicro', name: 'Director of Department',  user: @user, observation: Faker::Lorem.paragraph(2, true, 4), localizations: [@location], gender: 2, date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, categories: [@category_2])
-      
+      actors << create(:actor_macro, name: 'Economy Organization', user: @user,
+        observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
+        localizations: [@location], short_name: Faker::Name.name,
+        legal_status: Faker::Name.name, other_names: Faker::Name.name,
+        categories: [@category_1, @category_2, @category_3])
+      actors << create(:actor_macro, name: 'Education Institution',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4))
+      actors << create(:actor_meso,  name: 'Department of Education',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+        localizations: [@location], short_name: Faker::Name.name,
+        legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
+      actors << create(:actor_micro, name: 'Director of Department',
+        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+        localizations: [@location], gender: 2,
+        title: 2, categories: [@category_2])
+
       actors.each do |a|
         a.touch
       end
 
       actors
     end
-    
+
     context 'Actors list' do
       get "/api/actors" do
         example_request 'Getting a list of actors' do
@@ -40,7 +51,6 @@ resource 'Actors' do
           actor_4 = JSON.parse(response_body)['actors'][3]
 
           expect(status).to eq(200)
-          expect(actor_1['id']).to    eq(4)
           expect(actor_1['level']).to eq('micro')
           expect(actor_2['level']).to eq('meso')
           expect(actor_3['name']).to  eq('Education Institution')
@@ -56,11 +66,11 @@ resource 'Actors' do
     context 'Actor details' do
       get "/api/actors/:id" do
         example 'Getting a specific actor' do
-          do_request(id: 1)
+          do_request(id: actors.first.id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
-          expect(actor['id']).to    eq(1)
+          expect(actor['id']).to    eq(actors.first.id)
           expect(actor['name']).to  eq('Economy Organization')
           expect(actor['level']).to eq('macro')
           expect(actor['scale']).to eq('Global')
@@ -81,14 +91,13 @@ resource 'Actors' do
           # Micro specific
           expect(actor['title']).to         be_nil
           expect(actor['gender']).to        be_nil
-          expect(actor['date_of_birth']).to be_nil
 
           expect(actor['organization_types'][0]['name']).to eq('Category OT')
           expect(actor['organization_types'][0]['type']).to eq('Organization type')
         end
 
         example 'Getting a meso actor', document: false do
-          do_request(id: 3)
+          do_request(id: actors.third.id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
@@ -101,21 +110,19 @@ resource 'Actors' do
           # Micro specific
           expect(actor['title']).to         be_nil
           expect(actor['gender']).to        be_nil
-          expect(actor['date_of_birth']).to be_nil
 
           expect(actor['other_domains'][0]['name']).to eq('Category OD')
           expect(actor['other_domains'][0]['type']).to eq('Other domains')
         end
 
         example 'Getting a micro actor', document: false do
-          do_request(id: 4)
+          do_request(id: actors[3].id)
           actor = JSON.parse(response_body)['actor']
 
           expect(status).to eq(200)
           expect(actor['level']).to  eq('micro')
           expect(actor['gender']).to eq('Male')
           expect(actor['title']).to  eq('Ms.')
-          expect(actor['date_of_birth']).not_to be_nil
 
           expect(actor['socio_cultural_domains'][0]['name']).to eq('Category SCD')
           expect(actor['socio_cultural_domains'][0]['type']).to eq('Socio cultural domain')

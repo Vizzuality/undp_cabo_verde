@@ -1,7 +1,8 @@
 class ActorsController < ApplicationController
+  before_action :store_location
+  before_action :authenticate_user!
   load_and_authorize_resource
 
-  before_action :authenticate_user!
   before_action :set_current_user, only: [:create, :link_actor]
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
@@ -109,16 +110,15 @@ class ActorsController < ApplicationController
       @types          = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros         = ActorMacro.order(:name).filter_actives
       @mesos          = ActorMeso.order(:name).filter_actives
-      @actor_relation_types   = RelationType.order(:title).
-        includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
-      @action_relation_types  = RelationType.order(:title).
-        includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
+      @actor_relation_types   = RelationType.order(:title).includes_actor_relations.collect     { |rt| [ rt.title, rt.id ] }
+      @action_relation_types  = RelationType.order(:title).includes_actor_act_relations.collect { |rt| [ rt.title, rt.id ] }
       @organization_types     = OrganizationType.order(:name)
       @socio_cultural_domains = SocioCulturalDomain.order(:name)
       @other_domains          = OtherDomain.order(:name)
       @operational_fields     = OperationalField.order(:name)
-      @parents_to_select      = Actor.order(:name).filter_actives.meso_and_macro
+      @parents_to_select      = Actor.order(:name).filter_actives
       @actions_to_select      = Act.order(:name).filter_actives
+      @actor_relation_children_types = RelationType.order(:title).includes_actor_relations.collect { |rt| [ rt.title_reverse, rt.id ] }
     end
 
     def set_micro_selection

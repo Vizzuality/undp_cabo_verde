@@ -14,6 +14,6 @@ h4
     - @category.children.each do |sub_category|
       li
         = link_to sub_category.name, category_path(sub_category)
-        |  | 
+        |  |
         - if (can? :manage, sub_category)
           = link_to t('shared.edit'), edit_category_path(sub_category)

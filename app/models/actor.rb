@@ -16,31 +16,33 @@ class Actor < ActiveRecord::Base
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
   has_many :comments, as: :commentable
-  
+
   # Categories
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
-  
-  accepts_nested_attributes_for :localizations,            allow_destroy: true
-  accepts_nested_attributes_for :actor_relations_as_child, allow_destroy: true
-  accepts_nested_attributes_for :act_actor_relations,      allow_destroy: true
+
+  accepts_nested_attributes_for :localizations,             allow_destroy: true
+  accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
+  accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
+  accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
-  
+
   validates :type, presence: true
   validates :name, presence: true
-  
+  validates :socio_cultural_domain_ids, presence: true
+
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
-                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)',
                                           child.id) }
   scope :not_mesos_parents,  -> (child) { where(type: 'ActorMeso').
-                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', 
+                                          where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)',
                                           child.id) }
-                                          
+
   scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
   scope :recent,             -> { order('updated_at DESC')                 }
   scope :meso_and_macro,     -> { where(type: ['ActorMeso', 'ActorMacro']) }
@@ -159,13 +161,18 @@ class Actor < ActiveRecord::Base
     collection.any? ? collection : actor_relations_as_child.build
   end
 
+  def actor_children_form
+    collection = actor_relations_as_parent
+    collection.any? ? collection : actor_relations_as_parent.build
+  end
+
   def actions_form
     collection = act_actor_relations
     collection.any? ? collection : act_actor_relations.build
   end
 
   private
-  
+
     def deactivate_dependencies
       localizations.filter_actives.each do |localization|
         unless localization.deactivate
@@ -184,5 +191,17 @@ class Actor < ActiveRecord::Base
           return false
         end
       end
+    end
+
+    def parent_invalid(attributes)
+      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def child_invalid(attributes)
+      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def action_invalid(attributes)
+      attributes['act_id'].empty? || attributes['relation_type_id'].empty?
     end
 end
