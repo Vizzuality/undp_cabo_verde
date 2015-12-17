@@ -10,6 +10,6 @@ class CreateUnits < ActiveRecord::Migration
     add_column :act_indicator_relations, :unit_id, :integer, null: true
     add_column :measurements, :unit_id, :integer, null: true
 
-    unit_euro = Unit.find_or_create_by(symbol: '€', name: 'Euro')
+    Unit.find_or_create_by(symbol: '€', name: 'Euro')
   end
 end
