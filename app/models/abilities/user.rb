@@ -30,6 +30,7 @@ module Abilities
 
       cannot [:activate, :deactivate], ::Localization
       cannot :read, ::RelationType
+      cannot :read, ::Unit
     end
   end
 end
