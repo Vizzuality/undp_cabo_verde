@@ -26,6 +26,8 @@ module RoutesHelper
   def new_comment(commentable)
     if commentable.class.name.include?('Actor')
       actor_comments_path(commentable)
+    elsif commentable.class.name.include?('Indicator')
+      indicator_comments_path(commentable)
     else
       act_comments_path(commentable)
     end
@@ -34,6 +36,8 @@ module RoutesHelper
   def activate_comment_path(commentable, comment)
     if commentable.class.name.include?('Actor')
       activate_actor_comment_path(commentable, comment)
+    elsif commentable.class.name.include?('Indicator')
+      activate_indicator_comment_path(commentable, comment)
     else
       activate_act_comment_path(commentable, comment)
     end
@@ -42,6 +46,8 @@ module RoutesHelper
   def deactivate_comment_path(commentable, comment)
     if commentable.class.name.include?('Actor')
       deactivate_actor_comment_path(commentable, comment)
+    elsif commentable.class.name.include?('Indicator')
+      deactivate_indicator_comment_path(commentable, comment)
     else
       deactivate_act_comment_path(commentable, comment)
     end
@@ -72,8 +78,14 @@ module RoutesHelper
     common_nested_path(form_name, name, f, association, class_name)
   end
 
+  def add_indicator_relation_path(name, f, association, class_name=nil)
+    form_name = 'indicator_relation_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
   def common_form?
-    (request.path.include?('/edit') || request.path.include?('/new')) ? false : true
+    request_path = (request.path.include?('/edit') || request.path.include?('/new'))
+    request_path || controller.action_name.include?('create') ? false : true
   end
 
   def common_nested_path(form_name, name, f, association, class_name=nil)

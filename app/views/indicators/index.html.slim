@@ -1,0 +1,15 @@
+.section-container#indicators
+  .section.title-section
+    div
+      h2.title
+        = t('indicators.indicators')
+    .button-collection
+      = render 'index_tabs'
+
+  .section.table-container
+    - @indicators.each do |indicator|
+      p= link_to indicator.name, indicator_path(indicator)
+      p= indicator.status
+      p
+        = link_to t('indicators.edit_indicator'), edit_indicator_path(indicator), class: "button -xlarge -type-a"
+        = link_to t('shared.delete'), indicator_path(indicator), data: { confirm: t('shared.confirm_message') }, method: :delete, class: "button -medium -type-a"

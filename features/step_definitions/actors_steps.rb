@@ -11,7 +11,7 @@ Then /^I should have one actor meso$/ do
 end
 
 Then /^I should have two actors$/ do
-  AdminUser.all.size.should >= 2
+  Actor.all.size.should >= 2
 end
 
 Given /^actor$/ do

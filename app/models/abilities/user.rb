@@ -20,6 +20,10 @@ module Abilities
         can :manage, ::ActRelation,   user_id: user.id
         can :manage, ::Localization,  user_id: user.id
         can :manage, ::Comment,       user_id: user.id
+        can :manage, ::Indicator,            user_id: user.id
+        can :manage, ::ActIndicatorRelation, user_id: user.id
+        can :manage, ::Measurement,          user_id: user.id
+        can :manage, ::ActActorRelation,     user_id: user.id
         
         can [:activate, :deactivate], ::Comment, user_id: user.id
       end
