@@ -24,6 +24,7 @@ end
 gem 'slim-rails'
 gem 'simple_form'
 gem 'country_select'
+gem 'kaminari'
 
 gem 'acts_as_tree'
 

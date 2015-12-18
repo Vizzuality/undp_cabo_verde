@@ -11,9 +11,9 @@ class IndicatorsController < ApplicationController
 
   def index
     @indicators = if current_user && current_user.admin?
-                    Indicator.order(:name).filter_indicators(indicator_filters)
+                    Indicator.order(:name).filter_indicators(indicator_filters).page params[:page]
                   else
-                    Indicator.order(:name).filter_actives
+                    Indicator.order(:name).filter_actives.page params[:page]
                   end
   end
 

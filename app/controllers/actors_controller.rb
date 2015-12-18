@@ -14,9 +14,9 @@ class ActorsController < ApplicationController
 
   def index
     @actors = if current_user && current_user.admin?
-                type_class.order(:name).filter_actors(actor_filters)
+                type_class.order(:name).filter_actors(actor_filters).page params[:page]
               else
-                type_class.order(:name).filter_actives
+                type_class.order(:name).filter_actives.page params[:page]
               end
   end
 
