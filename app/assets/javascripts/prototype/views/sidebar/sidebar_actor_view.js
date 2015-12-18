@@ -18,11 +18,14 @@
       'click .js-back': 'goBack'
     },
 
+    template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
+
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
       this.model = new root.app.Model.actorModel();
-      this.$title = this.$el.find('.js-title');
+      /* The DOM element to receive the Handlbars template */
+      this.$content = this.$el.find('.js-content');
       this.setListeners();
     },
 
@@ -54,7 +57,7 @@
     },
 
     render: function() {
-      this.$title.text(this.model.get('name'));
+      this.$content.html(this.template(this.model.toJSON()));
     }
   });
 

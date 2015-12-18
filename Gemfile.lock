@@ -167,6 +167,11 @@ GEM
       activesupport (>= 4.1.0)
     haml (4.0.7)
       tilt
+    handlebars_assets (0.22.0)
+      execjs (~> 2.0)
+      multi_json (~> 1.0)
+      sprockets (>= 2.0.0, < 4.0)
+      tilt (~> 1.2)
     hike (1.2.3)
     i18n (0.7.0)
     i18n_data (0.7.0)
@@ -240,6 +245,7 @@ GEM
       rails-assets-jquery-placeholder (~> 2.0.7)
       rails-assets-jquery.cookie (~> 1.4.0)
       rails-assets-modernizr (= 2.8.3)
+    rails-assets-handlebars (4.0.5)
     rails-assets-jquery (2.1.4)
     rails-assets-jquery-placeholder (2.0.9)
       rails-assets-jquery (>= 1.6)
@@ -409,6 +415,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   foreman
+  handlebars_assets
   jquery-rails
   jquery-ui-sass-rails
   newrelic_rpm
@@ -420,6 +427,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails-assets-backbone!
   rails-assets-foundation!
+  rails-assets-handlebars!
   rails-assets-underscore!
   rails_12factor
   responders (~> 2.0)

@@ -13,11 +13,13 @@ gem 'jquery-rails'
 gem 'jquery-ui-sass-rails'
 gem 'chosen-rails'
 gem 'autoprefixer-rails'
+gem 'handlebars_assets'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-foundation'
   gem 'rails-assets-underscore'
   gem 'rails-assets-backbone'
+  gem 'rails-assets-handlebars'
 end
 
 # Templating

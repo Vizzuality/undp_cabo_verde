@@ -1,10 +1,12 @@
 //= require jquery2
 //= require underscore
 //= require backbone
+//= require handlebars
 
-//= require_tree ./prototype/mixins
 //= require prototype/router
+//= require_tree ./prototype/mixins
 //= require_tree ./prototype/helpers
+//= require_tree ./prototype/templates
 //= require_tree ./prototype/views
 //= require_tree ./prototype/collections
 //= require_tree ./prototype/models

@@ -16,10 +16,10 @@ html lang="en"
         ul.tab-navigation role="tablist"
             li.tab.-active data-tab="overall"
               a.link href="#overall-tab" role="tab"
-                | Overall
+                = t('front.overall')
             li.tab data-tab="about"
               a.link href="#about-tab"  role="tab"
-                | About
+                = t('front.about')
 
         /! TODO: update the structure
         #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
@@ -30,8 +30,8 @@ html lang="en"
               .breadcrumb
                 .button.-textual.js-back
                   = image_tag 'left-arrow.svg', class: 'icon -marginright'
-                  | Back
-              h1.title.js-title
+                  = t('front.back')
+              .js-content
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
 

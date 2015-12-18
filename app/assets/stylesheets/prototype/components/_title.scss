@@ -2,4 +2,19 @@
   font-size: 20px;
   color: $color-9;
   font-weight: 400;
+
+  &.-secondary {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: $color-4;
+    letter-spacing: -.4px;
+  }
+
+  & > .subtitle {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    font-style: italic;
+    color: $color-4;
+  }
 }
