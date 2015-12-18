@@ -14,3 +14,5 @@ table
         td 
           - if (can? :manage, indicator)
             = link_to 'Edit indicator', edit_indicator_path(indicator)
+            
+= paginate @indicators

@@ -18,3 +18,5 @@ table
         td 
           - if (can? :manage, act)
             = link_to 'Edit act', edit_act_path(act)
+            
+= paginate @acts

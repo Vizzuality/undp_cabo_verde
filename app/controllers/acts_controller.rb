@@ -13,9 +13,9 @@ class ActsController < ApplicationController
 
   def index
     @acts = if current_user && current_user.admin?
-              type_class.filter_acts(act_filters)
+              type_class.filter_acts(act_filters).page params[:page]
             else
-              type_class.filter_actives
+              type_class.filter_actives.page params[:page]
             end
   end
 
