@@ -62,3 +62,26 @@ Given /^action with indicator relations$/ do
   FactoryGirl.create(:indicator, name: 'Indicator one with relation', user: @user, acts: [@act])
 end
 
+Given /^action with indicator relations and measurement$/ do
+  @unit      = FactoryGirl.create(:unit)
+  @user      = FactoryGirl.create(:user)
+  @act       = FactoryGirl.create(:act_macro, name: 'Action with indicator and measurement', user_id: @user.id)
+  @act.reload
+  @indicator = FactoryGirl.create(:indicator, name: 'Indicator one with relation', user: @user, acts: [@act])
+  @indicator.reload
+  @act_indicator = ActIndicatorRelation.find_by(indicator_id: @indicator.id)
+  FactoryGirl.create(:measurement, user_id: @user.id, act_indicator_relation_id: @act_indicator.id, unit_id: @unit.id)
+end
+
+Then /^I should not have act indicator relation with measurements for "([^"]*)"$/ do |name|
+  @act = Act.find_by_name(name)
+  @act.act_indicator_relations.last.reload
+  @act.act_indicator_relations.last.measurements.size.should == 0
+end
+
+Then /^I should have act indicator relation with one measurement for "([^"]*)"$/ do |name|
+  @act = Act.find_by_name(name)
+  @act.act_indicator_relations.last.reload
+  @act.act_indicator_relations.last.measurements.size.should == 1
+end
+

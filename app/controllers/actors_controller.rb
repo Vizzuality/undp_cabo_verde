@@ -7,7 +7,7 @@ class ActorsController < ApplicationController
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show, :create]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_micro_selection, only: [:new, :create]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
