@@ -252,7 +252,7 @@ I want to manage an act
     Then I should not see "First one"
 
   @javascript
-  Scenario: User can add actor relation to action
+  Scenario: User can add indicator relation to action
     Given I am authenticated user
     And first act
     And indicator
@@ -284,7 +284,32 @@ I want to manage an act
     When I go to the act page for "Action with indicator"
     Then the select field "Indicator" should contain "Indicator one"
     When I follow "Edit"
-    And I click on ".remove_fields"
+    And I click on ".remove_indicator"
     And I press "Update"
     And I go to the act page for "Action with indicator"
     Then I should not have indicators
+
+  @javascript
+  Scenario: User can add measurement for indicator relation on action
+    Given action with indicator relations
+    And unit
+    And I am authenticated adminuser
+    When I go to the edit act page for "Action with indicator"
+    And I click on ".add_measurement"
+    And I fill in the following field ".measurement_date" with "2015-03-10"
+    And I fill in the following field ".measurement_value" with "200"
+    And I fill in the following field ".measurement_details" with "Measurement for indicator"
+    And I select from the following field ".measurement_unit" with "Euro"
+    And I press "Update"
+    Then I should be on the act page for "Action with indicator"
+
+  @javascript
+  Scenario: User can remove indicator relation from action
+    Given action with indicator relations and measurement
+    And I am authenticated adminuser
+    When I go to the act page for "Action with indicator and measurement"
+    Then the select field "Indicator" should contain "Indicator one"
+    When I follow "Edit"
+    And I click on ".remove_measurement"
+    And I press "Update"
+    Then I should be on the act page for "Action with indicator and measurement"

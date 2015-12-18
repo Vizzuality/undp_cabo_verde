@@ -7,16 +7,16 @@ class ActorsController < ApplicationController
   before_action :set_actor, except: [:index, :new, :create]
   before_action :actor_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show, :create]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_micro_selection, only: [:new, :create]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
     @actors = if current_user && current_user.admin?
-                type_class.order(:name).filter_actors(actor_filters)
+                type_class.order(:name).filter_actors(actor_filters).page params[:page]
               else
-                type_class.order(:name).filter_actives
+                type_class.order(:name).filter_actives.page params[:page]
               end
   end
 

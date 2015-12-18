@@ -8,9 +8,7 @@ class Measurement < ActiveRecord::Base
 
   validates :value,   presence: true
   validates :unit_id, presence: true
-  validates :user_id, presence: true
-  
-  validates :act_indicator_relation_id, presence: true
+  validates :date,    presence: true
 
   def unit_symbol
     unit.symbol

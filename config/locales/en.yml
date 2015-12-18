@@ -311,6 +311,10 @@ en:
     remove_indicator: 'Remove indicator'
     add_indicator: 'Add indicator'
     indicators: 'Indicators'
+    measurement: 'Maesurement'
+    remove_measurement: 'Remove measurement'
+    add_measurement: 'Add measurement'
+    measurements: 'Measurements'
 
   categories:
     categories: 'Categories'

@@ -15,3 +15,11 @@
     line-height: $line-height;
   }
 }
+
+@mixin arrow ($width, $color, $border-width, $deg) {
+  width: $width;
+  height: $width;
+  border-top: $border-width solid $color;
+  border-left: $border-width solid $color;
+  transform: rotate($deg);
+}

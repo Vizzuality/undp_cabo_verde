@@ -13,3 +13,5 @@
       p
         = link_to t('indicators.edit_indicator'), edit_indicator_path(indicator), class: "button -xlarge -type-a"
         = link_to t('shared.delete'), indicator_path(indicator), data: { confirm: t('shared.confirm_message') }, method: :delete, class: "button -medium -type-a"
+
+  = paginate @indicators
