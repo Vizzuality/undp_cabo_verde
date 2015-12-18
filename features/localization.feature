@@ -48,3 +48,26 @@ I want to manage a actor and act localization
     And I press "Update"
     Then I should be on the act page for "First act by user"
     And I should not see "Test location"
+
+  @javascript
+  Scenario: User can add location to indicator
+    Given I am authenticated adminuser
+    And indicator
+    When I go to the edit indicator page for "Indicator one"
+    And I click on ".add_location"
+    And I fill in the following field ".localization_name" with "Test location" within ".indicator_localizations_name"
+    And I fill in the following field ".localization_lat" with "22.22222" within ".indicator_localizations_lat"
+    And I fill in the following field ".localization_long" with "11.11111" within ".indicator_localizations_long"
+    And I press "Update"
+    Then I should be on the indicator page for "Indicator one"
+    And the field "Lat" should contain "22.22222" within ".indicator_localizations_lat"
+  
+  @javascript
+  Scenario: User can remove location from indicator
+    Given I am authenticated adminuser
+    And user indicator with localization
+    When I go to the edit indicator page for "First indicator by user"
+    And I click on ".remove_fields"
+    And I press "Update"
+    Then I should be on the indicator page for "First indicator by user"
+    And I should not see "Test location"

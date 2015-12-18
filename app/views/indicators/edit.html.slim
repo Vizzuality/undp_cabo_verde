@@ -1,0 +1,12 @@
+h1
+  = t('shared.edit')
+  |
+  = " #{@indicator.name}"
+hr
+= simple_form_for @indicator do |f|
+  = render partial: f
+  .form-actions
+    = f.button :submit, t('shared.update')
+
+p= link_to t('shared.delete'), indicator_path(@indicator), data: { confirm: t('shared.confirm_message') }, method: :delete
+p= link_to t('shared.back'), :back

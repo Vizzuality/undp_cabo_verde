@@ -25,13 +25,6 @@
               = f.label :gender, class: 'right inline'
             .column.medium-8
               = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false, disabled: true
-          .row
-            .column.medium-4
-              = f.label :date_of_birth, class: 'right inline'
-            .column.medium-8
-              = f.text_field :date_of_birth, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
-                                             'data-max-date': Date.new(Date.today.year - 12).at_end_of_year,
-                                             class: 'js-datepicker', disabled: true
 
         - if @actor.macro?
           .row

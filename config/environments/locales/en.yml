@@ -264,7 +264,6 @@ en:
     operational_field: 'Scale'
     observation: 'Observation'
     gender: 'Gender'
-    date_of_birth: 'Date of birth'
     new: 'Add new actor'
 
   acts:

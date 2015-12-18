@@ -118,3 +118,19 @@
           p.text-right
             / Add more css classes to 'add_actor', sample 'add_actor your_class_name'
             = add_actor_relation_path t('acts.add_actor'), form, :act_actor_relations, 'add_fields add_actor'
+
+.row
+  .columns.medium-8.medium-offset-1.indicator_relations
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('relations.indicators_relations')
+
+    = form.fields_for :act_indicator_relations do |indicators_form|
+      = render 'indicator_relation_form', f: indicators_form
+
+    - unless common_form?
+      .row
+        .column
+          p.text-right
+            / Add more css classes to 'add_indicator', sample 'add_indicator your_class_name'
+            = add_indicator_relation_path t('acts.add_indicator'), form, :act_indicator_relations, 'add_fields add_indicator'

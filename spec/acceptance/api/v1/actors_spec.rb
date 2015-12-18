@@ -33,7 +33,6 @@ resource 'Actors' do
       actors << create(:actor_micro, name: 'Director of Department',
         user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
         localizations: [@location], gender: 2,
-        date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago),
         title: 2, categories: [@category_2])
 
       actors.each do |a|
@@ -92,7 +91,6 @@ resource 'Actors' do
           # Micro specific
           expect(actor['title']).to         be_nil
           expect(actor['gender']).to        be_nil
-          expect(actor['date_of_birth']).to be_nil
 
           expect(actor['organization_types'][0]['name']).to eq('Category OT')
           expect(actor['organization_types'][0]['type']).to eq('Organization type')
@@ -112,7 +110,6 @@ resource 'Actors' do
           # Micro specific
           expect(actor['title']).to         be_nil
           expect(actor['gender']).to        be_nil
-          expect(actor['date_of_birth']).to be_nil
 
           expect(actor['other_domains'][0]['name']).to eq('Category OD')
           expect(actor['other_domains'][0]['type']).to eq('Other domains')
@@ -126,7 +123,6 @@ resource 'Actors' do
           expect(actor['level']).to  eq('micro')
           expect(actor['gender']).to eq('Male')
           expect(actor['title']).to  eq('Ms.')
-          expect(actor['date_of_birth']).not_to be_nil
 
           expect(actor['socio_cultural_domains'][0]['name']).to eq('Category SCD')
           expect(actor['socio_cultural_domains'][0]['type']).to eq('Socio cultural domain')

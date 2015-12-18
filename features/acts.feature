@@ -250,3 +250,41 @@ I want to manage an act
     And I press "Update"
     And I go to the act page for "Action one with relation"
     Then I should not see "First one"
+
+  @javascript
+  Scenario: User can add actor relation to action
+    Given I am authenticated user
+    And first act
+    And indicator
+    And unit
+    And act_indicator_relation_types
+    When I go to the edit act page for "First one"
+    And I click on ".add_indicator"
+    And I select from the following field ".relation_indicator_id" with "Indicator one"
+    And I select from the following field ".relation_type_id" with "contains"
+    When I fill in the following field ".relation_start_date" with "1990-03-10"
+    And I fill in the following field ".relation_end_date" with "2010-03-10"
+    And I fill in the following field ".relation_deadline" with "2015-03-10"
+    And I select from the following field ".relation_unit" with "Euro"
+    And I fill in the following field ".relation_target_value" with "100.01"
+    And I press "Update"
+    And I go to the act page for "First one"
+    Then the select field "Indicator" should contain "Indicator one"
+    Then the select field "Current action" should contain "contains"
+    And the field "Start date" should contain "1990-03-10" within ".form-inputs-indicator"
+    And the field "End date" should contain "2010-03-10" within ".form-inputs-indicator"
+    And the field "Deadline" should contain "2015-03-10" within ".form-inputs-indicator"
+    And the select field "Unit" should contain "Euro" within ".form-inputs-indicator"
+    And the field "Target value" should contain "100.01" within ".form-inputs-indicator"
+
+  @javascript
+  Scenario: User can remove indicator relation from action
+    Given action with indicator relations
+    And I am authenticated adminuser
+    When I go to the act page for "Action with indicator"
+    Then the select field "Indicator" should contain "Indicator one"
+    When I follow "Edit"
+    And I click on ".remove_fields"
+    And I press "Update"
+    And I go to the act page for "Action with indicator"
+    Then I should not have indicators

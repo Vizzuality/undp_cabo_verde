@@ -7,6 +7,7 @@ class Category < ActiveRecord::Base
 
   has_and_belongs_to_many :actors
   has_and_belongs_to_many :acts
+  has_and_belongs_to_many :indicators
 
   validates :type, presence: true
   validates :name, presence: true

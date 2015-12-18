@@ -24,6 +24,9 @@ class User < ActiveRecord::Base
   has_many :act_actor_relations
   has_many :localizations
   has_many :comments
+  has_many :indicators
+  has_many :act_indicator_relations
+  has_many :measurements
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
