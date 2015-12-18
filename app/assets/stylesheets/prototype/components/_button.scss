@@ -1,0 +1,22 @@
+.button  {
+  cursor: pointer;
+  height: 37px;
+  line-height: 37px;
+  vertical-align: middle;
+
+  &.-textual {
+    font-size: 18px;
+    line-height: 18px;
+    color: $color-4;
+    height: 18px;
+    display: inline-block;
+  }
+
+  & > .icon {
+    display: inline-block;
+
+    &.-marginright { margin-right: 10px; }
+    &.-marginleft { margin-left: 10px; }
+  }
+
+}

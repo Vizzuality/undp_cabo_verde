@@ -2,10 +2,12 @@
 //= require underscore
 //= require backbone
 
+//= require_tree ./prototype/mixins
 //= require prototype/router
 //= require_tree ./prototype/helpers
 //= require_tree ./prototype/views
 //= require_tree ./prototype/collections
+//= require_tree ./prototype/models
 
 (function(root) {
 
@@ -19,7 +21,8 @@
     Model: {},
     Collection: {},
     View: {},
-    Helper: {}
+    Helper: {},
+    Mixin: {}
   };
 
   /**
@@ -44,6 +47,12 @@
       });
       this.mapView = new root.app.View.mapView({
         actorsCollection: this.actorsCollection,
+        router: this.router
+      });
+      this.filtersView = new root.app.View.sidebarFiltersView({
+        router: this.router
+      });
+      this.actorView = new root.app.View.sidebarActorView({
         router: this.router
       });
 

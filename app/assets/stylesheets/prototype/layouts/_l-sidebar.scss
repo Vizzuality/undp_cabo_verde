@@ -38,4 +38,9 @@
       transition: transform .3s;
     }
   }
+
+  #overall-tab,
+  #about-tab {
+    height: calc(100% - 60px);
+  }
 }

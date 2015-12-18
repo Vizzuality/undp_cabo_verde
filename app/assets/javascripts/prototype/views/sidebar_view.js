@@ -4,6 +4,7 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.Mixin = root.app.Mixin || {};
 
   var Status = Backbone.Model.extend({
     defaults: { isHidden: false }
@@ -27,8 +28,8 @@
     setListeners: function() {
       this.listenTo(this.status, 'change:isHidden', this.triggerVisibility);
       this.listenTo(this.tabNavigationView, 'tab:change', this.switchContent);
-      this.listenTo(this.router, 'route:actor', this.showSidebar);
-      this.$toggleSwitch.on('click', this.toggleSidebar.bind(this));
+      this.listenTo(this.router, 'route:actor', this.show);
+      this.$toggleSwitch.on('click', this.toggle.bind(this));
     },
 
     /* Switch the content of the sidebar by the one that have been asked by
@@ -46,25 +47,12 @@
 
     /* Toggle the sidebar by using a CSS transform translateX property and
      * update the model's attribute isHidden */
-    toggleSidebar: function(e) {
+    toggle: function(e) {
       if(e) { e.preventDefault(); }
       var isHidden = this.el.classList.toggle('-hidden');
       this.el.setAttribute('aria-hidden', isHidden);
       this.$toggleSwitch[0].setAttribute('aria-expanded', !isHidden);
       this.status.set('isHidden', isHidden);
-    },
-
-    showSidebar: function() {
-      if(this.status.get('isHidden')) {
-        this.toggleSidebar();
-      }
-    },
-
-    /* Hide the sidebar */
-    hideSidebar: function() {
-      if(!this.status.get('isHidden')) {
-        this.toggleSidebar();
-      }
     },
 
     /* Trigger the sidebar's visibility with the object:
@@ -79,5 +67,8 @@
     }
 
   });
+
+  /* We extend the view with method to show, hide and toggle the sidebar */
+  _.extend(root.app.View.sidebarView.prototype, root.app.Mixin.visibility);
 
 })(this);
