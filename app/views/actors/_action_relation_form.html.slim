@@ -1,5 +1,4 @@
 .form-inputs.form-inputs-action
-  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actors/new')
   .row
     .column.medium-4
       = f.label :relation_type_id, t('actors.current_actor') + '*', class: 'right inline'
@@ -30,6 +29,7 @@
     .row
       .column
         p.text-right.remove_link
-          / Do not move this field!
+          / Do not move this fields!
+          = f.hidden_field :user_id, value: current_user.id
           = f.hidden_field :_destroy
           = link_to t('actors.remove_action'), '#', class: 'remove_fields'

@@ -6,14 +6,14 @@ class IndicatorsController < ApplicationController
   before_action :set_current_user, only: :create
   before_action :set_indicator, except: [:index, :new, :create]
   before_action :indicator_filters, only: :index
-  before_action :set_selection, only: [:new, :edit, :show, :create]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_memberships, only: :show
 
   def index
     @indicators = if current_user && current_user.admin?
-                    Indicator.order(:name).filter_indicators(indicator_filters)
+                    Indicator.order(:name).filter_indicators(indicator_filters).page params[:page]
                   else
-                    Indicator.order(:name).filter_actives
+                    Indicator.order(:name).filter_actives.page params[:page]
                   end
   end
 

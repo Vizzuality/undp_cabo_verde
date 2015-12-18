@@ -83,9 +83,15 @@ module RoutesHelper
     common_nested_path(form_name, name, f, association, class_name)
   end
 
+  def add_measurement_path(name, f, association, class_name=nil)
+    form_name = 'measurements_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
   def common_form?
-    request_path = (request.path.include?('/edit') || request.path.include?('/new'))
-    request_path || controller.action_name.include?('create') ? false : true
+    request_path  = (request.path.include?('/edit') || request.path.include?('/new'))
+    action_method = controller.action_name.include?('create') || controller.action_name.include?('update')
+    request_path || action_method ? false : true
   end
 
   def common_nested_path(form_name, name, f, association, class_name=nil)

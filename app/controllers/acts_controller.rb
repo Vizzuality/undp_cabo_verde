@@ -7,15 +7,15 @@ class ActsController < ApplicationController
   before_action :set_act, except: [:index, :new, :create]
   before_action :act_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show, :create]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
     @acts = if current_user && current_user.admin?
-              type_class.filter_acts(act_filters)
+              type_class.filter_acts(act_filters).page params[:page]
             else
-              type_class.filter_actives
+              type_class.filter_actives.page params[:page]
             end
   end
 
