@@ -1,0 +1,56 @@
+.form-inputs.form-inputs-indicator
+  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actions/new')
+  .row
+    .column.medium-4
+      = f.label :relation_type_id, t('acts.current_action') + '*', class: 'right inline'
+    .column.medium-8
+      = f.input :relation_type_id, collection: @indicator_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :indicator_id, t('acts.indicator') + '*', class: 'right inline'
+    .column.medium-8
+      = f.input :indicator_id, collection: @indicators_to_select, as: :collection_select, label: false, input_html: { class: 'relation_indicator_id' }, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :start_date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                    'data-max-date': Date.today,
+                                    class: 'js-datepicker relation_start_date', disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :end_date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                  'data-max-date': Date.today,
+                                  'data-blank-date': true,
+                                  class: 'js-datepicker relation_end_date', disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :deadline, class: 'right inline'
+    .column.medium-8
+      = f.text_field :deadline, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                  'data-max-date': Date.new(Date.today.year + 5).at_end_of_year,
+                                  'data-blank-date': true,
+                                  class: 'js-datepicker relation_deadline', disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :target_value, class: 'right inline'
+    .column.medium-8
+      = f.input :target_value, input_html: { class: 'relation_target_value' }, label: false, disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :unit_id, class: 'right inline'
+    .column.medium-8
+      = f.input :unit_id, collection: @units, as: :collection_select, label: false, input_html: { class: 'relation_unit' }, disabled: common_form?
+
+  - unless common_form?
+    .row
+      .column
+        p.text-right.remove_link
+          / Do not move this field!
+          = f.hidden_field :_destroy
+          = link_to t('acts.remove_indicator'), '#', class: 'remove_fields'

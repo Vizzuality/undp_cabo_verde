@@ -13,9 +13,12 @@ nav
           a class='label'
             = t('navbar.settings')
         ul class='dropdown-list'
-          li = link_to t('navbar.categories'), categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
+          - if (can? :manage, Category)
+            li = link_to t('navbar.categories'), categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
           - if (can? :manage, RelationType)
             li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
+          - if (can? :manage, Unit)
+            li = link_to t('navbar.units'), units_path, class: "#{'is-active' if menu_highlight?(:units)}"
 
     - if user_signed_in?
       li [class='dropdown-src' id='js-dropdown-acc']

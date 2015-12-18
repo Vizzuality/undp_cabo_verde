@@ -1,0 +1,12 @@
+.section-container#units
+  .section.title-section
+    div
+      h2.title
+        = t('units.unit')
+    .button-collection
+      - if (can? :manage, Unit)
+        p= link_to t('units.create_unit'), new_unit_path, class: "button -xlarge -type-a"
+
+  .section.table-container
+    - @units.each do |unit|
+      p= link_to "#{unit.name} - (#{unit.symbol})", edit_unit_path(unit)

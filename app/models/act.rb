@@ -31,6 +31,7 @@ class Act < ActiveRecord::Base
   accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
+  accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
   
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
@@ -169,6 +170,11 @@ class Act < ActiveRecord::Base
     collection.any? ? collection : act_actor_relations.build
   end
 
+  def indicators_form
+    collection = act_indicator_relations
+    collection.any? ? collection : act_indicator_relations.build
+  end
+
   private
 
     def deactivate_dependencies
@@ -201,5 +207,9 @@ class Act < ActiveRecord::Base
 
     def actor_invalid(attributes)
       attributes['actor_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def indicator_invalid(attributes)
+      attributes['indicator_id'].empty? || attributes['relation_type_id'].empty?
     end
 end

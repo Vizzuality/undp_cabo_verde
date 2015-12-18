@@ -78,6 +78,11 @@ module RoutesHelper
     common_nested_path(form_name, name, f, association, class_name)
   end
 
+  def add_indicator_relation_path(name, f, association, class_name=nil)
+    form_name = 'indicator_relation_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
   def common_form?
     (request.path.include?('/edit') || request.path.include?('/new')) ? false : true
   end

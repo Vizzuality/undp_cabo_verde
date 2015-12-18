@@ -78,10 +78,8 @@ class IndicatorsController < ApplicationController
     end
 
     def set_selection
-      @action_relation_types  = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ] }
-      @socio_cultural_domains = SocioCulturalDomain.order(:name)
-      @other_domains          = OtherDomain.order(:name)
-      @operational_fields     = OperationalField.order(:name)
+      @indicator_relation_types = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ] }
+      @categories               = SocioCulturalDomain.order(:name)
     end
 
     def set_memberships

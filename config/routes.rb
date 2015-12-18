@@ -135,6 +135,9 @@ Rails.application.routes.draw do
 
     # Relation types
     resources :relation_types, except: :show, path: 'relation-types'
+
+    # Units
+    resources :units, except: :show
   end
 
   root 'home#index'
