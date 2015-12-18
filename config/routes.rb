@@ -138,6 +138,9 @@ Rails.application.routes.draw do
 
     # Units
     resources :units, except: :show
+
+    # Measurements
+    resources :measurements, only: [:update, :create, :destroy]
   end
 
   root 'home#index'

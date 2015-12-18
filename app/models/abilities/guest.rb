@@ -5,6 +5,7 @@ module Abilities
     def initialize(*)
       can :read, :all
       cannot :read, ::RelationType
+      cannot :read, ::Unit
     end
   end
 end

@@ -27,21 +27,21 @@ RSpec.describe RelationTypesController, type: :controller do
       sign_in @user
     end
 
-    it 'GET index returns access denide' do
+    it 'GET index returns access denied' do
       get :index
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to eq('You are not authorized to access this page.')
     end
 
-    it 'GET show returns access denide' do
+    it 'GET show returns access denied' do
       get :edit, id: @actors_relation_type.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to eq('You are not authorized to access this page.')
     end
 
-    it 'GET show returns access denide' do
+    it 'GET show returns access denied' do
       get :new
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
