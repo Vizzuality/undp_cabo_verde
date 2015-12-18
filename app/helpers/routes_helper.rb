@@ -84,7 +84,8 @@ module RoutesHelper
   end
 
   def common_form?
-    (request.path.include?('/edit') || request.path.include?('/new')) ? false : true
+    request_path = (request.path.include?('/edit') || request.path.include?('/new'))
+    request_path || controller.action_name.include?('create') ? false : true
   end
 
   def common_nested_path(form_name, name, f, association, class_name=nil)

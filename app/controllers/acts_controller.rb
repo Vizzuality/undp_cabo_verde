@@ -7,7 +7,7 @@ class ActsController < ApplicationController
   before_action :set_act, except: [:index, :new, :create]
   before_action :act_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show]
+  before_action :set_selection, only: [:new, :edit, :show, :create]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
