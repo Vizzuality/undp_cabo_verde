@@ -1,4 +1,7 @@
 li
   = link_to_unless(current_page.last?,
-                   raw(t 'views.pagination.next'),
-                   url, :rel => 'next', :remote => remote)
+                   raw(t ' '),
+                   url, :rel => 'next', :remote => remote,
+                   class: 'next-link')
+    span.next
+    span.next
