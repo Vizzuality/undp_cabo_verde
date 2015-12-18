@@ -10,13 +10,18 @@ jQuery ->
     event.preventDefault()
     showDatepicker()
 
+  $(document).on 'click', '.add_location', (event) ->
+    $siblings = $(event.currentTarget).siblings('.form-inputs')
+    map = $($siblings[$siblings.length - 1]).find('.map-preview')[0]
+    initPreviewMap($siblings[$siblings.length - 1])
+
   $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
     regexp = new RegExp($(this).data('id'))
     $('.add-relations').before($(this).data('fields').replace(regexp))
     event.preventDefault()
     current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
     value = $('#actor_name, #act_name').val()
-    current_actor_action.text value 
+    current_actor_action.text value
     $('#actor_name, #act_name').on 'keyup', (e)->
       current_actor_action.text e.currentTarget.value
       return

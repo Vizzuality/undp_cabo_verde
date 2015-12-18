@@ -7,6 +7,8 @@ class Localization < ActiveRecord::Base
   has_many :actors, through: :actor_localizations, dependent: :destroy
   has_many :act_localizations, foreign_key: :localization_id
   has_many :acts, through: :act_localizations, dependent: :destroy
+  has_many :indicator_localizations, foreign_key: :localization_id
+  has_many :indicators, through: :indicator_localizations, dependent: :destroy
 
   validates :long, presence: true
   validates :lat, presence: true

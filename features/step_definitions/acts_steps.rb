@@ -7,7 +7,11 @@ Then /^I should have one act$/ do
 end
 
 Then /^I should have two acts$/ do
-  AdminUser.all.size.should >= 2
+  Act.all.size.should >= 2
+end
+
+Then /^I should not have indicators$/ do
+  Act.last.indicators.all.size.should == 0
 end
 
 Given /^act$/ do
@@ -47,3 +51,14 @@ end
 Given /^act_relation_types$/ do
   FactoryGirl.create(:acts_relation_type)
 end
+
+Given /^unit$/ do
+  FactoryGirl.create(:unit)
+end
+
+Given /^action with indicator relations$/ do
+  @user = FactoryGirl.create(:user)
+  @act  = FactoryGirl.create(:act_macro, name: 'Action with indicator', user_id: @user.id)
+  FactoryGirl.create(:indicator, name: 'Indicator one with relation', user: @user, acts: [@act])
+end
+

@@ -22,3 +22,9 @@ Given /^user act with localization$/ do
   @act = FactoryGirl.create(:act_macro, name: 'First act by user', user: @user)
   FactoryGirl.create(:localization, acts: [@act], user: @user)
 end
+
+Given /^user indicator with localization$/ do
+  @user = FactoryGirl.create(:user)
+  @indicator = FactoryGirl.create(:indicator, name: 'First indicator by user', user: @user)
+  FactoryGirl.create(:localization, indicators: [@indicator], user: @user)
+end

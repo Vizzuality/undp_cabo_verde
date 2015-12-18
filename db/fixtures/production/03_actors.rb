@@ -12,11 +12,11 @@ Actor.seed(:id,
   {id: 9,  type: 'ActorMeso',  user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), name: 'Transport Department',   category_ids: [9, 1, 2]},
   {id: 10, type: 'ActorMeso',  user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), name: 'Agriculture Department', category_ids: [1, 2, 3]},
   # Micros
-  {id: 11, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 1, gender: 1, name: Faker::Name.title, category_ids: [2, 3, 4]},
-  {id: 12, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 2, gender: 2, name: Faker::Name.title, category_ids: [3, 4, 5]},
-  {id: 13, type: 'ActorMicro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 3, gender: 3, name: Faker::Name.title, category_ids: [4, 5, 6]},
-  {id: 14, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 4, gender: 1, name: Faker::Name.title, category_ids: [5, 6, 7]},
-  {id: 15, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), date_of_birth: Faker::Date.between(50.years.ago, 20.years.ago), title: 5, gender: 2, name: Faker::Name.title, category_ids: [6, 7, 8]}
+  {id: 11, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), title: 1, gender: 1, name: Faker::Name.title, category_ids: [2, 3, 4]},
+  {id: 12, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), title: 2, gender: 2, name: Faker::Name.title, category_ids: [3, 4, 5]},
+  {id: 13, type: 'ActorMicro', user_id: 1, observation: Faker::Lorem.paragraph(2, true, 4), title: 3, gender: 3, name: Faker::Name.title, category_ids: [4, 5, 6]},
+  {id: 14, type: 'ActorMicro', user_id: 2, observation: Faker::Lorem.paragraph(2, true, 4), title: 4, gender: 1, name: Faker::Name.title, category_ids: [5, 6, 7]},
+  {id: 15, type: 'ActorMicro', user_id: 3, observation: Faker::Lorem.paragraph(2, true, 4), title: 5, gender: 2, name: Faker::Name.title, category_ids: [6, 7, 8]}
 )
 
 ActorRelation.seed(:id,

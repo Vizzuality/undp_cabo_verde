@@ -1,0 +1,24 @@
+h1
+  = @indicator.name
+hr
+= simple_form_for @indicator do |f|
+  = render partial: f
+
+.row
+  .column.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2
+          = t('comments.comments')
+
+    #comments
+      - if @indicator.comments?
+        = render partial: 'comments/comments', locals: { commentable: @indicator }
+      - if (can? :create, Comment)
+        = render partial: 'comments/form', locals: { commentable: @indicator }
+
+- if (can? :manage, @indicator)
+  .row
+    .button-collection.-formcollection
+      = link_to t('shared.edit'), edit_indicator_path(@indicator), class: 'button -type-a'
+      = render 'shared/deactivatable_links', location: @indicator
