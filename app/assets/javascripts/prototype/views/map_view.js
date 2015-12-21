@@ -27,7 +27,7 @@
 
     setListeners: function() {
       this.listenTo(this.actorsCollection, 'sync change', this.addActorsMarkers);
-      this.listenTo(this.router, 'route:actor', this.updateActorMarkersFocus);
+      this.listenTo(this.router, 'route', this.updateMapFromRoute);
       this.map.on('zoomend', this.updateMarkersSize.bind(this));
     },
 
@@ -139,6 +139,19 @@
 
       this.resetActorMarkersFocus();
       this.focusOnActorMarker(actorId);
+    },
+
+    /* Update the map and the markers according to the route triggered by the
+     * router */
+    updateMapFromRoute: function(route) {
+      switch(route) {
+        case 'actor':
+          this.updateActorMarkersFocus(arguments[1][0]);
+          break;
+        default:
+          this.resetActorMarkersFocus();
+          break;
+      }
     },
 
     /* Call all the methods stored in this.queue in order */
