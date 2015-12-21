@@ -1,3 +1,6 @@
+//= require i18n
+//= require i18n.js
+//= require i18n/translations
 //= require jquery2
 //= require underscore
 //= require backbone
@@ -23,7 +26,6 @@
     Model: {},
     Collection: {},
     View: {},
-    Helper: {},
     Mixin: {}
   };
 

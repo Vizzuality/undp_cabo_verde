@@ -359,3 +359,14 @@ en:
     my_acts: 'My actions'
     user: 'User'
     users: 'Users'
+
+  front:
+    about: About
+    add_comment: Add Comment
+    back: Back
+    comments: Comments
+    other_domains: Other Domains
+    overall: Overall
+    relationships: Relationships
+    show_relationships_on_map: Show relationships on map
+    socio_cultural_domains: Social Cultural Domains
