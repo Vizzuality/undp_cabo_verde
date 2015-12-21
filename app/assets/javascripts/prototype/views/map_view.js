@@ -14,7 +14,8 @@
       this.router = options.router;
       /* queue is an array of methods and arguments ([ func, args ]) that is
        * stored in order to wait for the map to be instanced. Once done, each
-       * queue's methods are called. The queue is FIFO. */
+       * queue's methods are called. The queue's elements have a priority number
+       * so the ones with the smallest number are executed first (FIFO). */
       this.queue = [];
       this.renderMap();
       /* We make a first call to addMarkers in order to make sure to add them
@@ -26,6 +27,7 @@
 
     setListeners: function() {
       this.listenTo(this.actorsCollection, 'sync change', this.addActorsMarkers);
+      this.listenTo(this.router, 'route:actor', this.updateActorMarkersFocus);
       this.map.on('zoomend', this.updateMarkersSize.bind(this));
     },
 
@@ -56,18 +58,20 @@
     },
 
     /* Add the markers for the actors
-     * NOTE: we debounce the method so it's not called twice because the
-     * collection gets populated right after this view is instanciated */
-    addActorsMarkers: _.debounce(function() {
+     * NOTE: we should debounce the method so it's not called twice because the
+     * collection gets populated right after this view is instanciated, but this
+     * cause the priority order to not be respected when applying the queue */
+    addActorsMarkers: function() {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.addActorsMarkers, null]);
+        this.queue.push([this.addActorsMarkers, null, 1]);
         return;
       }
 
       /* Return the icon corresponding to each specific actor */
-      var makeIcon = function(actorLevel) {
+      var makeIcon = function(actorLevel, actorId) {
         return L.divIcon({
-          html: '<div class="map-marker -' + actorLevel+ '"></div>',
+          html: '<div class="map-marker -' + actorLevel+ ' js-actor-marker"' +
+            ' data-id="' + actorId + '"></div>',
           className: 'actor',
           iconSize: L.point(12, 12),
           iconAnchor: L.point(6, 6)
@@ -78,24 +82,25 @@
       _.each(this.actorsCollection.toJSON(), function(actor) {
         _.each(actor.locations, function(location) {
           marker = L.marker([location.lat, location.long], {
-            icon: makeIcon(actor.level),
+            icon: makeIcon(actor.level, actor.id),
             id: actor.id
           });
           marker.addTo(this.map);
           marker.on('click', this.actorMarkerOnClick.bind(this));
         }, this);
       }, this);
-    }, 15),
+    },
 
     /* Triggers an event with the id of the clicked actor */
     actorMarkerOnClick: function(e) {
+      this.updateActorMarkersFocus(e.target.options.id);
       this.router.navigate('/actors/' + e.target.options.id, { trigger: true });
     },
 
     /* Update the markers' size according to the map's zoom level */
     updateMarkersSize: function() {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.updateMarkersSize, null]);
+        this.queue.push([this.updateMarkersSize, null, 2]);
         return;
       }
 
@@ -112,8 +117,42 @@
        this.$el.find('.map-marker').css('transform', 'scale(' + scale + ')');
     },
 
+    /* Remove the focus styles to all the actors markers */
+    resetActorMarkersFocus: function() {
+      this.$el.find('.js-actor-marker').removeClass('-active');
+    },
+
+    /* Add the focus styles to the actor's marker which id is passed as
+     * argument */
+    focusOnActorMarker: function(actorId) {
+      this.$el.find('.js-actor-marker[data-id="' + actorId + '"]')
+        .addClass('-active');
+    },
+
+    /* Update the actors markers depending on the actor's id passed as parameter
+     * by focusing it and bluring the other ones */
+    updateActorMarkersFocus: function(actorId) {
+      if(!this.isMapInstanciated) {
+        this.queue.push([this.updateActorMarkersFocus, [ actorId ], 2]);
+        return;
+      }
+
+      this.resetActorMarkersFocus();
+      this.focusOnActorMarker(actorId);
+    },
+
     /* Call all the methods stored in this.queue in order */
     applyQueue: function() {
+      /* We sort the queue so that the numbers with the smallest priority number
+       * are executed the first */
+      this.queue = this.queue.sort(function(a, b) {
+        if(a.length < 3 || b.length < 3) {
+          console.warning('Each element of the queue needs a priority number');
+          return -1;
+        }
+        return a[2] - b[2];
+      });
+
       _.each(this.queue, function(method) {
         if(!method || method.length < 2 || typeof method[0] !== 'function') {
           console.warn('Unable to execute a queue\'s method');
