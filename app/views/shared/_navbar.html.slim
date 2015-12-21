@@ -14,11 +14,23 @@ nav
             = t('navbar.settings')
         ul class='dropdown-list'
           - if (can? :manage, Category)
-            li = link_to t('navbar.categories'), categories_path, class: "#{'is-active' if menu_highlight?(:categories)}"
+            li 
+              = link_to categories_path, class: "#{'is-active' if menu_highlight?(:categories)}" do
+                = t('navbar.categories')
+                span.link-helper
+              end
           - if (can? :manage, RelationType)
-            li = link_to t('navbar.relation_types'), relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}"
+            li 
+              = link_to relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}" do
+                = t('navbar.relation_types')
+                span.link-helper
+              end
           - if (can? :manage, Unit)
-            li = link_to t('navbar.units'), units_path, class: "#{'is-active' if menu_highlight?(:units)}"
+            li 
+              = link_to units_path, class: "#{'is-active' if menu_highlight?(:units)}" do
+                = t('navbar.units')
+                span.link-helper
+              end
 
     - if user_signed_in?
       li [class='dropdown-src' id='js-dropdown-acc']
@@ -27,8 +39,16 @@ nav
           a class='label -with-icon'
             = current_user.name
         ul class='dropdown-list'
-          li = link_to t('navbar.edit_account'), edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}"
-          li = link_to t('navbar.logout'), destroy_user_session_path, method: 'delete'
+          li 
+            = link_to edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}" do
+              = t('navbar.edit_account')
+              span.link-helper
+            end
+          li 
+            = link_to destroy_user_session_path, method: 'delete' do
+              = t('navbar.logout')
+              span.link-helper
+            end
     - else
       li = link_to t('navbar.login'), new_user_session_path
       li = link_to t('navbar.register'), new_user_registration_path
