@@ -8,10 +8,28 @@
 
   .section.table-container
     - @indicators.each do |indicator|
-      p= link_to indicator.name, indicator_path(indicator)
-      p= indicator.status
-      p
-        = link_to t('indicators.edit_indicator'), edit_indicator_path(indicator), class: "button -xlarge -type-a"
-        = link_to t('shared.delete'), indicator_path(indicator), data: { confirm: t('shared.confirm_message') }, method: :delete, class: "button -medium -type-a"
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to indicator.name, indicator_path(indicator)
+        .data-secondary
+          span.data._hidden
+          span.data
+            = indicator.status
+          span.data.-linkdata.-disabled
+            = link_to edit_indicator_path(indicator) do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data.-linkdata
+            = link_to  edit_indicator_path(indicator) do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to indicator_path(indicator), data: { confirm: t('shared.confirm_message') }, method: :delete do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
 
   = paginate @indicators
