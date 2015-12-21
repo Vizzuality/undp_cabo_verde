@@ -250,6 +250,8 @@ en:
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
     view_map: 'View on map'
+    updated: 'Updated'
+    created: 'Created'
 
   actors:
     actor: 'Actor'
