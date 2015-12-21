@@ -4,8 +4,6 @@
   right: 0;
   width: 370px;
   height: 100%;
-  transform: translateX(0);
-  transition: transform .3s;
 
   /* NOTE: temporal */
   background-color: $color-1;
@@ -13,7 +11,15 @@
   &.-hidden {
     transform: translateX(100%);
 
-    >.toggleswitch:after { transform: rotate(180deg); }
+    >.toggleswitch:before {
+      height: 8px;
+      transform: translate(-1px, 0%) rotate(-45deg);
+    }
+
+    >.toggleswitch:after {
+      height: 8px;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
   }
 
   >.toggleswitch {
@@ -23,19 +29,30 @@
     width: 23px;
     height: 47px;
     transform: translateX(-100%);
-    background-color: rgba($color-1, .8);
+    background-color: $color-1;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      height: 10px;
+      width: 2px;
+      background-color: $color-2;
+    }
 
     &:after {
-      content: '▸';
-      text-align: center;
-      display: inline-block;
-      width: 100%;
-      line-height: 47px;
-      padding-top: 3px; /* To fix the baseline of the icon */
-      color: rgba($color-3, .8);
-      cursor: pointer;
-      transform: rotate(0deg);
-      transition: transform .3s;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      height: 10px;
+      width: 2px;
+      background-color: $color-2;
     }
   }
 
