@@ -4,8 +4,7 @@
       h2.title
         = t('units.unit')
     .button-collection
-      - if (can? :manage, Unit)
-        p= link_to t('units.create_unit'), new_unit_path, class: "button -xlarge -type-a"
+      = render 'index_tabs'
 
   .section.table-container
     - @units.each do |unit|
