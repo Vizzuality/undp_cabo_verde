@@ -1,4 +1,18 @@
 <h1 class="title">{{name}}</h1>
 <h2 class="title -secondary">{{{t 'front.socio_cultural_domains'}}}</h2>
+{{#if socio_cultural_domains}}
+  <ul class="visual-list">
+    {{#each socio_cultural_domains}}
+      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
 <h2 class="title -secondary">{{{t 'front.other_domains'}}}</h2>
+{{#if other_domains}}
+  <ul class="visual-list">
+    {{#each other_domains}}
+      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
 <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>

@@ -1,0 +1,51 @@
+.visual-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+
+  & > .item {
+    width: 53px;
+    margin: 8px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    color: $color-10;
+
+    & > .icon {
+      margin-bottom: 10px;
+
+      /* NOTE: temporary styles */
+      &.-placeholder {
+        width: 53px;
+        height: 53px;
+        position: relative;
+        border: 1px solid rgba($color-10, .3);
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: -20.5%;
+          left: 50%;
+          height: calc(100% * 1.41);
+          width: 1px;
+          background-color: rgba($color-10, .3);
+          transform: rotate(-45deg);
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: -20.5%;
+          left: 50%;
+          height: calc(100% * 1.41);
+          width: 1px;
+          background-color: rgba($color-10, .3);
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+}
