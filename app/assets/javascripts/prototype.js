@@ -45,12 +45,15 @@
 
       this.actorsCollection = new root.app.Collection.actorsCollection();
 
+      this.mapView = new root.app.View.mapView({
+        actorsCollection: this.actorsCollection,
+        router: this.router
+      });
       this.sidebarView = new root.app.View.sidebarView({
         actorsCollection: this.actorsCollection,
         router: this.router
       });
-      this.mapView = new root.app.View.mapView({
-        actorsCollection: this.actorsCollection,
+      this.sidebarActionToolbarView = new root.app.View.sidebarActionToolbarView({
         router: this.router
       });
       this.filtersView = new root.app.View.sidebarFiltersView({
@@ -67,6 +70,8 @@
       this.listenTo(this.router, 'route:welcome', this.welcomePage);
       this.listenTo(this.router, 'route:actor', this.fetchCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
+      this.listenTo(this.actorView, 'relationships:visibility',
+        this.mapView.toggleRelationshipsVisibility);
     },
 
     welcomePage: function() {

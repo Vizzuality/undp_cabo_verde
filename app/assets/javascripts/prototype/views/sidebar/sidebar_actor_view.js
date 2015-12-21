@@ -15,7 +15,8 @@
     el: '#sidebar-actor-view',
 
     events: {
-      'click .js-back': 'goBack'
+      'click .js-back': 'goBack',
+      'change .js-relationships-checkbox': 'toggleRelationships'
     },
 
     template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
@@ -44,16 +45,16 @@
       }
     },
 
-    /* Reset the URL to its original state */
-    goBack: function() {
-      this.hide();
-      this.router.navigate('/', { trigger: true });
-    },
-
     /* Fetch the data for the actor designated by its id */
     loadActor: function(id) {
       this.model.setId(id);
       this.model.fetch();
+    },
+
+    /* Trigger the visibility of the relationships (ie links) on the map */
+    toggleRelationships: function(e) {
+      this.trigger('relationships:visibility',
+        { visible: e.currentTarget.checked });
     },
 
     render: function() {

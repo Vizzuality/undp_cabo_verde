@@ -1,0 +1,52 @@
+.checkbox {
+
+  & > input[type="checkbox"] {
+    position: absolute;
+    left: -100vw;
+
+    & + .label {
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 50px;
+        background-color: $color-5;
+        border-radius: 100px;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 5px;
+        left: 5px;
+        height: 15px;
+        width: 15px;
+        background-color: $color-1;
+        border-radius: 100%;
+        transform: translateX(0);
+        transition: transform .2s, background-color .2s;
+      }
+    }
+
+    &:checked + .label {
+      color: $color-2;
+      &:before { background-color: $color-2; }
+      &:after  { transform: translateX(25px); }
+    }
+  }
+
+  & > .label {
+    position: relative;
+    display: block;
+    padding-left: 60px;
+    color: $color-4;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 28px;
+    cursor: pointer;
+  }
+}

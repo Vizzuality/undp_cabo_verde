@@ -23,14 +23,14 @@ html lang="en"
 
         /! TODO: update the structure
         #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
+          #sidebar-action-toolbar-view
+            .button.-textual.js-back._hidden aria-hidden="true" aria-label="Back button"
+              = image_tag 'left-arrow.svg', class: 'icon -marginright'
+              = t('front.back')
           .pane-collection.-nopaddingright 
             #sidebar-filters-view.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               | Filters
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
-              .breadcrumb
-                .button.-textual.js-back
-                  = image_tag 'left-arrow.svg', class: 'icon -marginright'
-                  = t('front.back')
               .js-content
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content

@@ -3,6 +3,12 @@
   height: 37px;
   line-height: 37px;
   vertical-align: middle;
+  background-color: $color-2;
+  color: $color-1;
+  text-transform: uppercase;
+  border: none;
+  font-size: 14px;
+  padding: 0 25px;
 
   &.-textual {
     font-size: 18px;
@@ -10,6 +16,9 @@
     color: $color-4;
     height: 18px;
     display: inline-block;
+    background-color: transparent;
+    text-transform: none;
+    padding: 0;
   }
 
   & > .icon {

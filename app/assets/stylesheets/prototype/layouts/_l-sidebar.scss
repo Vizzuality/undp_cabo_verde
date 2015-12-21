@@ -27,7 +27,7 @@
     top: 0;
     left: 0;
     width: 23px;
-    height: 47px;
+    height: 60px;
     transform: translateX(-100%);
     background-color: $color-1;
 
@@ -56,8 +56,18 @@
     }
   }
 
+  #sidebar-action-toolbar-view {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 25px;
+    background-color: $color-1;
+  }
+
   #overall-tab,
   #about-tab {
-    height: calc(100% - 60px);
+    height: calc(100% - 2 * 60px);
   }
 }

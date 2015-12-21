@@ -173,6 +173,13 @@
           method[0].apply(this, method[1]);
         }
       }, this);
+    },
+
+    /* Toggle the visibility of the relationships on the map (ie the links)
+     * options can be null/undefined or { visibility: [boolean] } */
+    toggleRelationshipsVisibility: function(options) {
+      /* TODO: implementation of the method */
+      console.warn('Feature not yet implemented');
     }
 
   });
