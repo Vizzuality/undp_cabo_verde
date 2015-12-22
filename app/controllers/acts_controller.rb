@@ -7,15 +7,15 @@ class ActsController < ApplicationController
   before_action :set_act, except: [:index, :new, :create]
   before_action :act_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
     @acts = if current_user && current_user.admin?
-              type_class.filter_acts(act_filters)
+              type_class.filter_acts(act_filters).page params[:page]
             else
-              type_class.filter_actives
+              type_class.filter_actives.page params[:page]
             end
   end
 
@@ -114,9 +114,13 @@ class ActsController < ApplicationController
       @other_domains          = OtherDomain.order(:name)
       @parents_to_select      = Act.order(:name).filter_actives
       @actors_to_select       = Actor.order(:name).filter_actives
-      @actor_relation_types   = RelationType.order(:title).includes_actor_act_relations.collect   { |rt| [ rt.title, rt.id ]         }
-      @action_relation_types  = RelationType.order(:title).includes_act_relations.collect         { |rt| [ rt.title, rt.id ]         }
-      @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect { |rt| [ rt.title_reverse, rt.id ] }
+      @indicators_to_select   = Indicator.order(:name).filter_actives
+      @units                  = Unit.order(:name)
+
+      @actor_relation_types           = RelationType.order(:title).includes_actor_act_relations.collect     { |rt| [ rt.title, rt.id ]         }
+      @action_relation_types          = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title, rt.id ]         }
+      @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title_reverse, rt.id ] }
+      @indicator_relation_types       = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ]         }
     end
 
     def set_parents

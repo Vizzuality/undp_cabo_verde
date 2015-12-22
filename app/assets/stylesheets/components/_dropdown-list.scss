@@ -17,7 +17,6 @@
     height: 0;
     width: 0;
 
-    bottom: 94%;
     left: 50%;
 
     box-sizing: border-box;
@@ -35,11 +34,20 @@
     box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
   }
 
+  &#dropdown-list-set:after {
+    bottom: 112px;
+  }
+
+  &#dropdown-list-acc:after {
+    bottom: 80px;
+  }
+
   > li {
     margin: 0 auto;
-    padding: 5px 10px 0px;
+    padding-top: 5px;
     border: 1px solid transparent;
     text-align: center;
+    position: relative;
 
 
     &:hover {
@@ -55,6 +63,18 @@
       &:hover {
         background-color: transparent;
       }
+
+      > .link-helper {
+        position:absolute;
+        width:100%;
+        height:100%;
+        top:0;
+        left: 0;
+
+        z-index: 1;
+      }
     }
   }
+
+
 }

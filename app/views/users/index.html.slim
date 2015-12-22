@@ -2,7 +2,6 @@
   .section.title-section
     div
       h2.title
-        //- = t('users.users' + ' List')
         = t('users.users')
 
   .section.table-container
@@ -12,11 +11,9 @@
           span.data.-primary
             = link_to user.name, user_path(user)
           span.data
-            | Created: 
-            = user.created_at.to_formatted_s(:short).to_s
+            = "#{t('shared.created')}: #{user.created_at.to_formatted_s(:short).to_s} / "
           span.data
-            | &nbsp;/ Updated: 
-            = user.updated_at.to_formatted_s(:short).to_s
+            = "#{t('shared.updated')}: #{user.updated_at.to_formatted_s(:short).to_s}"
 
         .data-secondary
           span.data
@@ -31,3 +28,5 @@
               = image_tag "delete.svg", :class => "icon"
               span
                 = t('shared.delete')
+
+  = paginate @users

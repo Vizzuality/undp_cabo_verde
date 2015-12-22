@@ -8,9 +8,9 @@ class UsersController < ApplicationController
   
   def index
     @users = if current_user && current_user.admin?
-               User.filter_users(user_filters)
+               User.filter_users(user_filters).page params[:page]
              else
-               User.filter_actives
+               User.filter_actives.page params[:page]
              end
   end
 

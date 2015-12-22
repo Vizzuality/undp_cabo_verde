@@ -11,5 +11,5 @@
     - @relation_types.each do |relation_type|
       p= "#{relation_type.relation_categories} (#{relation_type.title} - #{relation_type.title_reverse})"
       p
-        = link_to t('relations.create_relation_type'), edit_relation_type_path(relation_type), class: "button -xlarge -type-a"
+        = link_to t('relations.edit_relation_type'), edit_relation_type_path(relation_type), class: "button -xlarge -type-a"
         = link_to t('shared.delete'), relation_type_path(relation_type), data: { confirm: t('shared.confirm_message') }, method: :delete, class: "button -medium -type-a"

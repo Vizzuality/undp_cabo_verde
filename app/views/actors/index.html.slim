@@ -2,7 +2,7 @@
   .section.title-section
     div
       h2.title
-        = t('actors.actors' + ' List')
+        = t('actors.actors_list')
     .button-collection
       = render 'index_tabs'
 
@@ -13,11 +13,9 @@
           span.data.-primary
             = link_to actor.name, actor_path(actor)
           span.data
-            | Created:&nbsp;
-            = actor.created_at.to_formatted_s(:short).to_s
+            = "#{t('shared.created')}: #{actor.created_at.to_formatted_s(:short).to_s} / "
           span.data
-            | &nbsp;/ Updated:&nbsp;
-            = actor.updated_at.to_formatted_s(:short).to_s
+            = "#{t('shared.updated')}: #{actor.updated_at.to_formatted_s(:short).to_s}"
 
         .data-secondary
           span.data
@@ -39,3 +37,5 @@
               = image_tag "delete.svg", :class => "icon"
               span
                 = t('shared.delete')
+
+  = paginate @actors

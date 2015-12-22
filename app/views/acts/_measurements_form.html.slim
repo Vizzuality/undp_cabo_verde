@@ -1,0 +1,35 @@
+.form-inputs.form-inputs-measurement
+  .row
+    .column.medium-4
+      = f.label :date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                    'data-max-date': Date.today,
+                                    class: 'js-datepicker measurement_date', disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :value, class: 'right inline'
+    .column.medium-8
+      = f.input :value, input_html: { class: 'measurement_value' }, label: false, disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :unit_id, class: 'right inline'
+    .column.medium-8
+      = f.input :unit_id, collection: @units, as: :collection_select, label: false, input_html: { class: 'measurement_unit' }, disabled: common_form?
+
+  .row
+    .column.medium-4
+      = f.label :details, class: 'right inline'
+    .column.medium-8
+      = f.input :details, input_html: { class: 'measurement_details' }, label: false, disabled: common_form?
+
+  - unless common_form?
+    .row
+      .column
+        p.text-right.remove_link
+          / Do not move this fields!
+          = f.hidden_field :user_id, value: current_user.id
+          = f.hidden_field :_destroy
+          = link_to t('acts.remove_measurement'), '#', class: 'remove_fields remove_measurement'

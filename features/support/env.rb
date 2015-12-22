@@ -13,3 +13,7 @@ end
 
 Cucumber::Rails::Database.javascript_strategy = :truncation
 Capybara.javascript_driver = :webkit
+
+Capybara::Webkit.configure do |config|
+  config.allow_url(['cdn.leafletjs.com', 'b.basemaps.cartocdn.com'])
+end

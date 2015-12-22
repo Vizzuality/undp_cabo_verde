@@ -58,6 +58,18 @@ module NavigationHelpers
       edit_category_path(Category.find_by_name($1))
     when /the new category page/
       new_category_path
+    when /the indicators page/
+      '/manage/indicators'
+    when /the indicator page for "(.*)"$/
+      indicator_path(Indicator.find_by_name($1))
+    when /the edit indicator page for "(.*)"$/
+      edit_indicator_path(Indicator.find_by_name($1))
+    when /the new indicator page/
+      new_indicator_path
+    when /the indicators page with filter active/
+      '/manage/indicators?active=true'
+    when /the user indicators page for "(.*)"$/
+      user_indicators_path(User.find_by_email($1))
     else
       begin
         page_name =~ /the (.*) page/

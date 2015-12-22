@@ -1,20 +1,41 @@
-h1 My acts
+.section-container#users-acts
+  .section.title-section
+    div
+      h2.title
+        = t('users.my_acts')
+    .button-collection
+      = render 'acts/index_tabs'
 
-= render 'acts/index_tabs'
-
-table
-  thead
-    tr
-      th Title
-      th Type
-      th Status
-      th Options
-  tbody
+  .section.table-container
     - @acts.each do |act|
-      tr
-        td = link_to act.name, act_path(act)
-        td = act.type
-        td = act.status
-        td 
-          - if (can? :manage, act)
-            = link_to 'Edit act', edit_act_path(act)
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to act.name, act_path(act)
+          span.data
+            = "#{t('shared.created')}: #{act.created_at.to_formatted_s(:short).to_s} / "
+          span.data
+            = "#{t('shared.updated')}: #{act.updated_at.to_formatted_s(:short).to_s}"
+
+        .data-secondary
+          span.data
+            = t("types.#{act.type.constantize}")
+          span.data
+             = act.status
+          span.data.-linkdata
+            = link_to edit_act_path(act) do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data.-linkdata
+            = link_to edit_act_path(act) do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
+
+  = paginate @acts

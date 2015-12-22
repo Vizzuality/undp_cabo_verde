@@ -3,7 +3,6 @@
     .row
       .column.medium-8.medium-offset-4
         = link_to t('relations.switch'), '#', class: 'switch_child_form'
-  = f.hidden_field :user_id, value: current_user.id if request.path.include?('/actions/new')
   .row
     .column.medium-4
       = f.label t('acts.current_action'), class: 'right inline'
@@ -43,6 +42,7 @@
     .row
       .column
         p.text-right.remove_link
-          / Do not move this field!
+          / Do not move this fields!
+          = f.hidden_field :user_id, value: current_user.id
           = f.hidden_field :_destroy
           = link_to t('relations.remove_relation'), '#', class: 'remove_fields'

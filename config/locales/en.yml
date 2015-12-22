@@ -250,10 +250,13 @@ en:
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
     view_map: 'View on map'
+    updated: 'Updated'
+    created: 'Created'
 
   actors:
     actor: 'Actor'
     actors: 'Actors'
+    actors_list: 'Actors List'
     actor_macros: 'Macros'
     actor_mesos: 'Mesos'
     actor_micros: 'Micros'
@@ -307,6 +310,14 @@ en:
     to_action: 'To action'
     relation_name: 'Relation title'
     add_action: 'Add action'
+    indicator: 'Indicator'
+    remove_indicator: 'Remove indicator'
+    add_indicator: 'Add indicator'
+    indicators: 'Indicators'
+    measurement: 'Maesurement'
+    remove_measurement: 'Remove measurement'
+    add_measurement: 'Add measurement'
+    measurements: 'Measurements'
 
   categories:
     categories: 'Categories'
@@ -341,6 +352,7 @@ en:
     login: 'Login'
     register: 'Register'
     settings: 'Settings'
+    units: 'Units'
 
   relations:
     relation_category: 'Relation category'
@@ -353,13 +365,30 @@ en:
     remove_relation: 'Remove relation'
     actors_relations_as_parent: 'Connect with Actors as parent'
     switch: 'Switch'
+    indicators_relations: 'Connect with Indicators'
 
   users:
     my_actors: 'My actors'
     my_acts: 'My actions'
+    my_indicators: 'My indicators'
     user: 'User'
     users: 'Users'
 
+  indicators:
+    indicators: 'Indicators'
+    create_inicator: 'Create Indicator'
+    edit_indicator: 'Edit indicator'
+    socio_cultural_domains: 'Socio cultural domains'
+    other_domains: 'Other domains'
+    organization_types: 'Organization types'
+    current_indicator: 'Current indicator'
+    remove_action: 'Remove action'
+
+    units:
+      units: 'Units'
+      create_unit: 'Create unit'
+      edit_unit: 'Edit unit'
+      
   front:
     about: About
     add_comment: Add Comment
