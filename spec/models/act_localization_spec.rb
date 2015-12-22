@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe ActLocalization, type: :model do
   before :each do
     @user  = create(:user)
-    @macro = create(:act_macro, user_id: @user.id)
-    @meso  = create(:act_meso, user_id: @user.id)
-    @micro = create(:act_micro, user_id: @user.id)
-    @localization = create(:localization, name: 'First Localization', acts: [@macro, @meso, @micro])
+    @localization = create(:localization, name: 'First Localization', user: @user)
+    @macro = create(:act_macro, user_id: @user.id, localizations: [@localization])
+    @meso  = create(:act_meso, user_id: @user.id, localizations: [@localization])
+    @micro = create(:act_micro, user_id: @user.id, localizations: [@localization])
   end
 
   it 'Create Relation act localization' do
@@ -30,5 +30,17 @@ RSpec.describe ActLocalization, type: :model do
     expect(@localization.act_macros.count).to eq(1)
     expect(@localization.act_mesos.count).to eq(1)
     expect(@localization.act_micros.count).to eq(1)
+  end
+
+  context 'For main localizations' do
+    before :each do
+      @localization_new = create(:localization, name: 'Main Localization', user: @user)
+    end
+
+    it 'Set other location for action meso as main location' do
+      expect(@meso.localizations.count).to eq(1)
+      ActMeso.find(@meso.id).update!(localizations: [@localization_new])
+      expect(@meso.main_location_name).to eq('Main Localization')
+    end
   end
 end

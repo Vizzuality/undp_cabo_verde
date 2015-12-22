@@ -1,5 +1,6 @@
 class Act < ActiveRecord::Base
   include Activable
+  include Localizable
 
   belongs_to :user
 
@@ -33,6 +34,8 @@ class Act < ActiveRecord::Base
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
   
+  after_update  :set_main_location,       if: 'localizations.any?'
+  before_save   :check_main_location,     if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
@@ -175,6 +178,10 @@ class Act < ActiveRecord::Base
     collection.any? ? collection : act_indicator_relations.build
   end
 
+  def main_locations
+    act_localizations.main_locations
+  end
+
   private
 
     def deactivate_dependencies
@@ -211,5 +218,17 @@ class Act < ActiveRecord::Base
 
     def indicator_invalid(attributes)
       attributes['indicator_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def set_main_location
+      if act_localizations.main_locations.empty?
+        act_localizations.first.update( main: true )
+      end
+    end
+
+    def check_main_location
+      act_localizations.each do |location|
+        location.update( main: false ) unless location.main_changed? && location.main?
+      end
     end
 end

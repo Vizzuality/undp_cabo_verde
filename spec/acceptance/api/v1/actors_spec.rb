@@ -8,7 +8,7 @@ resource 'Actors' do
 
   before :each do
     @user       = FactoryGirl.create(:random_user)
-    @location   = FactoryGirl.create(:localization)
+    @location   = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
     @category_3 = FactoryGirl.create(:category, name: 'Category OT',  type: 'OrganizationType')
@@ -78,15 +78,15 @@ resource 'Actors' do
           expect(actor['short_name']).not_to               be_nil
           expect(actor['legal_status']).not_to             be_nil
           expect(actor['other_names']).not_to              be_nil
-          expect(actor['locations'][0]['name']).not_to     be_nil
-          expect(actor['locations'][0]['country']).not_to  be_nil
-          expect(actor['locations'][0]['city']).not_to     be_nil
-          expect(actor['locations'][0]['zip_code']).not_to be_nil
-          expect(actor['locations'][0]['state']).not_to    be_nil
-          expect(actor['locations'][0]['district']).not_to be_nil
-          expect(actor['locations'][0]['web_url']).not_to  be_nil
-          expect(actor['locations'][0]['lat']).not_to      be_nil
-          expect(actor['locations'][0]['long']).not_to     be_nil
+          expect(actor['locations'][0]['info_data']['name']).not_to     be_nil
+          expect(actor['locations'][0]['info_data']['country']).not_to  be_nil
+          expect(actor['locations'][0]['info_data']['city']).not_to     be_nil
+          expect(actor['locations'][0]['info_data']['zip_code']).not_to be_nil
+          expect(actor['locations'][0]['info_data']['state']).not_to    be_nil
+          expect(actor['locations'][0]['info_data']['district']).not_to be_nil
+          expect(actor['locations'][0]['info_data']['web_url']).not_to  be_nil
+          expect(actor['locations'][0]['info_data']['lat']).not_to      be_nil
+          expect(actor['locations'][0]['info_data']['long']).not_to     be_nil
 
           # Micro specific
           expect(actor['title']).to         be_nil

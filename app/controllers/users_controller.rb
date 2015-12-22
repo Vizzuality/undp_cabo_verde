@@ -35,12 +35,16 @@ class UsersController < ApplicationController
   def deactivate
     if @user.try(:deactivate)
       redirect_to users_path
+    else
+      redirect_to user_path(@user)
     end
   end
 
   def activate
     if @user.try(:activate)
       redirect_to users_path
+    else
+      redirect_to user_path(@user)
     end
   end
 
