@@ -1,12 +1,14 @@
-= form.error_notification
-.form-inputs
-  .row
-    .column.medium-4
-      = form.label :name, class: 'right inline'
-    .column.medium-8
-      = form.input :name, label: false
-  .row
-    .column.medium-4
-      = form.label :symbol, class: 'right inline'
-    .column.medium-8
-      = form.input :symbol, label: false
+.row
+  .column.medium-8.medium-offset-1
+    = form.error_notification
+    .form-inputs
+      .row
+        .column.medium-4
+          = form.label :name, class: 'right inline'
+        .column.medium-8
+          = form.input :name, label: false
+      .row
+        .column.medium-4
+          = form.label :symbol, class: 'right inline'
+        .column.medium-8
+          = form.input :symbol, label: false

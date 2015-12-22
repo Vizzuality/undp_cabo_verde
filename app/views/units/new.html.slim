@@ -1,17 +1,14 @@
-.form-units
+.form-actions
   .row
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
           h2
             = t('units.create_unit')
-  .row
-    .column.medium-8.medium-offset-1
-      = simple_form_for @unit do |f|
-        = render partial: f
 
-        .row
-          .column.medium-8.medium-offset-4
-            = f.button :submit, t('shared.create')
+  = simple_form_for @unit do |f|
+    = render partial: f
 
-p= link_to t('shared.back'), :back
+    .row
+      .button-collection.-formcollection
+        = f.button :submit, t('shared.create'), class: '-primary'

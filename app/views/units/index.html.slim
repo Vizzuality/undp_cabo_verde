@@ -4,9 +4,30 @@
       h2.title
         = t('units.unit')
     .button-collection
-      - if (can? :manage, Unit)
-        p= link_to t('units.create_unit'), new_unit_path, class: "button -xlarge -type-a"
+      = render 'index_tabs'
 
   .section.table-container
     - @units.each do |unit|
-      p= link_to "#{unit.name} - (#{unit.symbol})", edit_unit_path(unit)
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to "#{unit.name} (#{unit.symbol})", unit_path(unit)
+          span.data
+            = "#{t('shared.created')}: #{unit.created_at.to_formatted_s(:short).to_s} / "
+          span.data
+            = "#{t('shared.updated')}: #{unit.updated_at.to_formatted_s(:short).to_s}"
+
+        .data-secondary
+          span.data._hidden
+          span.data._hidden
+          span.data._hidden
+          span.data.-linkdata
+            = link_to edit_unit_path(unit) do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to unit_path(unit), data: { confirm: t('shared.confirm_message') }, method: :delete do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')

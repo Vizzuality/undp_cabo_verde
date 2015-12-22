@@ -250,10 +250,13 @@ en:
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
     view_map: 'View on map'
+    updated: 'Updated'
+    created: 'Created'
 
   actors:
     actor: 'Actor'
     actors: 'Actors'
+    actors_list: 'Actors List'
     actor_macros: 'Macros'
     actor_mesos: 'Mesos'
     actor_micros: 'Micros'
