@@ -20,20 +20,20 @@ resource 'Actors' do
       actors = []
 
       actors << create(:actor_macro, name: 'Economy Organization', user: @user,
-        observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
-        localizations: [@location], short_name: Faker::Name.name,
-        legal_status: Faker::Name.name, other_names: Faker::Name.name,
-        categories: [@category_1, @category_2, @category_3])
+                        observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
+                        localizations: [@location], short_name: Faker::Name.name,
+                        legal_status: Faker::Name.name, other_names: Faker::Name.name,
+                        categories: [@category_1, @category_2, @category_3])
       actors << create(:actor_macro, name: 'Education Institution',
-        user: @user, observation: Faker::Lorem.paragraph(2, true, 4))
+                        user: @user, observation: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
       actors << create(:actor_meso,  name: 'Department of Education',
-        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
-        localizations: [@location], short_name: Faker::Name.name,
-        legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1])
+                        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+                        localizations: [@location], short_name: Faker::Name.name,
+                        legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2])
       actors << create(:actor_micro, name: 'Director of Department',
-        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
-        localizations: [@location], gender: 2,
-        title: 2, categories: [@category_2])
+                        user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
+                        localizations: [@location], gender: 2,
+                        title: 2, categories: [@category_2])
 
       actors.each do |a|
         a.touch

@@ -1,6 +1,6 @@
 class BaseSerializer < ActiveModel::Serializer
   class_attribute :version
-  self.version = 2
+  self.version = 3
   
   def self.cache_key
     ['version', self.version]

@@ -1,10 +1,10 @@
 class ActorArraySerializer < BaseSerializer
   cached
-  self.version = 2
+  self.version = 3
 
   attributes :id, :name, :level
 
-  has_many :localizations, key: :locations, serializer: LocalizationArraySerializer
+  has_many :localizations, key: :locations
 
   def level
     case object.type
@@ -14,10 +14,14 @@ class ActorArraySerializer < BaseSerializer
     end
   end
 
+  def include_associations!
+    include! :localizations, serializer: LocalizationArraySerializer
+  end
+
   def cache_key
     # For filter options
     cache_params = nil
     
-    self.class.cache_key << [object, object.updated_at, localizations, cache_params]
+    self.class.cache_key << [object, object.updated_at, cache_params]
   end
 end

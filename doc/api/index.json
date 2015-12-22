@@ -18,6 +18,18 @@
           "method": "get"
         }
       ]
+    },
+    {
+      "name": "Actors Relations",
+      "examples": [
+        {
+          "description": "Getting a specific actor",
+          "link": "actors_relations/getting_a_specific_actor.json",
+          "groups": "all",
+          "route": "/api/actors/:id",
+          "method": "get"
+        }
+      ]
     }
   ]
 }
