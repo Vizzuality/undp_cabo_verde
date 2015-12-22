@@ -6,9 +6,10 @@
   root.app.View = root.app.View || {};
   root.app.Model = root.app.Model || {};
   root.app.Mixin = root.app.Mixin || {};
+  root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { isHidden: true }
+    defaults: { isHidden: true, toggleRelationshipsActive: true }
   });
 
   root.app.View.sidebarActorView = Backbone.View.extend({
@@ -16,7 +17,7 @@
 
     events: {
       'click .js-back': 'goBack',
-      'change .js-relationships-checkbox': 'toggleRelationships'
+      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
     },
 
     template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
@@ -34,6 +35,8 @@
       this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
       this.listenTo(this.router, 'route:actor', this.loadActor);
       this.listenTo(this.model, 'sync change', this.render);
+      this.listenTo(root.app.pubsub, 'relationships:visibility',
+        this.toggleRelationshipsVisibility);
     },
 
     /* According to the route broadcast by the router show or hide the pane */
@@ -52,13 +55,29 @@
     },
 
     /* Trigger the visibility of the relationships (ie links) on the map */
-    toggleRelationships: function(e) {
-      this.trigger('relationships:visibility',
+    triggerRelationshipsVisibility: function(e) {
+      root.app.pubsub.trigger('relationships:visibility',
         { visible: e.currentTarget.checked });
     },
 
+    /* Toggle the relationships switch button
+     * options can be null/undefined or { visible: [boolean] } */
+    toggleRelationshipsVisibility: function(options) {
+      var isVisible = options.visible;
+      this.status.set('toggleRelationshipsActive', isVisible);
+      /* This method could be called even if the view hasn't been rendered yet
+       */
+      if(this.$relationshipsToggle) {
+        this.$relationshipsToggle.prop('checked', isVisible);
+      }
+    },
+
     render: function() {
-      this.$content.html(this.template(this.model.toJSON()));
+      this.$content.html(this.template(_.extend(this.model.toJSON(),
+        this.status.toJSON())));
+      /* We need to set again the listeners because some of them depends on the
+       * elements that have just been rendered */
+      this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
     }
   });
 

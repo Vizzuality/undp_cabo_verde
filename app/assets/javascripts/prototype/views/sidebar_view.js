@@ -5,6 +5,7 @@
   root.app = root.app || {};
   root.app.View = root.app.View || {};
   root.app.Mixin = root.app.Mixin || {};
+  root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
     defaults: { isHidden: false }
@@ -61,7 +62,7 @@
      * }
      */
     triggerVisibility: function() {
-      this.trigger('sidebar:visibility', {
+      root.app.pubsub.trigger('sidebar:visibility', {
         isHidden: this.status.get('isHidden')
       });
     }

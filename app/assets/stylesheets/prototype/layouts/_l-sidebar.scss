@@ -4,6 +4,8 @@
   right: 0;
   width: 370px;
   height: 100%;
+  transform: translateX(0);
+  transition: transform .4s;
 
   /* NOTE: temporal */
   background-color: $color-1;
@@ -11,14 +13,15 @@
   &.-hidden {
     transform: translateX(100%);
 
-    >.toggleswitch:before {
-      height: 8px;
-      transform: translate(-1px, 0%) rotate(-45deg);
+    >.toggleswitch:before,
+    >.toggleswitch:after {
+      content: none;
     }
 
-    >.toggleswitch:after {
-      height: 8px;
-      transform: translate(-50%, -50%) rotate(45deg);
+    >.toggleswitch {
+      background-image: url(asset_path("hamburger.png"));
+      background-repeat: no-repeat;
+      background-position: center center;
     }
   }
 

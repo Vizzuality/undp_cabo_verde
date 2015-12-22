@@ -4,10 +4,15 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.pubsub = root.app.pubsub || {};
 
   root.app.View.mapView = Backbone.View.extend({
 
     el: '.l-map',
+
+    events: {
+      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
+    },
 
     initialize: function(options) {
       this.actorsCollection = options.actorsCollection;
@@ -22,12 +27,19 @@
        * in case the collection would be populated before the view would be
        * instanced */
       this.addActorsMarkers();
+      this.$legend = this.$el.find('#map-legend');
+      this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
+      this.$buttons = this.$el.find('#map-buttons');
       this.setListeners();
     },
 
     setListeners: function() {
       this.listenTo(this.actorsCollection, 'sync change', this.addActorsMarkers);
       this.listenTo(this.router, 'route', this.updateMapFromRoute);
+      this.listenTo(root.app.pubsub, 'relationships:visibility',
+        this.toggleRelationshipsVisibility);
+      this.listenTo(root.app.pubsub, 'sidebar:visibility',
+        this.slideButtons);
       this.map.on('zoomend', this.updateMarkersSize.bind(this));
     },
 
@@ -42,6 +54,8 @@
             L.latLng(18.228372, -19.292213)
           ]
         });
+
+        this.map.zoomControl.setPosition('bottomleft');
       }
 
       this.isMapInstanciated = false;
@@ -175,11 +189,28 @@
       }, this);
     },
 
-    /* Toggle the visibility of the relationships on the map (ie the links)
-     * options can be null/undefined or { visibility: [boolean] } */
+    /* Toggle the visibility of the relationships on the map (ie the links) and
+     * the switch button
+     * options can be null/undefined or { visible: [boolean] } */
     toggleRelationshipsVisibility: function(options) {
+      var isVisible = options.visible;
+      /* We toggle the part concerning the relationships from the legend */
+      this.$legend.toggleClass('-reduced', !isVisible);
+      /* We toggle the switch button concerning the relationships */
+      this.$relationshipsToggle.prop('checked', isVisible);
       /* TODO: implementation of the method */
       console.warn('Feature not yet implemented');
+    },
+
+    /* Trigger the visibility of the relationships (ie links) on the map */
+    triggerRelationshipsVisibility: function(e) {
+      root.app.pubsub.trigger('relationships:visibility',
+        { visible: e.currentTarget.checked });
+    },
+
+    /* Move the buttons aligned with the sidebar */
+    slideButtons: function(options) {
+      this.$buttons.toggleClass('-slided', options.isHidden);
     }
 
   });

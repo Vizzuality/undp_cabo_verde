@@ -49,4 +49,34 @@
     line-height: 28px;
     cursor: pointer;
   }
+
+  &.-reversed {
+    & > input[type="checkbox"] + .label {
+      &:before { left: auto; right: 0;   }
+      &:after  { left: auto; right: 30px; }
+    }
+
+    & > .label {
+      padding-left: 0;
+      padding-right: 60px;
+      text-align: right;
+    }
+  }
+
+  &.-negative {
+    & > input[type="checkbox"] {
+      & + .label {
+        &:before { background-color: $color-5; }
+        &:after  { background-color: $color-4; }
+      }
+
+      &:checked + .label {
+        color: $color-13;
+        &:before { background-color: $color-1; }
+        &:after  { background-color: $color-2; }
+      }
+    }
+
+    & > .label { color: $color-4; }
+  }
 }

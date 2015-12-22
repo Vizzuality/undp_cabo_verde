@@ -10,7 +10,33 @@ html lang="en"
     = csrf_meta_tags
   body
     .container
-      .l-map#map
+      .l-map
+        #map
+        = link_to (image_tag 'undp-logo-gradient.png', id: "logo"), "/"
+        #map-legend
+          ul
+            li.title
+              = t('front.actor')
+            li Macro
+            li Meso
+            li Micro
+          ul
+            li.title
+              = t('front.action')
+            li Macro
+            li Meso
+            li Micro
+          ul
+            li.title
+              = t('front.relationships')
+            li = t('front.actor_to_action')
+            li = t('front.actor_to_actor')
+            li = t('front.action_to_action')
+        #map-buttons
+          .checkbox.-reversed.-negative
+            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
+            label class="label" for="map-relationships-toggle"
+              = t('front.show_relationships_on_map')
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
@@ -27,6 +53,8 @@ html lang="en"
             .button.-textual.js-back._hidden aria-hidden="true" aria-label="Back button"
               = image_tag 'left-arrow.svg', class: 'icon -marginright'
               = t('front.back')
+            /! TODO: aria tags (aria-controls)
+            = image_tag 'searches.svg', class: '_pointer js-searches'
           .pane-collection.-nopaddingright 
             #sidebar-filters-view.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               | Filters

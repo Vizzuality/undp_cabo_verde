@@ -11,7 +11,8 @@
     el: '#sidebar-action-toolbar-view',
 
     events: {
-      'click .js-back': 'goBack'
+      'click .js-back': 'goBack',
+      'click .js-searches': 'showSearches'
     },
 
     initialize: function(options) {
@@ -51,7 +52,12 @@
     hideGoBackButton: function() {
       this.$goBackButton.addClass('_hidden');
       this.$goBackButton.attr('aria-hidden', 'true');
+    },
+
+    showSearches: function() {
+      console.warn('Feature not yet implemented');
     }
+
   });
 
 })(this);

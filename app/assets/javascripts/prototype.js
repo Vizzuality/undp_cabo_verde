@@ -26,7 +26,8 @@
     Model: {},
     Collection: {},
     View: {},
-    Mixin: {}
+    Mixin: {},
+    pubsub: {}
   };
 
   /**
@@ -70,8 +71,6 @@
       this.listenTo(this.router, 'route:welcome', this.welcomePage);
       this.listenTo(this.router, 'route:actor', this.fetchCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
-      this.listenTo(this.actorView, 'relationships:visibility',
-        this.mapView.toggleRelationshipsVisibility);
     },
 
     welcomePage: function() {

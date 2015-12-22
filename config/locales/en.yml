@@ -388,7 +388,7 @@ en:
       units: 'Units'
       create_unit: 'Create unit'
       edit_unit: 'Edit unit'
-      
+
   front:
     about: About
     add_comment: Add Comment
@@ -399,3 +399,8 @@ en:
     relationships: Relationships
     show_relationships_on_map: Show relationships on map
     socio_cultural_domains: Social Cultural Domains
+    actor: Actor
+    action: Action
+    actor_to_action: Actor to Action
+    actor_to_actor: Actor to Actor
+    action_to_action: Action to Action

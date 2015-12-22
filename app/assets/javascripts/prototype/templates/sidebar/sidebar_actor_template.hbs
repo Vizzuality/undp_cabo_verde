@@ -16,7 +16,7 @@
   </ul>
 {{/if}}
 <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
-<div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" checked="checked" /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
+<div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" {{#if toggleRelationshipsActive}}checked="checked"{{/if}} /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
 <div class="grey-section">
   <h2 class="title -secondary">{{{t 'front.comments'}}}</h2>
   <div class="comments-section">
