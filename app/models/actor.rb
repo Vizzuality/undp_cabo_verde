@@ -1,5 +1,6 @@
 class Actor < ActiveRecord::Base
   include Activable
+  include Localizable
 
   belongs_to :user
 
@@ -28,7 +29,9 @@ class Actor < ActiveRecord::Base
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
-
+  
+  after_update  :set_main_location,       if: 'localizations.any?'
+  before_save   :check_main_location,     if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   validates :type, presence: true
@@ -171,6 +174,10 @@ class Actor < ActiveRecord::Base
     collection.any? ? collection : act_actor_relations.build
   end
 
+  def main_locations
+    actor_localizations.main_locations
+  end
+
   private
 
     def deactivate_dependencies
@@ -203,5 +210,17 @@ class Actor < ActiveRecord::Base
 
     def action_invalid(attributes)
       attributes['act_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def set_main_location
+      if actor_localizations.main_locations.empty?
+        actor_localizations.first.update( main: true )
+      end
+    end
+
+    def check_main_location
+      actor_localizations.each do |location|
+        location.update( main: false ) unless location.main_changed? && location.main?
+      end
     end
 end

@@ -2,6 +2,28 @@
   .row
     .column.medium-8.medium-offset-4
       .map-preview
+  = f.fields_for relation_location_class do |form|
+    .row
+      .column.medium-4
+        = form.label :main, class: 'right inline'
+      .column.medium-8
+        = form.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: false, disabled: common_form?
+    .row
+      .column.medium-4
+        = form.label :start_date, class: 'right inline'
+      .column.medium-8
+        = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                    'data-max-date': Date.today,
+                                    class: 'js-datepicker location_start_date', disabled: common_form?
+    .row
+      .column.medium-4
+        = form.label :end_date, class: 'right inline'
+      .column.medium-8
+        = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                  'data-max-date': Date.today,
+                                  'data-blank-date': true,
+                                  class: 'js-datepicker location_end_date', disabled: common_form?
+
   .row
     .column.medium-4
       = f.label :name, class: 'right inline'
@@ -11,7 +33,7 @@
     .column.medium-4
       = f.label :country, class: 'right inline'
     .column.medium-8
-      = f.input :country, input_html: { class: 'localization_country' }, selected: 'CV', label: false, disabled: common_form?
+      = f.input :country, input_html: { class: 'localization_country' }, prompt: cape_verde, label: false, disabled: common_form?
   .row
     .column.medium-4
       = f.label :city, class: 'right inline'

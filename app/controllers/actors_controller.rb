@@ -4,7 +4,8 @@ class ActorsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_current_user, only: [:create, :link_actor]
-  before_action :set_actor, except: [:index, :new, :create]
+  before_action :set_actor, except: [:index, :new, :create, :show, :edit]
+  before_action :set_actor_preload, only: [:show, :edit]
   before_action :actor_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit, :show, :create, :update]
@@ -21,8 +22,6 @@ class ActorsController < ApplicationController
   end
 
   def show
-    @localizations = @actor.localizations
-    @categories = @actor.categories
   end
 
   def edit
@@ -104,6 +103,10 @@ class ActorsController < ApplicationController
 
     def set_actor
       @actor = type_class.find(params[:id])
+    end
+
+    def set_actor_preload
+      @actor = type_class.preload(:localizations, localizations: :actor_localizations).find(params[:id])
     end
 
     def set_selection
