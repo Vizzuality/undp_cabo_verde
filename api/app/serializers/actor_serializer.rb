@@ -1,11 +1,10 @@
 class ActorSerializer < BaseSerializer
   cached
-  self.version = 1
+  self.version = 2
 
   attributes :id, :level, :name, :observation
 
-  has_many :localizations, key: :locations
-  
+  has_many :actor_localizations, key: :locations
   # Categories
   has_many :organization_types
   has_many :socio_cultural_domains
@@ -34,7 +33,7 @@ class ActorSerializer < BaseSerializer
   end
 
   def include_associations!
-    include! :localizations,          serializer: LocalizationSerializer
+    include! :actor_localizations,    serializer: RelationalLocalizationSerializer
     include! :organization_types,     serializer: CategorySerializer
     include! :socio_cultural_domains, serializer: CategorySerializer
     include! :other_domains,          serializer: CategorySerializer
@@ -44,6 +43,6 @@ class ActorSerializer < BaseSerializer
     # For filter options
     cache_params = nil
     
-    self.class.cache_key << [object, object.updated_at, localizations, cache_params]
+    self.class.cache_key << [object, object.updated_at, cache_params]
   end
 end

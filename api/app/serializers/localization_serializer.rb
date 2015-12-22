@@ -1,10 +1,19 @@
 class LocalizationSerializer < BaseSerializer
   cached
-  self.version = 1
+  self.version = 2
 
-  attributes :name, :country, :city, :zip_code, :state, :district, :web_url, :lat, :long
+  attributes :name, :iso, :country, :city, :zip_code, :state, :district, :street, :web_url, :lat, :long
 
   def cache_key
     self.class.cache_key << [object, object.updated_at]
+  end
+  
+  def iso
+    object.country
+  end
+
+  def country
+    country_iso = ISO3166::Country[object.country]
+    country_iso.translations[I18n.locale.to_s] || object.country_iso.name
   end
 end

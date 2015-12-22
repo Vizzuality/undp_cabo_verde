@@ -1,5 +1,6 @@
 class Indicator < ActiveRecord::Base
   include Activable
+  include Localizable
 
   belongs_to :user
 
@@ -18,6 +19,8 @@ class Indicator < ActiveRecord::Base
   
   accepts_nested_attributes_for :localizations,           allow_destroy: true
   
+  after_update  :set_main_location,       if: 'localizations.any?'
+  before_save   :check_main_location,     if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   validates :name,    presence: true
@@ -53,6 +56,10 @@ class Indicator < ActiveRecord::Base
     comments.any?
   end
 
+  def main_locations
+    indicator_localizations.main_locations
+  end
+
   private
 
     def deactivate_dependencies
@@ -66,6 +73,18 @@ class Indicator < ActiveRecord::Base
         unless comment.deactivate
           return false
         end
+      end
+    end
+
+    def set_main_location
+      if indicator_localizations.main_locations.empty?
+        indicator_localizations.first.update( main: true )
+      end
+    end
+
+    def check_main_location
+      indicator_localizations.each do |location|
+        location.update( main: false ) unless location.main_changed? && location.main?
       end
     end
 end

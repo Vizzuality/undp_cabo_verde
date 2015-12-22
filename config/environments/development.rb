@@ -57,6 +57,19 @@ Rails.application.configure do
     Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Category', association: :children
     Bullet.add_whitelist type: :n_plus_one_query, class_name: 'SocioCulturalDomain', association: :children
     Bullet.add_whitelist type: :n_plus_one_query, class_name: 'OtherDomain', association: :children
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :user
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :act_localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :actor_localization
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :indicator_localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMacro', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMeso', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMicro', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMacro', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMeso', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMicro', association: :localizations
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorLocalization', association: :localization
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActLocalization', association: :localization
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'IndicatorLocalization', association: :localization
   end
 
   # Raises error for missing translations

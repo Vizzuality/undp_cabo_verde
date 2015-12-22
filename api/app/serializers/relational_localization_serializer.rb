@@ -1,0 +1,21 @@
+class RelationalLocalizationSerializer < BaseSerializer
+  cached
+  self.version = 2
+  
+  attribute  :id
+  attributes :main, :start_date, :end_date
+
+  has_one :localization, key: :info_data
+
+  def cache_key
+    self.class.cache_key << [object, object.updated_at]
+  end
+
+  def id
+    object.localization.id
+  end
+
+  def include_associations!
+    include! :localization, serializer: LocalizationSerializer
+  end
+end

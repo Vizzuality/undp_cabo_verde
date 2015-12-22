@@ -33,4 +33,16 @@ RSpec.describe IndicatorLocalization, type: :model do
     expect(Localization.filter_inactives.count).to be(1)
     expect(Localization.filter_actives.count).to be(1)
   end
+
+  context 'For main localizations' do
+    before :each do
+      @localization_new = create(:localization, name: 'Main Localization', user: @user)
+    end
+
+    it 'Set other location for indicator as main location' do
+      expect(@indicator_1.localizations.count).to eq(1)
+      Indicator.find(@indicator_1.id).update!(localizations: [@localization_new])
+      expect(@indicator_1.main_location_name).to eq('Main Localization')
+    end
+  end
 end
