@@ -4,7 +4,8 @@
       h2.title
         = t('relations.relation_types')
     .button-collection
-      = link_to t('indicators.new_indicator'), new_indicator_path, class: 'button -large -type-b'
+      - if current_user
+        = link_to t('relations.new_relation_type'), new_relation_type_path, class: 'button -large -type-b'
 
   .section.table-container
     - @relation_types.each do |relation_type|

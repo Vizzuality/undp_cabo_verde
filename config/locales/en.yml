@@ -370,6 +370,7 @@ en:
     actors_relations_as_parent: 'Connect with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
+    new_relation_type: 'New Relation Type'
 
   users:
     my_actors: 'My actors'
