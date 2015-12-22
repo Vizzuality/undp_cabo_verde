@@ -12,11 +12,12 @@
           = form.label :observation, class: 'right inline'
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
-      .row
-        .column.medium-4
-          = form.label :organization_type_ids, class: 'right inline'
-        .column.medium-8
-          = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+      - if @actor.meso_or_macro?
+        .row
+          .column.medium-4
+            = form.label :organization_type_ids, class: 'right inline'
+          .column.medium-8
+            = form.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
       .row
         .column.medium-4
           = form.label :socio_cultural_domain_ids, class: 'right inline'
