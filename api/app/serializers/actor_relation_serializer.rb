@@ -1,6 +1,6 @@
 class ActorRelationSerializer < BaseSerializer
   cached
-  self.version = 110
+  self.version = 5
 
   attributes :parent_id, :child_id, :start_date, :end_date
 

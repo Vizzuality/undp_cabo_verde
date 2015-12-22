@@ -1,6 +1,6 @@
 class LocalizationSerializer < BaseSerializer
   cached
-  self.version = 3
+  self.version = 5
 
   attributes :name, :iso, :country, :city, :zip_code, :state, :district, :street, :web_url, :lat, :long
   

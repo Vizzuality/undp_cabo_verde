@@ -1,6 +1,6 @@
 class RelationalLocalizationSerializer < BaseSerializer
   cached
-  self.version = 3
+  self.version = 5
   
   attribute  :id
   attributes :main, :start_date, :end_date

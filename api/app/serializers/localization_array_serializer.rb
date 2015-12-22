@@ -1,6 +1,6 @@
 class LocalizationArraySerializer < BaseSerializer
   cached
-  self.version = 3
+  self.version = 5
 
   attributes :id, :lat, :long
 

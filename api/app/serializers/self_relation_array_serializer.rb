@@ -1,6 +1,6 @@
 class SelfRelationArraySerializer < BaseSerializer
   cached
-  self.version = 700
+  self.version = 5
 
   attributes :id, :name, :level
 
