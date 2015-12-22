@@ -10,11 +10,11 @@
       .row
         .column.medium-8.medium-offset-4
           .radio-buttons
-            = form.collection_radio_buttons :event, [[true, "Event", disabled: common_form?], [false, "Activity", disabled: common_form?]], :first, :second
+            = form.collection_radio_buttons :event, [[true, t('acts.act_micro_event_true'), disabled: common_form?], [false, t('acts.act_micro_event_false'), disabled: common_form?]], :first, :second
       .row
         .column.medium-8.medium-offset-4
           .radio-buttons
-            = form.collection_radio_buttons :human, [[true, "Human", disabled: common_form?], [false, "Natural", disabled: common_form?]], :first, :second
+            = form.collection_radio_buttons :human, [[true, t('acts.act_micro_human_true'), disabled: common_form?], [false, t('acts.act_micro_human_false'), disabled: common_form?]], :first, :second
       .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
