@@ -32,6 +32,9 @@ gem 'acts_as_tree'
 gem 'devise'
 gem 'cancancan', '~> 1.10'
 
+# Currency
+gem 'money-rails'
+
 # API
 gemspec path: 'api'
 gem 'responders', '~> 2.0'

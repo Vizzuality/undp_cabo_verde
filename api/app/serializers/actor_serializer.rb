@@ -36,6 +36,7 @@ class ActorSerializer < BaseSerializer
       data['gender']        = object.gender_txt
     end
     data['actors']          = actors
+    data['actions']         = actions
     data
   end
 
@@ -46,7 +47,7 @@ class ActorSerializer < BaseSerializer
                             end
 
     data['parents_info']  = object.actor_relations_as_child.sort_by { |parent| parent['parent_id'] }.map do |parent|
-                              ActorRelationSerializer.new(parent, root: :parent_info).serializable_hash
+                              SelfRelationSerializer.new(parent, root: :parent_info).serializable_hash
                             end
 
     data['children']      = object.children.sort_by { |child| child['id'] }.map do |child|
@@ -54,7 +55,19 @@ class ActorSerializer < BaseSerializer
                             end
 
     data['children_info'] = object.actor_relations_as_parent.sort_by { |child| child['child_id'] }.map do |child|
-                              ActorRelationSerializer.new(child, root: :children_info).serializable_hash
+                              SelfRelationSerializer.new(child, root: :children_info).serializable_hash
+                            end
+    data
+  end
+
+  def actions
+    data = {}
+    data['children']      = object.acts.sort_by { |action| action['id'] }.map do |action|
+                              ActActorRelationArraySerializer.new(action, root: :actions).serializable_hash
+                            end
+
+    data['children_info'] = object.act_actor_relations.sort_by { |relation| relation['act_id'] }.map do |relation|
+                              ActActorRelationSerializer.new(relation, root: :actions_info).serializable_hash
                             end
     data
   end

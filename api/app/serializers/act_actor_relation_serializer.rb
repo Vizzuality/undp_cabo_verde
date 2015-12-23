@@ -1,10 +1,17 @@
-class ActorRelationSerializer < BaseSerializer
+class ActActorRelationSerializer < BaseSerializer
   cached
   self.version = 5
 
-  attributes :parent_id, :child_id, :start_date, :end_date
+  attributes :actor_id, :act_id
 
   has_one :relation_type
+
+  def attributes
+    data = super
+    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
+    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
+    data
+  end
 
   def cache_key
     # For filter options

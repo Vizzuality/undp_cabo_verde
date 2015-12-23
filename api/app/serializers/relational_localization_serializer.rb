@@ -2,10 +2,16 @@ class RelationalLocalizationSerializer < BaseSerializer
   cached
   self.version = 5
   
-  attribute  :id
-  attributes :main, :start_date, :end_date
+  attributes :id, :main
 
   has_one :localization, key: :info_data
+
+  def attributes
+    data = super
+    data['start_date'] = object.start.date.to_date.iso8601 if object.start_date
+    data['end_date']   = object.end.date.to_date.iso8601   if object.end_date
+    data
+  end
 
   def id
     object.localization.id
