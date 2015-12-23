@@ -1,0 +1,45 @@
+{
+  "resource": "Acts",
+  "http_method": "GET",
+  "route": "/api/actions/:id",
+  "description": "Getting a specific action",
+  "explanation": null,
+  "parameters": [
+
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/actions/5",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"action\": {\n    \"id\": 5,\n    \"level\": \"macro\",\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Jerrell Crooks\",\n    \"short_name\": \"Ms. Dexter Schaden\",\n    \"description\": \"Concido curiositas considero armo. Universe conscendo similique timidus candidus thermae. Suppono tenax supra. Cuius tabella vulnus ocer sufficio amplitudo demum vehemens. Cornu auctor dolorem accusamus sono.\",\n    \"human_or_natural\": \"natural\",\n    \"event_or_activity\": \"activity\",\n    \"budget\": {\n      \"fractional\": \"200000.0\",\n      \"currency\": {\n        \"id\": \"usd\",\n        \"alternate_symbols\": [\n          \"US$\"\n        ],\n        \"decimal_mark\": \".\",\n        \"disambiguate_symbol\": null,\n        \"html_entity\": \"$\",\n        \"iso_code\": \"USD\",\n        \"iso_numeric\": \"840\",\n        \"name\": \"United States Dollar\",\n        \"priority\": 1,\n        \"smallest_denomination\": 1,\n        \"subunit\": \"Cent\",\n        \"subunit_to_unit\": 100,\n        \"symbol\": \"$\",\n        \"symbol_first\": true,\n        \"thousands_separator\": \",\"\n      },\n      \"bank\": {\n        \"rounding_method\": null,\n        \"rates\": {\n        },\n        \"mutex\": {\n        }\n      }\n    },\n    \"actions\": {\n      \"parents\": [\n        {\n          \"id\": 2,\n          \"name\": \"Indicator of Organization\",\n          \"level\": \"macro\",\n          \"locations\": [\n            {\n              \"id\": 6,\n              \"lat\": \"-82.7932822000028\",\n              \"long\": \"110.53356506429049\"\n            }\n          ]\n        }\n      ],\n      \"parents_info\": [\n        {\n          \"parent_id\": 2,\n          \"child_id\": 5,\n          \"start_date\": \"2015-08-12\",\n          \"end_date\": \"2015-09-01\",\n          \"relation_type\": {\n            \"title\": \"contains\",\n            \"title_reverse\": \"belongs to\"\n          }\n        }\n      ],\n      \"children\": [\n        {\n          \"id\": 3,\n          \"name\": \"Indicator of Education\",\n          \"level\": \"meso\",\n          \"locations\": [\n            {\n              \"id\": 6,\n              \"lat\": \"-82.7932822000028\",\n              \"long\": \"110.53356506429049\"\n            }\n          ]\n        },\n        {\n          \"id\": 4,\n          \"name\": \"Indicator of Department\",\n          \"level\": \"micro\",\n          \"locations\": [\n            {\n              \"id\": 6,\n              \"lat\": \"-82.7932822000028\",\n              \"long\": \"110.53356506429049\"\n            }\n          ]\n        }\n      ],\n      \"children_info\": [\n        {\n          \"parent_id\": 5,\n          \"child_id\": 3,\n          \"start_date\": \"2015-08-12\",\n          \"end_date\": \"2015-09-01\",\n          \"relation_type\": {\n            \"title\": \"contains\",\n            \"title_reverse\": \"belongs to\"\n          }\n        },\n        {\n          \"parent_id\": 5,\n          \"child_id\": 4,\n          \"start_date\": \"2015-08-12\",\n          \"end_date\": \"2015-09-01\",\n          \"relation_type\": {\n            \"title\": \"contains\",\n            \"title_reverse\": \"belongs to\"\n          }\n        }\n      ]\n    },\n    \"actors\": {\n      \"parents\": [\n        {\n          \"id\": 22,\n          \"name\": \"Director of Department\",\n          \"level\": \"micro\",\n          \"locations\": [\n            {\n              \"id\": 6,\n              \"lat\": \"-82.7932822000028\",\n              \"long\": \"110.53356506429049\"\n            }\n          ]\n        }\n      ],\n      \"parents_info\": [\n        {\n          \"actor_id\": 22,\n          \"act_id\": 5,\n          \"start_date\": \"2015-08-12\",\n          \"end_date\": \"2015-09-01\",\n          \"relation_type\": {\n            \"title\": \"implements\",\n            \"title_reverse\": \"implemented by\"\n          }\n        }\n      ]\n    },\n    \"locations\": [\n      {\n        \"id\": 6,\n        \"main\": true,\n        \"info_data\": {\n          \"name\": \"Mr. Dorthy Maggio\",\n          \"iso\": \"CV\",\n          \"country\": \"Cape Verde\",\n          \"city\": \"Herzogstad\",\n          \"zip_code\": \"27703\",\n          \"state\": \"New York\",\n          \"district\": \"Gwendolyn Murray\",\n          \"street\": \"97396 Jovan Ports\",\n          \"web_url\": \"http://rolfson.co/cleta.considine\",\n          \"lat\": \"-82.7932822000028\",\n          \"long\": \"110.53356506429049\"\n        }\n      }\n    ],\n    \"organization_types\": [\n\n    ],\n    \"socio_cultural_domains\": [\n      {\n        \"id\": 55,\n        \"name\": \"Category SCD\",\n        \"type\": \"Socio cultural domain\"\n      },\n      {\n        \"id\": 60,\n        \"name\": \"Faith\",\n        \"type\": \"Socio cultural domain\"\n      }\n    ],\n    \"other_domains\": [\n      {\n        \"id\": 54,\n        \"name\": \"Category OD\",\n        \"type\": \"Other domains\"\n      }\n    ]\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"0a401c3124639360cf6ad4b639103288\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "bd384117-dfce-4b11-9701-850bb75eb790",
+        "X-Runtime": "0.700021",
+        "Content-Length": "2639"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions/5\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}
