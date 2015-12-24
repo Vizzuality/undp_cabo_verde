@@ -1,4 +1,4 @@
-class ActorArraySerializer < BaseSerializer
+class ActArraySerializer < BaseSerializer
   cached
   self.version = 5
 
@@ -8,9 +8,9 @@ class ActorArraySerializer < BaseSerializer
 
   def level
     case object.type
-    when 'ActorMacro' then 'macro'
-    when 'ActorMeso'  then 'meso'
-    when 'ActorMicro' then 'micro'
+    when 'ActMacro' then 'macro'
+    when 'ActMeso'  then 'meso'
+    when 'ActMicro' then 'micro'
     end
   end
 

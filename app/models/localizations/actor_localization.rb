@@ -4,5 +4,15 @@ class ActorLocalization < ActiveRecord::Base
 
   scope :main_locations, -> { where( main: true ) }
 
-  default_scope { order('main DESC') }
+  after_update :check_main_location, if: 'main and main_changed?'
+  
+  private
+
+    def check_main_location
+      ActorLocalization.where.not(id: self.id).where( actor_id: self.actor_id ).each do |location|
+        unless location.update(main: false)
+          return false
+        end
+      end
+    end
 end
