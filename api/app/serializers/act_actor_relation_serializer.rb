@@ -13,14 +13,14 @@ class ActActorRelationSerializer < BaseSerializer
     data
   end
 
+  def include_associations!
+    include! :relation_type, serializer: RelationTypeSerializer
+  end
+
   def cache_key
     # For filter options
     cache_params = nil
     
     self.class.cache_key << [object, object.updated_at, cache_params]
-  end
-
-  def include_associations!
-    include! :relation_type, serializer: RelationTypeSerializer
   end
 end

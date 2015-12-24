@@ -8,6 +8,7 @@ resource 'Acts' do
 
   before :each do
     @user       = FactoryGirl.create(:random_user)
+    @unit       = FactoryGirl.create(:unit)
     @location   = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
@@ -54,7 +55,7 @@ resource 'Acts' do
       end
     end
 
-    context 'Act details with action and actors relations' do
+    context 'Act details with actions, actors, locations' do
       let(:action_with_relations) do
         relation_type       = create(:acts_relation_type)
         relation_type_actor = create(:act_actor_relation_type)
@@ -63,9 +64,9 @@ resource 'Acts' do
                         title: 2, categories: [@category_2], localizations: [@location])
 
         action_with_relations = create(:act_macro, name: 'Indicator of Organization', user: @user,
-                                   description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
-                                   alternative_name: Faker::Name.name, budget: '2000',
-                                   categories: [@category_1, @category_2], localizations: [@location])
+                                        description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
+                                        alternative_name: Faker::Name.name, budget: '2000',
+                                        categories: [@category_1, @category_2], localizations: [@location])
 
         action_with_relations.act_relations_as_child  << ActRelation.create(parent: actions.first,  start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
         action_with_relations.act_relations_as_parent << ActRelation.create(child:  actions.second, start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
@@ -78,7 +79,7 @@ resource 'Acts' do
       end
 
       get "/api/actions/:id" do
-        example 'Getting a specific action' do
+        example 'Getting a specific action with relations' do
           do_request(id: action_with_relations.id)
           action = JSON.parse(response_body)['action']
 
@@ -141,6 +142,67 @@ resource 'Acts' do
 
           expect(action['actors']['parents_info'][0]['relation_type']['title']).to         eq('implements')
           expect(action['actors']['parents_info'][0]['relation_type']['title_reverse']).to eq('implemented by')
+        end
+      end
+    end
+
+    context 'Act details with actions, actors, locations and measurements' do
+      let(:action_with_measurement) do
+        relation_type_indicator = create(:act_indicator_relation_type_belongs)
+
+        indicator   = create(:indicator, name: 'Indicator one', localizations: [@location], user: @user)
+
+        action_with_measurement = create(:act_macro, name: 'Action of Organization', user: @user,
+                                          description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
+                                          alternative_name: Faker::Name.name, budget: '2000',
+                                          categories: [@category_1, @category_2], localizations: [@location])
+
+        action_with_measurement.act_indicator_relations << ActIndicatorRelation.create(indicator: indicator, start_date: Time.zone.now - 20.days, 
+                                                                                       end_date: Time.zone.now, relation_type: relation_type_indicator,
+                                                                                       unit: @unit, target_value: '200', deadline: Time.zone.now + 20.days)
+        action_with_measurement.save
+
+        FactoryGirl.create(:measurement, unit: @unit, date: Time.zone.now, user: @user, act_indicator_relation: action_with_measurement.act_indicator_relations.first)
+        FactoryGirl.create(:measurement, unit: @unit, date: Time.zone.now, value: '300', user: @user, act_indicator_relation: action_with_measurement.act_indicator_relations.first)
+
+        action_with_measurement
+      end
+
+      get "/api/actions/:id" do
+        example 'Getting a specific action with measurements' do
+          do_request(id: action_with_measurement.id)
+          action = JSON.parse(response_body)['action']
+
+          expect(status).to eq(200)
+          expect(action['id']).to    eq(action_with_measurement.id)
+          expect(action['name']).to  eq('Action of Organization')
+          expect(action['level']).to eq('macro')
+
+          # Relations size
+          expect(action['artifacts'].size).to eq(1)
+          expect(action['artifacts'][0]['measurements'].size).to eq(2)
+          expect(action['artifacts'][0]['indicator']).not_to     be_nil
+
+          # Relations object details for artifact
+          expect(action['artifacts'][0]['target_value']).to   eq('200.0')
+          expect(action['artifacts'][0]['unit']['name']).to   eq('Euro')
+          expect(action['artifacts'][0]['unit']['symbol']).to eq('€')
+
+          expect(action['artifacts'][0]['start_date']).to eq('2015-08-12')
+          expect(action['artifacts'][0]['end_date']).to   eq('2015-09-01')
+          expect(action['artifacts'][0]['deadline']).to   eq('2015-09-21')
+
+          # Relations object details for indicator
+          expect(action['artifacts'][0]['indicator']['id']).not_to be_nil
+          expect(action['artifacts'][0]['indicator']['name']).to   eq('Indicator one')
+          expect(action['artifacts'][0]['indicator']['locations']).not_to be_nil
+          
+          # Relations object details for measurements
+          expect(action['artifacts'][0]['measurements'][1]['id']).not_to         be_nil
+          expect(action['artifacts'][0]['measurements'][1]['value']).to          eq('300.0')
+          expect(action['artifacts'][0]['measurements'][1]['date']).to           eq('2015-09-01')
+          expect(action['artifacts'][0]['measurements'][0]['unit']['name']).to   eq('Euro')
+          expect(action['artifacts'][0]['measurements'][0]['unit']['symbol']).to eq('€')
         end
       end
     end

@@ -1,15 +1,16 @@
 class ActSerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 551913212321
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
   
+  # Actor relations below: def actors
+  # Action relations below: def actions
   # Locations
   has_many :act_localizations, key: :locations
 
-  # Acts relations below: def acts
-  
-  # Action
+  # Indicators and measurements
+  has_many :act_indicator_relations, key: :artifacts
 
   # Categories
   has_many :organization_types
@@ -69,10 +70,11 @@ class ActSerializer < BaseSerializer
   end
 
   def include_associations!
-    include! :act_localizations,    serializer: RelationalLocalizationSerializer
-    include! :organization_types,     serializer: CategorySerializer
-    include! :socio_cultural_domains, serializer: CategorySerializer
-    include! :other_domains,          serializer: CategorySerializer
+    include! :act_indicator_relations, serializer: ActIndicatorSerializer
+    include! :act_localizations,       serializer: RelationalLocalizationSerializer
+    include! :organization_types,      serializer: CategorySerializer
+    include! :socio_cultural_domains,  serializer: CategorySerializer
+    include! :other_domains,           serializer: CategorySerializer
   end
 
   def cache_key

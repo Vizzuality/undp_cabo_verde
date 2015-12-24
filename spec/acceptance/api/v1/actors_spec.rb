@@ -65,7 +65,7 @@ resource 'Actors' do
 
     context 'Actor details' do
       get "/api/actors/:id" do
-        example 'Getting a specific actor' do
+        example 'Getting a specific actor with locations' do
           do_request(id: actors.first.id)
           actor = JSON.parse(response_body)['actor']
 
@@ -161,7 +161,7 @@ resource 'Actors' do
       end
 
       get "/api/actors/:id" do
-        example 'Getting a specific actor' do
+        example 'Getting a specific actor with relations' do
           do_request(id: actor_with_relations.id)
           actor = JSON.parse(response_body)['actor']
 
