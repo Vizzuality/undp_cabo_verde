@@ -16,10 +16,6 @@ I want to manage units
     And I click on "#units"
     Then I should see "Dolar"
     And I should see "$"
-    # Reload page
-    When I go to the units page
-    Then I should see "Dolar"
-    And I should see "$"
   
   @javascript
   Scenario: User can remove unit
