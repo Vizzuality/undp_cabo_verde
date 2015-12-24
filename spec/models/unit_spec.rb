@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Unit, type: :model do
   before :each do
     @user                   = create(:user)
-    @unit                   = create(:unit)
+    @unit                   = create(:unit, user: @user)
     @act_indicator_relation = create(:act_indicator_relation, act_id: 1, indicator_id: 1, unit: @unit, user: @user)
     @measurement            = create(:measurement, act_indicator_relation: @act_indicator_relation, unit: @unit, user: @user)
   end

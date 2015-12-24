@@ -1,6 +1,6 @@
 class MeasurementSerializer < BaseSerializer
   cached
-  self.version = 5223
+  self.version = 5
 
   attributes :id, :value, :unit, :details
 

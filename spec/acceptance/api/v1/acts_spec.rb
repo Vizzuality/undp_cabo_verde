@@ -8,7 +8,7 @@ resource 'Acts' do
 
   before :each do
     @user       = FactoryGirl.create(:random_user)
-    @unit       = FactoryGirl.create(:unit)
+    @unit       = FactoryGirl.create(:unit, user: @user)
     @location   = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')

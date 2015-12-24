@@ -1,6 +1,6 @@
 class ActIndicatorSerializer < BaseSerializer
   cached
-  self.version = 52292222
+  self.version = 5
 
   attributes :target_value, :unit
   

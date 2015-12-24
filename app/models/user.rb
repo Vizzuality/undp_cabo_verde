@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :indicators
   has_many :act_indicator_relations
   has_many :measurements
+  has_many :units
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

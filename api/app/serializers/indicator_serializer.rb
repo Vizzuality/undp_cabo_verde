@@ -1,6 +1,6 @@
 class IndicatorSerializer < BaseSerializer
   cached
-  self.version = 62
+  self.version = 5
 
   attributes :id, :name, :alternative_name
 

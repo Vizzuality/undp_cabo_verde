@@ -1,6 +1,6 @@
 class ActSerializer < BaseSerializer
   cached
-  self.version = 551913212321
+  self.version = 5
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
   

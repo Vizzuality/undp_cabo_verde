@@ -39,7 +39,7 @@ RSpec.describe Ability, type: :model do
       end
       [Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro, 
        ActMeso, ActMacro, ActRelation, Localization, Comment,
-       Indicator, ActActorRelation, ActIndicatorRelation, Measurement].each do |model|
+       Indicator, ActActorRelation, ActIndicatorRelation, Measurement, Unit].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:manage, model, user_id: @user.id)
       end
       Abilities::User.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @user.id)
@@ -48,7 +48,6 @@ RSpec.describe Ability, type: :model do
 
       Abilities::User.any_instance.should_receive(:can).with(:read, :all)
       Abilities::User.any_instance.should_receive(:cannot).with(:read, RelationType)
-      Abilities::User.any_instance.should_receive(:cannot).with(:read, Unit)
       Abilities::User.new @user
     end
   end
