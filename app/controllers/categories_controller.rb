@@ -7,10 +7,10 @@ class CategoriesController < ApplicationController
   before_action :set_selection, only: [:new, :edit]
   
   def index
-    @ot  = OrganizationType.with_children
-    @od  = OtherDomain.with_children
-    @scd = SocioCulturalDomain.with_children
-    @of  = OperationalField.with_children
+    @ot  = OrganizationType.with_children.order(:name)
+    @od  = OtherDomain.with_children.order(:name)
+    @scd = SocioCulturalDomain.with_children.order(:name)
+    @of  = OperationalField.with_children.order(:name)
   end
 
   def show

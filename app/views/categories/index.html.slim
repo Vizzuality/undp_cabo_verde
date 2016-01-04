@@ -11,26 +11,34 @@
     .section-double
       h3
         = t('categories.organization_types')
-      ul
-        - @ot.walk_tree do |category, level|
-          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      - @ot.group_by{|c| c.name.first}.each do |first_letter, categories|
+        p= first_letter
+        ul
+          - categories.each do |cat|
+            li class=(['main-category', "category_#{cat.id}"])
+              =link_to cat.name, cat
     .section-double
       h3
         = t('categories.other_domains')
-      ul
-        - @od.walk_tree do |category, level|
-          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      - @od.group_by{|c| c.name.first}.each do |first_letter, categories|
+        p= first_letter
+        ul
+          - categories.each do |cat|
+            li class=(['main-category', "category_#{cat.id}"])
+              =link_to cat.name, cat
       h3
         = t('categories.socio_cultural_domains')
-      ul
-        - @scd.walk_tree do |category, level|
-          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      - @scd.group_by{|c| c.name.first}.each do |first_letter, categories|
+        p= first_letter
+        ul
+          - categories.each do |cat|
+            li class=(['main-category', "category_#{cat.id}"])
+              =link_to cat.name, cat
       h3
         = t('categories.operational_fields')
-      ul
-        - @of.walk_tree do |category, level|
-          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      - @of.group_by{|c| c.name.first}.each do |first_letter, categories|
+        p= first_letter
+        ul
+          - categories.each do |cat|
+            li class=(['main-category', "category_#{cat.id}"])
+              =link_to cat.name, cat
