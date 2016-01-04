@@ -17,5 +17,14 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    .section-double {
+      display: inline;
+      float: left;
+    }
+
+    .section-double:nth-of-type(1) {
+      margin-right: 200px;
+    }
   }
 }

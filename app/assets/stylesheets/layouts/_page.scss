@@ -121,6 +121,17 @@
   }
 }
 
+#categories {
+  ul {
+    list-style: none;
+    margin: 0;
+    @include font(helvetica, xsmall, light, 2.6);
+  }
+  li:last-of-type {
+    margin-bottom: 30px;
+  }
+}
+
 .pagination {
   display: flex !important;
   justify-content: center !important;
