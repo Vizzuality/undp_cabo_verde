@@ -24,8 +24,4 @@
       transform: translateX(0);
     }
   }
-
-  &.-nopaddingright {
-    & > .pane { padding-right: 0; }
-  }
 }

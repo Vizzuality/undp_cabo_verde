@@ -21,6 +21,9 @@
     padding: 0;
   }
 
+  /* Shouldn't be used with the -textual option */
+  &.-secondary { background-color: $color-5; }
+
   & > .icon {
     display: inline-block;
 
