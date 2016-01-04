@@ -8,7 +8,7 @@
         p= link_to t('categories.create_category'), new_category_path, class: "button -large -type-a"
 
   .section.table-container
-    .section-double
+    .section-double.-indexed
       h3
         = t('categories.organization_types')
       - @ot.group_by{|c| c.name.first}.each do |first_letter, categories|

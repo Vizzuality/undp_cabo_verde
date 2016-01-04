@@ -127,9 +127,6 @@
     margin: 0;
     @include font(helvetica, xsmall, light, 2.6);
   }
-  li:last-of-type {
-    margin-bottom: 30px;
-  }
 }
 
 .pagination {

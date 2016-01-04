@@ -30,12 +30,19 @@
         width: 10px;
         text-align: center;
       }
-    }
 
-    .section-double:nth-of-type(1) {
-      margin-right: 200px;
-      // to leave space for absolute-position index letters
-      padding-left: 40px;
+      li:last-of-type {
+        margin-bottom: 30px;
+      }
+
+      &.-indexed {
+        margin-right: 200px;
+        padding-left: 40px; // to leave space for absolute-position index letters
+
+        li:last-of-type {
+          margin-bottom: 0px;
+        }
+      }
     }
   }
 }
