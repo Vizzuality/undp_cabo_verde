@@ -45,7 +45,7 @@ RSpec.describe Indicator, type: :model do
 
   context 'Add indicators to acts' do
     before :each do
-      @unit       = create(:unit)
+      @unit       = create(:unit, user: @user)
       @act_2      = create(:act_macro, user_id: @user.id)
       @relation_3 = create(:act_indicator_relation, user_id: @user.id, indicator_id: @indicator_1.id, act_id: @act_2.id, unit_id: @unit.id)
     end

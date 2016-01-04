@@ -1,10 +1,18 @@
-h1
-  = t('shared.edit')
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .columns.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
 
-= simple_form_for @unit do |f|
-  = render partial: f
+  = simple_form_for @unit do |f|
+    = render partial: f
 
-  .form-actions
-    = f.button :submit, t('shared.update')
-
-p= link_to t('shared.back'), :back
+    .form-actions
+      .row
+        .button-collection.-formcollection
+          = link_to t('shared.delete'), unit_path(@unit), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
+          - if current_user
+            = render 'shared/deactivatable_links', location: @units
+          = f.button :submit, t('shared.update'), class: '-primary'

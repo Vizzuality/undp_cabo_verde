@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ActIndicatorRelation, type: :model do
   before :each do
     @user          = create(:user)
-    @unit          = create(:unit)
+    @unit          = create(:unit, user: @user)
     @indicator_1   = create(:indicator, user: @user)
     @indicator_2   = create(:indicator, name: 'Indicator two', user: @user)
     @act           = create(:act_meso, user_id: @user.id, indicators: [@indicator_1, @indicator_2])

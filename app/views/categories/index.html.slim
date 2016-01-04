@@ -1,4 +1,4 @@
-.section-container#actors
+.section-container#categories
   .section.title-section
     div
       h2.title
@@ -8,23 +8,31 @@
         p= link_to t('categories.create_category'), new_category_path, class: "button -large -type-a"
 
   .section.table-container
-    h3
-      = t('categories.organization_types')
-    - @ot.walk_tree do |category, level|
-      p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-        =link_to "#{"--"*level}#{category.name}", category_path(category)
-    h3
-      = t('categories.other_domains')
-    - @od.walk_tree do |category, level|
-      p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-        =link_to "#{"--"*level}#{category.name}", category_path(category)
-    h3
-      = t('categories.socio_cultural_domains')
-    - @scd.walk_tree do |category, level|
-      p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-        =link_to "#{"--"*level}#{category.name}", category_path(category)
-    h3
-      = t('categories.operational_fields')
-    - @of.walk_tree do |category, level|
-      p class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
-        =link_to "#{"--"*level}#{category.name}", category_path(category)
+    .section-double.-indexed
+      h3
+        = t('categories.organization_types')
+      - @ot.group_by{|c| c.name.first}.each do |first_letter, categories|
+        p.indexletter = first_letter
+        ul
+          - categories.each do |cat|
+            li class=(['main-category', "category_#{cat.id}"])
+              =link_to cat.name, cat
+    .section-double
+      h3
+        = t('categories.other_domains')
+      ul
+        - @od.walk_tree do |category, level|
+          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      h3
+        = t('categories.socio_cultural_domains')
+      ul
+        - @scd.walk_tree do |category, level|
+          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+            =link_to "#{"--"*level}#{category.name}", category_path(category)
+      h3
+        = t('categories.operational_fields')
+      ul
+        - @of.walk_tree do |category, level|
+          li class=(level == 0 ? ['main-category', "category_#{category.id}"] : "sub-category_#{category.id}")
+            =link_to "#{"--"*level}#{category.name}", category_path(category)

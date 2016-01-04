@@ -18,13 +18,13 @@ RSpec.describe LocalizationsController, type: :controller do
     
     let!(:attri) do 
       { name: 'New addr', lat: Faker::Address.latitude, 
-        long: Faker::Address.longitude, country: Faker::Address.country 
+        long: Faker::Address.longitude, country: Faker::Address.country
       }
     end
 
     let!(:attri_fail) do 
       { name: 'New addr', lat: Faker::Address.latitude, 
-        long: '', country: Faker::Address.country 
+        long: '', country: Faker::Address.country
       }
     end
 
@@ -59,8 +59,6 @@ RSpec.describe LocalizationsController, type: :controller do
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(edit_actor_path(@micro))
         expect(@micro.localizations.size).to eq(2)
-        expect(@micro.localizations.first.name).to eq('First Localization')
-        expect(@micro.localizations.last.name).to eq('New addr')
       end
 
       it 'Delete localization' do

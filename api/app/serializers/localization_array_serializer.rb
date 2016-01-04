@@ -1,8 +1,8 @@
 class LocalizationArraySerializer < BaseSerializer
   cached
-  self.version = 1
+  self.version = 5
 
-  attributes :lat, :long
+  attributes :id, :lat, :long
 
   def cache_key
     self.class.cache_key << [object, object.updated_at]

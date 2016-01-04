@@ -250,10 +250,14 @@ en:
     deactivated_at: 'Deactivated at'
     relation_details: 'Relation details'
     view_map: 'View on map'
+    updated: 'Updated'
+    created: 'Created'
+    can_not_be_deleted: 'Can not be deleted!'
 
   actors:
     actor: 'Actor'
     actors: 'Actors'
+    actors_list: 'Actors List'
     actor_macros: 'Macros'
     actor_mesos: 'Mesos'
     actor_micros: 'Micros'
@@ -290,6 +294,10 @@ en:
     act_macro: 'Macro'
     act_meso: 'Meso'
     act_micro: 'Micro'
+    act_micro_human_true: 'Human'
+    act_micro_human_false: 'Natural'
+    act_micro_event_true: 'Event'
+    act_micro_event_false: 'Activity'
     link_macros: 'Add macro relation'
     link_mesos: 'Add meso relation'
     edit_act: 'Edit action'
@@ -363,6 +371,7 @@ en:
     actors_relations_as_parent: 'Connect with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
+    new_relation_type: 'New Relation Type'
 
   users:
     my_actors: 'My actors'

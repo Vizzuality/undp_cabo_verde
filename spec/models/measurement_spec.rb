@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Measurement, type: :model do
   before :each do
     @user                   = create(:user)
-    @unit                   = create(:unit)
+    @unit                   = create(:unit, user: @user)
     @indicator              = create(:indicator, user_id: @user.id)
     @act                    = create(:act_meso, user_id: @user.id, indicators: [@indicator])
     @act_indicator_relation = create(:act_indicator_relation, act_id: @act, indicator_id: @indicator, unit: @unit, user: @user, start_date: Time.zone.now, end_date: 31.days.from_now, deadline: 30.days.from_now)

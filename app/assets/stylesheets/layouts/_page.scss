@@ -121,6 +121,14 @@
   }
 }
 
+#categories {
+  ul {
+    list-style: none;
+    margin: 0;
+    @include font(helvetica, xsmall, light, 2.6);
+  }
+}
+
 .pagination {
   display: flex !important;
   justify-content: center !important;
