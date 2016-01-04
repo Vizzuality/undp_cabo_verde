@@ -4,8 +4,8 @@ class CategoriesController < ApplicationController
 
   before_action :set_type
   before_action :set_category, except: [:index, :new, :create]
-  before_action :set_selection, only: [:new, :edit]
-  
+  before_action :set_selection, only: [:new, :edit, :show]
+
   def index
     @ot  = OrganizationType.with_children.order(:name)
     @od  = OtherDomain.with_children.order(:name)
