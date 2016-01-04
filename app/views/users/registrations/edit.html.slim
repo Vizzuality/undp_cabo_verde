@@ -48,7 +48,7 @@
               = f.input :password_confirmation, label: false, required: false
           .row
             .column.medium-4
-              = f.label :current_password, class: 'right inline'
+              = f.label :current_password, class: 'right inline', required: true
             .column.medium-8
               = f.input :current_password, label: false, autocomplete: "off", required: true
               

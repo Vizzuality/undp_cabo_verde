@@ -31,8 +31,6 @@ class User < ActiveRecord::Base
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
-  validates :current_password, presence: true
-
   def name
     "#{firstname} #{lastname}"
   end
