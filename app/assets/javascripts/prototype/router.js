@@ -9,7 +9,7 @@
     routes: {
       '(/)': 'welcome',
       'about(/)': 'about',
-      'actors/:id(/)': 'actor'
+      'actors/:id/:locationId(/)': 'actor'
     }
 
   });

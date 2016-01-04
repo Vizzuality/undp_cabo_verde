@@ -82,10 +82,11 @@
       }
 
       /* Return the icon corresponding to each specific actor */
-      var makeIcon = function(actorLevel, actorId) {
+      var makeIcon = function(actorLevel, actorId, actorLocationId) {
         return L.divIcon({
           html: '<div class="map-marker -' + actorLevel+ ' js-actor-marker"' +
-            ' data-id="' + actorId + '"></div>',
+            ' data-id="' + actorId + '" data-location="' +
+            actorLocationId + '"></div>',
           className: 'actor',
           iconSize: L.point(12, 12),
           iconAnchor: L.point(6, 6)
@@ -96,8 +97,9 @@
       _.each(this.actorsCollection.toJSON(), function(actor) {
         _.each(actor.locations, function(location) {
           marker = L.marker([location.lat, location.long], {
-            icon: makeIcon(actor.level, actor.id),
-            id: actor.id
+            icon: makeIcon(actor.level, actor.id, location.id),
+            id: actor.id,
+            locationId: location.id
           });
           marker.addTo(this.map);
           marker.on('click', this.actorMarkerOnClick.bind(this));
@@ -108,7 +110,11 @@
     /* Triggers an event with the id of the clicked actor */
     actorMarkerOnClick: function(e) {
       this.updateActorMarkersFocus(e.target.options.id);
-      this.router.navigate('/actors/' + e.target.options.id, { trigger: true });
+      this.router.navigate([
+        '/actors',
+        e.target.options.id,
+        e.target.options.locationId
+      ].join('/'), { trigger: true });
     },
 
     /* Update the markers' size according to the map's zoom level */
@@ -136,23 +142,25 @@
       this.$el.find('.js-actor-marker').removeClass('-active');
     },
 
-    /* Add the focus styles to the actor's marker which id is passed as
-     * argument */
-    focusOnActorMarker: function(actorId) {
-      this.$el.find('.js-actor-marker[data-id="' + actorId + '"]')
-        .addClass('-active');
+    /* Add the focus styles to the actor's marker which id and location id is
+     * passed as argument */
+    focusOnActorMarker: function(actorId, locationId) {
+      var selector = '.js-actor-marker[data-id="' + actorId + '"]' +
+        '[data-location="' + locationId + '"]';
+      this.$el.find(selector).addClass('-active');
     },
 
-    /* Update the actors markers depending on the actor's id passed as parameter
-     * by focusing it and bluring the other ones */
-    updateActorMarkersFocus: function(actorId) {
+    /* Update the actors markers depending on the actor's id and location passed
+     * as parameters, by focusing it and bluring the other ones */
+    updateActorMarkersFocus: function(actorId, locationId) {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.updateActorMarkersFocus, [ actorId ], 2]);
+        this.queue.push([this.updateActorMarkersFocus, [ actorId, locationId ],
+          2]);
         return;
       }
 
       this.resetActorMarkersFocus();
-      this.focusOnActorMarker(actorId);
+      this.focusOnActorMarker(actorId, locationId);
     },
 
     /* Update the map and the markers according to the route triggered by the
@@ -160,7 +168,7 @@
     updateMapFromRoute: function(route) {
       switch(route) {
         case 'actor':
-          this.updateActorMarkersFocus(arguments[1][0]);
+          this.updateActorMarkersFocus(arguments[1][0], arguments[1][1]);
           break;
         default:
           this.resetActorMarkersFocus();
