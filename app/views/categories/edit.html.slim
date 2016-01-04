@@ -1,12 +1,25 @@
-h1
-  = t('shared.edit')
-  |
-  = " #{@category.name}"
-hr
-= simple_form_for @category do |f|
-  = render partial: f
-  .form-actions
-    = f.button :submit, t('shared.update')
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
 
-p= link_to t('shared.delete'), category_path(@category), data: { confirm: t('shared.confirm_message') }, method: :delete
-p= link_to t('shared.back'), :back
+  = simple_form_for @category do |f|
+
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-4
+            = f.label :type, class: 'right inline'
+          .column.medium-8
+            = f.input :type, label: false, collection: @types, as: :collection_select
+
+    = render partial: f
+
+    .form-actions
+      .row
+        .button-collection.-formcollection
+          = link_to t('shared.delete'), category_path(@category), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
+          = f.button :submit, t('shared.update'), class: '-primary'
