@@ -252,6 +252,7 @@ en:
     view_map: 'View on map'
     updated: 'Updated'
     created: 'Created'
+    can_not_be_deleted: 'Can not be deleted!'
 
   actors:
     actor: 'Actor'

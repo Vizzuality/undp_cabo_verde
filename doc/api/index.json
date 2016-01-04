@@ -16,6 +16,32 @@
           "groups": "all",
           "route": "/api/actors/:id",
           "method": "get"
+        },
+        {
+          "description": "Getting a specific actor",
+          "link": "actors/getting_a_specific_actor.json",
+          "groups": "all",
+          "route": "/api/actors/:id",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "name": "Acts",
+      "examples": [
+        {
+          "description": "Getting a list of actions",
+          "link": "acts/getting_a_list_of_actions.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific action",
+          "link": "acts/getting_a_specific_action.json",
+          "groups": "all",
+          "route": "/api/actions/:id",
+          "method": "get"
         }
       ]
     }

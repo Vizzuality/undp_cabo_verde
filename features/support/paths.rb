@@ -70,6 +70,8 @@ module NavigationHelpers
       '/manage/indicators?active=true'
     when /the user indicators page for "(.*)"$/
       user_indicators_path(User.find_by_email($1))
+    when /the units page/
+      units_path
     else
       begin
         page_name =~ /the (.*) page/
