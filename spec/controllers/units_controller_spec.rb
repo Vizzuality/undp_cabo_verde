@@ -6,7 +6,7 @@ RSpec.describe UnitsController, type: :controller do
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
 
-    @unit = create(:unit)
+    @unit = create(:unit, user: @user)
   end
 
   let!(:attri) do
@@ -24,10 +24,8 @@ RSpec.describe UnitsController, type: :controller do
 
     it 'GET index returns http redirect' do
       get :index
-      expect(response).to be_redirect
-      expect(response).to have_http_status(302)
-      expect(response).to redirect_to('/')
-      expect(flash[:alert]).to eq('You are not authorized to access this page.')
+      expect(response).to be_success
+      expect(response).to have_http_status(200)
     end
   end
 

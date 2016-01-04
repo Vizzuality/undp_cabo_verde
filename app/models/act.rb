@@ -1,8 +1,10 @@
 class Act < ActiveRecord::Base
   include Activable
   include Localizable
+  
+  monetize :budget_cents, allow_nil: true
 
-  belongs_to :user
+  belongs_to :user, foreign_key: :user_id
 
   has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id
   has_many :act_relations_as_child,  class_name: 'ActRelation', foreign_key: :child_id
@@ -34,8 +36,8 @@ class Act < ActiveRecord::Base
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
   
+  after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'
-  before_save   :check_main_location,     if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
@@ -45,6 +47,9 @@ class Act < ActiveRecord::Base
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
   scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
+  
+  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
+  scope :recent,             -> { order('updated_at DESC')                 }
 
   validates :type,                      presence: true
   validates :name,                      presence: true
@@ -222,13 +227,7 @@ class Act < ActiveRecord::Base
 
     def set_main_location
       if act_localizations.main_locations.empty?
-        act_localizations.first.update( main: true )
-      end
-    end
-
-    def check_main_location
-      act_localizations.each do |location|
-        location.update( main: false ) unless location.main_changed? && location.main?
+        act_localizations.order(:created_at).first.update( main: true )
       end
     end
 end

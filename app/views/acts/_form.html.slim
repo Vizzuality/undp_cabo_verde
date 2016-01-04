@@ -16,6 +16,13 @@
           .radio-buttons
             = form.collection_radio_buttons :human, [[true, t('acts.act_micro_human_true'), disabled: common_form?], [false, t('acts.act_micro_human_false'), disabled: common_form?]], :first, :second
       .row
+        .column.medium-4.budget
+          = form.label :budget, class: 'right inline'
+        .column.medium-8.inline-label
+          = form.input :budget, label: false, wrapper_html: { class: 'form-label currency-input' }, disabled: common_form?
+          span.form-label.currency-label
+            = Money.default_currency.symbol
+      .row
         .column.medium-4
           = form.label :alternative_name, class: 'right inline'
         .column.medium-8

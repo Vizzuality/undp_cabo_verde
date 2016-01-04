@@ -20,6 +20,7 @@ module Abilities
         can :manage, ::ActRelation,   user_id: user.id
         can :manage, ::Localization,  user_id: user.id
         can :manage, ::Comment,       user_id: user.id
+        can :manage, ::Unit,          user_id: user.id
         can :manage, ::Indicator,            user_id: user.id
         can :manage, ::ActIndicatorRelation, user_id: user.id
         can :manage, ::Measurement,          user_id: user.id
@@ -30,7 +31,6 @@ module Abilities
 
       cannot [:activate, :deactivate], ::Localization
       cannot :read, ::RelationType
-      cannot :read, ::Unit
     end
   end
 end

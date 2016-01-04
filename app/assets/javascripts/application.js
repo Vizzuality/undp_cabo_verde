@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require jquery.ui.datepicker
 //= require chosen-jquery
+//= require best_in_place
 //= require_tree .
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
