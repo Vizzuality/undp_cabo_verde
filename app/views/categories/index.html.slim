@@ -12,7 +12,7 @@
       h3
         = t('categories.organization_types')
       - @ot.group_by{|c| c.name.first}.each do |first_letter, categories|
-        p= first_letter
+        p.indexletter = first_letter
         ul
           - categories.each do |cat|
             li class=(['main-category', "category_#{cat.id}"])

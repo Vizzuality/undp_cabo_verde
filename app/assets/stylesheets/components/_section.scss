@@ -21,10 +21,21 @@
     .section-double {
       display: inline;
       float: left;
+
+      .indexletter {
+        @include font(helvetica, xsmall, medium, 1);
+        margin: 0;
+        position: absolute;
+        margin-left: -40px;
+        width: 10px;
+        text-align: center;
+      }
     }
 
     .section-double:nth-of-type(1) {
       margin-right: 200px;
+      // to leave space for absolute-position index letters
+      padding-left: 40px;
     }
   }
 }
