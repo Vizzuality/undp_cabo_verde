@@ -5,13 +5,9 @@
         .column.medium-8.medium-offset-4
           h2
             = t('relations.create_relation_type')
-  .row
-    .column.medium-8.medium-offset-1
-      = simple_form_for @relation_type do |f|
-        = render partial: f
+  = simple_form_for @relation_type do |f|
+    = render partial: f
 
-        .row
-          .column.medium-8.medium-offset-4
-            = f.button :submit, t('shared.create')
-
-p= link_to t('shared.back'), :back
+    .row
+      .button-collection.-formcollection
+        = f.button :submit, t('shared.create'), class: '-primary'

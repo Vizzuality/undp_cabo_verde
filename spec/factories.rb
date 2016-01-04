@@ -3,10 +3,11 @@ FactoryGirl.define do
   sequence(:id)       { |n| "#{n+2}" }
   sequence(:email)    { |n| "person-#{n}@example.com" }
   sequence(:name)     { Faker::Name.name }
-  sequence(:country)  { Faker::Address.country }
+  sequence(:country)  { 'CV' }
   sequence(:city)     { Faker::Address.city }
   sequence(:zip_code) { Faker::Address.zip_code }
   sequence(:state)    { Faker::Address.state }
+  sequence(:street)   { Faker::Address.street_address }
   sequence(:district) { Faker::Name.name }
   sequence(:web_url)  { Faker::Internet.url }
   sequence(:lat)      { Faker::Address.latitude }
@@ -121,6 +122,7 @@ FactoryGirl.define do
     web_url
     lat
     long
+    street
   end
 
   # Categories

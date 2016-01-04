@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217123651) do
+ActiveRecord::Schema.define(version: 20151224101206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,8 +54,11 @@ ActiveRecord::Schema.define(version: 20151217123651) do
   create_table "act_localizations", force: :cascade do |t|
     t.integer  "localization_id"
     t.integer  "act_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "main",            default: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "act_localizations", ["act_id"], name: "index_act_localizations_on_act_id", using: :btree
@@ -80,8 +83,11 @@ ActiveRecord::Schema.define(version: 20151217123651) do
   create_table "actor_localizations", force: :cascade do |t|
     t.integer  "localization_id"
     t.integer  "actor_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "main",            default: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "actor_localizations", ["actor_id"], name: "index_actor_localizations_on_actor_id", using: :btree
@@ -145,6 +151,7 @@ ActiveRecord::Schema.define(version: 20151217123651) do
     t.datetime "updated_at",                       null: false
     t.string   "action_type"
     t.string   "budget"
+    t.integer  "budget_cents",     default: 0,     null: false
   end
 
   add_index "acts", ["type"], name: "index_acts_on_type", using: :btree
@@ -193,8 +200,11 @@ ActiveRecord::Schema.define(version: 20151217123651) do
   create_table "indicator_localizations", force: :cascade do |t|
     t.integer  "localization_id"
     t.integer  "indicator_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "main",            default: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "indicator_localizations", ["indicator_id"], name: "index_indicator_localizations_on_indicator_id", using: :btree
@@ -228,6 +238,7 @@ ActiveRecord::Schema.define(version: 20151217123651) do
     t.string   "web_url"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.string   "street"
   end
 
   add_index "localizations", ["user_id"], name: "index_localizations_on_user_id", using: :btree
@@ -261,7 +272,10 @@ ActiveRecord::Schema.define(version: 20151217123651) do
     t.string   "symbol"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
   end
+
+  add_index "units", ["user_id"], name: "index_units_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",   null: false
@@ -298,4 +312,5 @@ ActiveRecord::Schema.define(version: 20151217123651) do
   add_foreign_key "localizations", "users"
   add_foreign_key "measurements", "act_indicator_relations"
   add_foreign_key "measurements", "users"
+  add_foreign_key "units", "users"
 end

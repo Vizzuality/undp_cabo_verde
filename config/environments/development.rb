@@ -11,7 +11,7 @@ Rails.application.configure do
 
   # Caching.
   if ENV['DEV_CACHE'] == 'enabled'
-    config.consider_all_requests_local       = false
+    config.consider_all_requests_local       = true
     config.action_controller.perform_caching = true
     config.cache_store = :dalli_store, '127.0.0.1:11215', {
                                          namespace: Undp,
@@ -45,20 +45,34 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
-
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.raise = true
-    Bullet.add_footer = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
-    Bullet.rails_logger = true
-    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Category', association: :children
-    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'SocioCulturalDomain', association: :children
-    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'OtherDomain', association: :children
+  
+  if ENV['BULLET'] == 'enabled'
+    config.after_initialize do
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.raise = true
+      Bullet.add_footer = true
+      Bullet.alert = true
+      Bullet.bullet_logger = true
+      Bullet.rails_logger = true
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Category', association: :children
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'SocioCulturalDomain', association: :children
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'OtherDomain', association: :children
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :user
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :act_localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :actor_localization
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Localization', association: :indicator_localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMacro', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMeso', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorMicro', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMacro', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMeso', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActMicro', association: :localizations
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorLocalization', association: :localization
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActLocalization', association: :localization
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'IndicatorLocalization', association: :localization
+    end
   end
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 5000 }

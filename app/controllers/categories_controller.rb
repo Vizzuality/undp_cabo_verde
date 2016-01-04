@@ -4,13 +4,13 @@ class CategoriesController < ApplicationController
 
   before_action :set_type
   before_action :set_category, except: [:index, :new, :create]
-  before_action :set_selection, only: [:new, :edit]
-  
+  before_action :set_selection, only: [:new, :edit, :show]
+
   def index
-    @ot  = OrganizationType.with_children
-    @od  = OtherDomain.with_children
-    @scd = SocioCulturalDomain.with_children
-    @of  = OperationalField.with_children
+    @ot  = OrganizationType.with_children.order(:name)
+    @od  = OtherDomain.with_children.order(:name)
+    @scd = SocioCulturalDomain.with_children.order(:name)
+    @of  = OperationalField.with_children.order(:name)
   end
 
   def show
@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
   def create
     @category = type_class.new(category_params)
     if @category.save
-      redirect_to edit_category_path(@category)
+      redirect_to categories_path
     else
       render :new
     end

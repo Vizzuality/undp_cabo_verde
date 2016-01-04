@@ -1,39 +1,41 @@
-= form.error_notification
-.form-inputs
-  .row
-    .column.medium-4
-      = form.label :name, class: 'right inline'
-    .column.medium-8
-      = form.input :name, label: false, disabled: common_form?
-  .row
-    .column.medium-4
-      = form.label :alternative_name, class: 'right inline'
-    .column.medium-8
-      = form.input :alternative_name, label: false, disabled: common_form?
-  .row
-    .column.medium-4
-      = form.label :description, class: 'right inline'
-    .column.medium-8
-      = form.input :description, label: false, disabled: common_form?
-
-  .row
-    .column.medium-4
-      = form.label :category_ids, class: 'right inline'
-    .column.medium-8
-      = form.input :category_ids, collection: @categories, as: ((Category.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.count > 4) ? "js-mselect" : "") }, disabled: common_form?
-
-  .row
-    .columns.medium-8.medium-offset-1
+.row
+  .column.medium-8.medium-offset-1
+    = form.error_notification
+    .form-inputs
       .row
-        .column.medium-8.medium-offset-4
-          h2 = t('localizations.localizations')
+        .column.medium-4
+          = form.label :name, class: 'right inline'
+        .column.medium-8
+          = form.input :name, label: false, disabled: common_form?
+      .row
+        .column.medium-4
+          = form.label :alternative_name, class: 'right inline'
+        .column.medium-8
+          = form.input :alternative_name, label: false, disabled: common_form?
+      .row
+        .column.medium-4
+          = form.label :description, class: 'right inline'
+        .column.medium-8
+          = form.input :description, label: false, disabled: common_form?
 
-      = form.fields_for :localizations do |localizations_form|
-        p= render 'localizations/form', f: localizations_form
+      .row
+        .column.medium-4
+          = form.label :category_ids, class: 'right inline'
+        .column.medium-8
+          = form.input :category_ids, collection: @categories, as: ((Category.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.count > 4) ? "js-mselect" : "") }, disabled: common_form?
 
-      - unless common_form?
-        .row
-          .column
-            p.text-right
-              / Add more css classes to 'add_location', sample 'add_location your_class_name'
-              = add_location_path t('shared.add_location'), form, :localizations, 'add_fields add_location'
+.row
+  .columns.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2 = t('localizations.localizations')
+
+    = form.fields_for :localizations do |localizations_form|
+      p= render 'localizations/form', f: localizations_form
+
+    - unless common_form?
+      .row
+        .column
+          p.text-right
+            / Add more css classes to 'add_location', sample 'add_location your_class_name'
+            = add_location_path t('shared.add_location'), form, :localizations, 'add_fields add_location'
