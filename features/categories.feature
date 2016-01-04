@@ -23,6 +23,7 @@ I want to manage a category
     And category
     When I go to the category page for "Category one"
     Then I should be on the category page for "Category one"
+    And the field "other_domain_name" should contain "Category one"
 
   Scenario: Adminuser can edit category
     Given I am authenticated adminuser
