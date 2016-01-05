@@ -4,10 +4,8 @@
       .map-preview
   = f.fields_for relation_location_class do |form|
     .row
-      .column.medium-4
-        = form.label :main, class: 'right inline'
-      .column.medium-8
-        = form.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: false, disabled: common_form?
+      .column.medium-8.medium-offset-4
+        = form.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: "Main map", disabled: common_form?
     .row
       .column.medium-4
         = form.label :start_date, class: 'right inline'
