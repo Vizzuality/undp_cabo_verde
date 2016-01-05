@@ -42,10 +42,8 @@ I want to manage an indicator
     And I fill in "indicator_description" with "It's description for indicator"
     And I fill in "indicator_alternative_name" with "It's name for indicator"
     And I press "Create"
-    Then I should be on the indicator page for "New Indicator"
-    And the field "Name" should contain "New Indicator"
-    And the field "Alternative name" should contain "It's name for indicator"
-    And the field "Description" should contain "It's description for indicator"
+    Then I should be on the indicators page
+    And I should see "New Indicator"
 
   Scenario: User can not edit not owned indicator
     Given I am authenticated user
