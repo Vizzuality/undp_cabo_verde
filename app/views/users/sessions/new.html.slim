@@ -1,10 +1,35 @@
-h2
-  | Log in
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .form-inputs
-    = f.input :email, required: false, autofocus: true
-    = f.input :password, required: false
-    = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+.section-container#login
+
   .form-actions
-    = f.button :submit, "Log in"
-= render "users/shared/links"
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-8.medium-offset-4
+            h2
+              = t('navbar.login')
+
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = f.error_notification
+      .row
+        .column.medium-8.medium-offset-1
+          .row
+            .column.medium-4
+              = f.label :email, class: 'right inline'
+            .column.medium-8
+              = f.input :email, label: false, required: false, autofocus: true
+          .row
+            .column.medium-4
+              = f.label :password, label: 'Password', class: 'right inline'
+            .column.medium-8
+              = f.input :password, label: false, autocomplete: "off", required: false
+          .row
+            .column.medium-8.medium-offset-4
+              = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+
+
+          .row
+            .column.medium-8.medium-offset-4
+              .submit
+                = f.button :submit, t('navbar.login'), class: '-type-a'
+              .account-options
+                = render "users/shared/links"
