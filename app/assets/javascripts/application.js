@@ -46,55 +46,46 @@ var hideDropdown = function(target) {
   target.classList.remove('dropdown-active');
 };
 
-// var dropdown = function() {
-//   var account =  document.querySelector('#js-dropdown-acc');
-//   var settings = document.querySelector('#js-dropdown-set');
-
-//   if(account) {
-//     account.addEventListener('click', function() {
-//       toggleDropdown(account);
-//       // hide the other dropdown
-//       if(settings.classList.contains('dropdown-active')) {
-//         disableDropdown(settings);
-//       }
-//     });
-//   }
-
-//   if(settings) {
-//     settings.addEventListener('click', function() {
-//       toggleDropdown(settings);
-//       // hide the other dropdown
-//       if(settings.classList.contains('dropdown-active')) {
-//         disableDropdown(account);
-//       }
-//     });
-//   }
-// };
 
 var dropdown = function() {
   var settings = document.querySelector('#js-dropdown-set');
   var settingsTarget = document.querySelector('#dropdown-list-set');
-  // var account =  document.querySelector('#js-dropdown-acc');
 
-  hideDropdown(settings);
+  var account =  document.querySelector('#js-dropdown-acc');
+  var accountTarget = document.querySelector('#dropdown-list-acc');
 
-
-  settings.addEventListener('click', function() {
-    toggleDropdown(settings);
-  });
-
+  //Hiding all dropdowns
 
   $('html').click(function() {
     hideDropdown(settings);
+    hideDropdown(account);
   });
 
+  // Stop event propagation to the settings and account buttons &
+  // Toggle the current dropdown list &
+  // Hide the other dropdown list
+
   settings.addEventListener('click', function(event) {
+    toggleDropdown(settings);
+    hideDropdown(account);
     event.stopPropagation();
   });
+
+  account.addEventListener('click', function(event) {
+    toggleDropdown(account);
+    hideDropdown(settings);
+    event.stopPropagation();
+  });
+
+  // Stop event propagation to the dropdown lists
 
   settingsTarget.addEventListener('click', function(event) {
     event.stopPropagation();
-  })
+  });
+
+  accountTarget.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
 }
 
 var showDatepicker = function() {
