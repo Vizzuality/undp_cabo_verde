@@ -16,6 +16,7 @@
 
     initialize: function(options) {
       this.actorsCollection = options.actorsCollection;
+      this.actionsCollection = options.actionsCollection;
       this.router = options.router;
       /* queue is an array of methods and arguments ([ func, args ]) that is
        * stored in order to wait for the map to be instanced. Once done, each
@@ -34,7 +35,10 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.actorsCollection, 'sync change', this.addActorsMarkers);
+      this.listenTo(this.actorsCollection, 'sync change',
+        this.addActorsMarkers);
+      this.listenTo(this.actionsCollection, 'sync change',
+        this.addActionsMarkers);
       this.listenTo(this.router, 'route', this.updateMapFromRoute);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
@@ -71,47 +75,91 @@
         });
     },
 
+    /* Add markers for each location of each entity of the collection. Depending
+     * on the type ("actors" or "actions"), the attributes and callbacks of the
+     * markers will differ. */
+    addMarkers: function(collection, type) {
+      /* Return the icon corresponding to each specific entity and location */
+      var makeIcon = function(type, level, id, locationId) {
+        return L.divIcon({
+          html: '<svg class="map-marker ' +
+            ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
+            ' data-id="' + id + '" data-location="' + locationId + '">' +
+            '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
+            '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
+            '</svg>',
+          className: type === 'actors' ? 'actor' : 'action',
+          iconSize: L.point(22, 22),
+          iconAnchor: L.point(11, 11)
+        });
+      };
+
+      var marker;
+      _.each(collection, function(entity) {
+        _.each(entity.locations, function(location) {
+          marker = L.marker([location.lat, location.long], {
+            icon: makeIcon(type, entity.level, entity.id, location.id),
+            type: type,
+            id: entity.id,
+            locationId: location.id
+          });
+          marker.addTo(this.map);
+          marker.on('click', this.markerOnClick.bind(this));
+        }, this);
+      }, this);
+    },
+
+    /* Delete the selected type of markers */
+    removeMarkers: function(type) {
+      var selector = type === 'actors' ? '.js-actor-marker' :
+        '.js-action-marker';
+      /* We actually remove the parent of the marker because leaflet adds a
+       * wrapper */
+      this.$el.find(selector).parent().remove();
+    },
+
     /* Add the markers for the actors
      * NOTE: we should debounce the method so it's not called twice because the
      * collection gets populated right after this view is instanciated, but this
      * cause the priority order to not be respected when applying the queue */
     addActorsMarkers: function() {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.addActorsMarkers, null, 1]);
+        this.queue.push([ this.addActorsMarkers, null, 1 ]);
         return;
       }
 
-      /* Return the icon corresponding to each specific actor */
-      var makeIcon = function(actorLevel, actorId, actorLocationId) {
-        return L.divIcon({
-          html: '<div class="map-marker -' + actorLevel+ ' js-actor-marker"' +
-            ' data-id="' + actorId + '" data-location="' +
-            actorLocationId + '"></div>',
-          className: 'actor',
-          iconSize: L.point(12, 12),
-          iconAnchor: L.point(6, 6)
-        });
-      };
-
-      var marker;
-      _.each(this.actorsCollection.toJSON(), function(actor) {
-        _.each(actor.locations, function(location) {
-          marker = L.marker([location.lat, location.long], {
-            icon: makeIcon(actor.level, actor.id, location.id),
-            id: actor.id,
-            locationId: location.id
-          });
-          marker.addTo(this.map);
-          marker.on('click', this.actorMarkerOnClick.bind(this));
-        }, this);
-      }, this);
+      /* We remove the previous markers in case the method has been called
+       * multiple times
+       * TODO: instead of removing and adding once again the markers, just add
+       * them once */
+      this.removeMarkers('actors');
+      this.addMarkers(this.actorsCollection.toJSON(), 'actors');
     },
 
-    /* Triggers an event with the id of the clicked actor */
-    actorMarkerOnClick: function(e) {
-      this.updateActorMarkersFocus(e.target.options.id);
+    /* Add the markers for the actions
+     * NOTE: we should debounce the method so it's not called twice because the
+     * collection gets populated right after this view is instanciated, but this
+     * cause the priority order to not be respected when applying the queue */
+    addActionsMarkers: function() {
+      if(!this.isMapInstanciated) {
+        this.queue.push([ this.addActionsMarkers, null, 1 ]);
+        return;
+      }
+
+      /* We remove the previous markers in case the method has been called
+       * multiple times
+       * TODO: instead of removing and adding once again the markers, just add
+       * them once */
+      this.removeMarkers('actions');
+      this.addMarkers(this.actionsCollection.toJSON(), 'actions');
+    },
+
+    /* Triggers an event with the id of the clicked entity */
+    markerOnClick: function(e) {
+      this.updateMarkersFocus(e.target.options.type, e.target.options.id,
+        e.target.options.locationId);
       this.router.navigate([
-        '/actors',
+        e.target.options.type === 'actors' ? '/actors' : '/actions',
         e.target.options.id,
         e.target.options.locationId
       ].join('/'), { trigger: true });
@@ -137,30 +185,47 @@
        this.$el.find('.map-marker').css('transform', 'scale(' + scale + ')');
     },
 
-    /* Remove the focus styles to all the actors markers */
-    resetActorMarkersFocus: function() {
-      this.$el.find('.js-actor-marker').removeClass('-active');
+    /* Remove the focus styles to all the actors or actions markers depending on
+     * the value of type ("actors" or "actions").
+     * NOTE: If type is null or undefined the focus is removed from all
+     * markers. */
+    resetMarkersFocus: function(type) {
+      var selector = '.js-actor-marker, .js-action-marker';
+      if(type && type === 'actors') {
+        selector = selector.split(' ')[0].slice(0, -1);
+      } else if(type && type === 'actions') {
+        selector = selector.split(' ')[1];
+      }
+
+      var markers = this.$el.find(selector);
+      for(var i = 0, j = markers.length; i < j; i++) {
+        markers[i].classList.remove('-active');
+      }
     },
 
-    /* Add the focus styles to the actor's marker which id and location id is
+    /* Add the focus styles to the entity's marker which id and location id is
      * passed as argument */
-    focusOnActorMarker: function(actorId, locationId) {
-      var selector = '.js-actor-marker[data-id="' + actorId + '"]' +
+    focusOnMarker: function(type, id, locationId) {
+      //debugger;
+      var entityClass = type === 'actors' ? '.js-actor-marker' :
+        '.js-action-marker';
+      var selector = entityClass + '[data-id="' + id + '"]' +
         '[data-location="' + locationId + '"]';
-      this.$el.find(selector).addClass('-active');
+
+      this.$el.find(selector)[0].classList.add('-active');
     },
 
-    /* Update the actors markers depending on the actor's id and location passed
+    /* Update the markers depending on the entity's id and location passed
      * as parameters, by focusing it and bluring the other ones */
-    updateActorMarkersFocus: function(actorId, locationId) {
+    updateMarkersFocus: function(type, id, locationId) {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.updateActorMarkersFocus, [ actorId, locationId ],
+        this.queue.push([this.updateMarkersFocus, [ type, id, locationId ],
           2]);
         return;
       }
 
-      this.resetActorMarkersFocus();
-      this.focusOnActorMarker(actorId, locationId);
+      this.resetMarkersFocus(type);
+      this.focusOnMarker(type, id, locationId);
     },
 
     /* Update the map and the markers according to the route triggered by the
@@ -168,10 +233,10 @@
     updateMapFromRoute: function(route) {
       switch(route) {
         case 'actor':
-          this.updateActorMarkersFocus(arguments[1][0], arguments[1][1]);
+          this.updateMarkersFocus('actors', arguments[1][0], arguments[1][1]);
           break;
         default:
-          this.resetActorMarkersFocus();
+          this.resetMarkersFocus();
           break;
       }
     },
