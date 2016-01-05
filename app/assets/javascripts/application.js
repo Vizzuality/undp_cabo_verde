@@ -41,34 +41,60 @@ var toggleDropdown = function(target) {
   target.classList.toggle('dropdown-active');
 };
 
-var disableDropdown = function(target) {
+var hideDropdown = function(target) {
   target.classList.remove('dropdown-active');
 };
 
+// var dropdown = function() {
+//   var account =  document.querySelector('#js-dropdown-acc');
+//   var settings = document.querySelector('#js-dropdown-set');
+
+//   if(account) {
+//     account.addEventListener('click', function() {
+//       toggleDropdown(account);
+//       // hide the other dropdown
+//       if(settings.classList.contains('dropdown-active')) {
+//         disableDropdown(settings);
+//       }
+//     });
+//   }
+
+//   if(settings) {
+//     settings.addEventListener('click', function() {
+//       toggleDropdown(settings);
+//       // hide the other dropdown
+//       if(settings.classList.contains('dropdown-active')) {
+//         disableDropdown(account);
+//       }
+//     });
+//   }
+// };
+
 var dropdown = function() {
-  var account =  document.querySelector('#js-dropdown-acc');
   var settings = document.querySelector('#js-dropdown-set');
+  var settingsTarget = document.querySelector('#dropdown-list-set');
+  // var account =  document.querySelector('#js-dropdown-acc');
 
-  if(account) {
-    account.addEventListener('click', function() {
-      toggleDropdown(account);
-      // hide the other dropdown
-      if(settings.classList.contains('dropdown-active')) {
-        disableDropdown(settings);
-      }
-    });
-  }
+  hideDropdown(settings);
 
-  if(settings) {
-    settings.addEventListener('click', function() {
-      toggleDropdown(settings);
-      // hide the other dropdown
-      if(settings.classList.contains('dropdown-active')) {
-        disableDropdown(account);
-      }
-    });
-  }
-};
+
+  settings.addEventListener('click', function() {
+    toggleDropdown(settings);
+  });
+
+
+  $('html').click(function() {
+    hideDropdown(settings);
+  });
+
+  settings.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
+
+  settingsTarget.addEventListener('click', function(event) {
+    event.stopPropagation();
+  })
+}
 
 var showDatepicker = function() {
   var dateFields = document.querySelectorAll('.js-datepicker');
