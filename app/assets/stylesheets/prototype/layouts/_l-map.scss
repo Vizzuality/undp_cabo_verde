@@ -25,7 +25,7 @@
     flex-wrap: wrap;
     width: 180px;
     background-color: $color-1;
-    padding: 15px 15px 0;
+    padding: 15px 25px 0 0;
     transform: translateY(0);
     transition: transform .4s;
 
@@ -41,6 +41,24 @@
         font-size: 13px;
         line-height: 20px;
         font-weight: 400;
+
+        > .icon {
+          width: 12px;
+          height: 12px;
+          display: inline-block;
+          padding-top: 1px;
+          margin-right: 5px;
+
+          &.-large {
+            width: 42px;
+            padding-top: 2px;
+            margin-right: 10px;
+          }
+
+          &.-actor  > use { fill: $color-7; }
+          &.-action > use { fill: $color-6; }
+          &.-monochrome > use { fill: $color-15; }
+        }
 
         &.title {
           font-weight: 500;

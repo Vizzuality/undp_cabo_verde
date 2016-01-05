@@ -45,13 +45,16 @@
       this.router = new root.app.Router();
 
       this.actorsCollection = new root.app.Collection.actorsCollection();
+      this.actionsCollection = new root.app.Collection.actionsCollection();
 
       this.mapView = new root.app.View.mapView({
         actorsCollection: this.actorsCollection,
+        actionsCollection: this.actionsCollection,
         router: this.router
       });
       this.sidebarView = new root.app.View.sidebarView({
         actorsCollection: this.actorsCollection,
+        actionsCollection: this.actionsCollection,
         router: this.router
       });
       this.sidebarActionToolbarView = new root.app.View.sidebarActionToolbarView({
@@ -70,6 +73,7 @@
     setListeners: function() {
       this.listenTo(this.router, 'route:welcome', this.welcomePage);
       this.listenTo(this.router, 'route:actor', this.fetchCollections);
+      this.listenTo(this.router, 'route:action', this.fetchCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
     },
 
@@ -84,6 +88,9 @@
     fetchCollections: function() {
       if(this.actorsCollection.length === 0) {
         this.actorsCollection.fetch();
+      }
+      if(this.actionsCollection.length === 0) {
+        this.actionsCollection.fetch();
       }
     },
 

@@ -13,7 +13,8 @@
     routes: {
       '(/)': 'welcome',
       'about(/)': 'about',
-      'actors/:id/:locationId(/)': 'actor'
+      'actors/:id/:locationId(/)': 'actor',
+      'actions/:id/:locationId(/)': 'action'
     },
 
     initialize: function() {
