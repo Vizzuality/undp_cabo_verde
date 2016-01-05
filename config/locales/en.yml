@@ -381,7 +381,8 @@ en:
     users: 'Users'
     edit_user: 'Edit User'
     forgot_pw: 'Forgot your Password?'
-    send_instructions: 'Send Me Reset Password Instructions'
+    send_instructions: 'Send me reset password instructions'
+    login_action: 'Log in'
 
   indicators:
     indicators: 'Indicators'
