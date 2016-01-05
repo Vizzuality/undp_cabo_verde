@@ -208,17 +208,14 @@
             *:-moz-placeholder { color: $color-11; }
 }
 
-#edituser,
-#login,
-#signup {
-  .submit {
-    margin: 30px 0px;
-  }
 
-  .account-options a {
-    display: block;
-  }
-  .account-options {
-    @include font(helvetica, xsmall, light, 0.8);
-  }
+.submit {
+  margin: 30px 0px;
 }
+.account-options a {
+  display: block;
+}
+.account-options {
+  @include font(helvetica, xsmall, light, 0.8);
+}
+
