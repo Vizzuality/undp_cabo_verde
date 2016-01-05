@@ -1,11 +1,19 @@
 .l-sidebar-filters {
 
   & > form {
+    padding-bottom: 40px;
+
     /* Clearfix for the fields and buttons */
     &:after {
-      content: ''; 
+      content: '';
       display: table;
       clear: both;
+    }
+
+    /* Prevents a grey border at the top of the form (the background of the
+     * pane)*/
+    & > .form-input:first-of-type {
+      margin-top: 0;
     }
 
     /* Two-column grid layout for the start and end date, and the reset and apply buttons  */
@@ -25,13 +33,9 @@
     & > .button { margin-top: 25px; }
   }
 
-  & > .grey-section {
-    position: relative;
-    left: -25px;
-    width: calc(100% + 50px);
-    padding: 30px 25px 20px;
-    margin-top: 40px;
-    background-color: $color-11;
+  & .content > .searches {
+    padding-top: 30px;
+    padding-bottom: 20px;
     text-align: center; /* Centers the button */
 
     & > p {

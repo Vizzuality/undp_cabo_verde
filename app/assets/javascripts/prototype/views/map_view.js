@@ -29,8 +29,10 @@
        * instanced */
       this.addActorsMarkers();
       this.$legend = this.$el.find('#map-legend');
+      this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
+      this.$credits = this.$el.find('.leaflet-control-attribution');
       this.setListeners();
     },
 
@@ -269,6 +271,8 @@
       var isVisible = options.visible;
       /* We toggle the part concerning the relationships from the legend */
       this.$legend.toggleClass('-reduced', !isVisible);
+      /* We move the zoom buttons according to the legend move */
+      this.$zoomButtons.toggleClass('-slided', !isVisible);
       /* We toggle the switch button concerning the relationships */
       this.$relationshipsToggle.prop('checked', isVisible);
       /* TODO: implementation of the method */
@@ -281,9 +285,10 @@
         { visible: e.currentTarget.checked });
     },
 
-    /* Move the buttons aligned with the sidebar */
+    /* Move the buttons and the credits aligned with the sidebar */
     slideButtons: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
+      this.$credits.toggleClass('-slided', options.isHidden);
     }
 
   });

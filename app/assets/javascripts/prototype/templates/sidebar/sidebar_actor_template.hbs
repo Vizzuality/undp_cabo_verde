@@ -1,35 +1,39 @@
-<h1 class="title">{{name}}</h1>
-<h2 class="title -secondary">{{{t 'front.socio_cultural_domains'}}}</h2>
-{{#if socio_cultural_domains}}
-  <ul class="visual-list">
-    {{#each socio_cultural_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
-    {{/each}}
-  </ul>
-{{/if}}
-<h2 class="title -secondary">{{{t 'front.other_domains'}}}</h2>
-{{#if other_domains}}
-  <ul class="visual-list">
-    {{#each other_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
-    {{/each}}
-  </ul>
-{{/if}}
-<h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
-<div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" {{#if toggleRelationshipsActive}}checked="checked"{{/if}} /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
-<div class="grey-section">
-  <h2 class="title -secondary">{{{t 'front.comments'}}}</h2>
-  <div class="comments-section">
-    <!-- EXAMPLE OF COMMENT STRUCTURE
-    <div class="comment">
-      <p class="content">
-        Ponto focal projecto mudanças climáticas Santa Cruz
-      </p>
-      <div class="metadata">
-        <span class="author">Jeff Davidson</span>
-        <span class="date">December 21, 2015</span>
-      </div>
-    </div> -->
+<div class="content">
+  <h1 class="title">{{name}}</h1>
+  <h2 class="title -secondary">{{{t 'front.socio_cultural_domains'}}}</h2>
+  {{#if socio_cultural_domains}}
+    <ul class="visual-list">
+      {{#each socio_cultural_domains}}
+        <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <h2 class="title -secondary">{{{t 'front.other_domains'}}}</h2>
+  {{#if other_domains}}
+    <ul class="visual-list">
+      {{#each other_domains}}
+        <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
+  <div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" {{#if toggleRelationshipsActive}}checked="checked"{{/if}} /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
+</div>
+<div class="content -secondary">
+  <div class="comments">
+    <h2 class="title -secondary">{{{t 'front.comments'}}}</h2>
+    <div class="comments-section">
+      <!-- EXAMPLE OF COMMENT STRUCTURE
+      <div class="comment">
+        <p class="content">
+          Ponto focal projecto mudanças climáticas Santa Cruz
+        </p>
+        <div class="metadata">
+          <span class="author">Jeff Davidson</span>
+          <span class="date">December 21, 2015</span>
+        </div>
+      </div> -->
+    </div>
+    <button class="button">{{{t 'front.add_comment'}}}</button>
   </div>
-  <button class="button">{{{t 'front.add_comment'}}}</button>
 </div>

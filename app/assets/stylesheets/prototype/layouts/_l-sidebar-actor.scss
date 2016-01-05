@@ -2,18 +2,14 @@
 
   /* We remove the top margin/padding of the first element inside the sidebar's
    * content because the action toolbar already have a bottom padding */
-  & > .js-content > *:first-child {
+  & > .content > .title:first-of-type {
     margin-top: 0;
     padding-top: 0;
   }
 
-  .grey-section {
-    position: relative;
-    left: -25px;
-    width: calc(100% + 50px);
-    padding: 20px 25px;
-    margin-top: 40px;
-    background-color: $color-11;
+  & > .content > .comments {
+    padding-top: 20px;
+    padding-bottom: 25px;
 
     .button {
       display: block;

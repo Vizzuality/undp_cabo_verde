@@ -72,21 +72,42 @@
     & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
   }
 
-  #map-buttons {
+  #map-buttons,
+  .leaflet-control-attribution {
     position: absolute;
     right: 20px;
-    bottom: 8px;
+    bottom: 30px;
     transform: translateX(-370px);
     transition: transform .4s;
 
     &.-slided { transform: translateX(0); }
   }
 
+  .leaflet-control-attribution {
+    bottom: 8px;
+    width: 160px;
+    padding: 0 !important;
+    text-align: right;
+    background: none !important;
+    color: $color-11 !important;
+    opacity: .5;
+
+    & > a {
+      color: $color-11 !important;
+      text-decoration: underline !important;
+    }
+  }
+
   .leaflet-control-zoom {
     display: flex;
     box-shadow: none;
     border-radius: 0;
-    left: 185px;
+    left: 0;
+    bottom: 0;
+    transform: translateY(-213px);
+    transition: transform .4s;
+
+    &.-slided { transform: translateY(-103px); }
 
     & > *,
     & > *:hover {

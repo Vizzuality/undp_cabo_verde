@@ -27,7 +27,6 @@
       this.status = new Status();
       this.model = new root.app.Model.actorModel();
       /* The DOM element to receive the Handlbars template */
-      this.$content = this.$el.find('.js-content');
       this.setListeners();
     },
 
@@ -42,7 +41,9 @@
     /* According to the route broadcast by the router show or hide the pane */
     toggleVisibilityFromRoute: function(route) {
       if(route === 'actor') {
-        this.show();
+        /* We don't do anything because we want the view to render before the
+         * content to by slided. The call to this.show() is made in the render
+         * method. */
       } else {
         this.hide();
       }
@@ -73,11 +74,13 @@
     },
 
     render: function() {
-      this.$content.html(this.template(_.extend(this.model.toJSON(),
+      this.$el.html(this.template(_.extend(this.model.toJSON(),
         this.status.toJSON())));
       /* We need to set again the listeners because some of them depends on the
        * elements that have just been rendered */
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
+      /* We finally slide the pane to display the information */
+      this.show();
     }
   });
 

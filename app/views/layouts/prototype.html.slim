@@ -91,7 +91,7 @@ html lang="en"
           .checkbox.-reversed.-negative
             input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
             label class="label" for="map-relationships-toggle"
-              = t('front.show_relationships_on_map')
+              = t('front.relationships')
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
@@ -112,7 +112,7 @@ html lang="en"
             = image_tag 'searches.svg', class: '_pointer js-searches'
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
-              form
+              form.content
                 .form-input
                   label.label.-hidden for="markersType" = t('front.select_markers_type')
                   select.input.-arrowicon name="markersType" id="markersType"
@@ -133,22 +133,22 @@ html lang="en"
                       option value="" selected="selected" disabled="disabled" = t('front.sectors')
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="startDate" id="startDate"
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="startDate" id="startDate" required="required"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="endDate" id="endDate"
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="endDate" id="endDate" required="required"
                 button.button.-secondary.js-reset = t('front.reset')
                 button.button.js-apply = t('front.apply')
 
-              .grey-section
-                p = t('front.want_save_search')
-                button.button.-secondary = t('front.save')
-                hr
-                h3.title.-tertiary = t('front.saved_searches')
-                p = t('front.no_search_available_html')
+              .content.-secondary
+                .searches
+                  p = t('front.want_save_search')
+                  button.button.-secondary = t('front.save')
+                  hr
+                  h3.title.-tertiary = t('front.saved_searches')
+                  p = t('front.no_search_available_html')
 
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
-              .js-content
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
 
