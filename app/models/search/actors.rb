@@ -29,9 +29,19 @@ class Search::Actors
 
     @query = @query.where(type: @levels) if @levels
 
-    if @socio_cultural_domains
-      @query = @query.joins(:socio_cultural_domains).
-        where({ categories: { id: @socio_cultural_domains }})
+    if @socio_cultural_domains.present? || @other_domains.present?
+      @query = @query.joins(:categories).
+        where({ categories: { id: @socio_cultural_domains + @other_domains}})
+    end
+
+    if @start_date
+      @query = @query.joins(:localizations).
+        where('localizations.start_date > ?', @start_date)
+    end
+
+    if @end_date
+      @query = @query.joins(:localizations).
+        where('localizations.end_date > ?', @end_date)
     end
 
     @query = @query

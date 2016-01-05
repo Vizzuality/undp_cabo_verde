@@ -4,9 +4,9 @@ class Search::ActorsParams < Hash
       levels: params[:levels] && (params[:levels] & ["meso", "macro", "micro"]).
         present? ? params[:levels].map{|t| "Actor"+t.titleize} : nil,
       socio_cultural_domains: params[:socio_cultural_domains_ids].blank?  ?
-        nil : params[:socio_cultural_domains_ids].map(&:to_i),
+        [] : params[:socio_cultural_domains_ids].map(&:to_i),
       other_domains: params[:other_domains_ids].blank? ?
-        nil : params[:other_domains_ids].map(&:to_i),
+        [] : params[:other_domains_ids].map(&:to_i),
       start_date: params[:start_date] || nil,
       end_date: params[:end_date] || nil,
       page: params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1,
