@@ -31,7 +31,7 @@ class Search::Actors
 
     if @socio_cultural_domains
       @query = @query.joins(:socio_cultural_domains).
-        where(socio_cultural_domains: { id: @socio_cultural_domains })
+        where({ categories: { id: @socio_cultural_domains }})
     end
 
     @query = @query
