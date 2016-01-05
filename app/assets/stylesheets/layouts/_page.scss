@@ -202,20 +202,23 @@
 }
 
 #edituser {
-
   *::-webkit-input-placeholder { color: $color-11; }
        *:-ms-input-placeholder { color: $color-11; }
            *::-moz-placeholder { color: $color-11; }
             *:-moz-placeholder { color: $color-11; }
+}
 
+#edituser,
+#login,
+#signup {
   .submit {
-    margin-top: 50px;
-    margin-bottom: 20px;
+    margin: 30px 0px;
   }
 
   .account-options a {
     display: block;
-    margin: 10px 0px;
-    @include font(helvetica, xsmall, light, 1);
+  }
+  .account-options {
+    @include font(helvetica, xsmall, light, 0.8);
   }
 }
