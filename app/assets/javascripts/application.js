@@ -38,6 +38,7 @@ var filterForms = function() {
 };
 
 var toggleDropdown = function(target) {
+  // .dropdown-active is a class that changes the visibility via css
   target.classList.toggle('dropdown-active');
 };
 
