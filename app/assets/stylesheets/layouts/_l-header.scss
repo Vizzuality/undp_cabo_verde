@@ -1,0 +1,5 @@
+.l-header {
+  // necessary to position header with dropdown menus on top of content
+  z-index: 100;
+  position: relative;
+}

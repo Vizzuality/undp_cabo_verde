@@ -1,20 +1,40 @@
-h1
-  = @category.name
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info')
 
-- if (can? :manage, @category)
-  p= link_to t('categories.edit_category'), edit_category_path(@category)
+  = simple_form_for @category do |f|
+    
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-4
+            = f.label :type, class: 'right inline'
+          .column.medium-8
+            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
 
-h4
-  = @category.name
-  - if @category.has_parent?
-    = " (#{t('categories.parent')}: #{link_to @category.parent_name, category_path(@category.parent)})".html_safe
+        //- - if @category.has_parent?
+        //-   .row
+        //-     .column.medium-8
+        //-       = " (#{t('categories.parent')}: #{link_to @category.parent_name, category_path(@category.parent)})".html_safe
 
-- if @category.has_children?
-  ul
-    - @category.children.each do |sub_category|
-      li
-        = link_to sub_category.name, category_path(sub_category)
-        |  |
-        - if (can? :manage, sub_category)
-          = link_to t('shared.edit'), edit_category_path(sub_category)
-          
+        //- - if @category.has_children?
+        //-   .row
+        //-     .column.medium-8
+        //-       ul
+        //-         - @category.children.each do |sub_category|
+        //-           li
+        //-             = link_to sub_category.name, category_path(sub_category)
+        //-           - if (can? :manage, sub_category)
+        //-             = link_to t('shared.edit'), edit_category_path(sub_category)
+
+
+    = render partial: f
+
+    - if (can? :manage, @category)
+        .row
+          .button-collection.-formcollection
+            = link_to t('shared.edit'), edit_category_path(@category), class: 'button -type-a'
