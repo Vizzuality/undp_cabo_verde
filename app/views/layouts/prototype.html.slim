@@ -59,31 +59,31 @@ html lang="en"
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form
                 .form-input
-                  label.label.-hidden for="filtersMarkersType" = t('front.select_markers_type')
-                  select.input.-arrowicon name="filtersMarkersType" id="filtersMarkersType"
+                  label.label.-hidden for="markersType" = t('front.select_markers_type')
+                  select.input.-arrowicon name="markersType" id="markersType"
                     option value="all" selected="selected" = t('front.show_all')
                     option value="actors" = t('front.only_actors')
                     option value="actions" = t('front.only_actions')
                 .form-input
-                    label.label.-hidden for="filtersSocioCulturalLevels" = t('front.socio_cultural_levels')
-                    select.input.-arrowicon name="filtersSocioCulturalLevels" id="filtersSocioCulturalLevels"
+                    label.label.-hidden for="socioCulturalLevels" = t('front.socio_cultural_levels')
+                    select.input.-arrowicon name="socioCulturalLevels" id="socioCulturalLevels"
                       option value="" selected="selected" disabled="disabled" = t('front.socio_cultural_levels')
                 .form-input
-                    label.label.-hidden for="filtersSocioCulturalDomains" = t('front.socio_cultural_domains')
-                    select.input.-arrowicon name="filtersSocioCulturalDomains" id="filtersSocioCulturalDomains"
+                    label.label.-hidden for="socioCulturalDomains" = t('front.socio_cultural_domains')
+                    select.input.-arrowicon name="socioCulturalDomains" id="socioCulturalDomains"
                       option value="" selected="selected" disabled="disabled" = t('front.socio_cultural_domains')
                 .form-input
                     label.label.-hidden for="filtersSectors" = t('front.sectors')
-                    select.input.-arrowicon name="filtersSectors" id="filtersSectors"
+                    select.input.-arrowicon name="sectors" id="sectors"
                       option value="" selected="selected" disabled="disabled" = t('front.sectors')
                 .form-input
-                    label.label for="filtersStartDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace type="date" name="filtersStartDate" id="filtersStartDate"
+                    label.label for="startDate" = t('front.start_date')
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="startDate" id="startDate"
                 .form-input
-                    label.label for="filtersEndDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace type="date" name="filtersEndDate" id="filtersEndDate"
-                button.button.-secondary = t('front.reset')
-                button.button = t('front.apply')
+                    label.label for="endDate" = t('front.end_date')
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="endDate" id="endDate"
+                button.button.-secondary.js-reset = t('front.reset')
+                button.button.js-apply = t('front.apply')
 
               .grey-section
                 p = t('front.want_save_search')
