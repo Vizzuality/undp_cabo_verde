@@ -1,9 +1,26 @@
-h2
-  | Forgot your password?
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email, required: true, autofocus: true
+.section-container#forgot_pw
+
   .form-actions
-    = f.button :submit, "Send me reset password instructions"
-= render "users/shared/links"
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-8.medium-offset-4
+            h2
+              = t('users.forgot_pw')
+
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post}) do |f|
+      = f.error_notification
+      .row
+        .column.medium-8.medium-offset-1
+          .row
+            .column.medium-4
+              = f.label :email, class: 'right inline', required: true
+            .column.medium-8
+              = f.input :email, label: false, required: true, autofocus: true
+
+          .row
+            .column.medium-8.medium-offset-4
+              .submit
+                = f.button :submit, t('users.send_instructions'), class: '-type-a'
+              .account-options
+                = render "users/shared/links"

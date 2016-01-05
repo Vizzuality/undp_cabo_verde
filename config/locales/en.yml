@@ -380,6 +380,8 @@ en:
     user: 'User'
     users: 'Users'
     edit_user: 'Edit User'
+    forgot_pw: 'Forgot your Password?'
+    send_instructions: 'Send Me Reset Password Instructions'
 
   indicators:
     indicators: 'Indicators'
