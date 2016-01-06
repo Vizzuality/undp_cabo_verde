@@ -52,6 +52,27 @@ resource 'Acts' do
           expect(actor_3['locations'][0]['lat']).not_to be_nil
           expect(actor_3['locations'].size).to         eq(1)
         end
+
+        example_request 'Getting a list of micro actions' do
+          do_request(levels: ['micro'])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(1)
+        end
+
+        example_request 'Getting a list of micro and meso actions' do
+          do_request(levels: ['micro', 'meso'])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(2)
+        end
+
+        example_request 'Getting a list of actions with a social cultural domain' do
+          do_request(socio_cultural_domains_ids: [@category_1.id])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(2)
+        end
       end
     end
 
