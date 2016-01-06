@@ -6,7 +6,7 @@
   root.app.Helper = root.app.Helper || {};
 
   root.app.Helper.globals = {
-    apiUrl: "<%= ENV['API_URL'] %>"
+    apiUrl: "<%= ENV['API_URL'].presence || "/api/" %>"
   };
 
 })(this);
