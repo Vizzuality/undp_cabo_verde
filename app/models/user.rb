@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :act_mesos
   has_many :act_macros
   has_many :act_relations
-  
+
   has_many :act_actor_relations
   has_many :localizations
   has_many :comments
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   private
-  
+
     def deactivate_dependencies
       actors.filter_actives.each do |actor|
         unless actor.deactivate

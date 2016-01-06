@@ -1,0 +1,21 @@
+.l-sidebar-actor {
+
+  /* We remove the top margin/padding of the first element inside the sidebar's
+   * content because the action toolbar already have a bottom padding */
+  & > .content > .title:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  & > .content > .comments {
+    padding-top: 20px;
+    padding-bottom: 25px;
+
+    .button {
+      display: block;
+      margin: 0 auto;
+      margin-top: 40px;
+    }
+  }
+
+}
