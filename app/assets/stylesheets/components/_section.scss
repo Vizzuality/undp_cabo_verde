@@ -23,7 +23,7 @@
       float: left;
 
       .indexletter {
-        @include font(helvetica, xsmall, medium, 1);
+        @include font(helvetica, xsmall, medium, 2.6);
         margin: 0;
         position: absolute;
         margin-left: -40px;
