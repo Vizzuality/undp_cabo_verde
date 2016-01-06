@@ -1,0 +1,156 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title
+      = content_for?(:title) ? yield(:title) : "UNDP"
+    = stylesheet_link_tag    "prototype"
+    link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
+    = csrf_meta_tags
+  body
+    / Cache for the map's markers
+    svg style="display: none;"
+      defs
+        g id="macroMarkerIcon"
+          rect x="6" y="6" width="10" height="10"
+        g id="macroOutlineMarkerIcon"
+          rect x="3" y="3" width="16" height="16"
+        g id="mesoMarkerIcon"
+          circle cx="11" cy="11" r="5"
+        g id="mesoOutlineMarkerIcon"
+          circle cx="11" cy="11" r="8"
+        g id="microMarkerIcon"
+          polygon points="6 17 11 8 16 17"
+        g id="microOutlineMarkerIcon"
+          polygon points="2 19 11 4 20 19"
+        g id="actorToActionIcon"
+          path d="M12,5 L30,5" stroke="#4a4a4a" stroke-width="2" stroke-dasharray="4,3"
+          circle cx="4.5" cy="4.5" r="4.5"
+          polygon points="37.5 0 42 9 33 9 "
+        g id="actorToActorIcon"
+          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
+          circle cx="37.5" cy="4.5" r="4.5"
+          circle cx="4.5" cy="4.5" r="4.5"
+        g id="actionToActionIcon"
+          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
+          polygon points="37.5 0 42 9 33 9 "
+          polygon points="4.5 0 9 9 0 9 "
+
+    .container
+      .l-map
+        #map
+        = link_to (image_tag 'undp-logo-gradient.png', id: "logo"), "/"
+        #map-legend
+          ul
+            li.title
+              = t('front.actor')
+            li 
+              svg.icon.-actor
+                use xlink:href="#macroMarkerIcon" x="-6" y="-6"
+              | Macro
+            li
+              svg.icon.-actor
+                use xlink:href="#mesoMarkerIcon" x="-6" y="-6"
+              | Meso
+            li
+              svg.icon.-actor
+                use xlink:href="#microMarkerIcon" x="-6" y="-6"
+              | Micro
+          ul
+            li.title
+              = t('front.action')
+            li 
+              svg.icon.-action
+                use xlink:href="#macroMarkerIcon" x="-6" y="-6"
+              | Macro
+            li
+              svg.icon.-action
+                use xlink:href="#mesoMarkerIcon" x="-6" y="-6"
+              | Meso
+            li
+              svg.icon.-action
+                use xlink:href="#microMarkerIcon" x="-6" y="-6"
+              | Micro
+          ul
+            li.title
+              = t('front.relationships')
+            li
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActionIcon" x="0" y="0"
+              = t('front.actor_to_action')
+            li
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActorIcon" x="0" y="0"
+              = t('front.actor_to_actor')
+            li
+              svg.icon.-large.-monochrome
+                use xlink:href="#actionToActionIcon" x="0" y="0"
+              = t('front.action_to_action')
+        #map-buttons
+          .checkbox.-reversed.-negative
+            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
+            label class="label" for="map-relationships-toggle"
+              = t('front.relationships')
+      aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
+        a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
+        ul.tab-navigation role="tablist"
+            li.tab.-active data-tab="overall"
+              a.link href="#overall-tab" role="tab"
+                = t('front.overall')
+            li.tab data-tab="about"
+              a.link href="#about-tab"  role="tab"
+                = t('front.about')
+
+        /! TODO: update the structure
+        #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
+          #sidebar-action-toolbar-view
+            .button.-textual.js-back._hidden aria-hidden="true" aria-label="Back button"
+              = image_tag 'left-arrow.svg', class: 'icon -marginright'
+              = t('front.back')
+            /! TODO: aria tags (aria-controls)
+            = image_tag 'searches.svg', class: '_pointer js-searches'
+          .pane-collection
+            #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
+              form.content
+                .form-input
+                  label.label.-hidden for="markersType" = t('front.select_markers_type')
+                  select.input.-arrowicon name="markersType" id="markersType"
+                    option value="all" selected="selected" = t('front.show_all')
+                    option value="actors" = t('front.only_actors')
+                    option value="actions" = t('front.only_actions')
+                .form-input
+                    label.label.-hidden for="socioCulturalLevels" = t('front.socio_cultural_levels')
+                    select.input.-arrowicon name="socioCulturalLevels" id="socioCulturalLevels"
+                      option value="" selected="selected" disabled="disabled" = t('front.socio_cultural_levels')
+                .form-input
+                    label.label.-hidden for="socioCulturalDomains" = t('front.socio_cultural_domains')
+                    select.input.-arrowicon name="socioCulturalDomains" id="socioCulturalDomains"
+                      option value="" selected="selected" disabled="disabled" = t('front.socio_cultural_domains')
+                .form-input
+                    label.label.-hidden for="filtersSectors" = t('front.sectors')
+                    select.input.-arrowicon name="sectors" id="sectors"
+                      option value="" selected="selected" disabled="disabled" = t('front.sectors')
+                .form-input
+                    label.label for="startDate" = t('front.start_date')
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="startDate" id="startDate" required="required"
+                .form-input
+                    label.label for="endDate" = t('front.end_date')
+                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="endDate" id="endDate" required="required"
+                button.button.-secondary.js-reset = t('front.reset')
+                button.button.js-apply = t('front.apply')
+
+              .content.-secondary
+                .searches
+                  p = t('front.want_save_search')
+                  button.button.-secondary = t('front.save')
+                  hr
+                  h3.title.-tertiary = t('front.saved_searches')
+                  p = t('front.no_search_available_html')
+
+            #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
+        #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
+          | About content
+
+    script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    = javascript_include_tag "prototype"
