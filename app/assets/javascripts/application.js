@@ -77,9 +77,15 @@ var createPreviewMap = function(container) {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
   });
 
+  var southWest = L.latLng(-85, -720.0),
+      northEast = L.latLng(85, 720.0),
+      bounds = L.latLngBounds(southWest, northEast);
+
   var map = L.map(container, {
     center: [16.77, -23.70],
-    zoom: 1
+    zoom: 1,
+    maxZoom: 1,
+    maxBounds: bounds
   });
 
   map.addLayer(layer);
