@@ -368,7 +368,7 @@ en:
     actions_relations: 'Connections with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
-    actors_relations_as_parent: 'Connect with Actors as parent'
+    actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
