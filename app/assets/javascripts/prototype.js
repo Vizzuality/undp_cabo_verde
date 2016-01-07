@@ -66,6 +66,9 @@
       this.actorView = new root.app.View.sidebarActorView({
         router: this.router
       });
+      this.actionView = new root.app.View.sidebarActionView({
+        router: this.router
+      });
 
       this.setListeners();
     },
