@@ -31,7 +31,7 @@
         h2 = t('localizations.localizations')
 
     = form.fields_for :localizations do |localizations_form|
-      p= render 'localizations/form', f: localizations_form
+      = render 'localizations/form', f: localizations_form
 
     - unless common_form?
       .row
