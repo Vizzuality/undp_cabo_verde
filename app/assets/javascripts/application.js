@@ -37,57 +37,6 @@ var filterForms = function() {
   });
 };
 
-var toggleDropdown = function(target) {
-  // .dropdown-active is a class that changes the visibility via css
-  target.classList.toggle('dropdown-active');
-};
-
-var hideDropdown = function(target) {
-  target.classList.remove('dropdown-active');
-};
-
-
-var dropdown = function() {
-  var settings = document.querySelector('#js-dropdown-set');
-  var settingsTarget = document.querySelector('#dropdown-list-set');
-
-  var account =  document.querySelector('#js-dropdown-acc');
-  var accountTarget = document.querySelector('#dropdown-list-acc');
-
-  //Hiding all dropdowns
-
-  $('html').click(function() {
-    hideDropdown(settings);
-    hideDropdown(account);
-  });
-
-  // Stop event propagation to the settings and account buttons &
-  // Toggle the current dropdown list &
-  // Hide the other dropdown list
-
-  settings.addEventListener('click', function(event) {
-    toggleDropdown(settings);
-    hideDropdown(account);
-    event.stopPropagation();
-  });
-
-  account.addEventListener('click', function(event) {
-    toggleDropdown(account);
-    hideDropdown(settings);
-    event.stopPropagation();
-  });
-
-  // Stop event propagation to the dropdown lists
-
-  settingsTarget.addEventListener('click', function(event) {
-    event.stopPropagation();
-  });
-
-  accountTarget.addEventListener('click', function(event) {
-    event.stopPropagation();
-  });
-}
-
 var showDatepicker = function() {
   var dateFields = document.querySelectorAll('.js-datepicker');
   var minDate, startDate;
@@ -275,7 +224,6 @@ var getClosestParent = function(element, selector) {
 
 function onReady() {
   filterForms();
-  dropdown();
   showMultiselect();
   showDatepicker();
   /* Initialize the mini maps attached to the location forms */
