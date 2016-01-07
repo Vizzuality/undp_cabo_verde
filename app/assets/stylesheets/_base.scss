@@ -111,3 +111,9 @@ textarea:focus {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.remove_fields, .remove_fields:hover {
+  margin-bottom: 40px;
+  color: $color-18 !important;
+  cursor: pointer;
+}
