@@ -409,7 +409,6 @@ en:
     relationships: Relationships
     show_relationships_on_map: Show relationships on map
     socio_cultural_domains: Social Cultural Domains
-    socio_cultural_levels: Social Cultural Levels
     actor: Actor
     action: Action
     actor_to_action: Actor to Action
@@ -419,7 +418,8 @@ en:
     select_markers_type: Select markers type
     only_actors: Only actors
     only_actions: Only actions
-    sectors: Sectors
+    levels: Levels
+    categories: Categories
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
