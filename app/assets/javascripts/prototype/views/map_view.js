@@ -4,7 +4,9 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.Model = root.app.Model || {};
   root.app.pubsub = root.app.pubsub || {};
+  root.app.Helper = root.app.Helper || {};
 
   root.app.View.mapView = Backbone.View.extend({
 
@@ -14,9 +16,16 @@
       'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
     },
 
+    popupTemplate: HandlebarsTemplates['popup_template'],
+
     initialize: function(options) {
       this.actorsCollection = options.actorsCollection;
       this.actionsCollection = options.actionsCollection;
+      /* actorModel and actionModel are used to store the information about the
+       * maker whose popup is open. Their data can be fetched by this view, or
+       * synced by another one using the pubsub object. */
+      this.actorModel = new root.app.Model.actorModel();
+      this.actionModel = new root.app.Model.actionModel();
       this.router = options.router;
       /* queue is an array of methods and arguments ([ func, args ]) that is
        * stored in order to wait for the map to be instanced. Once done, each
@@ -47,6 +56,12 @@
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
         this.slideButtons);
       this.map.on('zoomend', this.updateMarkersSize.bind(this));
+      this.listenTo(this.actorModel, 'sync', this.triggerActorModelSync);
+      this.listenTo(this.actionModel, 'sync', this.triggerActionModelSync);
+      this.listenTo(root.app.pubsub, 'sync:actorModel',
+        this.populateActorModelFrom);
+      this.listenTo(root.app.pubsub, 'sync:actionModel',
+        this.populateActionModelFrom);
     },
 
     renderMap: function() {
@@ -92,11 +107,12 @@
             '</svg>',
           className: type === 'actors' ? 'actor' : 'action',
           iconSize: L.point(22, 22),
-          iconAnchor: L.point(11, 11)
+          iconAnchor: L.point(11, 11),
+          popupAnchor: L.point(0, -10)
         });
       };
 
-      var marker;
+      var marker, popup;
       _.each(collection, function(entity) {
         _.each(entity.locations, function(location) {
           marker = L.marker([location.lat, location.long], {
@@ -106,6 +122,14 @@
             locationId: location.id
           });
           marker.addTo(this.map);
+          /* TODO: give an initial state to the popup */
+          popup = L.popup({
+            closeButton: false,
+            minWidth: 220,
+            maxWidth: 276, /* 20px padding + 4 icons */
+            className: 'popup -' + type + ' -' + entity.level
+          }).setContent('');
+          marker.bindPopup(popup);
           marker.on('click', this.markerOnClick.bind(this));
         }, this);
       }, this);
@@ -158,13 +182,98 @@
 
     /* Triggers an event with the id of the clicked entity */
     markerOnClick: function(e) {
-      this.updateMarkersFocus(e.target.options.type, e.target.options.id,
-        e.target.options.locationId);
+      var marker = e.target;
+      this.updateMarkersFocus(marker.options.type, marker.options.id,
+        marker.options.locationId);
+      this.renderPopupFor(marker);
+    },
+
+    /* Load the content of the passed marker and display it inside the popup
+     * attached to it */
+    renderPopupFor: function(marker) {
+      var popup = marker.getPopup();
+
+      /* If the popup is already open, we don't want to render once again
+       * NOTE: newer versions of Leaflet include a method isOpen, but CartoDB
+       * hasn't included it yet */
+      if(!this.map.hasLayer(popup)) {
+        return;
+      }
+
+      /* Model which will contain the information about the actor or action */
+      var model = marker.options.type === 'actors' ? this.actorModel :
+        this.actionModel;
+
+      /* Function which will actually render the content of the popup and which
+       * sets the event listener for the "more info" button */
+      var render = function() {
+        popup.setContent(this.popupTemplate(model.toJSON()));
+        this.$el.find('.js-more').on('click', function() {
+          this.moreInfoOnClick(marker);
+        }.bind(this));
+      }.bind(this);
+
+      /* In case we already have the data for the selected marker, we don't want
+       * to fetch the model again */
+      if(!_.isEmpty(model.attributes) && model.get('id') === marker.options.id) {
+        render();
+      } else {
+        model.setId(marker.options.id);
+        model.fetch().done(function() { render(); }.bind(this));
+      }
+    },
+
+    /* When the more info button of the popup attached to the marker is clicked,
+     * update the URL and close the popup
+     */
+    moreInfoOnClick: function(marker) {
       this.router.navigate([
-        e.target.options.type === 'actors' ? '/actors' : '/actions',
-        e.target.options.id,
-        e.target.options.locationId
+        marker.options.type === 'actors' ? '/actors' : '/actions',
+        marker.options.id,
+        marker.options.locationId
       ].join('/'), { trigger: true });
+
+      this.map.closePopup(marker.getPopup());
+    },
+
+    /* Trigger an event through the pubsub object to inform about the new state
+     * of the actor model */
+    triggerActorModelSync: function() {
+      root.app.pubsub.trigger('sync:actorModel', this.actorModel);
+    },
+
+    /* Trigger an event through the pubsub object to inform about the new state
+     * of the action model */
+    triggerActionModelSync: function() {
+      root.app.pubsub.trigger('sync:actionModel', this.actionModel);
+    },
+
+    /* Set the content of this.actorModel with the content of the passed model
+     * NOTE: as the view itself can trigger this method by the sync event of its
+     * own model, we make the comprobation that the id of the passed model is
+     * different from the one stored in the current model */
+    populateActorModelFrom: function(model) {
+      if(!_.isEmpty(this.actorModel.attributes) &&
+        this.actorModel.get('id') === model.get('id')) {
+        return;
+      }
+
+      this.actorModel.clear({ silent: true });
+      this.actorModel.set(model.toJSON());
+    },
+
+    /* Set the content of this.actionModel with the content of the passed model
+     * NOTE: as the view itself can trigger this method by the sync event of its
+     * own model, we make the comprobation that the id of the passed model is
+     * different from the one stored in the current model */
+    populateActionModelFrom: function(model) {
+      if(!_.isEmpty(this.actionModel.attributes) &&
+        this.actionModel.get('id') === model.get('id')) {
+        return;
+      }
+
+      this.actionModel.clear({ silent: true });
+      this.actionModel.set(model.toJSON());
     },
 
     /* Update the markers' size according to the map's zoom level */

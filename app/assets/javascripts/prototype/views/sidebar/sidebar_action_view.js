@@ -12,59 +12,41 @@
     defaults: { isHidden: true, toggleRelationshipsActive: true }
   });
 
-  root.app.View.sidebarActorView = Backbone.View.extend({
-    el: '#sidebar-actor-view',
+  root.app.View.sidebarActionView = Backbone.View.extend({
+    el: '#sidebar-action-view',
 
     events: {
       'click .js-back': 'goBack',
       'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
     },
 
-    template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
+    template: HandlebarsTemplates['sidebar/sidebar_action_template'],
 
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
-      this.model = new root.app.Model.actorModel();
+      this.model = new root.app.Model.actionModel();
       /* The DOM element to receive the Handlbars template */
       this.setListeners();
     },
 
     setListeners: function() {
       this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
-      this.listenTo(this.router, 'route:actor', this.fetchDataAndRender);
+      this.listenTo(this.router, 'route:action', this.fetchDataAndRender);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
-      this.listenTo(root.app.pubsub, 'sync:actorModel', this.populateModelFrom);
+      this.listenTo(root.app.pubsub, 'sync:actionModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
     },
 
     /* According to the route broadcast by the router show or hide the pane */
     toggleVisibilityFromRoute: function(route) {
-      if(route === 'actor') {
+      if(route === 'action') {
         /* We don't do anything because we want the view to render before the
          * content to by slided. The call to this.show() is made in the render
          * method. */
       } else {
         this.hide();
-      }
-    },
-
-    /* Trigger the visibility of the relationships (ie links) on the map */
-    triggerRelationshipsVisibility: function(e) {
-      root.app.pubsub.trigger('relationships:visibility',
-        { visible: e.currentTarget.checked });
-    },
-
-    /* Toggle the relationships switch button
-     * options can be null/undefined or { visible: [boolean] } */
-    toggleRelationshipsVisibility: function(options) {
-      var isVisible = options.visible;
-      this.status.set('toggleRelationshipsActive', isVisible);
-      /* This method could be called even if the view hasn't been rendered yet
-       */
-      if(this.$relationshipsToggle) {
-        this.$relationshipsToggle.prop('checked', isVisible);
       }
     },
 
@@ -97,7 +79,25 @@
     /* Trigger an event through the pubsub object to inform about the new state
      * of the actor model */
     triggerModelSync: function() {
-      root.app.pubsub.trigger('sync:actorModel', this.model);
+      root.app.pubsub.trigger('sync:actionModel', this.model);
+    },
+
+    /* Trigger the visibility of the relationships (ie links) on the map */
+    triggerRelationshipsVisibility: function(e) {
+      root.app.pubsub.trigger('relationships:visibility',
+        { visible: e.currentTarget.checked });
+    },
+
+    /* Toggle the relationships switch button
+     * options can be null/undefined or { visible: [boolean] } */
+    toggleRelationshipsVisibility: function(options) {
+      var isVisible = options.visible;
+      this.status.set('toggleRelationshipsActive', isVisible);
+      /* This method could be called even if the view hasn't been rendered yet
+       */
+      if(this.$relationshipsToggle) {
+        this.$relationshipsToggle.prop('checked', isVisible);
+      }
     },
 
     render: function() {
@@ -112,6 +112,6 @@
   });
 
   /* We extend the view with method to show, hide and toggle the pane */
-  _.extend(root.app.View.sidebarActorView.prototype, root.app.Mixin.visibility);
+  _.extend(root.app.View.sidebarActionView.prototype, root.app.Mixin.visibility);
 
 })(this);
