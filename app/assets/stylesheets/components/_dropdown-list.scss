@@ -1,45 +1,43 @@
 .dropdown-list {
-  margin: 15px 5px 5px;
+  margin: 5px;
+  margin-top: 0px;
   padding: 10px;
-  display: inline-block;
   list-style: none;
-  position: relative;
   background: $color-1;
 
   -webkit-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.53);
   -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.53);
   box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.25);
 
+  .arrowhelper {
+    padding: 0;
+    margin: 0;
+    height: 0px;
+    border: none;
+    position: relative;
 
-  &:after {
-    content: " ";
-    position: absolute;
-    height: 0;
-    width: 0;
+    &:hover {
+      border: none;
+    }
 
-    left: 50%;
+    &:after {
+      content: " ";
+      position: absolute;
+      height: 10px;
+      width: 10px;
+      background-color: white;
 
-    box-sizing: border-box;
+      left: 50%;
+      bottom: 7px;
 
-    border: 1em solid black;
-    border-color:  $color-1 transparent transparent $color-1;
-    border-width: 6px;
-    margin-left: -3px;
+      transform-origin: 0 0;
+      transform: rotate(45deg);
 
-    transform-origin: 0 0;
-    transform: rotate(45deg);
+      -webkit-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+      -moz-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+      box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
+    }
 
-    -webkit-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
-    box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.25);
-  }
-
-  &#dropdown-list-set:after {
-    bottom: 112px;
-  }
-
-  &#dropdown-list-acc:after {
-    bottom: 80px;
   }
 
   > li {
