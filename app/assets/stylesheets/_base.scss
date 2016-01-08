@@ -94,8 +94,8 @@ textarea:focus {
   visibility: hidden;
 }
 
-.mini-text { 
-  font-size: 0px; 
+.mini-text {
+  font-size: 0px;
   position: absolute;
 }
 
@@ -108,4 +108,8 @@ textarea:focus {
 .form-inputs .row {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.footer-helper {
+  height: 140px;
 }
