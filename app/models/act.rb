@@ -2,8 +2,6 @@ class Act < ActiveRecord::Base
   include Activable
   include Localizable
   
-  monetize :budget_cents, allow_nil: true
-
   belongs_to :user, foreign_key: :user_id
 
   has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id

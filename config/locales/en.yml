@@ -379,6 +379,7 @@ en:
     my_indicators: 'My indicators'
     user: 'User'
     users: 'Users'
+    edit_user: 'Edit User'
 
   indicators:
     indicators: 'Indicators'

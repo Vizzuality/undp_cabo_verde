@@ -12,74 +12,66 @@
   align-items: flex-start;
   justify-content: space-between;
 
-
-
-.inline-list {
-  height: 160px;
-  overflow: visible;
-
-  .dropdown-src {
+  .dropdown-anchor {
     position: relative;
+    .label {
+      margin-bottom: 15px;
 
-
-    > .dropdown-text {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-
-      > .icon {
-        position: absolute;
-        top: 0;
-        margin: 20px 5px 0px;
-        display: inline-block;
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
-        background-color: $color-13;
-      }
-
-      > .label {
-        background-color: transparent;
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
-        text-transform: capitalize;
-        text-align: center;
-
-        &.-with-icon {
-          padding-left: 50px; // space for span.icon
-          text-align: left;
-          display: inline-block;
-        }
-
-        &:hover {
-          background-color: transparent;
-        }
-      }
-    }
-
-    > .dropdown-list {
-      min-width: 162px;
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%);
-      opacity: 0;
-      display: none;
-    }
-
-    &.dropdown-active {
-      .dropdown-list {
-        opacity: 1;
-        display: block;
-      }
     }
   }
 
-}
+  .dropdown-list {
+    min-width: 162px;
+    position: absolute;
+    left: 45%;
+    transform: translate(-50%);
+    display: none;
+    z-index: 999;
+  }
+
+  .inline-list .dropdown-anchor:hover .dropdown-list {
+    display: block;
+  }
+
+  .inline-list .dropdown-anchor:hover .dropdown-list li {
+    display: block;
+  }
+
+  .inline-list {
+    height: 160px;
+    overflow: visible;
+  }
 
 
+  .label {
+    background-color: transparent;
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    text-transform: capitalize;
+    text-align: center;
 
+    &.-with-icon {
+      padding-left: 50px; // space for span.icon
+      text-align: left;
+      display: inline-block;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    margin: 20px 5px 0px;
+    display: inline-block;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: $color-13;
+  }
 }
 
 #home {
@@ -206,5 +198,24 @@
   .next-link:after {
     transform: translate(-50%,-50%) rotate(135deg);
     margin-left: -2px;
+  }
+}
+
+#edituser {
+
+  *::-webkit-input-placeholder { color: $color-11; }
+       *:-ms-input-placeholder { color: $color-11; }
+           *::-moz-placeholder { color: $color-11; }
+            *:-moz-placeholder { color: $color-11; }
+
+  .submit {
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  .account-options a {
+    display: block;
+    margin: 10px 0px;
+    @include font(helvetica, xsmall, light, 1);
   }
 }
