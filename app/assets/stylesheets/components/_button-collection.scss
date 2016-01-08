@@ -7,8 +7,14 @@
 
   &.-formcollection {
     justify-content: center;
-    margin-top: 70px;
     padding: 30px 0;
-    box-shadow: 0 -7px 5px -5px rgba($color-4, .3);
+    box-shadow: -8px -7px 5px -5px rgba($color-4, .3);
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: $color-1;
+    width: 101%;
+    z-index: 1000;
   }
 }
