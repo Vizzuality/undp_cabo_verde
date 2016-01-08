@@ -7,6 +7,9 @@ body {
 
 input[type="checkbox"] {
   margin: 0 0.5rem 1rem 0;
+  &.boolean {
+    margin-right: 5px;
+  }
 }
 
 h1 {
@@ -78,6 +81,10 @@ input[type="email"],
 input[type="url"],
 input[type="password"] {
   border-bottom: 1px solid $color-13;
+
+  &:disabled {
+    border: none;
+  }
 }
 
 textarea,
@@ -85,6 +92,10 @@ textarea:focus {
   background-image: url(asset_path("textarea-bg.png"));
   background-repeat: repeat;
   background-size: 1px;
+
+  &:disabled {
+    background-image: none;
+  }
 }
 
 .current-actor, .current-actor-edit, .current-action, .current-action-edit {
