@@ -84,7 +84,7 @@ var createPreviewMap = function(container) {
   var map = L.map(container, {
     center: [16.77, -23.70],
     zoom: 1,
-    maxZoom: 1,
+    minZoom: 1,
     maxBounds: bounds
   });
 
