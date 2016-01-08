@@ -335,7 +335,7 @@
         return;
       }
 
-      this.resetMarkersFocus(type);
+      this.resetMarkersFocus();
       this.focusOnMarker(type, id, locationId);
     },
 
@@ -346,6 +346,11 @@
         case 'actor':
           this.updateMarkersFocus('actors', arguments[1][0], arguments[1][1]);
           break;
+          
+        case 'action':
+          this.updateMarkersFocus('actions', arguments[1][0], arguments[1][1]);
+          break;
+
         default:
           this.resetMarkersFocus();
           break;
