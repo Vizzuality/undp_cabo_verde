@@ -27,8 +27,6 @@
 
       this._slider();
 
-      this._moveValueLabels();
-
     },
 
     _cacheVars: function() {
@@ -39,38 +37,36 @@
 
     _slider: function() {
       var self = this;
-
       var minValue = 1991;
       var maxValue = 2010;
 
+      //initial setup of labels
       this.$leftLabel.text(minValue);
       this.$rightLabel.text(maxValue);
+      self.$leftLabel.css('left', 0);     //TODO: position labels without pixel values
+      self.$rightLabel.css('left', 330);  //TODO: position labels without pixel values
 
       this.$slider.slider({
-        animate: "fast",
         min: minValue,
         max: maxValue,
         range: true,
         step: 1,
         values: [minValue, maxValue],
         slide: function(event, ui) {
-          self.$leftLabel.text(ui.values[0]);
-          self.$rightLabel.text(ui.values[1]);
+          // console.log(event, ui);
+          setTimeout(function() {
+            self.$leftLabel.text(ui.values[0]);
+            self.$rightLabel.text(ui.values[1]);
 
-          self._moveValueLabels();
+            //position of handle: position of label
+            var pos_leftHandle = $('.ui-slider-handle:first').position().left;
+            var pos_rightHandle = $('.ui-slider-handle:last').position().left;
+            self.$leftLabel.css('left', pos_leftHandle);
+            self.$rightLabel.css('left', pos_rightHandle);
+
+          }, 0);
         }
       });
-    },
-
-    _moveValueLabels: function() {
-      var pos_first_handle = $('.ui-slider-handle:first').position();
-      var pos_last_handle = $('.ui-slider-handle:last').position();
-
-      console.log('lefthandle: ' + pos_first_handle.left);
-      console.log('righthandle: ' + pos_last_handle.left);
-
-      this.$leftLabel.css('left', (pos_first_handle.left));
-      this.$rightLabel.css('left', (pos_last_handle.left));
     }
 
   });
