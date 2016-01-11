@@ -6,6 +6,7 @@ API::Engine.routes.draw do
       list_show_only.resources :actors
       list_show_only.resources :acts, path: 'actions'
     end
+    resources :domains, only: [:index]
   end
 # End API routes
 end
