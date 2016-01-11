@@ -19,28 +19,53 @@
       'click .sliderlink': 'confirm'
     },
 
+    _moveValueLabels: function(leftLabel, rightLabel) {
+      var pos_first_handle = $('.ui-slider-handle:first').position();
+      var pos_last_handle = $('.ui-slider-handle:last').position();
+
+      console.log('pfl left         ' + pos_first_handle.left);
+      console.log('leftLabel.width()/2 ' + leftLabel.width()/2);
+
+      leftLabel.css('left', (pos_first_handle.left));
+      rightLabel.css('left', (pos_last_handle.left));
+    },
+
     initialize: function(options) {
+      var self = this;
+
       this.router = options.router;
       this.status = new Status();
-      $("#slider").slider({
+
+      this.$slider = $('#slider');
+      this.$leftLabel = $('#leftLabel');
+      this.$rightLabel = $('#rightLabel');
+
+
+      var minValue = 1991;
+      var maxValue = 2010;
+
+      this.$leftLabel.text(minValue);
+      this.$rightLabel.text(maxValue);
+
+      this.$slider.slider({
         animate: "fast",
-        max: 2010,
-        min: 1991,
+        min: minValue,
+        max: maxValue,
         range: true,
         step: 1,
-        values: [1995, 2005]
+        values: [minValue, maxValue],
+        slide: function(event, ui) {
+          self.$leftLabel.text(ui.values[0]);
+          self.$rightLabel.text(ui.values[1]);
+
+          self._moveValueLabels(self.$leftLabel, self.$rightLabel);
+        }
       });
-      this.setListeners();
-    },
 
-    setListeners: function() {
-      // this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
-      // this.listenTo(this.status, 'change', this.applySearch);
-    },
-
-    confirm: function() {
+      this._moveValueLabels(self.$leftLabel, self.$rightLabel);
 
     }
+
 
   });
 
