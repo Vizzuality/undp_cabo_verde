@@ -1,9 +1,14 @@
 //= require_self
 
 @import
+  'jquery.ui.core',
+  'jquery.ui.theme',
+  'jquery.ui.slider',
+
   'prototype/_settings',
   'prototype/_fonts',
   'prototype/_helpers',
   'prototype/_base',
   'prototype/components/*',
   'prototype/layouts/*';
+
