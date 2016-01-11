@@ -2,6 +2,8 @@
 //= require i18n.js
 //= require i18n/translations
 //= require jquery2
+//= require jquery_ujs
+//= require jquery.ui.slider
 //= require underscore
 //= require backbone
 //= require handlebars
@@ -67,6 +69,9 @@
         router: this.router
       });
       this.actionView = new root.app.View.sidebarActionView({
+        router: this.router
+      });
+      this.rangesliderView = new root.app.View.rangesliderView({
         router: this.router
       });
 
