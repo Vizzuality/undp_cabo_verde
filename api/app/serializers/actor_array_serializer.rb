@@ -21,7 +21,7 @@ class ActorArraySerializer < BaseSerializer
   def cache_key
     # For filter options
     cache_params = nil
-    
+
     self.class.cache_key << [object, object.updated_at, cache_params]
   end
 end
