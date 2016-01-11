@@ -1,0 +1,43 @@
+.ui-slider {
+  overflow: visible;
+
+
+  height: 10px;
+  background: $color-16;
+  border: 4px solid $color-1;
+
+
+  .ui-slider-range {
+    background: $color-2; //background color of the selected range
+  }
+
+  .ui-slider-handle {
+    border: none;
+    border-radius: 50%;
+    background: $color-2;
+    border: 4px solid $color-1;
+    height: 18px;
+    width: 18px;
+    top: -8px;
+  }
+
+  .sliderlabel {
+    margin-left: -13px;
+    margin-top: 18px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: $color-1;
+  }
+
+  #leftLabel {
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+  }
+
+  #rightLabel {
+    display: inline-block;
+    position: absolute;
+  }
+}
