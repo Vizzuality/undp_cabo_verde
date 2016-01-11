@@ -9,6 +9,8 @@
   = simple_form_for @unit do |f|
     = render partial: f
 
+    .footer-helper
+
     .row
       .button-collection.-formcollection
         = f.button :submit, t('shared.create'), class: '-primary'
