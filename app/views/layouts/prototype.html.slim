@@ -188,10 +188,13 @@ html lang="en"
                 use xlink:href="#actionToActionIcon" x="0" y="0"
               = t('front.action_to_action')
         #map-rangeslider
-          .slider
-            a.sliderlink href="#"
-              = t('test')
+          .animations
+            .stepprev
+            .play
+            .stepnext
           #slider
+            p.sliderlabel#leftLabel
+            p.sliderlabel#rightLabel
 
         #map-buttons
           .checkbox.-reversed.-negative
