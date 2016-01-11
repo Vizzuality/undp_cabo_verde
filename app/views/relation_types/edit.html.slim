@@ -14,5 +14,4 @@
     .row
       .button-collection.-formcollection
         = link_to t('shared.delete'), relation_type_path(@relation_type), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
-
-          = f.button :submit, t('shared.update'), class: '-primary'
+        = f.button :submit, t('shared.update'), class: '-primary'
