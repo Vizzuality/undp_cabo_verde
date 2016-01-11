@@ -68,7 +68,7 @@ resource 'Acts' do
         end
 
         example_request 'Getting a list of actions with a social cultural domain' do
-          do_request(socio_cultural_domains_ids: [@category_1.id])
+          do_request(domains_ids: [@category_1.id])
           response_actions = JSON.parse(response_body)['actions']
           expect(status).to eq(200)
           expect(response_actions.size).to eq(2)
