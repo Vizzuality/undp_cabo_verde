@@ -4,7 +4,7 @@ module API::V1
       @domains = Category.where(type: ['SocioCulturalDomain', 'OtherDomain']).
         order(:name)
 
-      respond_with @domains, each_searializer: CategorySerializer, root: 'domains',
+      respond_with @domains, each_serializer: CategorySerializer, root: 'domains',
         meta: { size: @domains.count }
     end
   end

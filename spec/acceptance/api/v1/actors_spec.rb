@@ -76,7 +76,7 @@ resource 'Actors' do
         end
 
         example_request 'Getting a list of actors with a social cultural domain' do
-          do_request(socio_cultural_domains_ids: [@category_1.id])
+          do_request(domains_ids: [@category_1.id])
           response_actors = JSON.parse(response_body)['actors']
           expect(status).to eq(200)
           expect(response_actors.size).to eq(2)
