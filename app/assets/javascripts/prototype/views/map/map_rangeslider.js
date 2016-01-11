@@ -22,7 +22,14 @@
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
-      // this.$inputFields = this.$el.find('form .input');
+      $("#slider").slider({
+        animate: "fast",
+        max: 2010,
+        min: 1991,
+        range: true,
+        step: 1,
+        values: [1995, 2005]
+      });
       this.setListeners();
     },
 
