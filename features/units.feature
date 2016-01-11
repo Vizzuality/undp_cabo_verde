@@ -31,7 +31,7 @@ I want to manage units
     Given I am authenticated user
     And unit by admin user
     When I go to the units page
-    Then I should see "Euro" within "#units"
+    Then I should see "Euro"
     And I should not see "Delete"
     And I should not see ".unit_name"
   

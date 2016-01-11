@@ -150,7 +150,7 @@ resource 'Acts' do
       let(:action_with_measurement) do
         relation_type_indicator = create(:act_indicator_relation_type_belongs)
 
-        indicator   = create(:indicator, name: 'Indicator one', localizations: [@location], user: @user)
+        indicator   = create(:indicator, name: 'Indicator one', user: @user)
 
         action_with_measurement = create(:act_macro, name: 'Action of Organization', user: @user,
                                           description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
@@ -195,7 +195,6 @@ resource 'Acts' do
           # Relations object details for indicator
           expect(action['artifacts'][0]['indicator']['id']).not_to be_nil
           expect(action['artifacts'][0]['indicator']['name']).to   eq('Indicator one')
-          expect(action['artifacts'][0]['indicator']['locations']).not_to be_nil
           
           # Relations object details for measurements
           expect(action['artifacts'][0]['measurements'][1]['id']).not_to         be_nil
