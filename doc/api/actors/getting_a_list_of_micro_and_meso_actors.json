@@ -1,0 +1,56 @@
+{
+  "resource": "Actors",
+  "http_method": "GET",
+  "route": "/api/actors",
+  "description": "Getting a list of micro and meso actors",
+  "explanation": null,
+  "parameters": [
+    {
+      "name": "levels",
+      "description": "Filter actors by level (micro, meso or macro)"
+    },
+    {
+      "name": "socio_cultural_domains_ids",
+      "description": "Filter actors by socio cultural domain"
+    }
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/actors?levels[]=micro&levels[]=meso",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+        "levels": [
+          "micro",
+          "meso"
+        ]
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 13,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 3,\n          \"lat\": \"15.196565472524398\",\n          \"long\": \"-18.093387737217284\"\n        }\n      ]\n    },\n    {\n      \"id\": 12,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 3,\n          \"lat\": \"15.196565472524398\",\n          \"long\": \"-18.093387737217284\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T12:00:02+02:00\"\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"5e380126c00fe60149b570c8aee377ac\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "6c740247-0fc7-4b82-944a-773dc97f9da5",
+        "X-Runtime": "0.029931",
+        "Content-Length": "345"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro&levels[]=meso\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}
