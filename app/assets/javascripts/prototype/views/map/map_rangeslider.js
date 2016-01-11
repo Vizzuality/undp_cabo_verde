@@ -19,27 +19,26 @@
       'click .sliderlink': 'confirm'
     },
 
-    _moveValueLabels: function(leftLabel, rightLabel) {
-      var pos_first_handle = $('.ui-slider-handle:first').position();
-      var pos_last_handle = $('.ui-slider-handle:last').position();
-
-      console.log('pfl left         ' + pos_first_handle.left);
-      console.log('leftLabel.width()/2 ' + leftLabel.width()/2);
-
-      leftLabel.css('left', (pos_first_handle.left));
-      rightLabel.css('left', (pos_last_handle.left));
-    },
-
     initialize: function(options) {
-      var self = this;
-
       this.router = options.router;
       this.status = new Status();
 
+      this._cacheVars();
+
+      this._slider();
+
+      this._moveValueLabels();
+
+    },
+
+    _cacheVars: function() {
       this.$slider = $('#slider');
       this.$leftLabel = $('#leftLabel');
       this.$rightLabel = $('#rightLabel');
+    },
 
+    _slider: function() {
+      var self = this;
 
       var minValue = 1991;
       var maxValue = 2010;
@@ -58,14 +57,21 @@
           self.$leftLabel.text(ui.values[0]);
           self.$rightLabel.text(ui.values[1]);
 
-          self._moveValueLabels(self.$leftLabel, self.$rightLabel);
+          self._moveValueLabels();
         }
       });
+    },
 
-      this._moveValueLabels(self.$leftLabel, self.$rightLabel);
+    _moveValueLabels: function() {
+      var pos_first_handle = $('.ui-slider-handle:first').position();
+      var pos_last_handle = $('.ui-slider-handle:last').position();
 
+      console.log('lefthandle: ' + pos_first_handle.left);
+      console.log('righthandle: ' + pos_last_handle.left);
+
+      this.$leftLabel.css('left', (pos_first_handle.left));
+      this.$rightLabel.css('left', (pos_last_handle.left));
     }
-
 
   });
 
