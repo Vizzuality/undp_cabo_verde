@@ -72,6 +72,23 @@
     & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
   }
 
+  #map-rangeslider {
+    display: inline-block;
+    position: absolute;
+    z-index: 1000;
+    left: 200px;
+    bottom: 20px;
+
+    width: 400px;
+    height: 70px;
+
+    background-color: $color-1;
+
+    .sliderlink {
+
+    }
+  }
+
   #map-buttons,
   .leaflet-control-attribution {
     position: absolute;
