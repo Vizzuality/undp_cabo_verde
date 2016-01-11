@@ -52,6 +52,27 @@ resource 'Acts' do
           expect(actor_3['locations'][0]['lat']).not_to be_nil
           expect(actor_3['locations'].size).to         eq(1)
         end
+
+        example_request 'Getting a list of micro actions' do
+          do_request(levels: ['micro'])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(1)
+        end
+
+        example_request 'Getting a list of micro and meso actions' do
+          do_request(levels: ['micro', 'meso'])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(2)
+        end
+
+        example_request 'Getting a list of actions with a social cultural domain' do
+          do_request(socio_cultural_domains_ids: [@category_1.id])
+          response_actions = JSON.parse(response_body)['actions']
+          expect(status).to eq(200)
+          expect(response_actions.size).to eq(2)
+        end
       end
     end
 
@@ -150,7 +171,7 @@ resource 'Acts' do
       let(:action_with_measurement) do
         relation_type_indicator = create(:act_indicator_relation_type_belongs)
 
-        indicator   = create(:indicator, name: 'Indicator one', localizations: [@location], user: @user)
+        indicator   = create(:indicator, name: 'Indicator one', user: @user)
 
         action_with_measurement = create(:act_macro, name: 'Action of Organization', user: @user,
                                           description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
@@ -195,7 +216,6 @@ resource 'Acts' do
           # Relations object details for indicator
           expect(action['artifacts'][0]['indicator']['id']).not_to be_nil
           expect(action['artifacts'][0]['indicator']['name']).to   eq('Indicator one')
-          expect(action['artifacts'][0]['indicator']['locations']).not_to be_nil
           
           # Relations object details for measurements
           expect(action['artifacts'][0]['measurements'][1]['id']).not_to         be_nil

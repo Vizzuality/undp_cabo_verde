@@ -18,6 +18,8 @@ hr
         = render partial: 'comments/form', locals: { commentable: @indicator }
 
 - if (can? :manage, @indicator)
+  .row.footer-helper
+  
   .row
     .button-collection.-formcollection
       = link_to t('shared.edit'), edit_indicator_path(@indicator), class: 'button -type-a'

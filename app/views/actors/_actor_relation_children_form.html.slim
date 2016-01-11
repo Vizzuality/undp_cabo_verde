@@ -18,9 +18,9 @@
       = f.label t('actors.current_actor'), class: 'right inline'
     .column.medium-8.text-left.current-actor-wrapper
       - if request.path.include?('/actors/new')
-        p.current-actor
+        p.current-actor.-disabled
       - else
-        p.current-actor-edit
+        p.current-actor-edit.-disabled
           = @actor.name unless request.path.include?('/actors/new')
   .row
     .column.medium-4

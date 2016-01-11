@@ -1,0 +1,52 @@
+.form-input {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+
+  & > .label {
+    display: block;
+    font-size: 14px;
+    color: $color-4;
+    font-weight: 500;
+
+    /* This styles make the label compatible with screen readers while invisible
+     * to standard users */
+    &.-hidden {
+      position: absolute;
+      left: -100vw;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      /* If the label is hidden, the input must take all the space */
+      & + .input { width: 100%; }
+    }
+
+  }
+
+  & > .input {
+    /* Reset the styles */
+    appearance: none;
+    outline: none;
+    background: none;
+    border: none;
+    border-radius: 0;
+    &::-ms-expand { display: none; }
+    /* Disables the Chrome native calendar options form input[type="date"] */
+    &::-webkit-calendar-picker-indicator { display: none; }
+    &::-webkit-input-placeholder { display: none; }
+    &::-webkit-inner-spin-button { display: none; }
+    &::-webkit-outer-spin-button { display: none; }
+
+    font-size: 14px;
+    color: $color-4;
+    font-weight: 500;
+    height: 42px;
+    width: 100%;
+    border-bottom: 1px solid $color-14;
+
+    &.-small { height: 25px; }
+    &.-monospace { font-family: monospace, sans-serif; }
+    &.-arrowicon { background: url(asset_path("form-arrow.png")) no-repeat center right / 13px; }
+    &.-calendaricon { background: url(asset_path("calendar.png")) no-repeat center right 5px / 18px; }
+  }
+}

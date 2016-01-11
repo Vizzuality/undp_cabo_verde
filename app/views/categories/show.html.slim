@@ -35,6 +35,8 @@
     = render partial: f
 
     - if (can? :manage, @category)
-        .row
-          .button-collection.-formcollection
-            = link_to t('shared.edit'), edit_category_path(@category), class: 'button -type-a'
+      .row.footer-helper  
+      
+      .row
+        .button-collection.-formcollection
+          = link_to t('shared.edit'), edit_category_path(@category), class: 'button -type-a'

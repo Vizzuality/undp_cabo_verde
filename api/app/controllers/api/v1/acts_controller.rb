@@ -3,8 +3,9 @@ module API::V1
     before_action :set_act, only: :show
 
     def index
-      @acts = Act.filter_actives.recent.includes(:localizations)
-      respond_with @acts, each_serializer: ActArraySerializer, root: 'actions', meta: { size: @acts.size, cache_date: @acts.last_max_update }
+      @search = Search::Acts.new(params)
+      @acts = @search.results
+      respond_with @acts, each_serializer: ActArraySerializer, root: 'actions', meta: { size: @search.total_cnt, cache_date: @acts.last_max_update }
     end
 
     def show

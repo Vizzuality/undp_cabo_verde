@@ -4,8 +4,7 @@ class IndicatorsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_current_user, only: :create
-  before_action :set_indicator, except: [:index, :new, :create, :show, :edit]
-  before_action :set_indicator_preload, only: [:show, :edit]
+  before_action :set_indicator, except: [:index, :new, :create]
   before_action :indicator_filters, only: :index
   before_action :set_selection, only: [:new, :edit, :show, :create, :update]
   before_action :set_memberships, only: :show
@@ -74,10 +73,6 @@ class IndicatorsController < ApplicationController
 
     def set_indicator
       @indicator = Indicator.find(params[:id])
-    end
-
-    def set_indicator_preload
-      @indicator = Indicator.preload(:localizations, localizations: :indicator_localizations).find(params[:id])
     end
 
     def set_selection
