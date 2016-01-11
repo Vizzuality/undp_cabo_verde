@@ -3,8 +3,6 @@ module LocalizationsHelper
     # ToDo: Setup owners for artefacts and acts
     if owner.class.name.include?('Actor')
       actor_localization_path(actor_id: owner, id: localization)
-    elsif owner.class.name.include?('Indicator')
-      indicator_localizations_path(indicator_id: owner, id: localization)
     else
       act_localization_path(act_id: owner, id: localization)
     end
@@ -14,8 +12,6 @@ module LocalizationsHelper
     # ToDo: Setup owners for artefacts and acts
     if owner.class.name.include?('Actor')
       actor_localizations_path(actor_id: owner)
-    elsif owner.class.name.include?('Indicator')
-      indicator_localizations_path(indicator_id: owner)
     else
       act_localizations_path(act_id: owner)
     end
@@ -29,8 +25,6 @@ module LocalizationsHelper
   def relation_location_class
     if request.path.include?('/actors/')
       :actor_localizations
-    elsif request.path.include?('/indicators/')
-      :indicator_localizations
     else
       :act_localizations
     end

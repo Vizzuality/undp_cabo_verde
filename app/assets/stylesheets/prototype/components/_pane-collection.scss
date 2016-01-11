@@ -1,0 +1,47 @@
+.pane-collection {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  & > .pane {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+    transition: transform .4s;
+    background-color: $color-11;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+
+    & > .content {
+      width: 100%;
+      padding: 0 25px;
+      background-color: $color-1;
+
+      &.-secondary {
+        background-color: transparent;
+
+        /* Kind of margin-top but making sure that the background is white */
+        &:before {
+          content: '';
+          display: block;
+          width: calc(100% + 2 * 25px);
+          height: 40px;
+          position: relative;
+          left: -25px;
+          background-color: $color-1;
+        }
+      }
+    }
+
+    &.-hidden {
+      transform: translateX(100%);
+    }
+
+    &.-fixed.-hidden {
+      transform: translateX(0);
+    }
+  }
+}

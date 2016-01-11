@@ -1,0 +1,130 @@
+.l-map {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  #logo {
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    z-index: 1;
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+    background-color: $color-2 !important;
+  }
+
+  #map-legend {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 180px;
+    background-color: $color-1;
+    padding: 15px 25px 0 0;
+    transform: translateY(0);
+    transition: transform .4s;
+
+    &.-reduced { transform: translateY(110px); }
+
+    & > ul {
+      margin: 0;
+      padding: 0;
+
+      & > li {
+        list-style-type: none;
+        color: $color-10;
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 400;
+
+        > .icon {
+          width: 12px;
+          height: 12px;
+          display: inline-block;
+          padding-top: 1px;
+          margin-right: 5px;
+
+          &.-large {
+            width: 42px;
+            padding-top: 2px;
+            margin-right: 10px;
+          }
+
+          &.-actor  > use { fill: $color-7; }
+          &.-action > use { fill: $color-6; }
+          &.-monochrome > use { fill: $color-15; }
+        }
+
+        &.title {
+          font-weight: 500;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    & > ul:not(ul:nth-of-type(3)) { flex-basis: 50%; }
+    & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
+  }
+
+  #map-buttons,
+  .leaflet-control-attribution {
+    position: absolute;
+    right: 20px;
+    bottom: 30px;
+    transform: translateX(-370px);
+    transition: transform .4s;
+
+    &.-slided { transform: translateX(0); }
+  }
+
+  .leaflet-control-attribution {
+    bottom: 8px;
+    width: 160px;
+    padding: 0 !important;
+    text-align: right;
+    background: none !important;
+    color: $color-11 !important;
+    opacity: .5;
+
+    & > a {
+      color: $color-11 !important;
+      text-decoration: underline !important;
+    }
+  }
+
+  .leaflet-control-zoom {
+    display: flex;
+    box-shadow: none;
+    border-radius: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateY(-213px);
+    transition: transform .4s;
+
+    &.-slided { transform: translateY(-103px); }
+
+    & > *,
+    & > *:hover {
+      margin: 1px;
+      border: none;
+      border-radius: 0 !important;
+      color: $color-1;
+      line-height: 24px;
+      background-color: $color-12;
+    }
+
+    & > .leaflet-disabled,
+    & > .leaflet-disabled {
+      color: $color-4;
+      background-color: $color-5;
+    }
+  }
+
+  .cartodb-logo { display: none !important; }
+}

@@ -1,0 +1,21 @@
+<svg class="more-button js-more" title="{{{t 'front.more_info'}}}">
+    <use xlink:href="#moreInfoIcon" x="1" y="1">
+</svg>
+<h1 class="title -tertiary">{{name}}</h1>
+<hr class="delimiter">
+{{#if socio_cultural_domains}}
+  {{{t 'front.socio_cultural_domains'}}}:
+  <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
+    {{#each socio_cultural_domains}}
+      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
+{{#if other_domains}}
+  {{{t 'front.other_domains'}}}:
+  <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
+    {{#each other_domains}}
+      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
