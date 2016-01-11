@@ -65,7 +65,7 @@ resource 'Actors' do
       context 'Actors list filtered by level or SCD' do
         get "/api/actors" do
           parameter :levels, 'Filter actors by level (micro, meso or macro)'
-          parameter :socio_cultural_domains_ids, 'Filter actors by socio cultural domain'
+          parameter :domains_ids, 'Filter actors by socio cultural domain'
 
           example 'Getting a list of micro actors' do
             do_request(levels: ['micro'])
@@ -82,7 +82,7 @@ resource 'Actors' do
           end
 
           example 'Getting a list of actors with a social cultural domain' do
-            do_request(socio_cultural_domains_ids: [@category_1.id])
+            do_request(domains_ids: [@category_1.id])
             response_actors = JSON.parse(response_body)['actors']
             expect(status).to eq(200)
             expect(response_actors.size).to eq(2)

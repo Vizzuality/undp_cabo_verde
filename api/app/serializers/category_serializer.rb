@@ -13,6 +13,6 @@ class CategorySerializer < BaseSerializer
   end
 
   def cache_key
-    self.class.cache_key << [object, object.updated_at]
+    self.class.cache_key << [object, object.updated_at, 2]
   end
 end

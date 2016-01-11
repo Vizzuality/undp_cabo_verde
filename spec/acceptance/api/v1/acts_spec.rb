@@ -57,7 +57,7 @@ resource 'Acts' do
       context 'Actions list filtered by level or SCD' do
         get "/api/actions" do
           parameter :levels, 'Filter actions by level (micro, meso or macro)'
-          parameter :socio_cultural_domains_ids, 'Filter actions by socio cultural domain'
+          parameter :domains_ids, 'Filter actions by socio cultural domain'
 
           example 'Getting a list of micro actions' do
             do_request(levels: ['micro'])
@@ -74,7 +74,7 @@ resource 'Acts' do
           end
 
           example 'Getting a list of actions with a social cultural domain' do
-            do_request(socio_cultural_domains_ids: [@category_1.id])
+            do_request(domains_ids: [@category_1.id])
             response_actions = JSON.parse(response_body)['actions']
             expect(status).to eq(200)
             expect(response_actions.size).to eq(2)

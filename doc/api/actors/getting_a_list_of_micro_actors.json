@@ -10,7 +10,7 @@
       "description": "Filter actors by level (micro, meso or macro)"
     },
     {
-      "name": "socio_cultural_domains_ids",
+      "name": "domains_ids",
       "description": "Filter actors by socio cultural domain"
     }
   ],
@@ -36,17 +36,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 21,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 5,\n          \"lat\": \"42.37005198484189\",\n          \"long\": \"49.701512278238454\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T12:00:02+02:00\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 16,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 4,\n          \"lat\": \"-59.78542716895898\",\n          \"long\": \"-85.27037894215955\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T12:00:01+02:00\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"911e8baa8ac000cecc10e7b72c03e498\"",
+        "ETag": "W/\"8200ea081f4a15c15e726413eaf26fa5\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "51c54d2d-40da-4755-92ba-f2200e119b61",
-        "X-Runtime": "0.032946",
-        "Content-Length": "206"
+        "X-Request-Id": "ab13924b-0f6a-40c6-b688-a5d38fde015c",
+        "X-Runtime": "0.028762",
+        "Content-Length": "207"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

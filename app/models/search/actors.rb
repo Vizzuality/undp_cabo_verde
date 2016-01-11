@@ -29,9 +29,9 @@ class Search::Actors
 
     @query = @query.where(type: @levels) if @levels
 
-    if @socio_cultural_domains.present? || @other_domains.present?
+    if @domains.present?
       @query = @query.joins(:categories).
-        where({ categories: { id: @socio_cultural_domains + @other_domains}})
+        where({ categories: { id: @domains }})
     end
 
     if @start_date

@@ -10,7 +10,7 @@
       "description": "Filter actions by level (micro, meso or macro)"
     },
     {
-      "name": "socio_cultural_domains_ids",
+      "name": "domains_ids",
       "description": "Filter actions by socio cultural domain"
     }
   ],
@@ -20,7 +20,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/actions?socio_cultural_domains_ids[]=106",
+      "request_path": "/api/actions?domains_ids[]=107",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -29,27 +29,27 @@
         "Cookie": ""
       },
       "request_query_parameters": {
-        "socio_cultural_domains_ids": [
-          "106"
+        "domains_ids": [
+          "107"
         ]
       },
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 11,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 12,\n          \"lat\": \"24.631532162246586\",\n          \"long\": \"115.13018951566397\"\n        }\n      ]\n    },\n    {\n      \"id\": 10,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 12,\n          \"lat\": \"24.631532162246586\",\n          \"long\": \"115.13018951566397\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T12:00:05+02:00\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 13,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 12,\n          \"lat\": \"48.28603615009314\",\n          \"long\": \"-154.5534375150784\"\n        }\n      ]\n    },\n    {\n      \"id\": 12,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 12,\n          \"lat\": \"48.28603615009314\",\n          \"long\": \"-154.5534375150784\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T12:00:04+02:00\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"981271222c095c0b9165c86582911c3e\"",
+        "ETag": "W/\"594dc18a4bbb33aa3da8a51840f4d210\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "53e0bfb5-12da-42da-b561-065cafcfafd8",
-        "X-Runtime": "0.093878",
-        "Content-Length": "348"
+        "X-Request-Id": "700202ee-c3d7-4313-a230-f2cdbf2b4216",
+        "X-Runtime": "0.054557",
+        "Content-Length": "346"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?socio_cultural_domains_ids[]=106\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?domains_ids[]=107\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }
