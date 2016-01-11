@@ -1,6 +1,6 @@
 class ActSerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 698001112
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
   
@@ -31,9 +31,17 @@ class ActSerializer < BaseSerializer
     data['event_or_activity'] = object.event? ? 'event' : 'activity'
     data['start_date']        = object.start_date.to_date.iso8601 if object.start_date
     data['end_date']          = object.end_date.to_date.iso8601   if object.end_date
-    data['budget']            = object.budget
+    data['budget']            = budget
     data['actions']           = actions
     data['actors']            = actors
+    data
+  end
+
+  def budget
+    data = {}
+    data['currency']        = object.budget.currency.iso_code            if object.budget.currency.iso_code
+    data['currency_symbol'] = object.budget.currency.html_entity         if object.budget.currency.html_entity
+    data['value']           = '%.2f' % (object.budget.fractional * 0.01) if object.budget.fractional
     data
   end
 
