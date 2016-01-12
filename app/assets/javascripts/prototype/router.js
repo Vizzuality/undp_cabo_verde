@@ -74,6 +74,11 @@
      * are initialized */
     retrieveQueryParams: function() {
       var query = location.search.replace('?', '');
+      /* If we don't have query params, we exit the method */
+      if(query.length === 0) {
+        return;
+      }
+
       var pairs = query.split('&');
       _.each(pairs, function(pair) {
         if(pair.split('=').length !== 2) {

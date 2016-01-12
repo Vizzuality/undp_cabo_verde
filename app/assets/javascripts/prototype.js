@@ -44,8 +44,12 @@
     initialize: function() {
       this.router = new root.app.Router();
 
-      this.actorsCollection = new root.app.Collection.actorsCollection();
-      this.actionsCollection = new root.app.Collection.actionsCollection();
+      this.actorsCollection = new root.app.Collection.actorsCollection(null, {
+        router: this.router
+      });
+      this.actionsCollection = new root.app.Collection.actionsCollection(null, {
+        router: this.router
+      });
 
       this.mapView = new root.app.View.mapView({
         actorsCollection: this.actorsCollection,
@@ -78,6 +82,9 @@
       this.listenTo(this.router, 'route:actor', this.fetchCollections);
       this.listenTo(this.router, 'route:action', this.fetchCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
+      this.listenTo(this.router, 'change:queryParams', function() {
+        this.fetchCollections({ force: true });
+      }.bind(this));
     },
 
     welcomePage: function() {
@@ -88,11 +95,11 @@
 
     },
 
-    fetchCollections: function() {
-      if(this.actorsCollection.length === 0) {
+    fetchCollections: function(options) {
+      if(this.actorsCollection.length === 0 || options && options.force) {
         this.actorsCollection.fetch();
       }
-      if(this.actionsCollection.length === 0) {
+      if(this.actionsCollection.length === 0 || options && options.force) {
         this.actionsCollection.fetch();
       }
     },
