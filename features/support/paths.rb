@@ -72,6 +72,8 @@ module NavigationHelpers
       user_indicators_path(User.find_by_email($1))
     when /the units page/
       units_path
+    when /the edit unit page for "(.*)"$/
+      edit_unit_path(Unit.find_by_name($1))
     else
       begin
         page_name =~ /the (.*) page/
