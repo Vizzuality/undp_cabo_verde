@@ -223,6 +223,7 @@
   .comment {
     @include font(helvetica, small, light, 1.4);
     margin: 10px 0;
+    color: $color-13;
   }
 }
 
