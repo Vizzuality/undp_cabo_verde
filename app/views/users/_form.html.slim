@@ -3,26 +3,23 @@
   .form-inputs
     .row
       .column.medium-4
-        = f.label :firstname, class: 'right inline'
+        = f.label :firstname, label: "First Name", class: 'right inline'
       .column.medium-8
-        = f.input :firstname, label: false
+        = f.input :firstname, label: false, disabled: common_form?
     .row
       .column.medium-4
-        = f.label :lastname, class: 'right inline'
+        = f.label :lastname, label: "Last Name", class: 'right inline'
       .column.medium-8
-        = f.input :lastname, label: false
+        = f.input :lastname, label: false, disabled: common_form?
     .row
       .column.medium-4
         = f.label :institution, class: 'right inline'
       .column.medium-8
-        = f.input :institution, label: false
+        = f.input :institution, label: false, disabled: common_form?
     .row
       .column.medium-4
         = f.label :email, class: 'right inline'
       .column.medium-8
-        = f.input :email, label: false, required: true, autofocus: true
+        = f.input :email, label: false, required: true, autofocus: true, disabled: common_form?
 
-    .row
-      .column.medium-8.medium-offset-4
-        .form-actions
-          = f.button :submit, "Update"
+
