@@ -9,11 +9,11 @@
   = simple_form_for @act do |f|
     = render partial: f
 
-    .form-actions
-      .row
-        .button-collection.-formcollection
-          = link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
-          - if current_user
-            = render 'shared/deactivatable_links', location: @act
-          = link_to t('shared.edit_relations'), membership_act_path(@act), class: 'button -secondary'
-          = f.button :submit, t('shared.update'), class: '-primary'
+    .row.footer-helper
+    
+    .row.fixed-row
+      .button-collection.-formcollection
+        = link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
+        - if current_user
+          = render 'shared/deactivatable_links', location: @act
+        = f.button :submit, t('shared.update'), class: '-primary'

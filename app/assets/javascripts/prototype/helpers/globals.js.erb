@@ -1,0 +1,12 @@
+(function(root) {
+
+  'use strict';
+
+  root.app = root.app || {};
+  root.app.Helper = root.app.Helper || {};
+
+  root.app.Helper.globals = {
+    apiUrl: "<%= ENV['API_URL'].presence || "/api/" %>"
+  };
+
+})(this);

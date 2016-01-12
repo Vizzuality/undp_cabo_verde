@@ -129,12 +129,20 @@ textarea:focus {
 }
 
 .form-actions  {
-  // padding-bottom: 70px;
 
-  h2 { margin-bottom: 20px; }
+  h2 {
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
 }
 
 .form-inputs .row {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.remove_fields, .remove_fields:hover {
+  margin-bottom: 40px;
+  color: $color-18 !important;
+  cursor: pointer;
 }
