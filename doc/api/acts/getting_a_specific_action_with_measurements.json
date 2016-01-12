@@ -1,0 +1,45 @@
+{
+  "resource": "Acts",
+  "http_method": "GET",
+  "route": "/api/actions/:id",
+  "description": "Getting a specific action with measurements",
+  "explanation": null,
+  "parameters": [
+
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/actions/21",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"action\": {\n    \"id\": 21,\n    \"level\": \"macro\",\n    \"name\": \"Action of Organization\",\n    \"alternative_name\": \"Cordia Brekke\",\n    \"short_name\": \"Jamar Gleason V\",\n    \"description\": \"Utrimque vespillo aut. Avarus depopulo praesentium decet victus damnatio voro defleo. Videlicet peior undique demoror dolore.\",\n    \"human_or_natural\": \"natural\",\n    \"event_or_activity\": \"activity\",\n    \"budget\": {\n      \"currency\": \"USD\",\n      \"currency_symbol\": \"$\",\n      \"value\": \"2000.00\"\n    },\n    \"actions\": {\n      \"parents\": [\n\n      ],\n      \"parents_info\": [\n\n      ],\n      \"children\": [\n\n      ],\n      \"children_info\": [\n\n      ]\n    },\n    \"actors\": {\n      \"parents\": [\n\n      ],\n      \"parents_info\": [\n\n      ]\n    },\n    \"artifacts\": [\n      {\n        \"target_value\": \"200.0\",\n        \"unit\": {\n          \"name\": \"Euro\",\n          \"symbol\": \"€\"\n        },\n        \"start_date\": \"2015-08-12\",\n        \"end_date\": \"2015-09-01\",\n        \"deadline\": \"2015-09-21\",\n        \"indicator\": {\n          \"id\": 1,\n          \"name\": \"Indicator one\",\n          \"alternative_name\": \"Indicator one alternative\"\n        },\n        \"measurements\": [\n          {\n            \"id\": 1,\n            \"value\": \"100.001\",\n            \"unit\": {\n              \"name\": \"Euro\",\n              \"symbol\": \"€\"\n            },\n            \"details\": \"Quod vix ascisco tollo. Dolores sulum omnis enim. Et cavus cunae contabesco. Aut terminatio curvo tepidus tricesimus adamo.\",\n            \"date\": \"2015-09-01\"\n          },\n          {\n            \"id\": 2,\n            \"value\": \"300.0\",\n            \"unit\": {\n              \"name\": \"Euro\",\n              \"symbol\": \"€\"\n            },\n            \"details\": \"Quod vix ascisco tollo. Dolores sulum omnis enim. Et cavus cunae contabesco. Aut terminatio curvo tepidus tricesimus adamo.\",\n            \"date\": \"2015-09-01\"\n          }\n        ]\n      }\n    ],\n    \"locations\": [\n      {\n        \"id\": 14,\n        \"main\": true,\n        \"info_data\": {\n          \"name\": \"Woodrow Runolfsdottir III\",\n          \"iso\": \"CV\",\n          \"country\": \"Cape Verde\",\n          \"city\": \"South Winfield\",\n          \"zip_code\": \"16236\",\n          \"state\": \"Vermont\",\n          \"district\": \"Miss Darryl Aufderhar\",\n          \"street\": \"865 Alena Corner\",\n          \"web_url\": \"http://lindgrenrosenbaum.biz/virgil\",\n          \"lat\": \"-19.01345732194997\",\n          \"long\": \"34.683527295280726\"\n        }\n      }\n    ],\n    \"organization_types\": [\n\n    ],\n    \"socio_cultural_domains\": [\n      {\n        \"id\": 118,\n        \"name\": \"Category SCD\",\n        \"type\": \"Socio cultural domain\"\n      },\n      {\n        \"id\": 122,\n        \"name\": \"Faith\",\n        \"type\": \"Socio cultural domain\"\n      }\n    ],\n    \"other_domains\": [\n      {\n        \"id\": 117,\n        \"name\": \"Category OD\",\n        \"type\": \"Other domains\"\n      }\n    ]\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"a3f906faf474f8c005fc9e7b2ecfc92b\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "367ee511-1ad1-42b5-9c98-168f1fe59dd5",
+        "X-Runtime": "0.159876",
+        "Content-Length": "1812"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions/21\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}
