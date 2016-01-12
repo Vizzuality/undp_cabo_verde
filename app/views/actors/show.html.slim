@@ -73,7 +73,7 @@
   - if (can? :manage, @actor)
     .row.footer-helper
 
-    .row
+    .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.edit'), edit_actor_path(@actor), class: 'button -type-a'
         = render 'shared/deactivatable_links', location: @actor
