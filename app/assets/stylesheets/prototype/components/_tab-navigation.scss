@@ -1,0 +1,42 @@
+/*
+  ul.tab-navigation role="tablist"
+    li.tab.-active
+      a.link href="#tab1" role="tab"
+        | Tab 1
+    li.tab
+      a.link href="#tab2" role="tab"
+        | Tab 2
+*/
+
+.tab-navigation {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  list-style-type: none;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 16px;
+
+  >.tab {
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    width: 100%;
+    color: $color-1;
+    background-color: $color-5;
+  }
+
+  >.tab.-active {
+    color: $color-2;
+    background-color: $color-1;
+  }
+
+  .link {
+    display: block;
+    width: 100%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 18px;
+  }
+}

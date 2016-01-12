@@ -8,7 +8,7 @@ class UnitsController < ApplicationController
   respond_to :json, :html
 
   def index
-    @units = Unit.order(:name)
+    @units = Unit.includes(:act_indicator_relations, :measurements).order(:name)
   end
 
   def edit

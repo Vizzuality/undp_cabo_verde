@@ -54,6 +54,8 @@
 
     = render partial: f
 
-    .row
+    .row.footer-helper
+
+    .row.fixed-row
       .button-collection.-formcollection
         = f.button :submit, t('shared.create'), class: '-primary'

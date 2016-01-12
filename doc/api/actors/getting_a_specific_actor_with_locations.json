@@ -1,0 +1,45 @@
+{
+  "resource": "Actors",
+  "http_method": "GET",
+  "route": "/api/actors/:id",
+  "description": "Getting a specific actor with locations",
+  "explanation": null,
+  "parameters": [
+
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/actors/25",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"actor\": {\n    \"id\": 25,\n    \"level\": \"macro\",\n    \"name\": \"Economy Organization\",\n    \"observation\": \"Carcer curriculum rerum clarus. Surgo toties vito aranea uxor terreo supellex. Contigo vulticulus adficio thorax capio auditor defigo. Culpa tonsor demergo exercitationem circumvenio defluo voluptates admoneo. Decens cognatus depraedor.\",\n    \"scale\": \"Global\",\n    \"short_name\": \"Zachery Batz\",\n    \"legal_status\": \"Betty Rath\",\n    \"other_names\": \"Mrs. Isabel Champlin\",\n    \"actors\": {\n      \"parents\": [\n\n      ],\n      \"parents_info\": [\n\n      ],\n      \"children\": [\n\n      ],\n      \"children_info\": [\n\n      ]\n    },\n    \"actions\": {\n      \"children\": [\n\n      ],\n      \"children_info\": [\n\n      ]\n    },\n    \"locations\": [\n      {\n        \"id\": 7,\n        \"main\": true,\n        \"info_data\": {\n          \"name\": \"Albina Littel\",\n          \"iso\": \"CV\",\n          \"country\": \"Cape Verde\",\n          \"city\": \"South Isabelle\",\n          \"zip_code\": \"22767\",\n          \"state\": \"Oregon\",\n          \"district\": \"Tremayne Bradtke\",\n          \"street\": \"36365 Vandervort Cape\",\n          \"web_url\": \"http://quigley.net/asa\",\n          \"lat\": \"74.65088243622674\",\n          \"long\": \"-37.34998139658819\"\n        }\n      }\n    ],\n    \"organization_types\": [\n      {\n        \"id\": 69,\n        \"name\": \"Category OT\",\n        \"type\": \"Organization type\"\n      }\n    ],\n    \"socio_cultural_domains\": [\n      {\n        \"id\": 68,\n        \"name\": \"Category SCD\",\n        \"type\": \"Socio cultural domain\"\n      },\n      {\n        \"id\": 71,\n        \"name\": \"Faith\",\n        \"type\": \"Socio cultural domain\"\n      }\n    ],\n    \"other_domains\": [\n      {\n        \"id\": 67,\n        \"name\": \"Category OD\",\n        \"type\": \"Other domains\"\n      }\n    ]\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"4554cb1bf5773e3689cc369b2c02d396\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "01b51c3e-273d-4c3e-a9e5-9acbfdc67794",
+        "X-Runtime": "0.106564",
+        "Content-Length": "1165"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors/25\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

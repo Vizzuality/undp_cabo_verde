@@ -1,8 +1,8 @@
 class ActActorRelation < ActiveRecord::Base
   belongs_to :user
 
-  belongs_to :act,   foreign_key: :act_id
-  belongs_to :actor, foreign_key: :actor_id
+  belongs_to :act,   foreign_key: :act_id, touch: true
+  belongs_to :actor, foreign_key: :actor_id, touch: true
 
   belongs_to :relation_type
 

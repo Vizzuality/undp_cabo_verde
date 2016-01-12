@@ -1,0 +1,52 @@
+.popup {
+  color: $color-10;
+
+  & > .leaflet-popup-content-wrapper {
+    box-shadow: none;
+    border-radius: 0;
+
+    & > .leaflet-popup-content { margin-bottom: 5px; }
+  }
+
+  .leaflet-popup-tip {
+    box-shadow: none;
+  }
+
+  .delimiter {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border: none;
+    border-top: 1px solid $color-10;
+  }
+
+  .title {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    width: calc(100% - 58px);
+    color: $color-10 !important;
+  }
+
+  .more-button {
+    width: 18px;
+    height: 18px;
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+
+  &.-actors {
+    & > .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background-color: $color-7;
+    }
+  }
+
+  &.-actions {
+    & > .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background-color: $color-6;
+    }
+  }
+}

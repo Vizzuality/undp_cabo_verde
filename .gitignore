@@ -39,3 +39,8 @@ config/database.yml
 
 .env
 .byebug_history
+/public/javascripts/translations.js
+
+# Vim
+.*.swp
+.*.swo

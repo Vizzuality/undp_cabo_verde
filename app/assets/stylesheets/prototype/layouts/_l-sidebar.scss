@@ -1,0 +1,76 @@
+.l-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 370px;
+  height: 100%;
+  transform: translateX(0);
+  transition: transform .4s;
+
+  /* NOTE: temporal */
+  background-color: $color-1;
+
+  &.-hidden {
+    transform: translateX(100%);
+
+    >.toggleswitch:before,
+    >.toggleswitch:after {
+      content: none;
+    }
+
+    >.toggleswitch {
+      background-image: url(asset_path("hamburger.png"));
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+
+  >.toggleswitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 23px;
+    height: 60px;
+    transform: translateX(-100%);
+    background-color: $color-1;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      height: 10px;
+      width: 2px;
+      background-color: $color-2;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      height: 10px;
+      width: 2px;
+      background-color: $color-2;
+    }
+  }
+
+  #sidebar-action-toolbar-view {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 25px;
+    background-color: $color-1;
+  }
+
+  #overall-tab,
+  #about-tab {
+    height: calc(100% - 2 * 60px);
+  }
+}
