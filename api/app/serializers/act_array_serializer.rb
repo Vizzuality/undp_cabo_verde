@@ -19,9 +19,7 @@ class ActArraySerializer < BaseSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-    
+    cache_params = @options[:search_filter] if @options[:search_filter].present?
     self.class.cache_key << [object, object.updated_at, cache_params]
   end
 end

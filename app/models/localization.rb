@@ -7,12 +7,9 @@ class Localization < ActiveRecord::Base
   has_many :actors, through: :actor_localizations, dependent: :destroy
   has_many :act_localizations, foreign_key: :localization_id
   has_many :acts, through: :act_localizations, dependent: :destroy
-  has_many :indicator_localizations, foreign_key: :localization_id
-  has_many :indicators, through: :indicator_localizations, dependent: :destroy
 
-  accepts_nested_attributes_for :act_localizations,       allow_destroy: true
-  accepts_nested_attributes_for :actor_localizations,     allow_destroy: true
-  accepts_nested_attributes_for :indicator_localizations, allow_destroy: true
+  accepts_nested_attributes_for :act_localizations,   allow_destroy: true
+  accepts_nested_attributes_for :actor_localizations, allow_destroy: true
 
   validates :long, presence: true
   validates :lat,  presence: true

@@ -1,8 +1,8 @@
 class ActIndicatorRelation < ActiveRecord::Base
   belongs_to :user
 
-  belongs_to :act,       foreign_key: :act_id
-  belongs_to :indicator, foreign_key: :indicator_id
+  belongs_to :act,       foreign_key: :act_id, touch: true
+  belongs_to :indicator, foreign_key: :indicator_id, touch: true
   belongs_to :unit,      foreign_key: :unit_id
   belongs_to :relation_type
   

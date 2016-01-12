@@ -24,6 +24,7 @@ module Undp
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'acts')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'localizations')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'categories')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'search')]
     config.included_models = ActiveRecord::Base.descendants.map!(&:name)
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -34,6 +35,10 @@ module Undp
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    config.assets.initialize_on_precompile = true
+    config.i18n.available_locales = [:en]
+    config.i18n.default_locale = :en
+    config.i18n.fallbacks = true
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true

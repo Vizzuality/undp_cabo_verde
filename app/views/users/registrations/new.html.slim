@@ -1,14 +1,56 @@
-h2
-  | Sign up
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :firstname
-    = f.input :lastname
-    = f.input :institution
-    = f.input :email, required: true, autofocus: true
-    = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
-    = f.input :password_confirmation, required: true
+.section-container#signup
+
   .form-actions
-    = f.button :submit, "Sign up"
-= render "users/shared/links"
+    .row
+      .column.medium-8.medium-offset-1
+        .row
+          .column.medium-8.medium-offset-4
+            h2
+              = t('navbar.register')
+
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = f.error_notification
+      .row
+        .column.medium-8.medium-offset-1
+          .row
+            .column.medium-4
+              = f.label :firstname, label: 'First name', class: 'right inline'
+            .column.medium-8
+              = f.input :firstname, label: false
+          .row
+            .column.medium-4
+              = f.label :lastname, label: 'Last name', class: 'right inline'
+            .column.medium-8
+              = f.input :lastname, label: false
+          .row
+            .column.medium-4
+              = f.label :institution, class: 'right inline'
+            .column.medium-8
+              = f.input :institution, label: false
+          .row
+            .column.medium-4
+              = f.label :email, class: 'right inline', required: true
+            .column.medium-8
+              = f.input :email, label: false, required: true, autofocus: true
+              - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                p
+                  | Currently waiting confirmation for:
+                  = resource.unconfirmed_email
+          .row
+            .column.medium-4
+              = f.label :password, label: 'Password', class: 'right inline', required: true
+            .column.medium-8
+              = f.input :password, label: false, autocomplete: "off", hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: true
+          .row
+            .column.medium-4
+              = f.label :password_confirmation, label: 'Confirm password', class: 'right inline', required: true
+            .column.medium-8
+              = f.input :password_confirmation, label: false, required: false
+
+
+          .row
+            .column.medium-8.medium-offset-4
+              .submit
+                = f.button :submit, t('navbar.register'), class: '-type-a'
+              .account-options
+                = render "users/shared/links"

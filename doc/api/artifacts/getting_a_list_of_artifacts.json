@@ -1,0 +1,45 @@
+{
+  "resource": "Artifacts",
+  "http_method": "GET",
+  "route": "/api/artifacts",
+  "description": "Getting a list of artifacts",
+  "explanation": null,
+  "parameters": [
+
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/artifacts",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"artifacts\": [\n    {\n      \"id\": 4,\n      \"name\": \"Indicator of Department\",\n      \"alternative_name\": \"Kendall Mayert\"\n    },\n    {\n      \"id\": 3,\n      \"name\": \"Indicator of Project\",\n      \"alternative_name\": \"Dr. Jayne Walter\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Indicator of Organization\",\n      \"alternative_name\": \"Emmitt Aufderhar\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 3,\n    \"cache_date\": \"2015-09-01T12:00:05+02:00\"\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"1316f799b4ff1513b6bce53992f982ed\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "6066b75d-65e1-43d8-a6bf-d5f2cd087a9b",
+        "X-Runtime": "0.046329",
+        "Content-Length": "311"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

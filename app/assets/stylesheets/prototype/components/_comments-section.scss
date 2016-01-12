@@ -1,0 +1,33 @@
+.comments-section {
+
+  & > .comment {
+    margin: 20px 0;
+
+    &:first-of-type { margin-top:    0; }
+    &:last-of-type  { margin-bottom: 0; }
+
+    & > .content {
+      color: $color-10;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    & > .metadata {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 13px;
+      font-weight: 400;
+
+      & > .author { color: $color-2; }
+
+      & > .date {
+        display: inline-block;
+        margin-left: 8px;
+        color: $color-10;
+      }
+    }
+
+  }
+}
