@@ -70,5 +70,9 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
   config.order = "random"
+  Capybara.server do |app, port|
+    require 'rack/handler/puma'
+    Rack::Handler::Puma.run(app, Port: port)
+  end
   Capybara.javascript_driver = :webkit
 end

@@ -1,11 +1,12 @@
 module API::V1
   class ActorsController < API::ApplicationController
     before_action :set_actor, only: :show
+    before_action :set_search_filter, only: :index
 
     def index
       @search = Search::Actors.new(params)
       @actors = @search.results
-      respond_with @actors, each_serializer: ActorArraySerializer, root: 'actors', meta: { size: @search.total_cnt, cache_date: @actors.last_max_update }
+      respond_with @actors, each_serializer: ActorArraySerializer, root: 'actors', search_filter: @search_filter, meta: { size: @search.total_cnt, cache_date: @actors.last_max_update }
     end
 
     def show
@@ -16,6 +17,12 @@ module API::V1
 
       def set_actor
         @actor = Actor.find(params[:id])
+      end
+
+      def set_search_filter
+        @search_filter = {}
+        @search_filter['levels']      = params[:levels]      if params[:levels].present?
+        @search_filter['domains_ids'] = params[:domains_ids] if params[:domains_ids].present?
       end
   end
 end

@@ -12,7 +12,8 @@ class Category < ActiveRecord::Base
   validates :type, presence: true
   validates :name, presence: true
 
-  scope :with_children, -> { includes(:children) }
+  scope :with_children,     -> { includes(:children) }
+  scope :domain_categories, -> { where(type: ['SocioCulturalDomain', 'OtherDomain']) }
 
   def parent_name
     parent.try(:name)

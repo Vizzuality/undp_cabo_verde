@@ -58,9 +58,6 @@ GEM
       execjs
       json
     bcrypt (3.1.10)
-    best_in_place (3.0.3)
-      actionpack (>= 3.2)
-      railties (>= 3.2)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -268,6 +265,7 @@ GEM
       rails-assets-jquery (>= 1.6)
     rails-assets-jquery.cookie (1.4.1)
       rails-assets-jquery (>= 1.2)
+    rails-assets-leaflet (0.7.7)
     rails-assets-modernizr (2.8.3)
     rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
@@ -412,7 +410,6 @@ DEPENDENCIES
   acts_as_tree
   api!
   autoprefixer-rails
-  best_in_place (~> 3.0.1)
   better_errors
   binding_of_caller
   bullet
@@ -449,6 +446,7 @@ DEPENDENCIES
   rails-assets-backbone!
   rails-assets-foundation!
   rails-assets-handlebars!
+  rails-assets-leaflet!
   rails-assets-underscore!
   rails_12factor
   responders (~> 2.0)

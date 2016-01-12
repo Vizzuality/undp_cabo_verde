@@ -61,6 +61,7 @@ Rails.application.configure do
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorRelation', association: :relation_type
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActRelation', association: :relation_type
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Measurement', association: :unit
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActActorRelation', association: :relation_type
     end
   end
 

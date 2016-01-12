@@ -48,8 +48,8 @@ class Act < ActiveRecord::Base
                                           child.id) }
   scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
   
-  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
-  scope :recent,             -> { order('updated_at DESC')                 }
+  scope :last_max_update,    -> { maximum(:updated_at)     }
+  scope :recent,             -> { order('updated_at DESC') }
 
   validates :type,                      presence: true
   validates :name,                      presence: true

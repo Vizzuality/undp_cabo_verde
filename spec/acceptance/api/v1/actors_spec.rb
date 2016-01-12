@@ -60,26 +60,33 @@ resource 'Actors' do
           expect(actor_4['locations'][0]['lat']).not_to be_nil
           expect(actor_3['locations'].size).to eq(1)
         end
+      end
+        
+      context 'Actors list filtered by level or SCD' do
+        get "/api/actors" do
+          parameter :levels, 'Filter actors by level (micro, meso or macro)'
+          parameter :domains_ids, 'Filter actors by socio cultural domain'
 
-        example_request 'Getting a list of micro actors' do
-          do_request(levels: ['micro'])
-          response_actors = JSON.parse(response_body)['actors']
-          expect(status).to eq(200)
-          expect(response_actors.size).to eq(1)
-        end
+          example 'Getting a list of micro actors' do
+            do_request(levels: ['micro'])
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(1)
+          end
 
-        example_request 'Getting a list of micro and meso actors' do
-          do_request(levels: ['micro', 'meso'])
-          response_actors = JSON.parse(response_body)['actors']
-          expect(status).to eq(200)
-          expect(response_actors.size).to eq(2)
-        end
+          example 'Getting a list of micro and meso actors' do
+            do_request(levels: ['micro', 'meso'])
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(2)
+          end
 
-        example_request 'Getting a list of actors with a social cultural domain' do
-          do_request(socio_cultural_domains_ids: [@category_1.id])
-          response_actors = JSON.parse(response_body)['actors']
-          expect(status).to eq(200)
-          expect(response_actors.size).to eq(2)
+          example 'Getting a list of actors with a social cultural domain' do
+            do_request(domains_ids: [@category_1.id])
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(2)
+          end
         end
       end
     end

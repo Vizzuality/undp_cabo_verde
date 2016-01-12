@@ -21,6 +21,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-underscore'
   gem 'rails-assets-backbone'
   gem 'rails-assets-handlebars'
+  gem 'rails-assets-leaflet'
 end
 
 # Templating
@@ -28,7 +29,6 @@ gem 'slim-rails'
 gem 'simple_form'
 gem 'country_select'
 gem 'kaminari'
-gem 'best_in_place', '~> 3.0.1'
 
 gem 'acts_as_tree'
 
