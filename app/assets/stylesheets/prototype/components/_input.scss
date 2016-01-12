@@ -48,5 +48,39 @@
     &.-monospace { font-family: monospace, sans-serif; }
     &.-arrowicon { background: url(asset_path("form-arrow.png")) no-repeat center right / 13px; }
     &.-calendaricon { background: url(asset_path("calendar.png")) no-repeat center right 5px / 18px; }
+
+    /* Styles for checkboxes */
+    &.-checkbox {
+      display: none;
+
+      & + .label {
+        position: relative;
+        display: block;
+        padding-left: 25px;
+        cursor: pointer;
+
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 10px;
+          height: 10px;
+          border: 1px solid $color-14;
+          cursor: pointer;
+        }
+      }
+
+      &:checked {
+        & + .label {
+          color: $color-2;
+
+          &:before {
+            border: 1px solid $color-2;
+          }
+        }
+      }
+    }
   }
 }

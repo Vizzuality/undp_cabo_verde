@@ -10,23 +10,19 @@
       clear: both;
     }
 
-    /* Prevents a grey border at the top of the form (the background of the
-     * pane)*/
-    & > .form-input:first-of-type {
-      margin-top: 0;
-    }
-
     /* Two-column grid layout for the start and end date, and the reset and apply buttons  */
-    & > .form-input:nth-of-type(4),
+    & > .form-input:nth-of-type(1),
     & > .button:first-of-type {
       float: left;
       width: calc(50% - 13px);
       margin-right: 26px;
+      margin-top: 15px;
     }
-    & > .form-input:nth-of-type(5),
+    & > .form-input:nth-of-type(2),
     & > .button:last-of-type {
       float: left;
       width: calc(50% - 13px);
+      margin-top: 15px;
     }
 
     /* We add a space between the buttons and the fields */
