@@ -16,32 +16,31 @@ class Search::Acts
     @query.count
   end
 
-
   private
 
-  def initialize_params(options)
-    @options = Search::ActsParams.sanitize(options)
-    @options.keys.each { |k| instance_variable_set("@#{k}", @options[k]) }
-  end
-
-  def initialize_query
-    @query = Act.filter_actives.recent
-
-    @query = @query.where(type: @levels) if @levels
-
-    if @domains.present?
-      @query = @query.joins(:categories).
-        where({ categories: { id: @domains }})
+    def initialize_params(options)
+      @options = Search::ActsParams.sanitize(options)
+      @options.keys.each { |k| instance_variable_set("@#{k}", @options[k]) }
     end
 
-    if @start_date
-      @query = @query.where('start_date > ?', @start_date)
-    end
+    def initialize_query
+      @query = Act.filter_actives.recent
 
-    if @end_date
-      @query = @query.where('end_date < ?', @end_date)
-    end
+      @query = @query.where(type: @levels) if @levels
 
-    @query = @query
-  end
+      if @domains.present?
+        @query = @query.joins(:categories).
+          where({ categories: { id: @domains }})
+      end
+
+      if @start_date
+        @query = @query.where('start_date > ?', @start_date)
+      end
+
+      if @end_date
+        @query = @query.where('end_date < ?', @end_date)
+      end
+
+      @query = @query
+    end
 end

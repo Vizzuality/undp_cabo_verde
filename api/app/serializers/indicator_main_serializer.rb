@@ -4,7 +4,7 @@ class IndicatorMainSerializer < BaseSerializer
 
   attributes :id, :name, :alternative_name
 
-  # Indicators and measurements
+  # Actions
   has_many :acts, key: :actions
 
   def include_associations!

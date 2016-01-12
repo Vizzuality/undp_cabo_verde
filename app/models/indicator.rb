@@ -18,8 +18,8 @@ class Indicator < ActiveRecord::Base
   validates :name,    presence: true
   validates :user_id, presence: true
 
-  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
-  scope :recent,             -> { order('updated_at DESC')                 }
+  scope :last_max_update,    -> { maximum(:updated_at)     }
+  scope :recent,             -> { order('updated_at DESC') }
 
   def self.filter_indicators(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
