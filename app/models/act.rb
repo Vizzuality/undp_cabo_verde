@@ -29,13 +29,13 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
-  
+
   accepts_nested_attributes_for :localizations,           allow_destroy: true
   accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
-  
+
   after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
@@ -48,8 +48,8 @@ class Act < ActiveRecord::Base
                                           child.id) }
   scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
   
-  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
-  scope :recent,             -> { order('updated_at DESC')                 }
+  scope :last_max_update,    -> { maximum(:updated_at)     }
+  scope :recent,             -> { order('updated_at DESC') }
 
   validates :type,                      presence: true
   validates :name,                      presence: true
