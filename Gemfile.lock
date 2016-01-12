@@ -268,6 +268,7 @@ GEM
       rails-assets-jquery (>= 1.6)
     rails-assets-jquery.cookie (1.4.1)
       rails-assets-jquery (>= 1.2)
+    rails-assets-leaflet (0.7.7)
     rails-assets-modernizr (2.8.3)
     rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
@@ -449,6 +450,7 @@ DEPENDENCIES
   rails-assets-backbone!
   rails-assets-foundation!
   rails-assets-handlebars!
+  rails-assets-leaflet!
   rails-assets-underscore!
   rails_12factor
   responders (~> 2.0)

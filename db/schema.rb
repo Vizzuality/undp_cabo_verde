@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151224101206) do
+ActiveRecord::Schema.define(version: 20160111104339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,19 +196,6 @@ ActiveRecord::Schema.define(version: 20151224101206) do
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
-
-  create_table "indicator_localizations", force: :cascade do |t|
-    t.integer  "localization_id"
-    t.integer  "indicator_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "main",            default: false
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
-  add_index "indicator_localizations", ["indicator_id"], name: "index_indicator_localizations_on_indicator_id", using: :btree
-  add_index "indicator_localizations", ["localization_id"], name: "index_indicator_localizations_on_localization_id", using: :btree
 
   create_table "indicators", force: :cascade do |t|
     t.integer  "user_id"

@@ -3,6 +3,7 @@
 //= require jquery.ui.datepicker
 //= require chosen-jquery
 //= require best_in_place
+//= require leaflet
 //= require_tree .
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
@@ -36,57 +37,6 @@ var filterForms = function() {
     }
   });
 };
-
-var toggleDropdown = function(target) {
-  // .dropdown-active is a class that changes the visibility via css
-  target.classList.toggle('dropdown-active');
-};
-
-var hideDropdown = function(target) {
-  target.classList.remove('dropdown-active');
-};
-
-
-var dropdown = function() {
-  var settings = document.querySelector('#js-dropdown-set');
-  var settingsTarget = document.querySelector('#dropdown-list-set');
-
-  var account =  document.querySelector('#js-dropdown-acc');
-  var accountTarget = document.querySelector('#dropdown-list-acc');
-
-  //Hiding all dropdowns
-
-  $('html').click(function() {
-    hideDropdown(settings);
-    hideDropdown(account);
-  });
-
-  // Stop event propagation to the settings and account buttons &
-  // Toggle the current dropdown list &
-  // Hide the other dropdown list
-
-  settings.addEventListener('click', function(event) {
-    toggleDropdown(settings);
-    hideDropdown(account);
-    event.stopPropagation();
-  });
-
-  account.addEventListener('click', function(event) {
-    toggleDropdown(account);
-    hideDropdown(settings);
-    event.stopPropagation();
-  });
-
-  // Stop event propagation to the dropdown lists
-
-  settingsTarget.addEventListener('click', function(event) {
-    event.stopPropagation();
-  });
-
-  accountTarget.addEventListener('click', function(event) {
-    event.stopPropagation();
-  });
-}
 
 var showDatepicker = function() {
   var dateFields = document.querySelectorAll('.js-datepicker');
@@ -128,9 +78,15 @@ var createPreviewMap = function(container) {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
   });
 
+  var southWest = L.latLng(-85, -720.0),
+      northEast = L.latLng(85, 720.0),
+      bounds = L.latLngBounds(southWest, northEast);
+
   var map = L.map(container, {
     center: [16.77, -23.70],
-    zoom: 1
+    zoom: 1,
+    minZoom: 1,
+    maxBounds: bounds
   });
 
   map.addLayer(layer);
@@ -275,7 +231,6 @@ var getClosestParent = function(element, selector) {
 
 function onReady() {
   filterForms();
-  dropdown();
   showMultiselect();
   showDatepicker();
   /* Initialize the mini maps attached to the location forms */

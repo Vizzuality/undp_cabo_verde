@@ -7,8 +7,24 @@
 
   &.-formcollection {
     justify-content: center;
-    margin-top: 70px;
     padding: 30px 0;
-    box-shadow: 0 -7px 5px -5px rgba($color-4, .3);
+    box-shadow: -8px -7px 5px -5px rgba($color-4, .3);
   }
+}
+
+.footer-helper {
+  width: 101% !important;       // Overriding ".row" and ".row .row" styles
+  max-width: 101% !important;   // Overriding ".row" and ".row .row" styles
+  margin: 0 !important;         // Overriding ".row" and ".row .row" styles
+}
+
+.fixed-row {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: $color-1;
+  width: 101% !important;       // Overriding ".row" and ".row .row" styles
+  max-width: 101% !important;   // Overriding ".row" and ".row .row" styles
+  margin: 0 !important;         // Overriding ".row" and ".row .row" styles
+  z-index: 1000;
 }
