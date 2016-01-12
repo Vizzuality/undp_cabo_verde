@@ -1,6 +1,6 @@
 class ActLocalization < ActiveRecord::Base
-  belongs_to :act, foreign_key: :act_id
-  belongs_to :localization, foreign_key: :localization_id
+  belongs_to :act, foreign_key: :act_id, touch: true
+  belongs_to :localization, foreign_key: :localization_id, touch: true
 
   scope :main_locations, -> { where( main: true ) }
 

@@ -1,8 +1,17 @@
 .input.check_boxes {
   padding-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .checkbox {
+  margin-right: 20px;
+
+  &:last-of-type {
+    margin-right: 0px;
+  }
+
   > label {
     @include font(helvetica, small, light, null);
     color: $color-3;

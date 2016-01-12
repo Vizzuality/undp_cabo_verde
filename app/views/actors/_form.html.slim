@@ -30,7 +30,7 @@
         h2 = t('localizations.localizations')
 
     = form.fields_for :localizations do |localizations_form|
-      p= render 'localizations/form', f: localizations_form
+      = render 'localizations/form', f: localizations_form
 
     - unless common_form?
       .row
@@ -46,7 +46,7 @@
         h2 = t('relations.actors_relations')
 
     = form.fields_for :actor_relations_as_child do |actor_parents_form|
-      p= render 'actor_relation_form', f: actor_parents_form
+      = render 'actor_relation_form', f: actor_parents_form
 
 .row
   .columns.medium-8.medium-offset-1
@@ -71,7 +71,7 @@
         h2 = t('relations.actions_relations')
 
     = form.fields_for :act_actor_relations do |actions_form|
-      p= render 'action_relation_form', f: actions_form
+      = render 'action_relation_form', f: actions_form
 
     - unless common_form?
       .row
@@ -79,3 +79,4 @@
           p.text-right
             / Add more css classes to 'add_action', sample 'add_action your_class_name'
             = add_action_relation_path t('actors.add_action'), form, :act_actor_relations, 'add_fields add_action'
+

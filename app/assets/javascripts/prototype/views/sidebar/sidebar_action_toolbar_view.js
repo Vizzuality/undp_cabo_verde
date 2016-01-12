@@ -33,6 +33,10 @@
           this.showGoBackButton();
           break;
 
+        case 'action':
+          this.showGoBackButton();
+          break;
+
         default:
           this.hideGoBackButton();
           break;

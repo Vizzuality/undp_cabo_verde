@@ -46,7 +46,7 @@ class Actor < ActiveRecord::Base
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)',
                                           child.id) }
 
-  scope :last_max_update,    -> { maximum(:updated_at).to_time.iso8601     }
+  scope :last_max_update,    -> { maximum(:updated_at)                     }
   scope :recent,             -> { order('updated_at DESC')                 }
   scope :meso_and_macro,     -> { where(type: ['ActorMeso', 'ActorMacro']) }
   # End scopes

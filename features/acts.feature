@@ -55,7 +55,6 @@ I want to manage an act
     When I go to the edit act page for "Third one"
     Then I should be on the edit act page for "Third one"
 
-  @javascript
   Scenario: User can create act
     Given user
     And third act
@@ -139,31 +138,6 @@ I want to manage an act
     And I should see "Second one"
     And I should see "First one"
     And I should not see "First act by admin"
-
-  Scenario: User can edit membership start and end dates
-    Given I am authenticated user
-    And third act
-    And second act
-    When I go to the edit act page for "Third one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I select datetime "1990 March 10" as the "act_relation_start_date"
-    And I select datetime "2010 March 10" as the "act_relation_end_date"
-    And I press "Update"
-    Then I should see "from: March 10, 1990 - to: March 10, 2010"
-
-  Scenario: User can edit membership title and title reverse
-    Given I am authenticated user
-    And third act
-    And second act
-    And acts relation
-    When I go to the edit act page for "Third one"
-    And I follow "Edit relation"
-    And I follow "Add" within ".add_meso"
-    And I follow "Edit" within ".edit_meso"
-    When I select "action - action (relational namespaces: belongs to - contains)" from "act_relation_relation_type_id"
-    Then I press "Update"
 
   # for locations see location.feature
 
