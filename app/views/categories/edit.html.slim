@@ -20,7 +20,7 @@
 
     .row.footer-helper
       
-    .row
+    .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.delete'), category_path(@category), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
         = f.button :submit, t('shared.update'), class: '-primary'

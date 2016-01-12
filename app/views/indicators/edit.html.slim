@@ -12,7 +12,7 @@
     
     .row.footer-helper
     
-    .row
+    .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.delete'), indicator_path(@indicator), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
         - if current_user

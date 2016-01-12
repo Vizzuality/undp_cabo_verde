@@ -37,6 +37,6 @@
     - if (can? :manage, @category)
       .row.footer-helper  
       
-      .row
+      .row.fixed-row
         .button-collection.-formcollection
           = link_to t('shared.edit'), edit_category_path(@category), class: 'button -type-a'

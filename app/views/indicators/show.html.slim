@@ -20,7 +20,7 @@ hr
 - if (can? :manage, @indicator)
   .row.footer-helper
   
-  .row
+  .row.fixed-row
     .button-collection.-formcollection
       = link_to t('shared.edit'), edit_indicator_path(@indicator), class: 'button -type-a'
       = render 'shared/deactivatable_links', location: @indicator
