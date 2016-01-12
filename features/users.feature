@@ -22,9 +22,8 @@ I want to edit, view, activate, deactivate and make a user admin
     And I fill in "user_institution" with "Radio 3"
     And I fill in "user_email" with "don-morenito@sample.com"
     And I press "Update"
-    Then I should be on the user page for "don-morenito@sample.com"
-    And I should see "Morenito"
-    And I should see "Radio 3"
+    And the field "Email" should contain "don-morenito@sample.com" within ".form-actions"
+    And the field "Institution" should contain "Radio 3" within ".form-actions"
 
   Scenario: Adminuser can make user admin
     Given user
@@ -42,7 +41,7 @@ I want to edit, view, activate, deactivate and make a user admin
     When I go to the edit user page for "pepe-moreno@sample.com"
     And I follow "Make user"
     Then I should be on the users page
-    And I should have one adminuser 
+    And I should have one adminuser
 
   Scenario: Adminuser can deactivate and activate user
     Given user
