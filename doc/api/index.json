@@ -11,15 +11,36 @@
           "method": "get"
         },
         {
-          "description": "Getting a specific actor",
-          "link": "actors/getting_a_specific_actor.json",
+          "description": "Getting a list of actors with a social cultural domain",
+          "link": "actors/getting_a_list_of_actors_with_a_social_cultural_domain.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro actors",
+          "link": "actors/getting_a_list_of_micro_actors.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro and meso actors",
+          "link": "actors/getting_a_list_of_micro_and_meso_actors.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific actor with locations",
+          "link": "actors/getting_a_specific_actor_with_locations.json",
           "groups": "all",
           "route": "/api/actors/:id",
           "method": "get"
         },
         {
-          "description": "Getting a specific actor",
-          "link": "actors/getting_a_specific_actor.json",
+          "description": "Getting a specific actor with relations",
+          "link": "actors/getting_a_specific_actor_with_relations.json",
           "groups": "all",
           "route": "/api/actors/:id",
           "method": "get"
@@ -37,10 +58,69 @@
           "method": "get"
         },
         {
-          "description": "Getting a specific action",
-          "link": "acts/getting_a_specific_action.json",
+          "description": "Getting a list of actions with a social cultural domain",
+          "link": "acts/getting_a_list_of_actions_with_a_social_cultural_domain.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro actions",
+          "link": "acts/getting_a_list_of_micro_actions.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro and meso actions",
+          "link": "acts/getting_a_list_of_micro_and_meso_actions.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific action with measurements",
+          "link": "acts/getting_a_specific_action_with_measurements.json",
           "groups": "all",
           "route": "/api/actions/:id",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific action with relations",
+          "link": "acts/getting_a_specific_action_with_relations.json",
+          "groups": "all",
+          "route": "/api/actions/:id",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "name": "Artifacts",
+      "examples": [
+        {
+          "description": "Getting a list of artifacts",
+          "link": "artifacts/getting_a_list_of_artifacts.json",
+          "groups": "all",
+          "route": "/api/artifacts",
+          "method": "get"
+        },
+        {
+          "description": "Getting a specific artifact with actions",
+          "link": "artifacts/getting_a_specific_artifact_with_actions.json",
+          "groups": "all",
+          "route": "/api/artifacts/:id",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "name": "Domains",
+      "examples": [
+        {
+          "description": "Getting a list of domains",
+          "link": "domains/getting_a_list_of_domains.json",
+          "groups": "all",
+          "route": "/api/domains",
           "method": "get"
         }
       ]

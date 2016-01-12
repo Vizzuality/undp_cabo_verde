@@ -364,11 +364,11 @@ en:
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
-    actors_relations: 'Connect with Actors'
-    actions_relations: 'Connect with Actions'
+    actors_relations: 'Connections with Actors'
+    actions_relations: 'Connections with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
-    actors_relations_as_parent: 'Connect with Actors as parent'
+    actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
@@ -380,6 +380,9 @@ en:
     user: 'User'
     users: 'Users'
     edit_user: 'Edit User'
+    forgot_pw: 'Forgot your Password?'
+    send_instructions: 'Send me reset password instructions'
+    login_action: 'Log in'
 
   indicators:
     indicators: 'Indicators'
@@ -409,7 +412,6 @@ en:
     relationships: Relationships
     show_relationships_on_map: Show relationships on map
     socio_cultural_domains: Social Cultural Domains
-    socio_cultural_levels: Social Cultural Levels
     actor: Actor
     action: Action
     actor_to_action: Actor to Action
@@ -419,9 +421,11 @@ en:
     select_markers_type: Select markers type
     only_actors: Only actors
     only_actions: Only actions
-    sectors: Sectors
+    levels: Levels
+    categories: Categories
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
     saved_searches: Saved searches
     no_search_available_html: No search available at the moment<br>(use the filter above and <span class="highlight">"save"</span>)
+    more_info: More info

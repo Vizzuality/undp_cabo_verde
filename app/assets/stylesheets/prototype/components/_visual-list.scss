@@ -48,4 +48,24 @@
       }
     }
   }
+
+  &.-textual {
+    list-style-type: disc;
+
+    & > .item {
+      width: calc(50% - 2 * 8px);
+      text-align: left;
+      overflow: visible;
+      float: left;
+      margin-top: 0;
+      margin-bottom: 0;
+
+      &:first-child,
+      &:nth-child(2) {
+        margin-top: 8px;
+      }
+
+      & > .icon { display: none; }
+    }
+  }
 }

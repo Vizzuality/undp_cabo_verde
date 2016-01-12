@@ -3,6 +3,7 @@
   'use strict';
 
   root.app = root.app || {};
+  root.app.pubsub  = root.app.pubsub || {};
 
   var QueryParams = Backbone.Model.extend({
     defaults: { isHidden: false }
@@ -25,7 +26,7 @@
     setListeners: function() {
       this.listenTo(this.queryParams, 'change', this.queryParamsOnChange);
     },
-
+    
     /* Save the query params passed as argument inside the queryParams model */
     setQueryParams: function(params) {
       this.queryParams.set(params);

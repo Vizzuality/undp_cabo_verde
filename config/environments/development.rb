@@ -71,6 +71,8 @@ Rails.application.configure do
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActorLocalization', association: :localization
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActLocalization', association: :localization
       Bullet.add_whitelist type: :n_plus_one_query, class_name: 'IndicatorLocalization', association: :localization
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Measurement', association: :unit
+      Bullet.add_whitelist type: :n_plus_one_query, class_name: 'ActActorRelation', association: :relation_type
     end
   end
   # Raises error for missing translations

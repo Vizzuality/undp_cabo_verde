@@ -13,6 +13,7 @@ require 'sprockets/railtie'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+GC::Profiler.enable
 
 module Undp
   class Application < Rails::Application
@@ -24,6 +25,7 @@ module Undp
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'acts')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'localizations')]
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'categories')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'search')]
     config.included_models = ActiveRecord::Base.descendants.map!(&:name)
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
