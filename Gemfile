@@ -29,7 +29,6 @@ gem 'slim-rails'
 gem 'simple_form'
 gem 'country_select'
 gem 'kaminari'
-gem 'best_in_place', '~> 3.0.1'
 
 gem 'acts_as_tree'
 

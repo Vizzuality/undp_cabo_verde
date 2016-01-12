@@ -44,8 +44,3 @@ jQuery ->
     el = $(@)
     if el.val() != ''
       el.closest('.form-inputs').find('.switch_child_form, .switch_parent_form').remove()
-
-  $(document).ready ->
-    ### Activating Best In Place ###
-    jQuery('.best_in_place').best_in_place()
-    return

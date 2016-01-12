@@ -1,18 +1,29 @@
-h1
-  = @user.name || 'User'
-  | 
-  = " (admin)" if @user.admin?
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = @user.name || 'User'
+            | 
+            = " (admin)" if @user.admin?
 
-p= "Firstname: #{@user.firstname}"
-p= "Name: #{@user.lastname}"
-p= "Institution: #{@user.institution}"
+  = simple_form_for @user do |f|
+    = render partial: f
 
-- if (can? :make_user, @user) && @user.admin?
-  p= link_to 'Make user', make_user_user_path(@user), method: :patch
-- if (can? :make_admin, @user) && !@user.admin?
-  p= link_to 'Make admin', make_admin_user_path(@user), method: :patch
+  
+  - if (can? :manage, @user)
+    .row.footer-helper
+    .row.fixed-row
+      .button-collection.-formcollection
 
-- if can? :update, @user
-  p= link_to 'Edit user', edit_user_path(@user)
-- if user_signed_in? && current_user.admin?
-  p= render 'shared/deactivatable_links', location: @user
+        - if (can? :make_user, @user) && @user.admin?
+          = link_to 'Make user', make_user_user_path(@user), method: :patch, class: 'button -type-a'
+        - if (can? :make_admin, @user) && !@user.admin?
+          = link_to 'Make admin', make_admin_user_path(@user), method: :patch, class: 'button -type-a'
+
+        - if can? :update, @user
+          = link_to t('shared.edit'), edit_user_path(@user), class: 'button -type-a'
+        
+        - if user_signed_in? && current_user.admin?
+          = render 'shared/deactivatable_links', location: @user
