@@ -33,12 +33,9 @@ class Search::Acts
           where({ categories: { id: @domains }})
       end
 
-      if @start_date
-        @query = @query.where('start_date > ?', @start_date)
-      end
-
-      if @end_date
-        @query = @query.where('end_date < ?', @end_date)
+      if @start_date && @end_date
+        @query = @query.where('start_date <= ? AND end_date >= ?',
+                              @start_date, @end_date)
       end
 
       @query = @query

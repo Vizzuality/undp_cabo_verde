@@ -33,14 +33,10 @@ class Search::Actors
           where({ categories: { id: @domains }})
       end
 
-      if @start_date
-        @query = @query.joins(:localizations).
-          where('localizations.start_date > ?', @start_date)
-      end
-
-      if @end_date
-        @query = @query.joins(:localizations).
-          where('localizations.end_date > ?', @end_date)
+      if @start_date && @end_date
+        @query = @query.joins(:actor_localizations).
+          where('actor_localizations.start_date <= ? AND actor_localizations.end_date >= ?',
+                @start_date, @end_date)
       end
 
       @query = @query

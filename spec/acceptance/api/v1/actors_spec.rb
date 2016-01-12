@@ -19,11 +19,14 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      actors << create(:actor_macro, name: 'Economy Organization', user: @user,
+      tmp = create(:actor_macro, name: 'Economy Organization', user: @user,
                         observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
-                        localizations: [@location], short_name: Faker::Name.name,
+                        short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name,
                         categories: [@category_1, @category_2, @category_3])
+      ActorLocalization.create(actor_id: tmp.id, localization_id: @location.id,
+                               start_date: 3.days.ago, end_date: 2.days.from_now)
+      actors << tmp
       actors << create(:actor_macro, name: 'Education Institution', localizations: [@location],
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
       actors << create(:actor_meso,  name: 'Department of Education',
@@ -86,6 +89,13 @@ resource 'Actors' do
             response_actors = JSON.parse(response_body)['actors']
             expect(status).to eq(200)
             expect(response_actors.size).to eq(2)
+          end
+
+          example 'Getting a list of actors filtered by start date' do
+            do_request(start_date: 2.days.ago, end_date: Date.today)
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(1)
           end
         end
       end
