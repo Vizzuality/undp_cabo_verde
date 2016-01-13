@@ -222,7 +222,7 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then the select field "Action" should contain "First one"
-    Then the select field "Current actor" should contain "implements"
+    Then the select field "Relation title" should contain "implements" within ".actor-connection-action"
     And the field "Start date" should contain "1990-03-10"
     And the field "End date" should contain "2010-03-10"
 
