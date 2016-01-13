@@ -29,7 +29,7 @@
     & > .button { margin-top: 25px; }
   }
 
-  & .content > .searches {
+  .content > .searches {
     padding-top: 30px;
     padding-bottom: 20px;
     text-align: center; /* Centers the button */
@@ -50,6 +50,10 @@
     .highlight {
       color: $color-2;
     }
+  }
+
+  .content .notification-badge {
+    margin-left: 10px;
   }
 
 }

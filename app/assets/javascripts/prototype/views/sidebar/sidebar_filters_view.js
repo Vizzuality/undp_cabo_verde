@@ -19,7 +19,7 @@
       'click .js-reset': 'resetForm',
       'click .js-apply': 'applyFilters',
       'change .toggle-button': 'toggleContent',
-      'change input[type=checkbox]:not(.toggle-button)': 'updateHiddenInput'
+      'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange'
     },
 
     initialize: function(options) {
@@ -120,7 +120,11 @@
     },
 
     /* Apply the state of each hidden input to the associated checkboxes (the
-     * reverse action is done by default) */
+     * reverse action is done by default)
+     * NOTE: call updateNotificationBadgeFor to update the badge each time
+     * the checkboxes are updated as there's no way to know when it happens
+     * because the change event isn't triggered on the checkboxes when their
+     * status is modified in JS */
     syncCheckboxesWithHiddenInputs: function() {
       var hiddenInputs = this.$el.find('.js-input[disabled="disabled"]');
       for(var i = 0, j = hiddenInputs.length; i < j; i++) {
@@ -131,6 +135,7 @@
           checkbox = hiddenInputs[i].parentNode.querySelector(selector);
           checkbox.checked = options[k].selected;
         }
+        this.updateNotificationBadgeFor(hiddenInputs[i].parentNode.parentNode);
       }
     },
 
@@ -172,6 +177,33 @@
           else { hiddenInput[0].value = value; }
         }
       }, this);
+    },
+
+    /* Handler for a checkbox's change (by checkbox we mean the actual filters
+     * options and not the hidden checkboxes used for the accordion) */
+    onCheckboxChange: function(e) {
+      this.updateNotificationBadgeFor(e.currentTarget.parentNode.parentNode.parentNode);
+      this.updateHiddenInput(e);
+    },
+
+    /* Update the number of checkboxes checked inside the notification badget of
+     * the filter's container
+     * NOTE: the element passed isn't a jQuery object */
+    updateNotificationBadgeFor: function(filterContainer) {
+      var badge = filterContainer.querySelector('.js-badge');
+
+      /* Some filters don't have any badge */
+      if(!badge) return;
+
+      var checkboxes = [].slice.call(filterContainer
+        .querySelectorAll('.js-content input[type="checkbox"]'));
+      var checkedCheckboxes = _.filter(checkboxes, function(checkbox) {
+        return checkbox.checked;
+      });
+      var uncheckedCheckboxes = _.difference(checkboxes, checkedCheckboxes);
+
+      badge.textContent = (uncheckedCheckboxes.length === 0) ?
+        I18n.translate('front.all') : checkedCheckboxes.length;
     }
 
   });
