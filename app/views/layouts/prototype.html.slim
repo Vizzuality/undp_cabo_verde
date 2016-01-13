@@ -140,6 +140,17 @@ html lang="en"
           path d="M0 2.844l3.703 3.52L8.836 0" stroke="#175CA0" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
         g id="uncheckIcon" transform="translate(0 -1)" stroke-linecap="round" stroke="#175CA0" fill="none" fill-rule="evenodd"
           path d="M8.536 1.464L1.464 8.536M8.536 8.536L1.464 1.464"
+        g id="searchesIcon" transform="translate(1 1)" fill="none" fill-rule="evenodd"
+          g transform="translate(5 6)"
+            path d="M4.022 1h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="1" r="1"
+            path d="M4.022 5h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="5" r="1"
+            path d="M4.022 9h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="9" r="1"
+          circle stroke="#175ca0" cx="11" cy="11" r="11"
+        g id="backArrowIcon"
+          path d="M7.842.684l-5.684 6L7.82 12.66" stroke="#175ca0" stroke-width="2" fill="none" fill-rule="evenodd"
           
     .container
       .l-map
@@ -210,10 +221,14 @@ html lang="en"
         #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
           #sidebar-action-toolbar-view
             .button.-textual.js-back._hidden aria-hidden="true" aria-label="Back button"
-              = image_tag 'left-arrow.svg', class: 'icon -marginright'
+              svg.icon.-marginright width="10" height="18"
+                use xlink:href="#backArrowIcon" x="0" y="0"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
-            = image_tag 'searches.svg', class: '_pointer js-searches', title: t('front.saved_searches')
+            .button.-textual.js-searches
+              = t('front.searches')
+              svg.icon.-marginleft width="24" height="24"
+                use xlink:href="#searchesIcon" x="0" y="0"
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form.content
@@ -284,13 +299,13 @@ html lang="en"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
                     input.input.-small.-calendaricon.-monospace.js-input type="date" value="#{ @end_date.strftime('%m/%d/%Y') }" name="end_date" id="endDate" required="required"
-                button.button.-secondary.js-reset = t('front.reset')
+                button.button.-outlined.js-reset = t('front.reset')
                 button.button.js-apply = t('front.apply')
 
               .content.-secondary
                 .searches
                   p = t('front.want_save_search')
-                  button.button.-secondary = t('front.save') 
+                  button.button = t('front.save') 
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"

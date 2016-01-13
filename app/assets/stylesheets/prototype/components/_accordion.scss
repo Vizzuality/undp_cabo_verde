@@ -6,7 +6,7 @@
   & > .section {
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid $color-14;
+    border-bottom: 1px solid $color-16;
     font-size: 14px;
     color: $color-4;
 
@@ -15,9 +15,8 @@
       width: 100%;
       display: block;
       font-size: 14px;
-      color: $color-4;
+      color: $color-10;
       line-height: 46px;
-      font-weight: 500;
       background: url(asset_path("form-arrow.png")) no-repeat center right / 13px;
       cursor: pointer;
     }

@@ -6,8 +6,8 @@
   & > .label {
     display: block;
     font-size: 14px;
-    color: $color-4;
-    font-weight: 500;
+    color: $color-10;
+    font-weight: 400;
 
     /* This styles make the label compatible with screen readers while invisible
      * to standard users */
@@ -58,6 +58,7 @@
         display: block;
         padding-left: 25px;
         cursor: pointer;
+        color: $color-16;
 
         &:before {
           content: '';
@@ -67,7 +68,7 @@
           left: 0;
           width: 10px;
           height: 10px;
-          border: 1px solid $color-14;
+          border: 1px solid $color-16;
           cursor: pointer;
         }
       }

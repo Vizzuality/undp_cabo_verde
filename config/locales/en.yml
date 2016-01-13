@@ -428,7 +428,7 @@ en:
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
-    saved_searches: Saved searches
+    searches: Searches
     more_info: More info
     all: All
     check_all: Check all

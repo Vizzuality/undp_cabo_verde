@@ -12,9 +12,10 @@
 
   &.-textual {
     font-size: 18px;
-    line-height: 18px;
-    color: $color-4;
-    height: 18px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $color-2;
+    height: 24px;
     display: inline-block;
     background-color: transparent;
     text-transform: none;
@@ -39,6 +40,7 @@
 
   & > .icon {
     display: inline-block;
+    vertical-align: middle;
 
     &.-marginright { margin-right: 10px; }
     &.-marginleft { margin-left: 10px; }
