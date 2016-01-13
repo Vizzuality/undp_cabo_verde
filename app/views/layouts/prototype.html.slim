@@ -188,10 +188,13 @@ html lang="en"
                 use xlink:href="#actionToActionIcon" x="0" y="0"
               = t('front.action_to_action')
         #map-rangeslider
-          .animations
-            .stepprev
-            .play
-            .stepnext
+          ul.animations-list
+            li
+              = image_tag 'rewind_left.svg', class: 'stepprev'
+            li
+              = image_tag 'play.svg', class: 'play'
+            li
+              = image_tag 'rewind_right.svg', class: 'stepnext'
           #slider
             p.sliderlabel#leftLabel
             p.sliderlabel#rightLabel
