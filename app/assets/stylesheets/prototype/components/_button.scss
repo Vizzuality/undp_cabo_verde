@@ -24,6 +24,19 @@
   /* Shouldn't be used with the -textual option */
   &.-secondary { background-color: $color-5; }
 
+  &.-outlined {
+    background-color: $color-1;
+    border: 1px solid $color-2;
+    color: $color-2;
+  }
+
+  &.-small {
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    padding: 0 20px;
+  }
+
   & > .icon {
     display: inline-block;
 

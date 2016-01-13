@@ -9,7 +9,7 @@ html lang="en"
     link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
     = csrf_meta_tags
   body
-    / Cache for the map's markers
+    / Cache all the SVG icons
     svg style="display: none;"
       defs
         g id="macroMarkerIcon"
@@ -136,6 +136,10 @@ html lang="en"
         / Water, Sanation and Irrigation
         g transform="translate(7 3)" stroke="#222" fill="none" fill-rule="evenodd"
           path d="M8 24.02c2.973 0 7.5-1.845 7.5-7.02C15.5 11.662 8 .02 8 .02S.5 11.72.5 17c0 5.117 4.527 7.02 7.5 7.02zM8 20.42c1.833 0 4.625-1.138 4.625-4.33"
+        g id="checkIcon"
+          path d="M0 2.844l3.703 3.52L8.836 0" stroke="#175CA0" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
+        g id="uncheckIcon" transform="translate(0 -1)" stroke-linecap="round" stroke="#175CA0" fill="none" fill-rule="evenodd"
+          path d="M8.536 1.464L1.464 8.536M8.536 8.536L1.464 1.464"
           
     .container
       .l-map
@@ -240,7 +244,6 @@ html lang="en"
                           | Meso
                         option value="micro" selected="selected"
                           | Micro
-                      button.js-toggle-check = t('front.uncheck_all')
                       .form-input
                         input#levelsMacro.input.-checkbox type="checkbox" value="macro" checked="checked"
                         label.label for="levelsMacro"
@@ -253,6 +256,10 @@ html lang="en"
                         input#levelsMicro.input.-checkbox type="checkbox" value="micro" checked="checked"
                         label.label for="levelsMicro"
                           | Micro
+                      button.button.-outlined.-small.js-toggle-check
+                        svg.icon.-marginright width="10" height="8"
+                          use xlink:href="#uncheckIcon" x="0" y="0"
+                        span = t('front.uncheck_all')
                   li.section
                     input#filtersSection2.toggle-button type="checkbox" value="" style="display: none;"
                     label#filtersTab2.title for="filtersSection2" aria-label="toggle domain filter" aria-controls="filtersPanel2"
@@ -262,11 +269,14 @@ html lang="en"
                       select.js-input name="domains_ids" disabled="disabled" multiple="multiple" style="display:none;"
                         -@domains.each do |domain|
                           option value="#{domain.id}" selected="selected" = domain.name
-                      button.js-toggle-check = t('front.uncheck_all')
                       -@domains.each do |domain|
                         .form-input
                           input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
                           label.label for="domains#{domain.id}" = domain.name
+                      button.button.-outlined.-small.js-toggle-check
+                        svg.icon.-marginright width="10" height="8"
+                          use xlink:href="#uncheckIcon" x="0" y="0"
+                        span = t('front.uncheck_all')
                           
                 .form-input
                     label.label for="startDate" = t('front.start_date')

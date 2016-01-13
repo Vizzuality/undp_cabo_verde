@@ -225,10 +225,17 @@
       /* Not all the filters have this element */
       if(!toggleCheckButton) return;
 
+      var toggleCheckButtonContent = toggleCheckButton.querySelector('span'),
+          toggleCheckButtonIcon = toggleCheckButton.querySelector('svg use');
+
       if(checkedCheckBoxes.length > 0) {
-        toggleCheckButton.textContent = I18n.translate('front.uncheck_all');
+        toggleCheckButtonContent.textContent =
+          I18n.translate('front.uncheck_all');
+        toggleCheckButtonIcon.setAttribute('xlink:href', '#uncheckIcon');
       } else {
-        toggleCheckButton.textContent = I18n.translate('front.check_all');
+        toggleCheckButtonContent.textContent =
+          I18n.translate('front.check_all');
+        toggleCheckButtonIcon.setAttribute('xlink:href', '#checkIcon');
       }
     },
 
