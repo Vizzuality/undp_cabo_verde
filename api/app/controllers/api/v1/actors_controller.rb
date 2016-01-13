@@ -23,6 +23,8 @@ module API::V1
         @search_filter = {}
         @search_filter['levels']      = params[:levels]      if params[:levels].present?
         @search_filter['domains_ids'] = params[:domains_ids] if params[:domains_ids].present?
+        @search_filter['start_date']  = params[:start_date]  if params[:start_date].present?
+        @search_filter['end_date']    = params[:end_date]    if params[:end_date].present?
       end
   end
 end

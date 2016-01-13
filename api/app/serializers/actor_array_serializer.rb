@@ -1,10 +1,8 @@
 class ActorArraySerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 6
 
-  attributes :id, :name, :level
-
-  has_many :localizations, key: :locations
+  attributes :id, :name, :level, :locations
 
   def level
     case object.type
@@ -14,8 +12,16 @@ class ActorArraySerializer < BaseSerializer
     end
   end
 
-  def include_associations!
-    include! :localizations, serializer: LocalizationArraySerializer
+  def locations
+    if @options[:search_filter]['start_date'].present? || @options[:search_filter]['end_date'].present?
+      object.actor_localizations_by_date(@options[:search_filter]).map do |actor_localizations|
+        ActorLocalizationSerializer.new(actor_localizations, root: false).serializable_hash
+      end
+    else
+      object.localizations.map do |localizations|
+        LocalizationArraySerializer.new(localizations, root: false).serializable_hash
+      end
+    end
   end
 
   def cache_key

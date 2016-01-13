@@ -11,6 +11,27 @@
           "method": "get"
         },
         {
+          "description": "Getting a list of actors by end-date",
+          "link": "actors/getting_a_list_of_actors_by_end-date.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of actors by start-date",
+          "link": "actors/getting_a_list_of_actors_by_start-date.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of actors by start-date and end-date",
+          "link": "actors/getting_a_list_of_actors_by_start-date_and_end-date.json",
+          "groups": "all",
+          "route": "/api/actors",
+          "method": "get"
+        },
+        {
           "description": "Getting a list of actors with a social cultural domain",
           "link": "actors/getting_a_list_of_actors_with_a_social_cultural_domain.json",
           "groups": "all",
@@ -65,8 +86,29 @@
           "method": "get"
         },
         {
+          "description": "Getting a list of actions with a social cultural domain",
+          "link": "acts/getting_a_list_of_actions_with_a_social_cultural_domain.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
           "description": "Getting a list of micro actions",
           "link": "acts/getting_a_list_of_micro_actions.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro actions",
+          "link": "acts/getting_a_list_of_micro_actions.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of micro and meso actions",
+          "link": "acts/getting_a_list_of_micro_and_meso_actions.json",
           "groups": "all",
           "route": "/api/actions",
           "method": "get"
