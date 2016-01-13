@@ -26,17 +26,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 1,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 4,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\"\n    },\n    {\n      \"id\": 3,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
+      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 167,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 170,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 168,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\"\n    },\n    {\n      \"id\": 169,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"93884e712dda53e9868c1b00772e61f3\"",
+        "ETag": "W/\"b5e8be4d4f58920c408b23cfff31cc28\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "08d8dbb8-81f0-4e42-a804-bb19e62f5cb2",
-        "X-Runtime": "0.190638",
-        "Content-Length": "265"
+        "X-Request-Id": "ac446085-fef5-439c-b130-b5f67dac5511",
+        "X-Runtime": "0.184987",
+        "Content-Length": "273"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/domains\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
