@@ -16,7 +16,8 @@
     el: '#map-rangeslider',
 
     events: {
-      'click .sliderlink': 'confirm'
+      'click .stepnext': 'step',
+      'click .stepprev': 'step'
     },
 
     initialize: function(options) {
