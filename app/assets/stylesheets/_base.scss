@@ -55,6 +55,7 @@ input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="password"],
+.current-actor,
 .current-actor-edit,
 textarea,
 textarea:focus {
@@ -68,7 +69,7 @@ textarea:focus {
   line-height: 32px;
   @include font(helvetica, null, light, null);
 
-  &:disabled {
+  &:disabled, .-disabled {
     color: $color-16;
     background-color: $color-1;
   }
@@ -79,10 +80,12 @@ textarea { min-height: 150px; }
 input[type="text"],
 input[type="email"],
 input[type="url"],
-input[type="password"] {
+input[type="password"],
+.current-actor,
+.current-actor-edit {
   border-bottom: 1px solid $color-13;
 
-  &:disabled {
+  &:disabled, &.-disabled {
     border: none;
   }
 }

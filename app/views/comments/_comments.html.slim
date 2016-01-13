@@ -1,7 +1,7 @@
 - commentable.comments.each do |comment|
   .row
     .column.medium-8.medium-offset-4
-      p = comment.body
+      p.comment = comment.body
       - if (can? [:activate, :deactivate], comment)
         - if comment.activated?
           p.deactivate_comment

@@ -33,12 +33,26 @@ class Search::Actors
           where({ categories: { id: @domains }})
       end
 
-      if @start_date && @end_date
+      if @start_date && !@end_date
         @query = @query.joins(:actor_localizations).
-          where('actor_localizations.start_date <= ? AND actor_localizations.end_date >= ?',
-                @start_date, @end_date)
+                        where("actor_localizations.start_date >= ? OR actor_localizations.end_date >= ?",
+                               @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
       end
 
-      @query = @query
+      if @end_date && !@start_date
+        @query = @query.joins(:actor_localizations).
+                        where("actor_localizations.end_date <= ? OR actor_localizations.start_date <= ?",
+                               @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
+      end
+
+      if @start_date && @end_date
+        @query = @query.joins(:actor_localizations).
+                        where("actor_localizations.start_date BETWEEN ? AND ? OR
+                               actor_localizations.end_date BETWEEN ? AND ? OR
+                               ? BETWEEN actor_localizations.start_date AND actor_localizations.end_date",
+                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
+      end
+
+      @query = @query.distinct
     end
 end

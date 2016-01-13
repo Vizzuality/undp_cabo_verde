@@ -99,6 +99,42 @@ resource 'Actors' do
           end
         end
       end
+
+      context 'Actors list filtered by date' do
+        before :each do
+          # Time.local(2015, 9, 1, 12, 0, 0, 0)
+          actors[0].actor_localizations.first.update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actors[1].actor_localizations.first.update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actors[2].actor_localizations.first.update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
+          actors[3].actor_localizations.first.update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+        end
+        
+        get "/api/actors" do
+          parameter :start_date, 'Filter actors by start-date (2014-01-31)'
+          parameter :end_date, 'Filter actors by end-date (2015-01-31)'
+
+          example 'Getting a list of actors by start-date' do
+            do_request(start_date: '2014-01-31')
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(3)
+          end
+
+          example 'Getting a list of actors by end-date' do
+            do_request(end_date: '2015-01-31')
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(2)
+          end
+
+          example 'Getting a list of actors by start-date and end-date' do
+            do_request(start_date: '2014-01-31', end_date: '2015-09-31')
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(3)
+          end
+        end
+      end
     end
 
     context 'Actor details' do

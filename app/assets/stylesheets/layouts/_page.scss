@@ -219,3 +219,14 @@
   @include font(helvetica, xsmall, light, 0.8);
 }
 
+#comments {
+  .comment {
+    @include font(helvetica, small, light, 1.4);
+    margin: 10px 0;
+    color: $color-13;
+  }
+}
+
+.comment-heading {
+  padding: 0 0.7rem;
+}

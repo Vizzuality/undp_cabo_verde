@@ -81,6 +81,41 @@ resource 'Acts' do
           end
         end
       end
+
+      context 'Actions list filtered by date' do
+        before :each do
+          # Time.local(2015, 9, 1, 12, 0, 0, 0)
+          actions[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actions[1].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actions[2].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+        end
+
+        get "/api/actions" do
+          parameter :start_date, 'Filter actors by start-date (2014-01-31)'
+          parameter :end_date, 'Filter actors by end-date (2015-01-31)'
+
+          example 'Getting a list of micro actions' do
+            do_request(start_date: '2016-01-31')
+            response_actions = JSON.parse(response_body)['actions']
+            expect(status).to eq(200)
+            expect(response_actions.size).to eq(1)
+          end
+
+          example 'Getting a list of micro and meso actions' do
+            do_request(end_date: '2015-01-31')
+            response_actions = JSON.parse(response_body)['actions']
+            expect(status).to eq(200)
+            expect(response_actions.size).to eq(2)
+          end
+
+          example 'Getting a list of actions with a social cultural domain' do
+            do_request(start_date: '2012-01-31', end_date: '2015-09-30')
+            response_actions = JSON.parse(response_body)['actions']
+            expect(status).to eq(200)
+            expect(response_actions.size).to eq(3)
+          end
+        end
+      end
     end
 
     context 'Act details with actions, actors, locations' do
