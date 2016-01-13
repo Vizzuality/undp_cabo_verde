@@ -33,14 +33,23 @@ class Search::Acts
           where({ categories: { id: @domains }})
       end
 
-      if @start_date
-        @query = @query.where('start_date > ?', @start_date)
+      if @start_date && !@end_date
+        @query = @query.where("start_date >= ? OR end_date >= ?",
+                               @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
       end
 
-      if @end_date
-        @query = @query.where('end_date < ?', @end_date)
+      if @end_date && !@start_date
+        @query = @query.where("end_date <= ? OR start_date <= ?",
+                               @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
       end
 
-      @query = @query
+      if @start_date && @end_date
+        @query = @query.where("start_date BETWEEN ? AND ? OR
+                               end_date BETWEEN ? AND ? OR
+                               ? BETWEEN start_date AND end_date",
+                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
+      end
+
+      @query = @query.distinct
     end
 end
