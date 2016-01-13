@@ -178,6 +178,13 @@ class Actor < ActiveRecord::Base
     actor_localizations.main_locations
   end
 
+  def actor_localizations_by_date(options)
+    start_date = options['start_date'] if options['start_date'].present?
+    end_date   = options['end_date']   if options['end_date'].present?
+
+    actor_localizations.by_date(start_date, end_date)
+  end
+
   private
 
     def deactivate_dependencies
