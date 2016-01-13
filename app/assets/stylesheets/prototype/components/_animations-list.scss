@@ -1,0 +1,10 @@
+.animations-list {
+  list-style: none;
+  padding: 0;
+  cursor: default;
+  li {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
