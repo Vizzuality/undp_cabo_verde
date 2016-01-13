@@ -240,6 +240,7 @@ html lang="en"
                           | Meso
                         option value="micro" selected="selected"
                           | Micro
+                      button.js-toggle-check = t('front.uncheck_all')
                       .form-input
                         input#levelsMacro.input.-checkbox type="checkbox" value="macro" checked="checked"
                         label.label for="levelsMacro"
@@ -261,6 +262,7 @@ html lang="en"
                       select.js-input name="domains_ids" disabled="disabled" multiple="multiple" style="display:none;"
                         -@domains.each do |domain|
                           option value="#{domain.id}" selected="selected" = domain.name
+                      button.js-toggle-check = t('front.uncheck_all')
                       -@domains.each do |domain|
                         .form-input
                           input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
