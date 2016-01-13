@@ -135,11 +135,20 @@
 
           } else {
             var newPosition = "0px"; // security step in case the position is not set
-            console.log('security program');
           }
 
           //move ball
           ball.style.left = newPosition;
+
+          console.log(this.movedForward(newPosition, currPosition));
+
+          if (this.movedForward(newPosition, currPosition)) {
+            this.ballCount++;
+          }else {
+            this.ballCount--;
+          }
+          console.log('ballCount ' + this.ballCount);
+
           console.log('moved ball');
         }
       } else {
@@ -148,13 +157,17 @@
         console.log('created ball');
       }
 
+    },
 
-      // var lengthOfRange = window.getComputedStyle(
-      //   range, ':before'
-      // ).getPropertyValue('width');
+    movedForward: function(newPosition, currPosition) {
+      var positionA = parseFloat(currPosition);
+      var positionB = parseFloat(newPosition);
 
-      // console.log(lengthOfRange);
-
+      if (positionA > positionB) {
+        return false;
+      } else {
+        return true;
+      }
     },
 
     _slider: function() {
