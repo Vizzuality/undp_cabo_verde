@@ -209,7 +209,7 @@ html lang="en"
               = image_tag 'left-arrow.svg', class: 'icon -marginright'
               = t('front.back')
             /! TODO: aria tags (aria-controls)
-            = image_tag 'searches.svg', class: '_pointer js-searches'
+            = image_tag 'searches.svg', class: '_pointer js-searches', title: t('front.saved_searches')
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form.content
@@ -278,11 +278,7 @@ html lang="en"
               .content.-secondary
                 .searches
                   p = t('front.want_save_search')
-                  button.button.-secondary = t('front.save')
-                  hr
-                  h3.title.-tertiary = t('front.saved_searches')
-                  p = t('front.no_search_available_html')
-
+                  button.button.-secondary = t('front.save') 
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"

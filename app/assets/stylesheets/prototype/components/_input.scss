@@ -78,6 +78,7 @@
 
           &:before {
             border: 1px solid $color-2;
+            background: url(asset_path("checkbox_tick.png")) no-repeat center center / 8px;
           }
         }
       }
