@@ -9,7 +9,7 @@ RSpec.describe ActsController, type: :controller do
     @micro = create(:act_micro, user_id: @user.id)
     @macro = create(:act_macro, user_id: @user.id, active: false)
     @meso  = create(:act_meso, user_id: @user.id)
-    @socio_cultural_domain = create(:socio_cultural_domain)
+    @socio_cultural_domain = create(:socio_cultural_domain, name: 'SCD')
   end
 
   let!(:attri) do
@@ -85,6 +85,21 @@ RSpec.describe ActsController, type: :controller do
       expect(@macro.micro_or_meso?).to eq(false)
     end
 
+    it 'User should be able to create a new act' do
+      expect(@user.acts.count).to eq(3)
+      post :create, act: { name: 'New first', user_id: @user.id,
+                           type: 'ActMacro',
+                           merged_domain_ids: [@socio_cultural_domain.id] }
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@user.acts.count).to eq(4)
+    end
+
+    it 'User should not be able to create a new act without name' do
+      post :create, act: { name: '', user_id: @user.id, type: 'ActMacro' }
+      expect(response.body).to match('can&#39;t be blank')
+    end
+
     context 'User should be able to add categories to acts' do
       before :each do
         @category  = create(:category)
@@ -96,7 +111,7 @@ RSpec.describe ActsController, type: :controller do
         {
           name: 'New first',
           active: true,
-          category_ids: [@child_cat]
+          merged_domain_ids: [@child_cat]
         }
       end
 
@@ -107,7 +122,6 @@ RSpec.describe ActsController, type: :controller do
         expect(@macro.categories.count).to eq(1)
       end
     end
-
     
     context 'Link unlink macros and mesos' do
       before :each do
@@ -230,20 +244,6 @@ RSpec.describe ActsController, type: :controller do
       get :new, type: 'ActMacro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
-    end
-
-    it 'User should be able to create a new act' do
-      post :create, act: { name: 'New first', user_id: @adminuser.id,
-                           type: 'ActMacro',
-                           socio_cultural_domain_ids: [@socio_cultural_domain.id] }
-      expect(response).to be_redirect
-      expect(response).to have_http_status(302)
-      expect(@adminuser.acts.count).to eq(1)
-    end
-
-    it 'User should not be able to create a new act without name' do
-      post :create, act: { name: '', user_id: @adminuser.id, type: 'ActMacro' }
-      expect(response.body).to match('can&#39;t be blank')
     end
   end
 end

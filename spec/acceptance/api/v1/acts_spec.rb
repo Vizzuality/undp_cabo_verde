@@ -94,21 +94,21 @@ resource 'Acts' do
           parameter :start_date, 'Filter actors by start-date (2014-01-31)'
           parameter :end_date, 'Filter actors by end-date (2015-01-31)'
 
-          example 'Getting a list of micro actions' do
+          example 'Getting a list of actions by start-date' do
             do_request(start_date: '2016-01-31')
             response_actions = JSON.parse(response_body)['actions']
             expect(status).to eq(200)
             expect(response_actions.size).to eq(1)
           end
 
-          example 'Getting a list of micro and meso actions' do
+          example 'Getting a list of actions by end-date' do
             do_request(end_date: '2015-01-31')
             response_actions = JSON.parse(response_body)['actions']
             expect(status).to eq(200)
             expect(response_actions.size).to eq(2)
           end
 
-          example 'Getting a list of actions with a social cultural domain' do
+          example 'Getting a list of actions by start-date and end-date' do
             do_request(start_date: '2012-01-31', end_date: '2015-09-30')
             response_actions = JSON.parse(response_body)['actions']
             expect(status).to eq(200)

@@ -64,29 +64,29 @@ FactoryGirl.define do
     name 'Person two'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(1001..2000).to_s}")] }
   end
 
   factory :actor_micro, class: ActorMicro do
     name 'Person one'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(2001..3000).to_s}")] }
   end
 
   factory :actor_meso, class: ActorMeso do
     name 'Department one'
     type 'ActorMeso'
     observation 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(3001..4000).to_s}")] }
   end
 
   factory :actor_macro, class: ActorMacro do
     name 'Organization one'
     type 'ActorMacro'
     observation 'Lorem ipsum...'
-    after(:build) { |macro| macro.update!(operational_field: create(:operational_field).id) }
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global_#{rand(1001..2000).to_s}").id) }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(4001..5000).to_s}")] }
   end
 
   # Acts
@@ -94,21 +94,21 @@ FactoryGirl.define do
     name 'Third one'
     type 'ActMicro'
     description 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(5001..6000).to_s}")] }
   end
 
   factory :act_meso, class: ActMeso do
     name 'Second one'
     type 'ActMeso'
     description 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(6001..7000).to_s}")] }
   end
 
   factory :act_macro, class: ActMacro do
     name 'First one'
     type 'ActMacro'
     description 'Lorem ipsum...'
-    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain)] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(7001..8000).to_s}")] }
   end
 
   # Localizations
@@ -127,16 +127,16 @@ FactoryGirl.define do
 
   # Categories
   factory :category do
-    name 'Category one'
+    name  { "Category one_#{rand(1000).to_s}" }
     type 'OtherDomain'
   end
 
   factory :operational_field, class: OperationalField do
-    name 'Global'
+    name { "Global_#{rand(1000).to_s}" }
   end
 
   factory :socio_cultural_domain, class: SocioCulturalDomain do
-    name 'Faith'
+    name { "Faith_#{rand(1000).to_s}" }
   end
 
   # Comments

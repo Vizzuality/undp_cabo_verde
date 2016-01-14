@@ -1,0 +1,38 @@
+.accordion {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  & > .section {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid $color-16;
+    font-size: 14px;
+    color: $color-4;
+
+    & > .title {
+      @extend %vertical-align;
+
+      height: 42px;
+      width: 100%;
+      display: block;
+      font-size: 14px;
+      color: $color-10;
+      line-height: 42px;
+      background: url(asset_path("form-arrow.png")) no-repeat center right / 13px;
+      cursor: pointer;
+    }
+
+    & > .content {
+      padding: 0 10px 0 10px;
+      overflow: hidden;
+      max-height: 0;
+      transition: all .3s ease-in-out;
+    }
+
+    & > .toggle-button:checked {
+      /* It should have a high value so the content isn't hidden */
+      & ~.content { max-height: 200vh; }
+    }
+  }
+}

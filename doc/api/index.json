@@ -79,8 +79,22 @@
           "method": "get"
         },
         {
-          "description": "Getting a list of actions with a social cultural domain",
-          "link": "acts/getting_a_list_of_actions_with_a_social_cultural_domain.json",
+          "description": "Getting a list of actions by end-date",
+          "link": "acts/getting_a_list_of_actions_by_end-date.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of actions by start-date",
+          "link": "acts/getting_a_list_of_actions_by_start-date.json",
+          "groups": "all",
+          "route": "/api/actions",
+          "method": "get"
+        },
+        {
+          "description": "Getting a list of actions by start-date and end-date",
+          "link": "acts/getting_a_list_of_actions_by_start-date_and_end-date.json",
           "groups": "all",
           "route": "/api/actions",
           "method": "get"
@@ -95,20 +109,6 @@
         {
           "description": "Getting a list of micro actions",
           "link": "acts/getting_a_list_of_micro_actions.json",
-          "groups": "all",
-          "route": "/api/actions",
-          "method": "get"
-        },
-        {
-          "description": "Getting a list of micro actions",
-          "link": "acts/getting_a_list_of_micro_actions.json",
-          "groups": "all",
-          "route": "/api/actions",
-          "method": "get"
-        },
-        {
-          "description": "Getting a list of micro and meso actions",
-          "link": "acts/getting_a_list_of_micro_and_meso_actions.json",
           "groups": "all",
           "route": "/api/actions",
           "method": "get"

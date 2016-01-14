@@ -1,10 +1,12 @@
 .button  {
+  @extend %vertical-align;
+
   cursor: pointer;
   height: 37px;
-  line-height: 37px;
   vertical-align: middle;
   background-color: $color-2;
   color: $color-1;
+  font-weight: 500;
   text-transform: uppercase;
   border: none;
   font-size: 14px;
@@ -12,9 +14,10 @@
 
   &.-textual {
     font-size: 18px;
-    line-height: 18px;
-    color: $color-4;
-    height: 18px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $color-2;
+    height: 24px;
     display: inline-block;
     background-color: transparent;
     text-transform: none;
@@ -24,8 +27,26 @@
   /* Shouldn't be used with the -textual option */
   &.-secondary { background-color: $color-5; }
 
+  &.-outlined {
+    background-color: $color-1;
+    border: 1px solid $color-2;
+    color: $color-2;
+  }
+
+  &.-small {
+    height: 32px;
+    font-size: 12px;
+    padding: 0 20px;
+  }
+
+  &.-disabled {
+    opacity: .3;
+    cursor: default;
+  }
+
   & > .icon {
     display: inline-block;
+    vertical-align: middle;
 
     &.-marginright { margin-right: 10px; }
     &.-marginleft { margin-left: 10px; }
