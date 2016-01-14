@@ -118,7 +118,7 @@ $black       : #000000;
 // We use these as default colors throughout
 // $primary-color: #008CBA;
 // $secondary-color: #e7e7e7;
-// $alert-color: #f04124;
+$alert-color: #e34343;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
@@ -357,7 +357,9 @@ $body-bg: $white;
 
 // We use these to control text style.
 // $alert-font-weight: $font-weight-normal;
+$alert-font-weight: 500;
 // $alert-font-size: rem-calc(13);
+$alert-font-size: rem-calc(12);
 // $alert-font-color: $white;
 // $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 
@@ -367,6 +369,7 @@ $body-bg: $white;
 // We use these to control border styles.
 // $alert-border-style: solid;
 // $alert-border-width: 1px;
+$alert-border-width: 0px;
 // $alert-border-color: scale-color($primary-color, $lightness: $alert-function-factor);
 // $alert-bottom-margin: rem-calc(20);
 
@@ -476,6 +479,7 @@ $body-bg: $white;
 // $success-button-border-color: $success-button-bg-hover;
 // $alert-button-bg-hover: scale-color($alert-color, $lightness: $button-function-factor);
 // $alert-button-border-color: $alert-button-bg-hover;
+$alert-button-border-color: $alert-color;
 // $warning-button-bg-hover: scale-color($warning-color, $lightness: $button-function-factor);
 // $warning-button-border-color: $warning-button-bg-hover;
 // $info-button-bg-hover: scale-color($info-color, $lightness: $button-function-factor);

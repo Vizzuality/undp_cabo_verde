@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Category, type: :model do
   before :each do
-    @category  = create(:category, type: 'SocioCulturalDomain')
+    @category  = create(:category, name: 'Category one', type: 'SocioCulturalDomain')
     @child_cat = create(:category, name: 'Category second', parent: @category)
     @org_type  = create(:category, name: 'Organization type', type: 'OrganizationType')
     @field     = create(:category, name: 'Operational field', type: 'OperationalField')
@@ -34,5 +34,12 @@ RSpec.describe Category, type: :model do
 
     @category_reject.valid?
     expect {@category_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
+  end
+
+  it 'Do not allow to create category with name douplications' do
+    @category_reject = Category.new(name: 'Category one', type: 'SocioCulturalDomain')
+
+    @category_reject.valid?
+    expect {@category_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name has already been taken")
   end
 end
