@@ -44,6 +44,7 @@ RSpec.describe Ability, type: :model do
       end
       Abilities::User.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @user.id)
       Abilities::User.any_instance.should_receive(:can).with(:dashboard, User)
+      Abilities::User.any_instance.should_receive(:can).with(:create, OtherDomain)
       Abilities::User.any_instance.should_receive(:cannot).with([:activate, :deactivate], Localization)
 
       Abilities::User.any_instance.should_receive(:can).with(:read, :all)

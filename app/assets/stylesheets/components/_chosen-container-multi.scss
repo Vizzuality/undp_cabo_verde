@@ -2,9 +2,9 @@
   border: none !important ;
   background-image: none !important;
   color: $color-11 !important;
-  margin-bottom: 20px !important;
   width: 100% !important;
 }
+
 .chosen-container-active .chosen-choices {
   box-shadow: none !important;
 }
@@ -93,4 +93,8 @@
   .chosen-choices { background-color: $color-17 !important; }
   .search-choice { background-color: $color-16 !important; }
   .search-choice-close:hover { background: url(asset_path("light_cross.png")) !important; }
+}
+
+.input.select {
+  margin-bottom: 20px;
 }

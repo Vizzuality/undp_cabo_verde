@@ -29,12 +29,15 @@ class Act < ActiveRecord::Base
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category'
+  # For merged domains
+  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category'
 
   accepts_nested_attributes_for :localizations,           allow_destroy: true
   accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
+  accepts_nested_attributes_for :other_domains,                                reject_if: :other_domain_invalid
 
   after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'
@@ -51,9 +54,9 @@ class Act < ActiveRecord::Base
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
 
-  validates :type,                      presence: true
-  validates :name,                      presence: true
-  validates :socio_cultural_domain_ids, presence: true
+  validates :type,              presence: true
+  validates :name,              presence: true
+  validates :merged_domain_ids, presence: true
 
   def self.types
     %w(ActMacro ActMeso ActMicro)
@@ -183,6 +186,10 @@ class Act < ActiveRecord::Base
     collection.any? ? collection : act_indicator_relations.build
   end
 
+  def other_domains_form
+    socio_cultural_domains.build
+  end
+
   def main_locations
     act_localizations.main_locations
   end
@@ -223,6 +230,10 @@ class Act < ActiveRecord::Base
 
     def indicator_invalid(attributes)
       attributes['indicator_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def other_domain_invalid(attributes)
+      attributes['name'].empty?
     end
 
     def set_main_location

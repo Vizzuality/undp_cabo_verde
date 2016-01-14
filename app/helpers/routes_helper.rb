@@ -88,6 +88,11 @@ module RoutesHelper
     common_nested_path(form_name, name, f, association, class_name)
   end
 
+  def add_other_domain_path(name, f, association, class_name=nil)
+    form_name = 'categories/other_domain_form'
+    common_nested_path(form_name, name, f, association, class_name)
+  end
+
   def common_form?
     request_path  = (request.path.include?('/edit') || request.path.include?('/new'))
     action_method = controller.action_name.include?('create') || controller.action_name.include?('update')

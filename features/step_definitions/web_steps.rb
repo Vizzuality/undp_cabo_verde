@@ -43,6 +43,12 @@ When /^(?:|I )click on "([^"]*)"(?: within "([^"]*)")?$/ do |div, selector|
   end
 end
 
+When /^(?:|I )click on overlapping "([^"]*)"(?: within "([^"]*)")?$/ do |div, selector|
+  with_scope(selector) do
+    page.find(div).trigger(:click)
+  end
+end
+
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
     fill_in(field, :with => value)

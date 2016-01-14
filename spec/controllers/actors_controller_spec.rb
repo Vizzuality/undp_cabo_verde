@@ -11,7 +11,7 @@ RSpec.describe ActorsController, type: :controller do
     @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
     @meso  = create(:actor_meso, user_id: @user.id)
-    @socio_cultural_domain = create(:socio_cultural_domain)
+    @socio_cultural_domain = create(:socio_cultural_domain, name: 'SCD')
   end
 
   let!(:attri) do 
@@ -123,6 +123,20 @@ RSpec.describe ActorsController, type: :controller do
       expect(@macro.micro_or_meso?).to eq(false)
     end
 
+    it 'User should be able to create a new actor' do
+      expect(@user.actors.count).to eq(3)
+      post :create, actor: { name: 'New first', user_id: @user.id, type: 'ActorMacro',
+                             merged_domain_ids: [@socio_cultural_domain.id] }
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@user.actors.count).to eq(4)
+    end
+
+    it 'User should not be able to create a new actor without name' do
+      post :create, actor: { name: '', user_id: @user.id, type: 'ActorMacro' }
+      expect(response.body).to match('can&#39;t be blank')
+    end
+
     context 'User should be able to add categories to actors' do
       before :each do
         @category  = create(:category)
@@ -133,7 +147,7 @@ RSpec.describe ActorsController, type: :controller do
       let!(:attri_macro_micro_with_cat) do
         { name: 'New first', observation: 'Lorem ipsum dolor...',
           active: true, title: 'Test', operational_field: @field.id,
-          category_ids: [@child_cat]
+          merged_domain_ids: [@child_cat]
         }
       end
 
@@ -146,7 +160,6 @@ RSpec.describe ActorsController, type: :controller do
       end
     end
 
-    
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
@@ -270,19 +283,6 @@ RSpec.describe ActorsController, type: :controller do
       get :new, type: 'ActorMacro'
       expect(response).to be_success
       expect(response).to have_http_status(200)
-    end
-
-    it 'User should be able to create a new actor' do
-      post :create, actor: { name: 'New first', user_id: @adminuser.id, type: 'ActorMacro',
-                             socio_cultural_domain_ids: [@socio_cultural_domain.id] }
-      expect(response).to be_redirect
-      expect(response).to have_http_status(302)
-      expect(@adminuser.actors.count).to eq(1)
-    end
-
-    it 'User should not be able to create a new actor without name' do
-      post :create, actor: { name: '', user_id: @adminuser.id, type: 'ActorMacro' }
-      expect(response.body).to match('can&#39;t be blank')
     end
   end
 end

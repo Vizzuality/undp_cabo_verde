@@ -7,7 +7,7 @@ I want to follow links
     Given I am registrated user
     And I am on the home page
     Then I should see "Choose what you want to add"
-    When I follow "Actors" within ".options-box-second"
+    When I follow "Actors" within ".options-box.-second"
     Then I should be on the login page
     And I fill in "Email" with "test-user@sample.com"
     And I fill in "Password" with "password"
