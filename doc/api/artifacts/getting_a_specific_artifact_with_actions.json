@@ -13,7 +13,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/artifacts/5",
+      "request_path": "/api/artifacts/2",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -26,20 +26,20 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"artifact\": {\n    \"id\": 5,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Gerry Beer DDS\",\n    \"actions\": [\n      {\n        \"id\": 31,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 21,\n            \"lat\": \"82.93672216088467\",\n            \"long\": \"60.07293922274579\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+      "response_body": "{\n  \"artifact\": {\n    \"id\": 2,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Lia VonRueden DVM\",\n    \"actions\": [\n      {\n        \"id\": 31,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 34,\n            \"lat\": \"-30.16015222021406\",\n            \"long\": \"37.217719953028194\"\n          }\n        ]\n      }\n    ]\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"5b9504dd33486092ce8d50ad1fffe9f5\"",
+        "ETag": "W/\"26504af5a7d2cab838061346deb43153\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "d8ece283-8b4c-4b23-9209-acc6db70b393",
-        "X-Runtime": "0.084886",
-        "Content-Length": "239"
+        "X-Request-Id": "f859741c-00bb-4c8b-bedd-e591aa7ab444",
+        "X-Runtime": "0.127115",
+        "Content-Length": "244"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/5\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/2\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

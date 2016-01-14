@@ -1,6 +1,6 @@
 class RelationTypeSerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 6
 
   attributes :title, :title_reverse
 

@@ -9,6 +9,7 @@ resource 'Actors' do
   before :each do
     @user       = FactoryGirl.create(:random_user)
     @location   = FactoryGirl.create(:localization, user: @user)
+    @location_2 = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
     @category_3 = FactoryGirl.create(:category, name: 'Category OT',  type: 'OrganizationType')
@@ -21,7 +22,7 @@ resource 'Actors' do
 
       tmp = create(:actor_macro, name: 'Economy Organization', user: @user,
                         observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
-                        short_name: Faker::Name.name,
+                        localizations: [@location, @location_2], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name,
                         categories: [@category_1, @category_2, @category_3])
       ActorLocalization.create(actor_id: tmp.id, localization_id: @location.id,
@@ -61,10 +62,13 @@ resource 'Actors' do
           expect(actor_4['name']).to  eq('Economy Organization')
 
           expect(actor_4['locations'][0]['lat']).not_to be_nil
+          expect(actor_1['locations'].size).to eq(1)
+          expect(actor_2['locations'].size).to eq(1)
           expect(actor_3['locations'].size).to eq(1)
+          expect(actor_4['locations'].size).to eq(2)
         end
       end
-        
+
       context 'Actors list filtered by level or SCD' do
         get "/api/actors" do
           parameter :levels, 'Filter actors by level (micro, meso or macro)'
@@ -103,18 +107,19 @@ resource 'Actors' do
       context 'Actors list filtered by date' do
         before :each do
           # Time.local(2015, 9, 1, 12, 0, 0, 0)
-          actors[0].actor_localizations.first.update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
-          actors[1].actor_localizations.first.update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
-          actors[2].actor_localizations.first.update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
-          actors[3].actor_localizations.first.update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+          actors[0].actor_localizations[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actors[0].actor_localizations[1].update_attributes(start_date: Time.zone.now - 2.years, end_date: Time.zone.now - 1.year)
+          actors[1].actor_localizations[0].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actors[2].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
+          actors[3].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
         end
-        
+
         get "/api/actors" do
           parameter :start_date, 'Filter actors by start-date (2014-01-31)'
           parameter :end_date, 'Filter actors by end-date (2015-01-31)'
 
           example 'Getting a list of actors by start-date' do
-            do_request(start_date: '2014-01-31')
+            do_request(start_date: '2015-01-31')
             response_actors = JSON.parse(response_body)['actors']
             expect(status).to eq(200)
             expect(response_actors.size).to eq(3)
@@ -131,7 +136,22 @@ resource 'Actors' do
             do_request(start_date: '2014-01-31', end_date: '2015-09-31')
             response_actors = JSON.parse(response_body)['actors']
             expect(status).to eq(200)
-            expect(response_actors.size).to eq(3)
+            expect(response_actors.size).to eq(4)
+            expect(response_actors[0]['locations'].size).to eq(1)
+            expect(response_actors[1]['locations'].size).to eq(1)
+            expect(response_actors[2]['locations'].size).to eq(1)
+            expect(response_actors[3]['locations'].size).to eq(1)
+          end
+
+          example 'Getting a list of actors by start-date and end-date check locations filtering', document: false do
+            do_request(start_date: '2010-01-31', end_date: '2015-09-31')
+            response_actors = JSON.parse(response_body)['actors']
+            expect(status).to eq(200)
+            expect(response_actors.size).to eq(4)
+            expect(response_actors[0]['locations'].size).to eq(1)
+            expect(response_actors[1]['locations'].size).to eq(1)
+            expect(response_actors[2]['locations'].size).to eq(1)
+            expect(response_actors[3]['locations'].size).to eq(2)
           end
         end
       end
@@ -257,7 +277,7 @@ resource 'Actors' do
           expect(actor['actors']['parents'][0]['name']).to      eq('Economy Organization')
           expect(actor['actors']['parents'][0]['level']).to     eq('macro')
 
-          expect(actor['actors']['parents'][0]['locations'].size).to eq(1)
+          expect(actor['actors']['parents'][0]['locations'].size).to eq(2)
 
           expect(actor['actors']['parents_info'][0]['parent_id']).not_to  be_nil
           expect(actor['actors']['parents_info'][0]['child_id']).to       eq(actor_with_relations.id)
@@ -277,7 +297,7 @@ resource 'Actors' do
           expect(actor['actors']['children'][0]['locations'].size).to eq(1)
 
           expect(actor['actors']['children_info'][0]['parent_id']).to      eq(actor_with_relations.id)
-          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil   
+          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil
           expect(actor['actors']['children_info'][0]['start_date']).not_to be_nil
           expect(actor['actors']['children_info'][0]['end_date']).not_to   be_nil
 
