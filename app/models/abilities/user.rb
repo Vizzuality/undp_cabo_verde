@@ -27,6 +27,8 @@ module Abilities
         can :manage, ::ActActorRelation,     user_id: user.id
         
         can [:activate, :deactivate], ::Comment, user_id: user.id
+
+        can :create, ::OtherDomain
       end
 
       cannot [:activate, :deactivate], ::Localization

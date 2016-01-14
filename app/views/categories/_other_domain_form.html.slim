@@ -1,0 +1,6 @@
+.form-inputs.form-inputs-other-domains
+  .row
+    .column.medium-4
+      = f.label :name, t('categories.name') + '*', class: 'right inline'
+    .column.medium-8
+      = f.input :name, label: false, input_html: { class: 'name' }, disabled: common_form?

@@ -1,0 +1,18 @@
+.interaction-box {
+
+  &.-small {
+    @include font(null, small, null, null);
+  }
+
+  > .interaction {
+    margin-right: 30px;
+
+    &.-primary {
+      color: $color-10;
+    }
+
+    &.-secondary {
+      color: $color-6;
+    }
+  }
+}
