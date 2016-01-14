@@ -121,6 +121,18 @@ textarea:focus {
 
 }
 
+a {
+  color: $color-10;
+  &:hover, &:focus {
+    color: $color-10;
+    color: $color-10;
+  }
+
+  &.remove_fields {
+    color: $color-6;
+  }
+}
+
 .hidden {
   visibility: hidden;
 }
