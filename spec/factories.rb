@@ -64,29 +64,29 @@ FactoryGirl.define do
     name 'Person two'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(1000..2000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(1001..2000).to_s}")] }
   end
 
   factory :actor_micro, class: ActorMicro do
     name 'Person one'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(2000..3000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(2001..3000).to_s}")] }
   end
 
   factory :actor_meso, class: ActorMeso do
     name 'Department one'
     type 'ActorMeso'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(3000..4000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(3001..4000).to_s}")] }
   end
 
   factory :actor_macro, class: ActorMacro do
     name 'Organization one'
     type 'ActorMacro'
     observation 'Lorem ipsum...'
-    after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global_#{rand(1000..2000).to_s}").id) }
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(4000..5000).to_s}")] }
+    after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global_#{rand(1001..2000).to_s}").id) }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(4001..5000).to_s}")] }
   end
 
   # Acts
@@ -94,21 +94,21 @@ FactoryGirl.define do
     name 'Third one'
     type 'ActMicro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(5000..6000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(5001..6000).to_s}")] }
   end
 
   factory :act_meso, class: ActMeso do
     name 'Second one'
     type 'ActMeso'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(6000..7000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(6001..7000).to_s}")] }
   end
 
   factory :act_macro, class: ActMacro do
     name 'First one'
     type 'ActMacro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(7000..8000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(7001..8000).to_s}")] }
   end
 
   # Localizations
