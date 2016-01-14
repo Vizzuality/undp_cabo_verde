@@ -1,7 +1,6 @@
 .title {
-  font-size: 20px;
+  @include font(null, regular, regular, null);
   color: $color-9;
-  font-weight: 400;
 
   &.-secondary {
     font-size: 12px;

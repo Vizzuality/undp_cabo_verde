@@ -44,8 +44,7 @@ select {
 }
 
 *:not(.checkbox) > label {
-  @include font(helvetica, null, light, null);
-  font-size: 20px;
+  @include font(helvetica, regular, light, null);
   color: $color-4;
   line-height: 37px;
   padding: 0 !important;
@@ -66,6 +65,7 @@ textarea:focus {
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
+  margin-bottom: 16px;
   line-height: 32px;
   @include font(helvetica, null, light, null);
 
@@ -122,6 +122,18 @@ textarea:focus {
 
 }
 
+a {
+  color: $color-10;
+  &:hover, &:focus {
+    color: $color-10;
+    color: $color-10;
+  }
+
+  &.remove_fields {
+    color: $color-6;
+  }
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -132,7 +144,6 @@ textarea:focus {
 }
 
 .form-actions  {
-
   h2 {
     margin-bottom: 20px;
     margin-top: 40px;
@@ -144,8 +155,3 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
-.remove_fields, .remove_fields:hover {
-  margin-bottom: 40px;
-  color: $color-18 !important;
-  cursor: pointer;
-}
