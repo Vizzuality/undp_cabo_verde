@@ -271,7 +271,7 @@ html lang="en"
                         input#levelsMicro.input.-checkbox type="checkbox" value="micro" checked="checked"
                         label.label for="levelsMicro"
                           | Micro
-                      button.button.-outlined.-small.js-toggle-check
+                      button.button.-outlined.-small.js-toggle-check type="button"
                         svg.icon.-marginright width="10" height="8"
                           use xlink:href="#uncheckIcon" x="0" y="0"
                         span = t('front.uncheck_all')
@@ -288,7 +288,7 @@ html lang="en"
                         .form-input
                           input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
                           label.label for="domains#{domain.id}" = domain.name
-                      button.button.-outlined.-small.js-toggle-check
+                      button.button.-outlined.-small.js-toggle-check type="button"
                         svg.icon.-marginright width="10" height="8"
                           use xlink:href="#uncheckIcon" x="0" y="0"
                         span = t('front.uncheck_all')
@@ -299,8 +299,8 @@ html lang="en"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
                     input.input.-small.-calendaricon.-monospace.js-input type="date" value="#{ @end_date.strftime('%m/%d/%Y') }" name="end_date" id="endDate" required="required"
-                button.button.-outlined.js-reset = t('front.reset')
-                button.button.js-apply = t('front.apply')
+                button.button.-outlined.js-reset type="button" = t('front.reset')
+                button.button.js-apply type="submit" = t('front.apply')
                 .message.-error._hidden.js-error = t('front.cant_apply_search_0_check')
 
               .content.-secondary
