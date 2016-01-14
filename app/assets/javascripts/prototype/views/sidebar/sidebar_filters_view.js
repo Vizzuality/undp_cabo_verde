@@ -29,6 +29,9 @@
       this.$inputFields = this.$el.find('.js-input');
       this.applyButton = this.el.querySelector('.js-apply');
       this.errorMessage = this.el.querySelector('.js-error');
+      this.inputs = this.el.querySelectorAll('.js-input');
+      this.hiddenInputs =
+        this.el.querySelectorAll('.js-input[disabled="disabled"]');
       this.syncInputsWithQueryParams();
       this.syncCheckboxesWithHiddenInputs();
       this.setListeners();
@@ -104,8 +107,7 @@
 
     /* Return all the hidden inputs */
     getAllHiddenInputs: function() {
-      var selector = '.js-input[disabled="disabled"]';
-      return this.el.querySelectorAll(selector);
+      return this.hiddenInputs;
     },
 
     /* Return the notification badge of the filter whose root element is passed
@@ -113,6 +115,22 @@
     getFilterNotificationBadge: function(filterRootElem) {
       var selector = '.js-badge';
       return filterRootElem.querySelector(selector);
+    },
+
+    /* Return all the inputs */
+    getAllInputs: function() {
+      return this.inputs;
+    },
+
+    /* Return the input which name is passed as argument */
+    getInputByName: function(name) {
+      var inputs = this.getAllInputs();
+      var input = _.filter(inputs, function(input) {
+        return input.name === name;
+      });
+
+      if(input.length > 0) { return input[0]; }
+      return null;
     },
 
     /* UTILITIES FOR THE CHECKBOXES */
@@ -146,24 +164,6 @@
     uncheckFilterAllCheckboxes: function(filterRootElem) {
       var checkboxes = this.getFilterCheckboxes(filterRootElem);
       _.each(checkboxes, function(checkbox) { checkbox.checked = false; });
-    },
-
-
-    /* Return all the inputs */
-    getAllInputs: function() {
-      var selector = '.js-input';
-      return this.el.querySelectorAll(selector);
-    },
-
-    /* Return the input which name is passed as argument */
-    getInputByName: function(name) {
-      var inputs = this.getAllInputs();
-      var input = _.filter(inputs, function(input) {
-        return input.name === name;
-      });
-
-      if(input.length > 0) { return input[0]; }
-      return null;
     },
 
     /* EVENT HANDLERS */
