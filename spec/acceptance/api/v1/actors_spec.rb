@@ -20,14 +20,11 @@ resource 'Actors' do
     let!(:actors) do
       actors = []
 
-      tmp = create(:actor_macro, name: 'Economy Organization', user: @user,
+      actors << create(:actor_macro, name: 'Economy Organization', user: @user,
                         observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field,
                         localizations: [@location, @location_2], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name,
                         categories: [@category_1, @category_2, @category_3])
-      ActorLocalization.create(actor_id: tmp.id, localization_id: @location.id,
-                               start_date: 3.days.ago, end_date: 2.days.from_now)
-      actors << tmp
       actors << create(:actor_macro, name: 'Education Institution', localizations: [@location],
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
       actors << create(:actor_meso,  name: 'Department of Education',
@@ -68,7 +65,7 @@ resource 'Actors' do
           expect(actor_4['locations'].size).to eq(2)
         end
       end
-
+        
       context 'Actors list filtered by level or SCD' do
         get "/api/actors" do
           parameter :levels, 'Filter actors by level (micro, meso or macro)'
@@ -94,13 +91,6 @@ resource 'Actors' do
             expect(status).to eq(200)
             expect(response_actors.size).to eq(2)
           end
-
-          example 'Getting a list of actors filtered by start date' do
-            do_request(start_date: 2.days.ago, end_date: Date.today)
-            response_actors = JSON.parse(response_body)['actors']
-            expect(status).to eq(200)
-            expect(response_actors.size).to eq(1)
-          end
         end
       end
 
@@ -113,7 +103,7 @@ resource 'Actors' do
           actors[2].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
           actors[3].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
         end
-
+        
         get "/api/actors" do
           parameter :start_date, 'Filter actors by start-date (2014-01-31)'
           parameter :end_date, 'Filter actors by end-date (2015-01-31)'
@@ -297,7 +287,7 @@ resource 'Actors' do
           expect(actor['actors']['children'][0]['locations'].size).to eq(1)
 
           expect(actor['actors']['children_info'][0]['parent_id']).to      eq(actor_with_relations.id)
-          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil
+          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil   
           expect(actor['actors']['children_info'][0]['start_date']).not_to be_nil
           expect(actor['actors']['children_info'][0]['end_date']).not_to   be_nil
 
