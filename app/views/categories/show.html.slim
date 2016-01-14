@@ -7,9 +7,11 @@
             = t('shared.general_info')
 
   = simple_form_for @category do |f|
-    
     .row
       .column.medium-8.medium-offset-1
+        .row
+          .column.medium-8.medium-offset-4
+            = f.error_notification
         .row
           .column.medium-4
             = f.label :type, class: 'right inline'
