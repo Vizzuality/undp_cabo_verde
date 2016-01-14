@@ -62,6 +62,7 @@
         this.populateActorModelFrom);
       this.listenTo(root.app.pubsub, 'sync:actionModel',
         this.populateActionModelFrom);
+      this.listenTo(this.router, 'change:queryParams', this.onFiltering);
     },
 
     renderMap: function() {
@@ -322,8 +323,14 @@
         '.js-action-marker';
       var selector = entityClass + '[data-id="' + id + '"]' +
         '[data-location="' + locationId + '"]';
+      var marker = this.$el.find(selector);
 
-      this.$el.find(selector)[0].classList.add('-active');
+      if(marker.length === 0) {
+        console.warn('Unable to highlight the marker ' + type + '/' + id +
+          ' on the map');
+      } else {
+        marker[0].classList.add('-active');
+      }
     },
 
     /* Update the markers depending on the entity's id and location passed
@@ -346,7 +353,7 @@
         case 'actor':
           this.updateMarkersFocus('actors', arguments[1][0], arguments[1][1]);
           break;
-          
+
         case 'action':
           this.updateMarkersFocus('actions', arguments[1][0], arguments[1][1]);
           break;
@@ -403,6 +410,19 @@
     slideButtons: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
       this.$credits.toggleClass('-slided', options.isHidden);
+    },
+
+    /* Remove a type of markers if it has been filtered out */
+    onFiltering: function() {
+      var typefiltering = this.router.getQueryParams().types;
+
+      /* If the user ask for both the actors and actions, we don't do anything
+       */
+      if(!typefiltering || typefiltering.length === 2) return;
+
+      /* Otherwise, we remove the entity type which shouldn't appear anymore */
+      var entities = ['actors', 'actions'];
+      this.removeMarkers(_.difference(entities, typefiltering)[0]);
     }
 
   });

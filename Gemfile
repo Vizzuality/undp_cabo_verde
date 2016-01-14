@@ -14,7 +14,7 @@ gem 'jquery-ui-sass-rails'
 gem 'chosen-rails'
 gem 'autoprefixer-rails'
 gem 'handlebars_assets'
-gem 'i18n-js'
+gem 'i18n-js', '>= 3.0.0.rc11'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-foundation'

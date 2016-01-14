@@ -9,7 +9,7 @@ html lang="en"
     link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
     = csrf_meta_tags
   body
-    / Cache for the map's markers
+    / Cache all the SVG icons
     svg style="display: none;"
       defs
         g id="macroMarkerIcon"
@@ -136,6 +136,21 @@ html lang="en"
         / Water, Sanation and Irrigation
         g transform="translate(7 3)" stroke="#222" fill="none" fill-rule="evenodd"
           path d="M8 24.02c2.973 0 7.5-1.845 7.5-7.02C15.5 11.662 8 .02 8 .02S.5 11.72.5 17c0 5.117 4.527 7.02 7.5 7.02zM8 20.42c1.833 0 4.625-1.138 4.625-4.33"
+        g id="checkIcon"
+          path d="M0 2.844l3.703 3.52L8.836 0" stroke="#175CA0" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
+        g id="uncheckIcon" transform="translate(0 -1)" stroke-linecap="round" stroke="#175CA0" fill="none" fill-rule="evenodd"
+          path d="M8.536 1.464L1.464 8.536M8.536 8.536L1.464 1.464"
+        g id="searchesIcon" transform="translate(1 1)" fill="none" fill-rule="evenodd"
+          g transform="translate(5 6)"
+            path d="M4.022 1h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="1" r="1"
+            path d="M4.022 5h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="5" r="1"
+            path d="M4.022 9h7.5" stroke="#175ca0" stroke-linecap="round"
+            circle fill="#175ca0" cx="1" cy="9" r="1"
+          circle stroke="#175ca0" cx="11" cy="11" r="11"
+        g id="backArrowIcon"
+          path d="M7.842.684l-5.684 6L7.82 12.66" stroke="#175ca0" stroke-width="2" fill="none" fill-rule="evenodd"
           
     .container
       .l-map
@@ -206,44 +221,92 @@ html lang="en"
         #overall-tab data-content="overall" role="tabpanel" aria-labelledby="overall-tab"
           #sidebar-action-toolbar-view
             .button.-textual.js-back._hidden aria-hidden="true" aria-label="Back button"
-              = image_tag 'left-arrow.svg', class: 'icon -marginright'
+              svg.icon.-marginright width="10" height="18"
+                use xlink:href="#backArrowIcon" x="0" y="0"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
-            = image_tag 'searches.svg', class: '_pointer js-searches'
+            .button.-textual.js-searches
+              = t('front.searches')
+              svg.icon.-marginleft width="24" height="24"
+                use xlink:href="#searchesIcon" x="0" y="0"
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form.content
-                .form-input
-                  label.label.-hidden for="markersType" = t('front.select_markers_type')
-                  select.input.-arrowicon name="markersType" id="markersType"
-                    option value="all" selected="selected" = t('front.show_all')
-                    option value="actors" = t('front.only_actors')
-                    option value="actions" = t('front.only_actions')
-                .form-input
-                  label.label.-hidden for="levels" = t('front.levels')
-                  select.input.-arrowicon name="levels" id="levels"
-                    option value="" selected="selected" disabled="disabled" = t('front.levels')
-                .form-input
-                    label.label.-hidden for="categories" = t('front.categories')
-                    select.input.-arrowicon name="categories" id="categories"
-                      option value="" selected="selected" disabled="disabled" = t('front.categories')
+                ul.accordion role="tablist"
+                  li.section
+                    input#filtersSection0.toggle-button type="checkbox" value="" style="display: none;"
+                    label#filtersTab0.title for="filtersSection0" aria-label="toggle type filter" aria-controls="filtersPanel0" = t('front.show_all')
+                    #filtersPanel0.content.js-content data-filter="type" aria-hidden="true"
+                      select.js-input name="types" disabled="disabled" multiple="multiple" style="display:none;"
+                        option value="actors" selected="selected" = t('front.actors')
+                        option value="actions" selected="selected" = t('front.actions')
+                      .form-input
+                        input#markersTypeActors.input.-checkbox type="checkbox" value="actors" checked="checked"
+                        label.label for="markersTypeActors" = t('front.actors')
+                      .form-input
+                        input#markersTypeActions.input.-checkbox type="checkbox" value="actions" checked="checked"
+                        label.label for="markersTypeActions" = t('front.actions')
+                  li.section
+                    input#filtersSection1.toggle-button type="checkbox" value="" style="display: none;"
+                    label#filtersTab1.title for="filtersSection1" aria-label="toggle level filter" aria-controls="filtersPanel1"
+                      = t('front.levels')
+                      span.notification-badge.js-badge = t('front.all')
+                    #filtersPanel1.content.js-content aria-hidden="true"
+                      select.js-input name="levels" disabled="disabled" multiple="multiple" style="display:none;"
+                        option value="macro" selected="selected"
+                          | Macro
+                        option value="meso" selected="selected"
+                          | Meso
+                        option value="micro" selected="selected"
+                          | Micro
+                      .form-input
+                        input#levelsMacro.input.-checkbox type="checkbox" value="macro" checked="checked"
+                        label.label for="levelsMacro"
+                          | Macro
+                      .form-input
+                        input#levelsMeso.input.-checkbox type="checkbox" value="meso" checked="checked"
+                        label.label for="levelsMeso"
+                          | Meso
+                      .form-input
+                        input#levelsMicro.input.-checkbox type="checkbox" value="micro" checked="checked"
+                        label.label for="levelsMicro"
+                          | Micro
+                      button.button.-outlined.-small.js-toggle-check type="button"
+                        svg.icon.-marginright width="10" height="10"
+                          use xlink:href="#uncheckIcon" x="0" y="0"
+                        span = t('front.uncheck_all')
+                  li.section
+                    input#filtersSection2.toggle-button type="checkbox" value="" style="display: none;"
+                    label#filtersTab2.title for="filtersSection2" aria-label="toggle domain filter" aria-controls="filtersPanel2"
+                      = t('front.categories')
+                      span.notification-badge.js-badge = t('front.all')
+                    #filtersPanel2.content.js-content aria-hidden="true"
+                      select.js-input name="domains_ids" disabled="disabled" multiple="multiple" style="display:none;"
+                        -@domains.each do |domain|
+                          option value="#{domain.id}" selected="selected" = domain.name
+                      -@domains.each do |domain|
+                        .form-input
+                          input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
+                          label.label for="domains#{domain.id}" = domain.name
+                      button.button.-outlined.-small.js-toggle-check type="button"
+                        svg.icon.-marginright width="10" height="10"
+                          use xlink:href="#uncheckIcon" x="0" y="0"
+                        span = t('front.uncheck_all')
+                          
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="startDate" id="startDate" required="required"
+                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate" required="required"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace type="date" value="#{ Time.now.strftime('%m/%d/%Y') }" name="endDate" id="endDate" required="required"
-                button.button.-secondary.js-reset = t('front.reset')
-                button.button.js-apply = t('front.apply')
+                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate" required="required"
+                button.button.-outlined.js-reset type="button" = t('front.reset')
+                button.button.js-apply type="submit" = t('front.apply')
+                .message.-error._hidden.js-error aria-hidden="true" = t('front.cant_apply_search_0_check')
 
               .content.-secondary
                 .searches
                   p = t('front.want_save_search')
-                  button.button.-secondary = t('front.save')
-                  hr
-                  h3.title.-tertiary = t('front.saved_searches')
-                  p = t('front.no_search_available_html')
-
+                  button.button = t('front.save') 
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
