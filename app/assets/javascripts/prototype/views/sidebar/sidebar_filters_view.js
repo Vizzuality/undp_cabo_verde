@@ -427,16 +427,9 @@
          * selected option */
         if(root.app.Helper.utils.matches(field, 'select')) {
           var selectedOptions = field.selectedOptions;
-          /* If there's no option selected, we use a special value */
-          if(selectedOptions.length === 0) {
-            summary[field.name] = '[]';
-          }
-          /* Otherwise we join each value with a comma */
-          else {
-            summary[field.name] = [];
-            for(var k = 0, l = selectedOptions.length; k < l; k++) {
-               summary[field.name].push(field.options[selectedOptions[k].index].value);
-            }
+          summary[field.name] = [];
+          for(var k = 0, l = selectedOptions.length; k < l; k++) {
+             summary[field.name].push(field.options[selectedOptions[k].index].value);
           }
         } else {
           summary[field.name] = field.value;

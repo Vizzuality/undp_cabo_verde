@@ -56,7 +56,10 @@
         function(str, value, key) {
         if(value.length > 0) {
           if(_.isArray(value)) {
-            return str + (str.length === 0 ? '?' : '&') + key + '=' +
+            /* If the array is empty, we don't add anything to the URL */
+            if(value.length === 0) return str;
+
+            return str + (str.length === 0 ? '?' : '&') + key + '[]=' +
               value.join(',');
           }
           return str + (str.length === 0 ? '?' : '&') + key + '=' + value;
@@ -86,10 +89,13 @@
         } else {
           var key   = pair.split('=')[0],
               value = pair.split('=')[1];
-          /* If the value contains ",", then we save it as an array */
-          if(value.split(',').length > 1) {
-            value = value.split(',');
+
+          var isArray = /\[\]$/.test(key);
+          if(isArray) {
+            value = value.length === 0 ? [] : value.split(',');
+            key = key.replace('[]', '');
           }
+
           this.queryParams.set(key, value);
         }
       }, this);
