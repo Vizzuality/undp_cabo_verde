@@ -323,8 +323,14 @@
         '.js-action-marker';
       var selector = entityClass + '[data-id="' + id + '"]' +
         '[data-location="' + locationId + '"]';
+      var marker = this.$el.find(selector);
 
-      this.$el.find(selector)[0].classList.add('-active');
+      if(marker.length === 0) {
+        console.warn('Unable to highlight the marker ' + type + '/' + id +
+          ' on the map');
+      } else {
+        marker[0].classList.add('-active');
+      }
     },
 
     /* Update the markers depending on the entity's id and location passed
