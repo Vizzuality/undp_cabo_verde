@@ -20,11 +20,15 @@ html lang='en'
           .row: .small-12.medium-12.large-12.columns
             - if alert
               .alert-box.alert data-alert='true'
-                div = alert
+                div 
+                  = image_tag 'circle-alert.svg', class: 'circle-icon'
+                  = alert
                 a.close href='#' &times;
             - else
-              .alert-box.alert data-alert='true'
-                div = notice
+              .alert-box.success data-alert='true'
+                div 
+                  = image_tag 'circle-alert.svg', class: 'circle-icon'
+                  = notice
                 a.close href='#' &times;
 
       .l-content
