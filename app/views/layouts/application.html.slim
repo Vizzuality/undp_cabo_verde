@@ -21,13 +21,13 @@ html lang='en'
             - if alert
               .alert-box.alert data-alert='true'
                 div 
-                  = image_tag 'circle-alert.svg', class: 'circle-icon'
+                  = image_tag 'alert.svg', class: 'circle-icon'
                   = alert
                 a.close href='#' &times;
             - else
               .alert-box.success data-alert='true'
                 div 
-                  = image_tag 'circle-alert.svg', class: 'circle-icon'
+                  = image_tag 'success.svg', class: 'circle-icon'
                   = notice
                 a.close href='#' &times;
 
