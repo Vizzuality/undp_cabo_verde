@@ -11,12 +11,14 @@
     color: $color-4;
 
     & > .title {
+      @extend %vertical-align;
+
       height: 42px;
       width: 100%;
       display: block;
       font-size: 14px;
       color: $color-10;
-      line-height: 46px;
+      line-height: 42px;
       background: url(asset_path("form-arrow.png")) no-repeat center right / 13px;
       cursor: pointer;
     }

@@ -1,7 +1,8 @@
 .button  {
+  @extend %vertical-align;
+
   cursor: pointer;
   height: 37px;
-  line-height: 37px;
   vertical-align: middle;
   background-color: $color-2;
   color: $color-1;
@@ -33,7 +34,6 @@
 
   &.-small {
     height: 32px;
-    line-height: 32px;
     font-size: 12px;
     padding: 0 20px;
   }
