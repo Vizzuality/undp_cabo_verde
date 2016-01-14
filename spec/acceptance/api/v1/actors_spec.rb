@@ -11,8 +11,8 @@ resource 'Actors' do
     @location   = FactoryGirl.create(:localization, user: @user)
     @location_2 = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category one')
-    @category_2 = FactoryGirl.create(:category, type: 'SocioCulturalDomain')
-    @category_3 = FactoryGirl.create(:category,  type: 'OrganizationType')
+    @category_2 = FactoryGirl.create(:category, name: 'Category two', type: 'SocioCulturalDomain')
+    @category_3 = FactoryGirl.create(:category, name: 'Category three',  type: 'OrganizationType')
     @field      = FactoryGirl.create(:operational_field, name: 'Global')
   end
 
