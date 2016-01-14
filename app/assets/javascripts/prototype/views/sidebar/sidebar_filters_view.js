@@ -477,6 +477,8 @@
     updateErrorMessageVisibility: function() {
       this.errorMessage.classList.toggle('_hidden',
         !this.isErrorMessageVisible());
+      this.errorMessage.setAttribute('aria-hidden',
+        !this.isErrorMessageVisible());
     }
 
   });
