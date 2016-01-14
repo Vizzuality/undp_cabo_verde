@@ -38,6 +38,11 @@
     padding: 0 20px;
   }
 
+  &.-disabled {
+    opacity: .3;
+    cursor: default;
+  }
+
   & > .icon {
     display: inline-block;
     vertical-align: middle;

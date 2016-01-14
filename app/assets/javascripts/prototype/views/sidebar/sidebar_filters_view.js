@@ -27,6 +27,8 @@
       this.router = options.router;
       this.status = new Status();
       this.$inputFields = this.$el.find('.js-input');
+      this.applyButton = this.el.querySelector('.js-apply');
+      this.errorMessage = this.el.querySelector('.js-error');
       this.syncInputsWithQueryParams();
       this.syncCheckboxesWithHiddenInputs();
       this.setListeners();
@@ -178,6 +180,8 @@
       this.updateFilterNotificationBadge(filterRootElem);
       this.updateFilterToggleCheckButton(filterRootElem);
       this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
+      this.updateApplyButtonState();
+      this.updateErrorMessageVisibility();
     },
 
     onClickToggleCheckButton: function(e) {
@@ -194,6 +198,8 @@
 
       this.updateFilterToggleCheckButton(filterRootElem);
       this.updateFilterNotificationBadge(filterRootElem);
+      this.updateApplyButtonState();
+      this.updateErrorMessageVisibility();
     },
 
     onResetFilters: function(e) {
@@ -203,7 +209,10 @@
 
     onApplyFilters: function(e) {
       e.preventDefault();
-      this.applyFilters();
+
+      if(!this.isApplyButtonDisabled()) {
+        this.applyFilters();
+      }
     },
 
     /* LOGIC */
@@ -275,7 +284,7 @@
 
     /* Update all the notification badges according to their filter's checkboxes
      */
-    updateAllToggleNotificationBadges: function() {
+    updateAllNotificationBadges: function() {
       var hiddenInputs = this.getAllHiddenInputs();
 
       var filterRootElem;
@@ -367,6 +376,8 @@
 
         this.updateFilterNotificationBadge(filterRootElem);
         this.updateFilterToggleCheckButton(filterRootElem);
+        this.updateApplyButtonState();
+        this.updateErrorMessageVisibility();
       }
     },
 
@@ -393,7 +404,9 @@
 
       this.syncCheckboxesWithHiddenInputs();
       this.updateAllToggleCheckButtons();
-      this.updateallNotificationBadges();
+      this.updateAllNotificationBadges();
+      this.updateApplyButtonState();
+      this.updateErrorMessageVisibility();
 
       this.applyFilters();
     },
@@ -430,6 +443,40 @@
         }
       }
       this.router.setQueryParams(summary);
+    },
+
+    /* Return a boolean to tell if the apply button is disabled or not */
+    isApplyButtonDisabled: function() {
+      var hiddenInputs = this.getAllHiddenInputs();
+
+      var filterRootElem, checkedCheckboxesCount;
+      for(var i = 0, j = hiddenInputs.length; i < j; i++) {
+        filterRootElem = this.getFilterRootElem(hiddenInputs[i]);
+        checkedCheckboxesCount =
+          this.getFilterCheckedCheckboxes(filterRootElem).length;
+
+        if(checkedCheckboxesCount === 0) return true;
+      }
+
+      return false;
+    },
+
+    /* Disable or enable the apply button depending if there's a filter with all
+     * it's checkboxes unchecked */
+    updateApplyButtonState: function() {
+      this.applyButton.classList.toggle('-disabled',
+        this.isApplyButtonDisabled());
+    },
+
+    /* Return a true if the error message should be visible */
+    isErrorMessageVisible: function() {
+      return this.isApplyButtonDisabled();
+    },
+
+    /* Show or hide the error message depending on the form's state */
+    updateErrorMessageVisibility: function() {
+      this.errorMessage.classList.toggle('_hidden',
+        !this.isErrorMessageVisible());
     }
 
   });

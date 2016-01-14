@@ -301,6 +301,7 @@ html lang="en"
                     input.input.-small.-calendaricon.-monospace.js-input type="date" value="#{ @end_date.strftime('%m/%d/%Y') }" name="end_date" id="endDate" required="required"
                 button.button.-outlined.js-reset = t('front.reset')
                 button.button.js-apply = t('front.apply')
+                .message.-error._hidden.js-error = t('front.cant_apply_search_0_check')
 
               .content.-secondary
                 .searches
