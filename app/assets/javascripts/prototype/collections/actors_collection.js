@@ -17,7 +17,10 @@
       var queryParams = _.omit(this.router.getQueryParams(), 'types');
 
       if(!_.isEmpty(queryParams)) {
-        return _.reduce(_.map(queryParams, function(value, key) {
+        return _.reduce(_.compact(_.map(queryParams, function(value, key) {
+          /* We should always have a value for the parameters */
+          if(value.length === 0) return;
+
           if(key === 'levels' || key === 'domains_ids') {
             return _.map(value, function(v) { return key + '[]=' + v; })
               .join('&');
@@ -26,7 +29,7 @@
             return key + '=' + value.split('/')[2] + '-' + value.split('/')[0] +
               '-' + value.split('/')[1];
           }
-        }), function(memo, value) {
+        })), function(memo, value) {
           return memo + value + '&';
         }, baseUrl + '?').slice(0, -1);
       }
