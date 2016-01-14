@@ -253,6 +253,7 @@ en:
     updated: 'Updated'
     created: 'Created'
     can_not_be_deleted: 'Can not be deleted!'
+    add_other_domain: 'Add another domain'
 
   actors:
     actor: 'Actor'
@@ -334,6 +335,7 @@ en:
     socio_cultural_domains: 'Socio cultural domains'
     other_domains: 'Other domains'
     organization_types: 'Organization types'
+    name: 'Name'
 
   comments:
     comments: 'Comments'

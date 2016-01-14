@@ -50,7 +50,7 @@
             .column.medium-4
               = f.label :organization_type_ids, class: 'right inline'
             .column.medium-8
-              = f.input :organization_type_ids, collection: @organization_types, as: :select, label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+              = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
 
     = render partial: f
 

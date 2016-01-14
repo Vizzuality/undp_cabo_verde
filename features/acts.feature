@@ -62,10 +62,27 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
-    And I check "Faith" within ".act_socio_cultural_domain_ids"
+    And I check "Faith" within ".act_merged_domain_ids"
     And I press "Create"
     Then I should have one act
     And I should be on the act page for "Act by admin"
+
+  @javascript
+  Scenario: User can create act with custom domain
+    Given user
+    And socio_cultural_domain
+    And I am authenticated adminuser
+    And I should have one domain
+    When I go to the new act page
+    And I select "Macro" from "act_type"
+    And I fill in "act_name" with "Act by admin"
+    And I click on overlapping ".add_other_domain"
+    And I fill in the following field ".name" with "Custom domain" within ".form-inputs-other-domains"
+    And I check "SCD" within ".act_merged_domain_ids"
+    And I press "Create"
+    Then I should be on the act page for "Act by admin"
+    And I should have one act
+    And I should have two domains
 
   Scenario: User can not edit not owned act
     Given I am authenticated user

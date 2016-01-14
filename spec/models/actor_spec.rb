@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Actor, type: :model do
   before :each do
     @user  = create(:user)
-    @field = create(:operational_field)
+    @field = create(:operational_field, name: 'Global')
     @macro = create(:actor_macro, user_id: @user.id, operational_field: @field.id)
     @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
     @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2)
@@ -15,7 +15,7 @@ RSpec.describe Actor, type: :model do
     expect(@macro.mesos.first.name).to eq('Department one')
     expect(@macro.micros.first.name).to eq('Person one')
     expect(@macro.macro?).to eq(true)
-    expect(@macro.operational_field_txt).to eq('Global')
+    expect(@macro.operational_field_txt).to match('Global')
   end
 
   it 'Create ActorMeso' do
@@ -49,11 +49,11 @@ RSpec.describe Actor, type: :model do
     expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
   end
 
-  it 'actor socio cultural domain validation' do
-    @person_reject = build(:actor_micro, socio_cultural_domains: [], user_id: @user.id)
+  it 'actor domain validation' do
+    @person_reject = build(:actor_micro, merged_domains: [], user_id: @user.id)
 
     @person_reject.valid?
-    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank")
+    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domain ids can't be blank")
   end
 
   it 'actor with actor type' do
