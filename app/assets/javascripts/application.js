@@ -4,6 +4,7 @@
 //= require chosen-jquery
 //= require leaflet
 //= require forms
+//= require foundation
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
@@ -243,4 +244,5 @@ function onReady() {
   }
 }
 
+$(document).foundation();
 document.addEventListener('DOMContentLoaded', onReady);
