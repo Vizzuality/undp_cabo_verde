@@ -1,5 +1,4 @@
 class APIVersion
-  
   def initialize(options)
     @version = options[:version]
     @default = options[:current]
@@ -10,9 +9,9 @@ class APIVersion
   end
 
   private
+
     def check_headers(headers)
       accept = headers['Accept']
       accept && accept.include?("application/undp-cabo-verde-v#{@version}+json")
     end
-
 end

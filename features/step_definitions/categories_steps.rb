@@ -38,6 +38,10 @@ Given /^socio_cultural_domain$/ do
   FactoryGirl.create(:socio_cultural_domain, name: 'SCD')
 end
 
+Given /^socio_cultural_domain_2$/ do
+  FactoryGirl.create(:socio_cultural_domain, name: 'Faith')
+end
+
 Given /^category_tree$/ do
   @cat_1 = FactoryGirl.create(:category, id: 2, name: 'Category two')
   @cat_2 = FactoryGirl.create(:category, id: 3, name: 'Category three')

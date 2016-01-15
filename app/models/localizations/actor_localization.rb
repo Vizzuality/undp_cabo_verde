@@ -28,7 +28,7 @@ class ActorLocalization < ActiveRecord::Base
     end
     @query
   end
-  
+
   private
 
     def check_main_location

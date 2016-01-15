@@ -26,17 +26,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 32,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 15,\n          \"lat\": \"8.752903189329047\",\n          \"long\": \"-46.134308858249\"\n        }\n      ]\n    },\n    {\n      \"id\": 31,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 15,\n          \"lat\": \"8.752903189329047\",\n          \"long\": \"-46.134308858249\"\n        }\n      ]\n    },\n    {\n      \"id\": 30,\n      \"name\": \"Education Institution\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 15,\n          \"lat\": \"8.752903189329047\",\n          \"long\": \"-46.134308858249\"\n        }\n      ]\n    },\n    {\n      \"id\": 29,\n      \"name\": \"Economy Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 16,\n          \"lat\": \"26.81780201976757\",\n          \"long\": \"-42.53821580334329\"\n        },\n        {\n          \"id\": 15,\n          \"lat\": \"8.752903189329047\",\n          \"long\": \"-46.134308858249\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 4,\n    \"cache_date\": \"2015-09-01T10:00:06.839Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 34,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 24,\n          \"lat\": \"67.76941626031265\",\n          \"long\": \"-133.82274312567563\"\n        }\n      ]\n    },\n    {\n      \"id\": 33,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 24,\n          \"lat\": \"67.76941626031265\",\n          \"long\": \"-133.82274312567563\"\n        }\n      ]\n    },\n    {\n      \"id\": 32,\n      \"name\": \"Education Institution\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 24,\n          \"lat\": \"67.76941626031265\",\n          \"long\": \"-133.82274312567563\"\n        }\n      ]\n    },\n    {\n      \"id\": 31,\n      \"name\": \"Economy Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 25,\n          \"lat\": \"67.93508037717055\",\n          \"long\": \"-138.2927925419457\"\n        },\n        {\n          \"id\": 24,\n          \"lat\": \"67.76941626031265\",\n          \"long\": \"-133.82274312567563\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 4,\n    \"cache_date\": \"2015-09-01T10:00:08.096Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"bdb3a00af836c6efd10398eed4d91e55\"",
+        "ETag": "W/\"6e31a9aa8a97aaa16be5e89c65726982\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "fb9276e6-395f-4192-b2d1-023b7f46f4de",
-        "X-Runtime": "0.123007",
-        "Content-Length": "667"
+        "X-Request-Id": "780d0475-9b99-4c6a-ac4a-e21d6b688a11",
+        "X-Runtime": "0.093693",
+        "Content-Length": "679"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

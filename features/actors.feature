@@ -68,7 +68,7 @@ I want to manage an actor
 
   Scenario: User can create actor
     Given user
-    And person
+    And socio_cultural_domain_2
     And I am authenticated adminuser
     When I go to the new actor page
     And I select "Macro" from "actor_type"
@@ -77,11 +77,11 @@ I want to manage an actor
     And I press "Create"
     Then I should have one actor
     And I should be on the edit actor page for "Orga by admin"
-  
+
   @javascript
   Scenario: User can create actor with custom domain
     Given user
-    And person
+    And socio_cultural_domain_2
     And I am authenticated adminuser
     And I should have one domain
     When I go to the new actor page
@@ -91,8 +91,8 @@ I want to manage an actor
     And I click on overlapping ".add_other_domain"
     And I fill in the following field ".name" with "Custom domain" within ".form-inputs-other-domains"
     And I press "Create"
-    Then I should have one actor
-    And I should be on the edit actor page for "Orga by admin"
+    Then I should be on the edit actor page for "Orga by admin"
+    And I should have one actor
     And I should have two domains
 
   Scenario: User can not edit not owned actor

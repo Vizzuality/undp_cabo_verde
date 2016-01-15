@@ -3,7 +3,7 @@ class Act < ActiveRecord::Base
   include Localizable
 
   monetize :budget_cents, allow_nil: true
-  
+
   belongs_to :user, foreign_key: :user_id
 
   has_many :act_relations_as_parent, class_name: 'ActRelation', foreign_key: :parent_id
@@ -50,7 +50,7 @@ class Act < ActiveRecord::Base
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
   scope :meso_and_macro,     -> { where(type: ['ActMeso', 'ActMacro']) }
-  
+
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
 

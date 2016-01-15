@@ -8,9 +8,7 @@ class ActorSerializer < BaseSerializer
   has_many :actor_localizations, key: :locations
 
   # Actors relations below: def actors
-
-  # Action
-
+  # Actions relations below: def actions
   # Categories
   has_many :organization_types
   has_many :socio_cultural_domains
@@ -80,9 +78,6 @@ class ActorSerializer < BaseSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-
-    self.class.cache_key << [object, object.updated_at, cache_params]
+    self.class.cache_key << [object, object.updated_at]
   end
 end
