@@ -9,7 +9,7 @@ Feature: Prototype
   @javascript
   Scenario: User can see the details of a marker with a popup
     Given I am authenticated user
-    And organization with location
+    And I have an organization with location
     And I am on the prototype page
     Then I debug
     And I click on the actor's marker with id 1
