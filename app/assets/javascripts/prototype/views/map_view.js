@@ -214,6 +214,13 @@
         }.bind(this));
       }.bind(this);
 
+      /* Before fetching the model and getting the data, we fill the popup
+       * with a loader */
+       popup.setContent('<div class="message -loading"><svg class="icon">' +
+        '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
+        I18n.translate('front.loading') +
+        '</message>');
+
       /* In case we already have the data for the selected marker, we don't want
        * to fetch the model again */
       if(!_.isEmpty(model.attributes) && model.get('id') === marker.options.id) {

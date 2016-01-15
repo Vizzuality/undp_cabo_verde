@@ -126,4 +126,9 @@
   }
 
   .cartodb-logo { display: none !important; }
+
+  .leaflet-popup-content > .message.-loading {
+    height: 180px;
+    & > .icon { margin-top: 42px; }
+  }
 }
