@@ -119,7 +119,7 @@ class ActorsController < ApplicationController
       # @socio_cultural_domains = SocioCulturalDomain.order(:name)
       # @other_domains          = OtherDomain.order(:name)
       @merged_domains         = Category.domain_categories.order(:name)
-      
+
       @operational_fields     = OperationalField.order(:name)
       @parents_to_select      = Actor.order(:name).filter_actives
       @actions_to_select      = Act.order(:name).filter_actives

@@ -3,7 +3,7 @@ class ActSerializer < BaseSerializer
   self.version = 6
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
-  
+
   # Actor relations below: def actors
   # Action relations below: def actions
   # Locations
@@ -86,9 +86,6 @@ class ActSerializer < BaseSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-    
-    self.class.cache_key << [object, object.updated_at, cache_params]
+    self.class.cache_key << [object, object.updated_at]
   end
 end

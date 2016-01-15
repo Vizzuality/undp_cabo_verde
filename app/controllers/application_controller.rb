@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :expire_sts_headers
   before_action :menu_highlight
   after_action  :store_location
-  
+
   protect_from_forgery with: :exception
 
   self.responder = ApplicationResponder
@@ -13,11 +13,11 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
   end
-  
-  # Add to the top of your controller: "before_action :store_location" 
+
+  # Add to the top of your controller: "before_action :store_location"
   # Add it before: "before_action :authenticate_user!"
   def store_location
-  return unless request.get? 
+  return unless request.get?
     if (request.path != '/account/login' &&
         request.path != '/account/register' &&
         request.path != '/account/secret/new' &&
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
         request.path != '/account/password' &&
         request.path != '/account/cancel' &&
         !request.xhr?) # don't store ajax calls
-      session[:previous_url] = request.fullpath 
+      session[:previous_url] = request.fullpath
     end
   end
 
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     def expire_sts_headers
       response.headers['Strict-Transport-Security'] = 'max-age=0' if ENV['FORCE_NON_SSL'] == 'true'
     end
-  
+
     def menu_highlight
       @menu_highlighted = :none
     end

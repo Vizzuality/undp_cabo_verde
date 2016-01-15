@@ -151,7 +151,7 @@ html lang="en"
           circle stroke="#175ca0" cx="11" cy="11" r="11"
         g id="backArrowIcon"
           path d="M7.842.684l-5.684 6L7.82 12.66" stroke="#175ca0" stroke-width="2" fill="none" fill-rule="evenodd"
-          
+
     .container
       .l-map
         #map
@@ -160,7 +160,7 @@ html lang="en"
           ul
             li.title
               = t('front.actor')
-            li 
+            li
               svg.icon.-actor
                 use xlink:href="#macroMarkerIcon" x="-6" y="-6"
               | Macro
@@ -175,7 +175,7 @@ html lang="en"
           ul
             li.title
               = t('front.action')
-            li 
+            li
               svg.icon.-action
                 use xlink:href="#macroMarkerIcon" x="-6" y="-6"
               | Macro
@@ -292,7 +292,7 @@ html lang="en"
                         svg.icon.-marginright width="10" height="10"
                           use xlink:href="#uncheckIcon" x="0" y="0"
                         span = t('front.uncheck_all')
-                          
+
                 .form-input
                     label.label for="startDate" = t('front.start_date')
                     input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate" required="required"
@@ -306,7 +306,7 @@ html lang="en"
               .content.-secondary
                 .searches
                   p = t('front.want_save_search')
-                  button.button = t('front.save') 
+                  button.button = t('front.save')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"

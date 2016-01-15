@@ -18,9 +18,9 @@ class ActorRelationsController < ApplicationController
   end
 
   private
-  
+
     def set_edit_relation
-      @actor_relation = ActorRelation.find_by(child_id: params[:actor_id], 
+      @actor_relation = ActorRelation.find_by(child_id: params[:actor_id],
                                               parent_id: params[:parent_id])
     end
 
