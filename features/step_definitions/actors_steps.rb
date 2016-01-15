@@ -42,6 +42,13 @@ Given /^organization$/ do
   FactoryGirl.create(:actor_macro, user_id: User.last.id)
 end
 
+Given /^organization with location$/ do
+  @user       = FactoryGirl.create(:random_user)
+  @location   = FactoryGirl.create(:localization, user: @user)
+  FactoryGirl.create(:actor_macro, user_id: User.last.id,
+    localizations: [@location])
+end
+
 Given /^organization by admin$/ do
   @admin = FactoryGirl.create(:adminuser)
   FactoryGirl.create(:admin)

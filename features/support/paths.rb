@@ -10,6 +10,8 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+    when /the prototype page/
+      '/prototype'
     when /the login page/
       '/account/login'
     when /the logout page/
