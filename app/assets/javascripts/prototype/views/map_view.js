@@ -42,6 +42,11 @@
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
       this.$credits = this.$el.find('.leaflet-control-attribution');
+      /* Cache for the relationships part of the legend */
+      this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
+      this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
+      this.$actionToActionLegend = this.$el.find('.js-action-to-action');
+
       this.setListeners();
     },
 
@@ -50,7 +55,7 @@
         this.addActorsMarkers);
       this.listenTo(this.actionsCollection, 'sync change',
         this.addActionsMarkers);
-      this.listenTo(this.router, 'route', this.updateMapFromRoute);
+      this.listenTo(this.router, 'route', this.onRoute);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
@@ -187,6 +192,11 @@
       this.updateMarkersFocus(marker.options.type, marker.options.id,
         marker.options.locationId);
       this.renderPopupFor(marker);
+    },
+
+    onRoute: function() {
+      this.updateMapFromRoute.apply(this, arguments);
+      this.updateLegendFromRoute.apply(this, arguments);
     },
 
     /* Load the content of the passed marker and display it inside the popup
@@ -360,6 +370,27 @@
 
         default:
           this.resetMarkersFocus();
+          break;
+      }
+    },
+
+    /* Reduce the opacity of relationships parts of the legend which don't
+     * make sense on specific routes */
+    updateLegendFromRoute: function(route) {
+      switch(route) {
+        case 'actor':
+          this.$actionToActionLegend.toggleClass('-disabled', true);
+          this.$actorToActorLegend.toggleClass('-disabled', false);
+          break;
+
+        case 'action':
+          this.$actionToActionLegend.toggleClass('-disabled', false);
+          this.$actorToActorLegend.toggleClass('-disabled', true);
+          break;
+
+        default:
+          this.$actionToActionLegend.toggleClass('-disabled', false);
+          this.$actorToActorLegend.toggleClass('-disabled', false);
           break;
       }
     },

@@ -25,17 +25,11 @@ html lang="en"
         g id="microOutlineMarkerIcon"
           polygon points="2 19 11 4 20 19"
         g id="actorToActionIcon"
-          path d="M12,5 L30,5" stroke="#4a4a4a" stroke-width="2" stroke-dasharray="4,3"
-          circle cx="4.5" cy="4.5" r="4.5"
-          polygon points="37.5 0 42 9 33 9 "
+          path d="M0 1h30.758" stroke="#4a4a4a" stroke-width="2" stroke-dasharray="4,3" fill="none" fill-rule="evenodd"
         g id="actorToActorIcon"
-          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
-          circle cx="37.5" cy="4.5" r="4.5"
-          circle cx="4.5" cy="4.5" r="4.5"
+          path d="M.603 1h31.335" stroke="#4a4a4a" stroke-width="2" fill="none" fill-rule="evenodd"
         g id="actionToActionIcon"
-          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
-          polygon points="37.5 0 42 9 33 9 "
-          polygon points="4.5 0 9 9 0 9 "
+          path d="M.603 1h31.335" stroke="#4a4a4a" stroke-width="2" fill="none" fill-rule="evenodd"
         g id="moreInfoIcon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
           circle fill="#222222" cx="12" cy="8" r="1"
           circle fill="#222222" cx="8" cy="8" r="1"
@@ -190,17 +184,17 @@ html lang="en"
           ul
             li.title
               = t('front.relationships')
-            li
+            li.js-actor-to-action
               svg.icon.-large.-monochrome
-                use xlink:href="#actorToActionIcon" x="0" y="0"
+                use xlink:href="#actorToActionIcon" x="0" y="4"
               = t('front.actor_to_action')
-            li
+            li.js-actor-to-actor
               svg.icon.-large.-monochrome
-                use xlink:href="#actorToActorIcon" x="0" y="0"
+                use xlink:href="#actorToActorIcon" x="0" y="4"
               = t('front.actor_to_actor')
-            li
+            li.js-action-to-action
               svg.icon.-large.-monochrome
-                use xlink:href="#actionToActionIcon" x="0" y="0"
+                use xlink:href="#actionToActionIcon" x="0" y="4"
               = t('front.action_to_action')
         #map-buttons
           .checkbox.-reversed.-negative
