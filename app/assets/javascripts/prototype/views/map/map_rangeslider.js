@@ -39,6 +39,8 @@
       this.minYear = 1991;
       this.maxYear = 2010;
       this.ballCount = 0;
+      this.posLeftHandle = 0;
+      this.posRightHandle = 330; //set when first
     },
 
     _cacheVars2: function() {
@@ -47,7 +49,8 @@
       this.rightHandle = this.$handles[1];
       this.$sliderRange = $('.ui-slider-range');
       this.$slider = $(".ui-slider");
-      this.maxStepValue = this.maxYear - this.minYear; // will be overwritten as soon as handles change position
+      this.maxStepRange = this.maxYear - this.minYear; // will be overwritten as soon as handles change position
+
     },
 
     makeGrey: function() {
@@ -98,13 +101,14 @@
 
       var range = this.$sliderRange[0];
 
-      // makes handles and range background grey
-      this.makeGrey();
+      this.makeGrey(); // makes handles and range background grey
 
-      this.calcStepRange();
+      this.calcStepRange(); //maximum number of steps
+      console.log('maxStepRange is ' + this.maxStepRange);
 
-      this.stepWidth = this.calcStepWidth();
+      this.stepWidth = this.calcStepWidth(); //width of step in px
 
+      console.log("posLeftHandle: " + this.posLeftHandle);
 
       // if range has child:
       if(range.childNodes.length !== 0) {
@@ -116,39 +120,25 @@
           //get position of ball
           var currPosition = window.getComputedStyle(ball).left;
 
-          //set new position of ball
+          //calculate new position of ball
           if (currPosition.length != 0) {
-
+            // move left or move right -> adapt ballCount
             if (e.currentTarget.className === "stepnext") {
-              var newPosition = (parseFloat(currPosition) + this.stepWidth).toString() + "px"; // move right
-              console.log('calculated new position 1');
-
-              console.log('maxStepRange is ' + this.maxStepRange);
-              // limit possible positions: wrap ->
-              // if < 0 set to maxStepRange*stepWidth
-              // if < maxStepRange*stepWidth
-
+              this.ballCount++;
             } else if (e.currentTarget.className === "stepprev") {
-              var newPosition = (parseFloat(currPosition) - this.stepWidth).toString() + "px"; // move left
-              console.log('calculated new position 2');
+              this.ballCount--;
             }
+
+            var newPositionInt = this.getNewPosition();
+            var newPosition = newPositionInt.toString() + "px";
+            console.log('calculated new position: ' + newPosition);
 
           } else {
             var newPosition = "0px"; // security step in case the position is not set
           }
 
-          //move ball
+          //apply calculated new position to ball
           ball.style.left = newPosition;
-
-          console.log(this.movedForward(newPosition, currPosition));
-
-          if (this.movedForward(newPosition, currPosition)) {
-            this.ballCount++;
-          }else {
-            this.ballCount--;
-          }
-          console.log('ballCount ' + this.ballCount);
-
           console.log('moved ball');
         }
       } else {
@@ -157,6 +147,18 @@
         console.log('created ball');
       }
 
+    },
+
+    getNewPosition: function() {
+      //limit or wrap the ballCount
+      if (this.ballCount > this.maxStepRange) {
+        this.ballCount = 0;
+      }
+      if (this.ballCount < 0) {
+        this.ballCount = this.maxStepRange;
+      }
+      var newPosition = (this.ballCount * this.stepWidth);
+      return newPosition;
     },
 
     movedForward: function(newPosition, currPosition) {
@@ -178,8 +180,8 @@
       //initial setup of labels
       this.$leftLabel.text(minYear);
       this.$rightLabel.text(maxYear);
-      self.$leftLabel.css('left', 0);     //TODO: position labels without pixel values
-      self.$rightLabel.css('left', 330);  //TODO: position labels without pixel values
+      self.$leftLabel.css('left', this.posLeftHandle);     //TODO: position labels without pixel values
+      self.$rightLabel.css('left', this.posRightHandle);  //TODO: position labels without pixel values
 
       this.$sliderSource.slider({
         min: minYear,
@@ -194,10 +196,15 @@
             self.$rightLabel.text(ui.values[1]);
 
             //position of handle: position of label
-            var pos_leftHandle = $('.ui-slider-handle:first').position().left;
-            var pos_rightHandle = $('.ui-slider-handle:last').position().left;
-            self.$leftLabel.css('left', pos_leftHandle);
-            self.$rightLabel.css('left', pos_rightHandle);
+            self.posLeftHandle = $('.ui-slider-handle:first').position().left;
+            self.posRightHandle = $('.ui-slider-handle:last').position().left;
+            if (self.ballCount > 0) {
+              //reset (TODO: make better)
+              $('#ball')[0].style.left = "0px";
+              self.ballCount = 0;
+            }
+            self.$leftLabel.css('left', self.posLeftHandle);
+            self.$rightLabel.css('left', self.posRightHandle);
           }, 0);
 
         }
