@@ -202,8 +202,7 @@
     /* Triggers an event with the id of the clicked entity */
     markerOnClick: function(e) {
       var marker = e.target;
-      this.updateMarkersFocus(marker.options.type, marker.options.id,
-        marker.options.locationId);
+      this.updateMarkersFocus(marker.options.type, marker.options.id);
       this.renderPopupFor(marker);
     },
 
@@ -346,34 +345,37 @@
     },
 
     /* Add the focus styles to the entity's marker which id and location id is
-     * passed as argument */
+     * passed as argument
+     * NOTE: the location id is optional */
     focusOnMarker: function(type, id, locationId) {
       //debugger;
       var entityClass = type === 'actors' ? '.js-actor-marker' :
         '.js-action-marker';
       var selector = entityClass + '[data-id="' + id + '"]' +
-        '[data-location="' + locationId + '"]';
-      var marker = this.$el.find(selector);
+        (locationId ? '[data-location="' + locationId + '"]' : '');
+      var markers = this.$el.find(selector);
 
-      if(marker.length === 0) {
-        console.warn('Unable to highlight the marker ' + type + '/' + id +
+      if(markers.length === 0) {
+        console.warn('Unable to highlight the marker(s) ' + type + '/' + id +
           ' on the map');
       } else {
-        marker[0].classList.add('-active');
+        for(var i = 0, j = markers.length; i < j; i++) {
+          markers[i].classList.add('-active');
+        }
       }
     },
 
-    /* Update the markers depending on the entity's id and location passed
-     * as parameters, by focusing it and bluring the other ones */
-    updateMarkersFocus: function(type, id, locationId) {
+    /* Update the markers depending on the entity's id passed as parameter, by
+     * focusing it and bluring the other ones */
+    updateMarkersFocus: function(type, id) {
       if(!this.isMapInstanciated) {
-        this.queue.push([this.updateMarkersFocus, [ type, id, locationId ],
+        this.queue.push([this.updateMarkersFocus, [ type, id ],
           2]);
         return;
       }
 
       this.resetMarkersFocus();
-      this.focusOnMarker(type, id, locationId);
+      this.focusOnMarker(type, id);
     },
 
     /* Update the map and the markers according to the route triggered by the
@@ -381,11 +383,11 @@
     updateMapFromRoute: function(route) {
       switch(route) {
         case 'actor':
-          this.updateMarkersFocus('actors', arguments[1][0], arguments[1][1]);
+          this.updateMarkersFocus('actors', arguments[1][0]);
           break;
 
         case 'action':
-          this.updateMarkersFocus('actions', arguments[1][0], arguments[1][1]);
+          this.updateMarkersFocus('actions', arguments[1][0]);
           break;
 
         default:
