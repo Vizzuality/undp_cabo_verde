@@ -83,6 +83,10 @@
         });
 
         this.map.zoomControl.setPosition('bottomleft');
+
+        /* The map fires a click event when it's clicked outside of a marker. In
+         * that case, we want to remove the focus on all the markers. */
+        this.map.on('click', this.resetMarkersFocus.bind(this));
       }
 
       this.isMapInstanciated = false;
