@@ -42,6 +42,11 @@
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
       this.$credits = this.$el.find('.leaflet-control-attribution');
+      /* Cache for the relationships part of the legend */
+      this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
+      this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
+      this.$actionToActionLegend = this.$el.find('.js-action-to-action');
+
       this.setListeners();
     },
 
@@ -50,7 +55,7 @@
         this.addActorsMarkers);
       this.listenTo(this.actionsCollection, 'sync change',
         this.addActionsMarkers);
-      this.listenTo(this.router, 'route', this.updateMapFromRoute);
+      this.listenTo(this.router, 'route', this.onRoute);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
@@ -62,6 +67,7 @@
         this.populateActorModelFrom);
       this.listenTo(root.app.pubsub, 'sync:actionModel',
         this.populateActionModelFrom);
+      this.listenTo(this.router, 'change:queryParams', this.onFiltering);
     },
 
     renderMap: function() {
@@ -188,6 +194,11 @@
       this.renderPopupFor(marker);
     },
 
+    onRoute: function() {
+      this.updateMapFromRoute.apply(this, arguments);
+      this.updateLegendFromRoute.apply(this, arguments);
+    },
+
     /* Load the content of the passed marker and display it inside the popup
      * attached to it */
     renderPopupFor: function(marker) {
@@ -212,6 +223,13 @@
           this.moreInfoOnClick(marker);
         }.bind(this));
       }.bind(this);
+
+      /* Before fetching the model and getting the data, we fill the popup
+       * with a loader */
+       popup.setContent('<div class="message -loading"><svg class="icon">' +
+        '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
+        I18n.translate('front.loading') +
+        '</message>');
 
       /* In case we already have the data for the selected marker, we don't want
        * to fetch the model again */
@@ -322,8 +340,14 @@
         '.js-action-marker';
       var selector = entityClass + '[data-id="' + id + '"]' +
         '[data-location="' + locationId + '"]';
+      var marker = this.$el.find(selector);
 
-      this.$el.find(selector)[0].classList.add('-active');
+      if(marker.length === 0) {
+        console.warn('Unable to highlight the marker ' + type + '/' + id +
+          ' on the map');
+      } else {
+        marker[0].classList.add('-active');
+      }
     },
 
     /* Update the markers depending on the entity's id and location passed
@@ -346,13 +370,34 @@
         case 'actor':
           this.updateMarkersFocus('actors', arguments[1][0], arguments[1][1]);
           break;
-          
+
         case 'action':
           this.updateMarkersFocus('actions', arguments[1][0], arguments[1][1]);
           break;
 
         default:
           this.resetMarkersFocus();
+          break;
+      }
+    },
+
+    /* Reduce the opacity of relationships parts of the legend which don't
+     * make sense on specific routes */
+    updateLegendFromRoute: function(route) {
+      switch(route) {
+        case 'actor':
+          this.$actionToActionLegend.toggleClass('-disabled', true);
+          this.$actorToActorLegend.toggleClass('-disabled', false);
+          break;
+
+        case 'action':
+          this.$actionToActionLegend.toggleClass('-disabled', false);
+          this.$actorToActorLegend.toggleClass('-disabled', true);
+          break;
+
+        default:
+          this.$actionToActionLegend.toggleClass('-disabled', false);
+          this.$actorToActorLegend.toggleClass('-disabled', false);
           break;
       }
     },
@@ -403,6 +448,19 @@
     slideButtons: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
       this.$credits.toggleClass('-slided', options.isHidden);
+    },
+
+    /* Remove a type of markers if it has been filtered out */
+    onFiltering: function() {
+      var typefiltering = this.router.getQueryParams().types;
+
+      /* If the user ask for both the actors and actions, we don't do anything
+       */
+      if(!typefiltering || typefiltering.length === 2) return;
+
+      /* Otherwise, we remove the entity type which shouldn't appear anymore */
+      var entities = ['actors', 'actions'];
+      this.removeMarkers(_.difference(entities, typefiltering)[0]);
     }
 
   });

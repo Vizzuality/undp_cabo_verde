@@ -1,13 +1,18 @@
-h1
-  = @indicator.name
-hr
+.form-actions
+  .row
+    .column.medium-8.medium-offset-1
+      .row
+        .column.medium-8.medium-offset-4
+          h2
+            = t('shared.general_info') 
+
 = simple_form_for @indicator do |f|
   = render partial: f
 
 .row
   .column.medium-8.medium-offset-1
     .row
-      .column.medium-8.medium-offset-4
+      .column.medium-8.medium-offset-4.comment-heading
         h2
           = t('comments.comments')
 

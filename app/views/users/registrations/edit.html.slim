@@ -58,6 +58,5 @@
             .column.medium-8.medium-offset-4
               .submit
                 = f.button :submit, t('shared.update'), class: '-type-a'
-              .account-options
-                = link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, class: 'remove_fields', method: :delete
-                = link_to "Back", :back
+              .interaction-box
+                = link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, class: 'remove_fields interaction -secondary', method: :delete

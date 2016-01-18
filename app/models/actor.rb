@@ -24,19 +24,22 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
+  # For merged domains
+  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category'
 
   accepts_nested_attributes_for :localizations,             allow_destroy: true
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
-  
+  accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid
+
   after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
-  validates :type, presence: true
-  validates :name, presence: true
-  validates :socio_cultural_domain_ids, presence: true
+  validates :type,              presence: true
+  validates :name,              presence: true
+  validates :merged_domain_ids, presence: true
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
@@ -174,8 +177,19 @@ class Actor < ActiveRecord::Base
     collection.any? ? collection : act_actor_relations.build
   end
 
+  def other_domains_form
+    socio_cultural_domains.build
+  end
+
   def main_locations
     actor_localizations.main_locations
+  end
+
+  def actor_localizations_by_date(options)
+    start_date = options['start_date'] if options['start_date'].present?
+    end_date   = options['end_date']   if options['end_date'].present?
+
+    actor_localizations.by_date(start_date, end_date)
   end
 
   private
@@ -210,6 +224,10 @@ class Actor < ActiveRecord::Base
 
     def action_invalid(attributes)
       attributes['act_id'].empty? || attributes['relation_type_id'].empty?
+    end
+
+    def other_domain_invalid(attributes)
+      attributes['name'].empty?
     end
 
     def set_main_location

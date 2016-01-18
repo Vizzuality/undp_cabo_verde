@@ -44,8 +44,7 @@ select {
 }
 
 *:not(.checkbox) > label {
-  @include font(helvetica, null, light, null);
-  font-size: 20px;
+  @include font(helvetica, regular, light, null);
   color: $color-4;
   line-height: 37px;
   padding: 0 !important;
@@ -55,6 +54,7 @@ input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="password"],
+.current-actor,
 .current-actor-edit,
 textarea,
 textarea:focus {
@@ -65,10 +65,11 @@ textarea:focus {
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
+  margin-bottom: 16px;
   line-height: 32px;
   @include font(helvetica, null, light, null);
 
-  &:disabled {
+  &:disabled, .-disabled {
     color: $color-16;
     background-color: $color-1;
   }
@@ -79,10 +80,12 @@ textarea { min-height: 150px; }
 input[type="text"],
 input[type="email"],
 input[type="url"],
-input[type="password"] {
+input[type="password"],
+.current-actor,
+.current-actor-edit {
   border-bottom: 1px solid $color-13;
 
-  &:disabled {
+  &:disabled, &.-disabled {
     border: none;
   }
 }
@@ -119,6 +122,18 @@ textarea:focus {
 
 }
 
+a {
+  color: $color-10;
+  &:hover, &:focus {
+    color: $color-10;
+    color: $color-10;
+  }
+
+  &.remove_fields {
+    color: $color-6;
+  }
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -129,7 +144,6 @@ textarea:focus {
 }
 
 .form-actions  {
-
   h2 {
     margin-bottom: 20px;
     margin-top: 40px;
@@ -141,8 +155,3 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
-.remove_fields, .remove_fields:hover {
-  margin-bottom: 40px;
-  color: $color-18 !important;
-  cursor: pointer;
-}

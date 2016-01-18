@@ -1,6 +1,5 @@
 .row
   .column.medium-8.medium-offset-1
-    = form.error_notification
     .form-inputs
       .row
         .column.medium-4
@@ -12,17 +11,18 @@
           = form.label :observation, class: 'right inline'
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
+      / Categories
       .row
         .column.medium-4
-          = form.label :socio_cultural_domain_ids, class: 'right inline'
+          = form.label :merged_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((SocioCulturalDomain.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((SocioCulturalDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
-      .row
-        .column.medium-4
-          = form.label :other_domain_ids, class: 'right inline'
-        .column.medium-8
-          = form.input :other_domain_ids, collection: @other_domains, as: :check_boxes, label: false, input_html: { multiple: true, class: ((OtherDomain.count > 4) ? "js-mselect" : "") }, disabled: common_form?
-
+          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+      - unless common_form?
+        .row
+          .column
+            p.text-right
+              / Add more css classes to 'add_other_domain', sample 'add_other_domain your_class_name'
+              = add_other_domain_path t('shared.add_other_domain'), form, :other_domains, 'add_fields add_other_domain'
 .row
   .columns.medium-8.medium-offset-1
     .row
@@ -64,7 +64,7 @@
             / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
             = add_actor_relation_children_path t('actors.add_actor'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
 
-.row
+.row.actor-connection-action
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4

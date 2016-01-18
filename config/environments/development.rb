@@ -45,7 +45,7 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
-  
+
   if ENV['BULLET'] == 'enabled'
     config.after_initialize do
       Bullet.enable = true

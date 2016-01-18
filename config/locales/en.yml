@@ -253,6 +253,7 @@ en:
     updated: 'Updated'
     created: 'Created'
     can_not_be_deleted: 'Can not be deleted!'
+    add_other_domain: 'Add another domain'
 
   actors:
     actor: 'Actor'
@@ -334,6 +335,7 @@ en:
     socio_cultural_domains: 'Socio cultural domains'
     other_domains: 'Other domains'
     organization_types: 'Organization types'
+    name: 'Name'
 
   comments:
     comments: 'Comments'
@@ -413,7 +415,9 @@ en:
     show_relationships_on_map: Show relationships on map
     socio_cultural_domains: Social Cultural Domains
     actor: Actor
+    actors: Actors
     action: Action
+    actions: Actions
     actor_to_action: Actor to Action
     actor_to_actor: Actor to Actor
     action_to_action: Action to Action
@@ -426,6 +430,10 @@ en:
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
-    saved_searches: Saved searches
-    no_search_available_html: No search available at the moment<br>(use the filter above and <span class="highlight">"save"</span>)
+    searches: Searches
     more_info: More info
+    all: All
+    check_all: Check all
+    uncheck_all: Uncheck all
+    cant_apply_search_0_check: You can not apply the search if a filter hasn't any selected option
+    loading: Loading

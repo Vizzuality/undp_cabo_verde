@@ -1,6 +1,6 @@
 class SelfRelationSerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 6
 
   attributes :parent_id, :child_id
 
@@ -18,9 +18,6 @@ class SelfRelationSerializer < BaseSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-    
-    self.class.cache_key << [object, object.updated_at, cache_params]
+    self.class.cache_key << [object, object.updated_at]
   end
 end

@@ -44,3 +44,6 @@ config/database.yml
 # Vim
 .*.swp
 .*.swo
+
+# Generated translation file
+/public/javascripts/translations.js

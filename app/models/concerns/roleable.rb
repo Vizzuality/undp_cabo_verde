@@ -16,9 +16,9 @@ module Roleable
     def admin?
       admin_user.present?
     end
-    
+
   end
 
   class_methods do
-  end 
+  end
 end

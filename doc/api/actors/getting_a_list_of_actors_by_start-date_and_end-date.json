@@ -1,0 +1,54 @@
+{
+  "resource": "Actors",
+  "http_method": "GET",
+  "route": "/api/actors",
+  "description": "Getting a list of actors by start-date and end-date",
+  "explanation": null,
+  "parameters": [
+    {
+      "name": "start_date",
+      "description": "Filter actors by start-date (2014-01-31)"
+    },
+    {
+      "name": "end_date",
+      "description": "Filter actors by end-date (2015-01-31)"
+    }
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/actors?start_date=2014-01-31&end_date=2015-09-31",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+        "start_date": "2014-01-31",
+        "end_date": "2015-09-31"
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 42,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 28,\n          \"lat\": \"-25.905197152731503\",\n          \"long\": \"112.07899072896731\",\n          \"start_date\": \"2015-09-01\",\n          \"end_date\": \"2016-09-01\"\n        }\n      ]\n    },\n    {\n      \"id\": 41,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 28,\n          \"lat\": \"-25.905197152731503\",\n          \"long\": \"112.07899072896731\",\n          \"start_date\": \"2015-09-01\",\n          \"end_date\": \"2016-09-01\"\n        }\n      ]\n    },\n    {\n      \"id\": 40,\n      \"name\": \"Education Institution\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 28,\n          \"lat\": \"-25.905197152731503\",\n          \"long\": \"112.07899072896731\",\n          \"start_date\": \"2015-09-01\",\n          \"end_date\": \"2016-09-01\"\n        }\n      ]\n    },\n    {\n      \"id\": 39,\n      \"name\": \"Economy Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 29,\n          \"lat\": \"23.59539589115542\",\n          \"long\": \"-27.723096877969766\",\n          \"start_date\": \"2013-09-01\",\n          \"end_date\": \"2014-09-01\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 4,\n    \"cache_date\": \"2015-09-01T10:00:08.970Z\"\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"0c3bb4f797cb17e48ac258688ae39910\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "ba10f8cc-0406-4033-9ee1-da281e88e7c5",
+        "X-Runtime": "0.164894",
+        "Content-Length": "818"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?start_date=2014-01-31&end_date=2015-09-31\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

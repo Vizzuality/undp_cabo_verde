@@ -1,7 +1,7 @@
 class RelationalLocalizationSerializer < BaseSerializer
   cached
-  self.version = 5
-  
+  self.version = 6
+
   attributes :id, :main
 
   has_one :localization, key: :info_data

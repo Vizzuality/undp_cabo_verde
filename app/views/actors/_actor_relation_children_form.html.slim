@@ -1,8 +1,4 @@
 .form-inputs.form-inputs-child
-  - unless common_form?
-    .row
-      .column.medium-8.medium-offset-4
-        = link_to t('relations.switch'), '#', class: 'switch_parent_form'
   .row
     .column.medium-4
       = f.label :child_id, t('actors.actor') + '*', class: 'right inline'
@@ -22,6 +18,10 @@
       - else
         p.current-actor-edit.-disabled
           = @actor.name unless request.path.include?('/actors/new')
+  - unless common_form?
+    .row
+      .column.medium-8.medium-offset-4
+        = link_to t('relations.switch'), '#', class: 'switch_parent_form switch-link'
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline'

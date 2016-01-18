@@ -1,9 +1,9 @@
 class ActIndicatorSerializer < BaseSerializer
   cached
-  self.version = 5
+  self.version = 6
 
   attributes :target_value, :unit
-  
+
   has_one  :indicator
   has_many :measurements
 
@@ -14,7 +14,7 @@ class ActIndicatorSerializer < BaseSerializer
     data['deadline']   = object.deadline.to_date.iso8601   if object.deadline
     data
   end
-  
+
   def unit
     data = {}
     data['name']   = object.unit.name
@@ -28,9 +28,6 @@ class ActIndicatorSerializer < BaseSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-    
-    self.class.cache_key << [object, object.updated_at, cache_params]
+    self.class.cache_key << [object, object.updated_at]
   end
 end

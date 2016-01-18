@@ -38,15 +38,20 @@ I want to manage an act
     Then I should be on the act page for "New Second"
     And the field "Name" should contain "New Second"
 
-  Scenario: User can edit owned act macro
+  @javascript
+  Scenario: User can edit owned act macro and add custom domain
     Given I am authenticated user
     And first act
+    And I should have one domain
     When I go to the edit act page for "First one"
     And I fill in "act_macro_name" with "New First"
     And I choose "act_macro_event_true"
+    And I click on overlapping ".add_other_domain"
+    And I fill in the following field ".name" with "Custom domain" within ".form-inputs-other-domains"
     And I press "Update"
     Then I should be on the act page for "New First"
     And the field "Name" should contain "New First"
+    And I should have two domains
 
   Scenario: Adminuser can edit not owned act
     Given user
@@ -57,15 +62,15 @@ I want to manage an act
 
   Scenario: User can create act
     Given user
-    And third act
+    And socio_cultural_domain_2
     And I am authenticated adminuser
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
-    And I check "Faith" within ".act_socio_cultural_domain_ids"
+    And I check "Faith" within ".act_merged_domain_ids"
     And I press "Create"
-    Then I should have one act
-    And I should be on the act page for "Act by admin"
+    Then I should be on the act page for "Act by admin"
+    And I should have one act
 
   Scenario: User can not edit not owned act
     Given I am authenticated user

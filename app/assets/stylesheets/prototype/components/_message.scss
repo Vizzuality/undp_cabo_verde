@@ -1,0 +1,30 @@
+.message {
+  padding: 12px;
+  color: $color-1;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 17px;
+
+  &.-error {
+    padding: 12px 12px 12px 37px;
+    background: url(asset_path("message_alert.png")) top 10px left 10px / 17px no-repeat $color-17;
+  }
+
+  &.-loading {
+    text-align: center;
+    
+    & .icon {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 20px;
+      width: 46px;
+      height: 46px;
+      animation: spin 1.4s infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes spin {
+	from { transform: rotate(0deg);   }
+	to   { transform: rotate(360deg); }
+}

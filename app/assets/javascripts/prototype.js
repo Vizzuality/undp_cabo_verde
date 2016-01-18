@@ -46,8 +46,12 @@
     initialize: function() {
       this.router = new root.app.Router();
 
-      this.actorsCollection = new root.app.Collection.actorsCollection();
-      this.actionsCollection = new root.app.Collection.actionsCollection();
+      this.actorsCollection = new root.app.Collection.actorsCollection(null, {
+        router: this.router
+      });
+      this.actionsCollection = new root.app.Collection.actionsCollection(null, {
+        router: this.router
+      });
 
       this.mapView = new root.app.View.mapView({
         actorsCollection: this.actorsCollection,
@@ -79,25 +83,51 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route:welcome', this.welcomePage);
-      this.listenTo(this.router, 'route:actor', this.fetchCollections);
-      this.listenTo(this.router, 'route:action', this.fetchCollections);
+      this.listenTo(this.router, 'route:welcome',
+        this.fetchFilteredCollections);
+      this.listenTo(this.router, 'route:actor', this.fetchFilteredCollections);
+      this.listenTo(this.router, 'route:action', this.fetchFilteredCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
-    },
-
-    welcomePage: function() {
-      this.fetchCollections();
+      this.listenTo(this.router, 'change:queryParams',
+        this.fetchFilteredCollections);
     },
 
     aboutPage: function() {
 
     },
 
-    fetchCollections: function() {
-      if(this.actorsCollection.length === 0) {
+    /* Fetch only the collections that are not filtered out */
+    fetchFilteredCollections: function() {
+      var queryParams = this.router.getQueryParams();
+
+      /* If one of the required filter doesn't have any value, we just don't
+       * fetch the collections, the user will see a warning in the sidebar
+       * anyway */
+      if(queryParams.types && queryParams.types.length === 0 ||
+        queryParams.levels && queryParams.levels.length === 0 ||
+        queryParams.domains_ids && queryParams.domains_ids.length === 0) {
+        return;
+      }
+
+      if(!queryParams.types || queryParams.types.length === 2) {
+        this.fetchCollections({ force: true });
+      } else {
+        this.fetchCollections({ force: true, only: queryParams.types[0] });
+      }
+    },
+
+    /* Fetch the actor and actions collections if empty
+     * Options:
+     *  - force (boolean): force the collections to be fetched
+     *  - only ("actors" or "actions"): restrict the fetch to only one
+     *    collection */
+    fetchCollections: function(options) {
+      if((this.actorsCollection.length === 0 || options && options.force) &&
+        (!(options && options.only) || options && options.only === 'actors')) {
         this.actorsCollection.fetch();
       }
-      if(this.actionsCollection.length === 0) {
+      if((this.actionsCollection.length === 0 || options && options.force) &&
+        (!(options && options.only) || options && options.only === 'actions')) {
         this.actionsCollection.fetch();
       }
     },
