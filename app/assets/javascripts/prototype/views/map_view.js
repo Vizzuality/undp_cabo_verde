@@ -122,6 +122,9 @@
         });
       };
 
+      /* We close the current popup if exists */
+      this.map.closePopup();
+
       var marker, popup;
       _.each(collection, function(entity) {
         _.each(entity.locations, function(location) {
