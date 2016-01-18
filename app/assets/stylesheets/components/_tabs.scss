@@ -7,10 +7,15 @@
 
     &.active{
       border-bottom: none;
-      border-right: none;
+
       a {
         @include font(helvetica, xxsmall, medium, 1);
         color: $color-10;
+        background-color: $color-1;
+
+        &:hover {
+          background-color: $color-1;
+        }
       }
     }
 
