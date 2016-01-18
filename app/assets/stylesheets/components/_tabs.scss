@@ -21,7 +21,28 @@
 
       &:hover {
         background-color: #ECECEC;
+
+        .active & {
+          background-color: $color-1;
+        }
+
+      }
+
+      .active & {
+        @include font(helvetica, xxsmall, medium, 1);
+        color: $color-10;
+        background-color: $color-1;
       }
     }
+  }
+
+  &:before {
+    content: " ";
+    position: absolute;
+    left: -191px;
+    color: red;
+    width: 200px;
+    height: 48px;
+    border-bottom: 1px solid $color-13;
   }
 }
