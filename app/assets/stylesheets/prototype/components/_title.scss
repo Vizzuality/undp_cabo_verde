@@ -1,9 +1,11 @@
 .title {
-  @include font(null, regular, regular, null);
+  font-size: 20px;
   color: $color-9;
+  font-weight: 400;
 
   &.-secondary {
     font-size: 12px;
+    font-weight: 500;
     text-transform: uppercase;
     color: $color-4;
     letter-spacing: -.4px;

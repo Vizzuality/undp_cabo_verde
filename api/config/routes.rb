@@ -7,7 +7,9 @@ API::Engine.routes.draw do
       list_show_only.resources :acts,       path: 'actions'
       list_show_only.resources :indicators, path: 'artifacts'
     end
-    resources :domains, only: [:index]
+
+    with_options only: :index do |list_index_only|
+      list_index_only.resources :domains
+    end
   end
-# End API routes
 end

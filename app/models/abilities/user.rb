@@ -6,7 +6,7 @@ module Abilities
       can :read, :all
       can :dashboard, ::User
       can :update,    ::User, id: user.id
-      
+
       if user.activated?
         can :manage, ::Actor,         user_id: user.id
         can :manage, ::ActorMicro,    user_id: user.id
@@ -25,8 +25,10 @@ module Abilities
         can :manage, ::ActIndicatorRelation, user_id: user.id
         can :manage, ::Measurement,          user_id: user.id
         can :manage, ::ActActorRelation,     user_id: user.id
-        
+
         can [:activate, :deactivate], ::Comment, user_id: user.id
+
+        can :create, ::OtherDomain
       end
 
       cannot [:activate, :deactivate], ::Localization

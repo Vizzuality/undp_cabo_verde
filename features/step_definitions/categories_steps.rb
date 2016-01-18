@@ -10,8 +10,16 @@ Then /^I should have zero categories$/ do
   Category.all.size.should == 0
 end
 
+Then /^I should have one domain$/ do
+  Category.domain_categories.size.should == 1
+end
+
+Then /^I should have two domains$/ do
+  Category.domain_categories.size.should >= 2
+end
+
 Given /^category$/ do
-  FactoryGirl.create(:category)
+  FactoryGirl.create(:category, name: 'Category one')
 end
 
 Given /^category_two$/ do
@@ -24,6 +32,14 @@ end
 
 Given /^operational field$/ do
   FactoryGirl.create(:operational_field, name: 'International')
+end
+
+Given /^socio_cultural_domain$/ do
+  FactoryGirl.create(:socio_cultural_domain, name: 'SCD')
+end
+
+Given /^socio_cultural_domain_2$/ do
+  FactoryGirl.create(:socio_cultural_domain, name: 'Faith')
 end
 
 Given /^category_tree$/ do
