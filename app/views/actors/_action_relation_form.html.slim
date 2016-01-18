@@ -18,6 +18,12 @@
       = f.label :act_id, t('acts.act') + '*', class: 'right inline'
     .column.medium-8
       = f.input :act_id, collection: @actions_to_select, as: :collection_select, label: false, input_html: { class: 'relation_action_id' }, disabled: common_form?
+
+  - unless common_form?
+    .row
+      .column.medium-8.medium-offset-4
+        = link_to t('relations.switch'), '#', class: 'switch_child_form switch-link'
+        
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline'
