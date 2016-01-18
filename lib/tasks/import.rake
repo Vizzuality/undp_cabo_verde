@@ -65,7 +65,7 @@ namespace :import do
     table = CSV.read(file)
     table.shift
     table.each do |row|
-      ActorMicro.create(
+      ActorMicro.create!(
         user_id: user.id,
         active: true,
         name: row[0] && row[0].strip,
@@ -86,7 +86,7 @@ namespace :import do
             user_id: user.id
           })
         ],
-        categories: Category.where(name: row[7].strip.titleize,
+        merged_domains: Category.where(name: row[7].strip.titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[8] && row[8].split(",").map(&:titleize),
                                    type: "OtherDomain")
@@ -132,7 +132,7 @@ namespace :import do
         legal_status: row[10] && row[10].strip,
         localizations: location,
         comments: comment,
-        categories: Category.where(name: row[12].titleize,
+        merged_domains: Category.where(name: row[12].titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[12].titleize,
                                    type: 'SocioCulturalDomain') +
@@ -191,7 +191,8 @@ namespace :import do
         end_date: row[10] && Date.parse(row[10]),
         description: row[11].presence,
         budget: row[12].presence,
-        categories: Category.where(name: row[14] && row[14].titleize,
+        budget_cents: 0,
+        merged_domains: Category.where(name: row[14] && row[14].titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[15] && row[15].split(",").map(&:titleize),
                                    type: "OtherDomain")
