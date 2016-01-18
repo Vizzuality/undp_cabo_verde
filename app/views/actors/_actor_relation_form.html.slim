@@ -18,6 +18,7 @@
       = f.label :parent_id, t('actors.actor') + '*', class: 'right inline'
     .column.medium-8
       = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
+
   - unless common_form?
     .row
       .column.medium-8.medium-offset-4

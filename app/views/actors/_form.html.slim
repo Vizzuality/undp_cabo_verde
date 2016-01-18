@@ -58,12 +58,12 @@
             = render 'actor_relation_form', f: actor_parents_form
           = form.fields_for :actor_relations_as_parent do |actor_children_form|
             = render 'actor_relation_children_form', f: actor_children_form
-          - unless common_form?  
+          - unless common_form?
             p.text-right.add-relations-actors
               = add_actor_relation_path t('actors.add_actor'), form, :actor_relations_as_child, 'add_parent_actor hidden mini-text add_actors_fields'
               / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
               = add_actor_relation_children_path t('actors.add_actor'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
-          
+
         div#action_relation_form.content
           = form.fields_for :act_actor_relations do |actions_form|
             = render 'action_relation_form', f: actions_form
