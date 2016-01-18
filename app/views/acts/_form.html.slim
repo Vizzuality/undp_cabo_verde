@@ -119,7 +119,7 @@
               = add_action_relation_path t('acts.add_action'), form, :act_relations_as_child, 'add_parent_action hidden mini-text add_actions_fields'
               / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
               = add_action_relation_children_path t('acts.add_action'), form, :act_relations_as_parent, 'add_child_action add_actions_fields'
-      
+
         div#indicator_relation_form.content
           = form.fields_for :act_indicator_relations do |indicators_form|
             = render 'indicator_relation_form', f: indicators_form
