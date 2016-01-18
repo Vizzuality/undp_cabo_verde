@@ -276,3 +276,7 @@ Then /^the select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")
     field_labeled(field, disabled: true).find('option[selected]').text =~ /#{value}/
   end
 end
+
+Then /^I wait for ajax$/ do
+  wait_for_ajax
+end

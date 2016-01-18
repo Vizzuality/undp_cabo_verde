@@ -11,5 +11,7 @@ Then /^I should see all the (.+) markers$/ do |type|
 end
 
 Then /^I click on the (.+)'s marker with id (.+)$/ do |type, id|
-  page.find('#map .js-' + type + '-marker[data-id="' + id + '"]').click
+  icon = page.find('#map .js-' + type + '-marker[data-id="' + id + '"]')
+  marker = icon.find(:xpath, '..')
+  marker.click
 end

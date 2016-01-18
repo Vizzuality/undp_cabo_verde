@@ -11,6 +11,6 @@ Feature: Prototype
     Given I am authenticated user
     And I have an organization with location
     And I am on the prototype page
+    And I wait for ajax
     Then I debug
     And I click on the actor's marker with id 1
-    Then I should see a popup with content "Organization one"
