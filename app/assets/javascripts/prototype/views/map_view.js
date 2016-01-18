@@ -83,6 +83,7 @@
         });
 
         this.map.zoomControl.setPosition('bottomleft');
+        this.map.on('click', this.onMapClick.bind(this));
       }
 
       this.isMapInstanciated = false;
@@ -96,6 +97,15 @@
         .on('error', function(error) {
           console.error('Unable to render the map: ' + error);
         });
+    },
+
+    onMapClick: function() {
+      var route = this.router.getCurrentRoute();
+      if(route.name === 'welcome' || route.name === 'about') {
+        this.resetMarkersFocus();
+      } else {
+        this.updateMarkersFocus.apply(this, [route.name + 's'].concat(route.params));
+      }
     },
 
     /* Add markers for each location of each entity of the collection. Depending
@@ -117,6 +127,9 @@
           popupAnchor: L.point(0, -10)
         });
       };
+
+      /* We close the current popup if exists */
+      this.map.closePopup();
 
       var marker, popup;
       _.each(collection, function(entity) {
