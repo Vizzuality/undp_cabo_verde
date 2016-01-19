@@ -30,6 +30,7 @@
       this.listenTo(this.status, 'change:isHidden', this.triggerVisibility);
       this.listenTo(this.tabNavigationView, 'tab:change', this.switchContent);
       this.listenTo(this.router, 'route:actor', this.show);
+      this.listenTo(this.router, 'route:action', this.show);
       this.$toggleSwitch.on('click', this.toggle.bind(this));
     },
 
