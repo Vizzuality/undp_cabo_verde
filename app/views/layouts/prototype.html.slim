@@ -291,10 +291,10 @@ html lang="en"
 
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate" required="required"
+                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate" required="required"
+                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate"
                 button.button.-outlined.js-reset type="button" = t('front.reset')
                 button.button.js-apply type="submit" = t('front.apply')
                 .message.-error._hidden.js-error aria-hidden="true" = t('front.cant_apply_search_0_check')

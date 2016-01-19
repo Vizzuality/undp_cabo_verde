@@ -2,6 +2,8 @@
 //= require i18n.js
 //= require i18n/translations
 //= require jquery2
+//= require jquery_ujs
+//= require jquery.ui.datepicker
 //= require underscore
 //= require backbone
 //= require handlebars
