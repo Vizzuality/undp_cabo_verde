@@ -4,6 +4,7 @@
 //= require jquery2
 //= require jquery_ujs
 //= require jquery.ui.slider
+//= require jquery.ui.datepicker
 //= require underscore
 //= require backbone
 //= require handlebars
