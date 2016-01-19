@@ -4,10 +4,10 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable,
+         :validatable, :timeoutable
 
   before_save :check_authentication_token
-  before_save :set_token_expiration
 
   has_one  :admin_user
   # Actors
@@ -52,14 +52,18 @@ class User < ActiveRecord::Base
     users
   end
 
-  def check_authentication_token
-    if authentication_token.blank?
+  def check_authentication_token(destroy_true=nil)
+    if self.authentication_token.blank?
       self.authentication_token = generate_authentication_token
+      set_token_expiration
+    elsif destroy_true.present?
+      query = "UPDATE users SET authentication_token=null, token_expires_at=null WHERE id=#{self.id}"
+      ActiveRecord::Base.connection.execute(query)
     end
   end
 
   def token_expired?
-    DateTime.now >= token_expires_at
+    token_expires_at.present? && DateTime.now >= token_expires_at unless remember_exists_and_not_expired?
   end
 
   private
@@ -92,6 +96,6 @@ class User < ActiveRecord::Base
     end
 
     def set_token_expiration
-      self.token_expires_at = DateTime.now + 120.minutes
+      self.token_expires_at = DateTime.now + timeout_in
     end
 end

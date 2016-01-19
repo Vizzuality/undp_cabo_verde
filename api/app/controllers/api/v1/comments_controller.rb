@@ -1,10 +1,10 @@
 module API::V1
   class CommentsController < API::ApiBaseController
-    protect_from_forgery with: :null_session
+    include ApiAuthenticable
 
-    before_action :commentable,   only: :index
-    before_action :set_user,      only: :create
-    before_action :build_comment, only: :create
+    before_action :commentable,       only: :index
+    before_action :set_user_by_token, only: :create
+    before_action :build_comment,     only: :create
 
     def index
       @comments = @commentable.comments.filter_actives.recent
@@ -35,8 +35,8 @@ module API::V1
       def build_comment
         @required_params = params[:token].present? && params[:body].present?
         if @required_params && @user
-          if @user.token_expired?
-            render json: { success: false, message: 'Please login again' }, status: 422
+          if session_invalid?(@user)
+            reset_auth_token(@user)
           else
             @comment = commentable.comments.build(comment_params)
           end
@@ -45,7 +45,7 @@ module API::V1
         end
       end
 
-      def set_user
+      def set_user_by_token
         @user = User.find_by(authentication_token: params[:token])
       end
 
