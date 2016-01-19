@@ -53,6 +53,7 @@
 
     activateSteps: function() {
       this.steps = true;
+      console.log("steps: " + this.steps);
       this.leftHandle.style.background = "#cfcfcf";
       this.rightHandle.style.background = "#cfcfcf";
       this.$sliderRange[0].style.background = "#cfcfcf";
@@ -60,6 +61,7 @@
 
     deactivateSteps: function() {
       this.steps = false;
+      console.log("steps: " + this.steps);
       this.leftHandle.style.background = "#175ca0";
       this.rightHandle.style.background = "#175ca0";
       this.$sliderRange[0].style.background = "#175ca0";
@@ -92,11 +94,8 @@
       var widthOfRange = window.getComputedStyle(this.$sliderRange[0]).width;
 
       widthOfRange = parseInt(widthOfRange); //subtract width of border
-      console.log('widthOfRange: ' + widthOfRange);
-
-      var stepWidth = widthOfRange/numberOfSteps;
-      console.log('stepWidth: ' + stepWidth);
-      return stepWidth;
+      var stepWidth = widthOfRange/numberOfSteps; //get pixel amount
+      return stepWidth; // e.g. 17.375
     },
 
     // sets "global" variable this.maxStepRange to the number of steps between selected range
@@ -144,6 +143,8 @@
               this.ballCount--;
             }
 
+            this.setDate();
+
             var newPositionInt = this.getNewPosition();
             var newPosition = newPositionInt.toString() + "px";
 
@@ -153,14 +154,40 @@
 
           //apply calculated new position to ball
           ball.style.left = newPosition;
-          console.log('moved ball');
         }
 
       } else {
         //if no ball exists
         this.createBall();
-        console.log('created ball');
+        this.steps = true;
+        this.setDate();
       }
+    },
+
+    setDate: function() {
+      if (this.steps == true) {
+        var year = parseInt(this.$leftLabel.text()) + (this.ballCount%(this.maxStepRange+1));
+        var currMin = year;
+        var currMax = year;
+      } else {
+        var currMin = this.$leftLabel.text();
+        var currMax = this.$rightLabel.text();
+      }
+
+      console.log('currMin: ' + currMin);
+      console.log('currMax: ' + currMax);
+
+      this.router.setQueryParams(this.makeDate(currMin, currMax));
+    },
+
+    makeDate: function(year1, year2) {
+      var startDate = "01/01/" + year1;
+      var endDate = "12/31/" + year2;
+      var dates = {
+        start_date: startDate,
+        end_date: endDate
+      };
+      return dates;
     },
 
     _slider: function() {
@@ -196,7 +223,10 @@
             self.posRightHandle = $('.ui-slider-handle:last').position().left;
             self.$leftLabel.css('left', self.posLeftHandle);
             self.$rightLabel.css('left', self.posRightHandle);
+
+
           }, 0);
+          self.router.setQueryParams(self.makeDate(ui.values[0], ui.values[1]));
 
         }
       });
