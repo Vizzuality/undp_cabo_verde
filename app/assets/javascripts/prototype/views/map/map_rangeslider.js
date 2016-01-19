@@ -27,7 +27,6 @@
       this._cacheVars();
       this._slider();
       this._cacheVars2();
-
     },
 
     _cacheVars: function() {
@@ -108,6 +107,18 @@
       this.maxStepRange = rightHandle - leftHandle;
     },
 
+    getNewPosition: function() {
+      //limit or wrap the ballCount
+      if (this.ballCount > this.maxStepRange) {
+        this.ballCount = 0;
+      }
+      if (this.ballCount < 0) {
+        this.ballCount = this.maxStepRange;
+      }
+      var newPosition = (this.ballCount * this.stepWidth);
+      return newPosition;
+    },
+
     step: function(e) {
       var range = this.$sliderRange[0];
       this.activateSteps(); // makes handles and range background grey
@@ -150,18 +161,6 @@
         this.createBall();
         console.log('created ball');
       }
-    },
-
-    getNewPosition: function() {
-      //limit or wrap the ballCount
-      if (this.ballCount > this.maxStepRange) {
-        this.ballCount = 0;
-      }
-      if (this.ballCount < 0) {
-        this.ballCount = this.maxStepRange;
-      }
-      var newPosition = (this.ballCount * this.stepWidth);
-      return newPosition;
     },
 
     _slider: function() {
