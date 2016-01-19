@@ -173,10 +173,6 @@
         var currMin = this.$leftLabel.text();
         var currMax = this.$rightLabel.text();
       }
-
-      console.log('currMin: ' + currMin);
-      console.log('currMax: ' + currMax);
-
       this.router.setQueryParams(this.makeDate(currMin, currMax));
     },
 
@@ -223,11 +219,10 @@
             self.posRightHandle = $('.ui-slider-handle:last').position().left;
             self.$leftLabel.css('left', self.posLeftHandle);
             self.$rightLabel.css('left', self.posRightHandle);
-
-
           }, 0);
-          self.router.setQueryParams(self.makeDate(ui.values[0], ui.values[1]));
 
+          // updates URL with current values of range
+          self.router.setQueryParams(self.makeDate(ui.values[0], ui.values[1]));
         }
       });
     }
