@@ -203,7 +203,11 @@ html lang="en"
             li
               = image_tag 'rewind_left.svg', class: 'stepprev'
             li
-              = image_tag 'play.svg', class: 'play'
+              = link_to('#', class: 'play paused')
+                .left
+                .right
+                .triangle-1
+                .triangle-2
             li
               = image_tag 'rewind_right.svg', class: 'stepnext'
           #slider
