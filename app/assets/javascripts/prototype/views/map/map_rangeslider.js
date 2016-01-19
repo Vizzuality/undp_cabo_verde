@@ -17,7 +17,8 @@
 
     events: {
       'click .stepnext': 'step',
-      'click .stepprev': 'step'
+      'click .stepprev': 'step',
+      'click .play': 'play'
     },
 
     initialize: function(options) {
@@ -49,6 +50,20 @@
       this.$slider = $(".ui-slider");
       this.maxStepRange = this.maxYear - this.minYear; // will be overwritten as soon as handles change position
 
+    },
+
+    play: function() {
+      var play = $('.play')[0];
+      play.classList.toggle('paused');
+
+      if (!play.classList.contains('paused')) {
+        console.log('take step');
+        this.timer = window.setInterval(function(){
+          console.log('take step');
+        }, 1000);
+      } else {
+        window.clearInterval(this.timer);
+      }
     },
 
     activateSteps: function() {
