@@ -1,5 +1,5 @@
 module API::V1
-  class IndicatorsController < API::ApplicationController
+  class IndicatorsController < API::ApiBaseController
     before_action :set_indicator, only: :show
 
     def index

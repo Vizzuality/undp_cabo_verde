@@ -1,5 +1,5 @@
 module API::V1
-  class ActsController < API::ApplicationController
+  class ActsController < API::ApiBaseController
     before_action :set_act, only: :show
     before_action :set_search_filter, only: :index
 

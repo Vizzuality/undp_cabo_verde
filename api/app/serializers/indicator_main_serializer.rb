@@ -6,9 +6,11 @@ class IndicatorMainSerializer < BaseSerializer
 
   # Actions
   has_many :acts, key: :actions
+  has_many :comments
 
   def include_associations!
-    include! :acts, serializer: ActArraySerializer
+    include! :acts,     serializer: ActArraySerializer
+    include! :comments, serializer: CommentSerializer
   end
 
   def cache_key

@@ -14,8 +14,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
-  # Add to the top of your controller: "before_action :store_location"
-  # Add it before: "before_action :authenticate_user!"
   def store_location
   return unless request.get?
     if (request.path != '/account/login' &&

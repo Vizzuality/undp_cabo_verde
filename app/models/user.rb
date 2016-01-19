@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  before_save :check_authentication_token
+  before_save :set_token_expiration
+
   has_one  :admin_user
   # Actors
   has_many :actors
@@ -49,6 +52,16 @@ class User < ActiveRecord::Base
     users
   end
 
+  def check_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  def token_expired?
+    DateTime.now >= token_expires_at
+  end
+
   private
 
     def deactivate_dependencies
@@ -69,5 +82,16 @@ class User < ActiveRecord::Base
           return false
         end
       end
+    end
+
+    def generate_authentication_token
+      loop do
+        auth_key = Devise.friendly_token[0,20]
+        break auth_key unless User.where(authentication_token: auth_key).first
+      end
+    end
+
+    def set_token_expiration
+      self.token_expires_at = DateTime.now + 120.minutes
     end
 end

@@ -1,5 +1,5 @@
 module API::V1
-  class DomainsController < API::ApplicationController
+  class DomainsController < API::ApiBaseController
     def index
       @domains = Category.domain_categories.order(:name)
 
