@@ -53,7 +53,6 @@
 
     activateSteps: function() {
       this.steps = true;
-      console.log("steps: " + this.steps);
       this.leftHandle.style.background = "#cfcfcf";
       this.rightHandle.style.background = "#cfcfcf";
       this.$sliderRange[0].style.background = "#cfcfcf";
@@ -61,7 +60,6 @@
 
     deactivateSteps: function() {
       this.steps = false;
-      console.log("steps: " + this.steps);
       this.leftHandle.style.background = "#175ca0";
       this.rightHandle.style.background = "#175ca0";
       this.$sliderRange[0].style.background = "#175ca0";
