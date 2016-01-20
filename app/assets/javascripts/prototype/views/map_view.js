@@ -52,9 +52,9 @@
 
     setListeners: function() {
       this.listenTo(this.actorsCollection, 'sync change',
-        this.addActorsMarkers);
+        this.onActorsCollectionFetch);
       this.listenTo(this.actionsCollection, 'sync change',
-        this.addActionsMarkers);
+        this.onActionsCollectionFetch);
       this.listenTo(this.router, 'route', this.onRoute);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
@@ -97,6 +97,18 @@
         .on('error', function(error) {
           console.error('Unable to render the map: ' + error);
         });
+    },
+
+    /* Method called when the actors collection is fetched or modified */
+    onActorsCollectionFetch: function() {
+      this.addActorsMarkers();
+      this.applyQueue();
+    },
+
+    /* Method called when the actions collection is fetched or modified */
+    onActionsCollectionFetch: function() {
+      this.addActionsMarkers();
+      this.applyQueue();
     },
 
     onMapClick: function() {
@@ -368,9 +380,10 @@
     /* Update the markers depending on the entity's id passed as parameter, by
      * focusing it and bluring the other ones */
     updateMarkersFocus: function(type, id) {
-      if(!this.isMapInstanciated) {
-        this.queue.push([this.updateMarkersFocus, [ type, id ],
-          2]);
+      if(!this.isMapInstanciated ||
+        type === 'actors' && this.actorsCollection.isEmpty() ||
+        type === 'actions' && this.actionsCollection.isEmpty()) {
+        this.queue.push([this.updateMarkersFocus, [ type, id ], 2]);
         return;
       }
 
@@ -417,13 +430,15 @@
       }
     },
 
-    /* Call all the methods stored in this.queue in order */
+    /* Call all the methods stored in this.queue in order
+     * This method should be called each time a condition inside of which a
+     * method is added to this.queue could have it's evaluation changed */
     applyQueue: function() {
       /* We sort the queue so that the numbers with the smallest priority number
        * are executed the first */
       this.queue = this.queue.sort(function(a, b) {
         if(a.length < 3 || b.length < 3) {
-          console.warning('Each element of the queue needs a priority number');
+          console.warn('Each element of the queue needs a priority number');
           return -1;
         }
         return a[2] - b[2];
