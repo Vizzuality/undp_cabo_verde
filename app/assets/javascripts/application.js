@@ -67,7 +67,7 @@ var showMultiselect = function() {
     multiselects[i].classList.add('chosen-select');
   }
 
-  multiselects.chosen();
+  multiselects.chosen({ max_selected_options: 3 });
 };
 
 /* Display a mini map into the container and return it */
