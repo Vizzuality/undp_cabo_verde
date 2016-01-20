@@ -25,7 +25,7 @@ class Actor < ActiveRecord::Base
   has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
   # For merged domains
-  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category'
+  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
 
   accepts_nested_attributes_for :localizations,             allow_destroy: true
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
@@ -40,6 +40,8 @@ class Actor < ActiveRecord::Base
   validates :type,              presence: true
   validates :name,              presence: true
   validates :merged_domain_ids, presence: true
+
+  validates_length_of :merged_domains, minimum: 1, maximum: 3
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').

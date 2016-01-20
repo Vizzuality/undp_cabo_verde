@@ -2,11 +2,6 @@
   .column.medium-8.medium-offset-1
     .form-inputs
       .row
-        .column.medium-4
-          = form.label :name, class: 'right inline'
-        .column.medium-8
-          = form.input :name, label: false, disabled: common_form?
-      .row
         .column.medium-8.medium-offset-4
           .radio-buttons
             = form.collection_radio_buttons :event, [[true, t('acts.act_micro_event_true'), disabled: common_form?], [false, t('acts.act_micro_event_false'), disabled: common_form?]], :first, :second

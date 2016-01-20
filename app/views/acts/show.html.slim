@@ -9,12 +9,15 @@
   = simple_form_for @act do |f|
     .row
       .column.medium-8.medium-offset-1
-        .row
-          .column.medium-8.medium-offset-4
-            = f.error_notification
-    
+        .form-inputs
+          .row
+            .column.medium-4
+              = f.label :name, class: 'right inline'
+            .column.medium-8
+              = f.input :name, label: false, disabled: common_form?
+
     = render partial: f
-  
+
   .row
     .column.medium-8.medium-offset-1
       .row
@@ -30,7 +33,7 @@
 
   - if (can? :manage, @act)
     .row.footer-helper
-    
+
     .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.edit'), edit_act_path(@act), class: 'button -type-a'
