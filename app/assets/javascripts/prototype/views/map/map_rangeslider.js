@@ -16,9 +16,9 @@
     el: '#map-rangeslider',
 
     events: {
-      'click .stepnext': 'step',
-      'click .stepprev': 'step',
-      'click .play': 'play'
+      'click .stepnext': 'onNextStep',
+      'click .stepprev': 'onPrevStep',
+      'click .play': 'onPlay'
     },
 
     initialize: function(options) {
@@ -52,29 +52,66 @@
 
     },
 
-    play: function() {
+    onNextStep: function() {
+      this.ballCount++;
+
+      if(this.steps != true){
+        this.createBall();
+      }
+      this.steps = true;
+
+      this.prepareStep();
+      this.step();
+
+    },
+
+    onPrevStep: function() {
+      this.ballCount--;
+
+      if(this.steps != true){
+        this.createBall();
+      }
+
+      this.steps = true;
+
+      this.prepareStep();
+      this.step();
+
+    },
+
+    onPlay: function() {
+      var self = this;
       var play = $('.play')[0];
       play.classList.toggle('paused');
 
-      if (!play.classList.contains('paused')) {
-        console.log('take step');
+      var isPlaying = !play.classList.contains('paused');
+
+      if (isPlaying) {
         this.timer = window.setInterval(function(){
-          console.log('take step');
-        }, 1000);
+          self.onNextStep();
+        }, 500);
       } else {
         window.clearInterval(this.timer);
       }
+
+      // if (!play.classList.contains('paused')) {
+      //   this.timer = window.setInterval(function(){
+      //     self.onNextStep();
+      //   }, 500);
+      // } else {
+      //   console.log(this.ballCount);
+      //   console.log('stop steps');
+      //   window.clearInterval(this.timer);
+      // }
     },
 
     activateSteps: function() {
-      this.steps = true;
       this.leftHandle.style.background = "#cfcfcf";
       this.rightHandle.style.background = "#cfcfcf";
       this.$sliderRange[0].style.background = "#cfcfcf";
     },
 
     deactivateSteps: function() {
-      this.steps = false;
       this.leftHandle.style.background = "#175ca0";
       this.rightHandle.style.background = "#175ca0";
       this.$sliderRange[0].style.background = "#175ca0";
@@ -94,6 +131,7 @@
       var range = this.$sliderRange[0];
       var ball = this.create('<div id="ball"></div>');
       range.insertBefore(ball, range.childNodes[0]);
+      this.ballCount = 0;
     },
 
     deleteBall: function() {
@@ -131,55 +169,45 @@
       return newPosition;
     },
 
-    step: function(e) {
-      var range = this.$sliderRange[0];
+    prepareStep: function() {
       this.activateSteps(); // makes handles and range background grey
       this.calcStepRange(); // calculates maximum number of steps currently set
       this.stepWidth = this.calcStepWidth(); //width of step in px
+    },
 
-      // if range has child:
-      if(range.childNodes.length !== 0) {
+    step: function(e) {
+      var range = this.$sliderRange[0];
 
-        // if first child is ball
-        if(range.childNodes[0].getAttribute("id") == "ball") {
-          var ball = range.childNodes[0];
+      // if first child is ball
+      if(range.childNodes[0].getAttribute("id") == "ball") {
+        var ball = range.childNodes[0];
 
-          //get position of ball
-          var currPosition = window.getComputedStyle(ball).left;
+        //get position of ball
+        var currPosition = window.getComputedStyle(ball).left;
 
-          //calculate new position of ball
-          if (currPosition.length != 0) {
-            // move left or move right -> adapt ballCount
-            if (e.currentTarget.className === "stepnext") {
-              this.ballCount++;
-            } else if (e.currentTarget.className === "stepprev") {
-              this.ballCount--;
-            }
+        //calculate new position of ball
+        if (currPosition.length != 0) {
 
-            this.setDate();
 
-            var newPositionInt = this.getNewPosition();
-            var newPosition = newPositionInt.toString() + "px";
+          var newPositionInt = this.getNewPosition();
+          var newPosition = newPositionInt.toString() + "px";
 
-          } else {
-            var newPosition = "0px"; // security step in case the position is not set
-          }
+          this.setDate();
 
-          //apply calculated new position to ball
-          ball.style.left = newPosition;
+        } else {
+          var newPosition = "0px"; // security step in case the position is not set
         }
 
-      } else {
-        //if no ball exists
-        this.createBall();
-        this.steps = true;
-        this.setDate();
+        //apply calculated new position to ball
+        ball.style.left = newPosition;
       }
+
+
     },
 
     setDate: function() {
       if (this.steps == true) {
-        var year = parseInt(this.$leftLabel.text()) + (this.ballCount%(this.maxStepRange+1));
+        var year = parseInt(this.$leftLabel.text()) + this.ballCount;
         var currMin = year;
         var currMax = year;
       } else {
@@ -215,14 +243,13 @@
         step: 1,
         values: [this.minYear, this.maxYear],
         slide: function(event, ui) {
+          if (self.steps == true) {
+            self.deactivateSteps();
+            self.deleteBall();
+            self.ballCount = 0;
+            self.steps = false;
+          }
           setTimeout(function() {
-            //reset
-            if ($('#ball')[0] !== undefined) {
-              self.deactivateSteps();
-              self.deleteBall();
-              self.ballCount = 0;
-            }
-
             //sets label text
             self.$leftLabel.text(ui.values[0]);
             self.$rightLabel.text(ui.values[1]);
