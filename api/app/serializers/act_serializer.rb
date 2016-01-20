@@ -9,6 +9,9 @@ class ActSerializer < BaseSerializer
   # Locations
   has_many :act_localizations, key: :locations
 
+  # Comments
+  has_many :comments
+
   # Indicators and measurements
   has_many :act_indicator_relations, key: :artifacts
 
@@ -83,6 +86,7 @@ class ActSerializer < BaseSerializer
     include! :organization_types,      serializer: CategorySerializer
     include! :socio_cultural_domains,  serializer: CategorySerializer
     include! :other_domains,           serializer: CategorySerializer
+    include! :comments,                serializer: CommentSerializer
   end
 
   def cache_key
