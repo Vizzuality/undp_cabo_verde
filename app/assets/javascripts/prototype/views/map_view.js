@@ -509,9 +509,13 @@
         { visible: e.currentTarget.checked });
     },
 
-    /* Remove all the lines from the map */
+    /* Remove all the relations from the map */
     removeRelations: function() {
       this.$el.find('.js-line').remove();
+      var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
+      for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
+        highlightedMarkers[i].classList.remove('js-relation-highlight');
+      }
     },
 
 
@@ -563,11 +567,22 @@
         var entityLatLng = L.latLng(location.info_data.lat,
           location.info_data.long);
 
-        var otherEntityLatLng, latLngs;
+        var otherEntity, otherEntityLatLng, latLngs;
         _.each(relations, function(relation) {
           /* TODO: real main location */
           otherEntityLatLng = L.latLng(relation.locations[0].lat,
             relation.locations[0].long);
+
+          /* We also highlight the other entity on the map */
+          otherEntity = this.getMarker(entityType, relation.id,
+            relation.locations[0].id);
+          if(this.status.get('relationshipsVisible')) {
+            this.highlightMarker(otherEntity);
+          }
+          /* And we add a special class to it so it can't be hidden with the
+           * toggle button for the relationships */
+          otherEntity.classList.add('js-relation-highlight');
+
           latLngs = [ entityLatLng, otherEntityLatLng ];
 
           /* We define the line's options */
@@ -608,6 +623,10 @@
       var lines = this.el.querySelectorAll('.js-line');
       for(var i = 0, j = lines.length; i < j; i++) {
         lines[i].classList.toggle('-hidden');
+      }
+      var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
+      for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
+        highlightedMarkers[i].classList.toggle('-active');
       }
     }
 
