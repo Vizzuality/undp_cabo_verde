@@ -8,6 +8,10 @@
   root.app.pubsub = root.app.pubsub || {};
   root.app.Helper = root.app.Helper || {};
 
+  var Status = Backbone.Model.extend({
+    defaults: { relationshipsVisible: true }
+  });
+
   root.app.View.mapView = Backbone.View.extend({
 
     el: '.l-map',
@@ -20,6 +24,7 @@
 
     initialize: function(options) {
       this.router = options.router;
+      this.status = new Status();
 
       this.actorsCollection = new root.app.Collection.actorsCollection(null, {
         router: this.router
@@ -88,14 +93,31 @@
      * NOTE: if there isn't any actor/action present in the URL or if the marker
      * can't be found, return undefined (and a warning when can't be found) */
     getActiveMarker: function() {
-      var route = this.router.getCurrentRoute();
+      var activeMarkerInfo = this.getActiveMarkerInfo();
       var marker;
 
-      if(route.name === 'actors' || route.name === 'actions') {
-        marker = this.getMarker(route.name, route.params[0], route.params[1]);
+      if(!_.isEmpty(activeMarkerInfo)) {
+        marker = this.getMarker(activeMarkerInfo.type, activeMarkerInfo.id,
+          activeMarkerInfo.locationId);
       }
 
       return marker;
+    },
+
+    /* Return the type, id and locationId of the active marker */
+    getActiveMarkerInfo: function() {
+      var route = this.router.getCurrentRoute();
+      var markerInfo = {};
+
+      if(route.name === 'actors' || route.name === 'actions') {
+        markerInfo = {
+          type: route.name,
+          id: route.params[0],
+          locationId: route.params[1]
+        };
+      }
+
+      return markerInfo;
     },
 
     /* Return all the map's highlighted markers as a NodeList */
@@ -110,9 +132,11 @@
       var route = this.router.getCurrentRoute();
 
       this.resetMarkersHighlight();
+      this.removeRelations();
       this.updateLegendRelationships();
       if(route.name === 'actions' || route.name === 'actors') {
         this.highlightActiveMarker();
+        this.renderActiveMarkerRelations();
       }
     },
 
@@ -121,9 +145,16 @@
         e.target.options.locationId);
 
       this.resetMarkersHighlight();
+      this.removeRelations();
       this.highlightMarker(marker);
-      this.renderPopupFor(e.target);
       this.updateLegendRelationships(e.target);
+
+      this.fetchModelFor(e.target.options.type, e.target.options.id)
+        .then(function() {
+          this.renderMarkerRelations(e.target.options.type, e.target.options.id,
+            e.target.options.locationId);
+          this.renderPopupFor(e.target);
+        }.bind(this));
     },
 
     onMoreInfoButtonClick: function(marker) {
@@ -159,8 +190,10 @@
       this.$zoomButtons.toggleClass('-slided', !isVisible);
       /* We toggle the switch button concerning the relationships */
       this.$relationshipsToggle.prop('checked', isVisible);
-      /* TODO: implementation of the method */
-      console.warn('Feature not yet implemented');
+      /* We save the visibility to the model */
+      this.status.set({ relationshipsVisible: isVisible });
+      /* We toggle the relations' visibility */
+      this.toggleRelationsVisibility();
     },
 
     onSidebarVisibilityChange: function(options) {
@@ -211,6 +244,7 @@
     onGoBack: function() {
       this.map.closePopup();
       this.resetMarkersHighlight();
+      this.removeRelations();
     },
 
     /* LOGIC */
@@ -221,6 +255,7 @@
         .then(function() {
           this.addFilteredMarkers();
           this.highlightActiveMarker();
+          this.renderActiveMarkerRelations();
           this.updateLegendRelationships();
         }.bind(this));
     },
@@ -418,24 +453,10 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
-      /* Function which will actually render the content of the popup and which
-       * sets the event listener for the "more info" button */
-      var render = function() {
-        popup.setContent(this.popupTemplate(model.toJSON()));
-        this.$el.find('.js-more').on('click', function() {
-          this.onMoreInfoButtonClick(marker);
-        }.bind(this));
-      }.bind(this);
-
-      /* In case we already have the data for the selected marker, we don't want
-       * to fetch the model again */
-      if(!_.isEmpty(model.attributes) &&
-        model.get('id') === marker.options.id) {
-        render();
-      } else {
-        model.setId(marker.options.id);
-        model.fetch().done(function() { render(); });
-      }
+      popup.setContent(this.popupTemplate(model.toJSON()));
+      this.$el.find('.js-more').on('click', function() {
+        this.onMoreInfoButtonClick(marker);
+      }.bind(this));
     },
 
     /* Dynamically hide a part of the relationships legend depending on the
@@ -489,6 +510,108 @@
     triggerRelationshipsVisibility: function(e) {
       root.app.pubsub.trigger('relationships:visibility',
         { visible: e.currentTarget.checked });
+    },
+
+    /* Remove all the lines from the map */
+    removeRelations: function() {
+      this.$el.find('.js-line').remove();
+    },
+
+
+    /* Fetch the model for the marker mathcing the type and id and return a
+     * deferred object
+     * NOTE: if the current stored model has the right information, there won't
+     * be any API call */
+    fetchModelFor: function(type, id) {
+      var deferred = $.Deferred();
+
+      /* Model which will contain the information about the actor or action */
+      var model = (type === 'actors') ? this.actorModel : this.actionModel;
+
+      /* In case we already have the data for the selected marker, we don't want
+       * to fetch the model again */
+      if(!_.isEmpty(model.attributes) && model.get('id') === id) {
+        deferred.resolve();
+      } else {
+        model.setId(id);
+        model.fetch()
+          .done(deferred.resolve)
+          .fail(function() {
+            console.warn('Unable to fetch the model /' + [type, id].join('/'));
+            deferred.reject();
+          });
+      }
+
+      return deferred;
+    },
+
+    /* Render the relations of the marker matching the type, id and locationId
+     * passed as arguments */
+    renderMarkerRelations: function(type, id, locationId) {
+      var model = (type === 'actors') ? this.actorModel : this.actionModel;
+
+      /* Method which draws the lines
+      * relations is the collection of relations and entityType designates the
+      * type of the relations ("actors" or "actions") */
+      var addLines = function(relations, entityType) {
+        /* We search for the location's coordinates */
+        var location = _.findWhere(model.get('locations'),
+          { id: parseInt(locationId) });
+        if(!location) {
+          console.warn('Unable to find the location ' + locationId +
+            ' of the ' + ((type === 'actors') ? 'actor' : 'action') + ' ' +
+            id);
+          return;
+        }
+        var entityLatLng = L.latLng(location.info_data.lat,
+          location.info_data.long);
+
+        var otherEntityLatLng, latLngs;
+        _.each(relations, function(relation) {
+          /* TODO: real main location */
+          otherEntityLatLng = L.latLng(relation.locations[0].lat,
+            relation.locations[0].long);
+          latLngs = [ entityLatLng, otherEntityLatLng ];
+
+          /* We define the line's options */
+          var options = { className: 'map-line js-line' };
+          if(entityType !== type) options.dashArray = '3, 6';
+          if(!this.status.get('relationshipsVisible')) {
+            options.className += ' -hidden';
+          }
+
+          L.polyline(latLngs, options).addTo(this.map);
+        }, this);
+      }.bind(this);
+
+      /* We add the relations with the actors */
+      var relations = _.union(model.get('actors').parents,
+        model.get('actors').children);
+      addLines(relations, 'actors');
+      /* We add the relations with the actions */
+      relations = _.union(model.get('actions').parents,
+        model.get('actions').children);
+      addLines(relations, 'actions');
+    },
+
+    renderActiveMarkerRelations: function() {
+      var activeMarkerInfo = this.getActiveMarkerInfo();
+
+      if(!_.isEmpty(activeMarkerInfo)) {
+        this.fetchModelFor(activeMarkerInfo.type, activeMarkerInfo.id)
+          .then(function() {
+            this.renderMarkerRelations(activeMarkerInfo.type,
+              activeMarkerInfo.id, activeMarkerInfo.locationId);
+          }.bind(this));
+      }
+    },
+
+    /* Toggle the visibility of the map's relations */
+    toggleRelationsVisibility: function() {
+      var lines = this.el.querySelectorAll('.js-line');
+      for(var i = 0, j = lines.length; i < j; i++) {
+        lines[i].classList.toggle('-hidden');
+      }
     }
 
   });
