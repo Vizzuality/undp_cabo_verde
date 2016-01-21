@@ -73,34 +73,21 @@
 
     /* Return the marker (DOM element) corresponding at the type, id and
      * locationId passed as arguments. If not found, display a warning in the
-     * console. */
+     * console.
+     * NOTE: in case the locationId is omited, return all the entity's markers
+     */
     getMarker: function(type, id, locationId) {
       var entityClass = type === 'actors' ? '.js-actor-marker' :
         '.js-action-marker';
       var selector = entityClass + '[data-id="' + id + '"]' +
         (locationId ? '[data-location="' + locationId + '"]' : '');
 
-      var marker = document.querySelector(selector);
-      if(!marker) {
-        console.warn('Unable to find the marker /' +
+      var marker = locationId ? document.querySelector(selector) :
+        document.querySelectorAll(selector);
+      if(locationId && !marker || !locationId && marker.length === 0) {
+        console.warn('Unable to find the marker(s) /' +
           [ route.name, id, locationId ].join('/'));
       }
-      return marker;
-    },
-
-    /* Return the marker (DOM element) associated to the actor/action present in
-     * the URL.
-     * NOTE: if there isn't any actor/action present in the URL or if the marker
-     * can't be found, return undefined (and a warning when can't be found) */
-    getActiveMarker: function() {
-      var activeMarkerInfo = this.getActiveMarkerInfo();
-      var marker;
-
-      if(!_.isEmpty(activeMarkerInfo)) {
-        marker = this.getMarker(activeMarkerInfo.type, activeMarkerInfo.id,
-          activeMarkerInfo.locationId);
-      }
-
       return marker;
     },
 
@@ -135,18 +122,18 @@
       this.removeRelations();
       this.updateLegendRelationships();
       if(route.name === 'actions' || route.name === 'actors') {
-        this.highlightActiveMarker();
+        this.highlightActiveMarkers();
         this.renderActiveMarkerRelations();
       }
     },
 
     onMarkerClick: function(e) {
-      var marker = this.getMarker(e.target.options.type, e.target.options.id,
-        e.target.options.locationId);
+      var markers = this.getMarker(e.target.options.type,
+        e.target.options.id);
 
       this.resetMarkersHighlight();
       this.removeRelations();
-      this.highlightMarker(marker);
+      this.highlightMarkers(markers);
       this.updateLegendRelationships(e.target);
 
       this.fetchModelFor(e.target.options.type, e.target.options.id)
@@ -255,7 +242,7 @@
         .then(this.fetchFilteredCollections.bind(this))
         .then(function() {
           this.addFilteredMarkers();
-          this.highlightActiveMarker();
+          this.highlightActiveMarkers();
           this.renderActiveMarkerRelations();
           this.updateLegendRelationships();
         }.bind(this));
@@ -417,17 +404,26 @@
 
     /* Highlight the marker associated to the actor/action present in the URL if
      * exists, otherwise do nothing */
-    highlightActiveMarker: function() {
-      var activeMarker = this.getActiveMarker();
+    highlightActiveMarkers: function() {
+      var activeMarkerInfo = this.getActiveMarkerInfo();
 
-      if(!!activeMarker) {
-        this.highlightMarker(activeMarker);
+      if(!_.isEmpty(activeMarkerInfo)) {
+        var activeMarkers = this.getMarker(activeMarkerInfo.type,
+          activeMarkerInfo.id);
+        this.highlightMarkers(activeMarkers);
       }
     },
 
     /* Highlight the marker passed as argument */
     highlightMarker: function(marker) {
       marker.classList.add('-active');
+    },
+
+    /* Highlight all the markers passed as argument */
+    highlightMarkers: function(markers) {
+      for(var i = 0, j = markers.length; i < j; i++) {
+        this.highlightMarker(markers[i]);
+      }
     },
 
     /* Remove the highlight effects to all the map's markers */
