@@ -2,6 +2,8 @@
 //= require i18n.js
 //= require i18n/translations
 //= require jquery2
+//= require jquery_ujs
+//= require jquery.ui.datepicker
 //= require underscore
 //= require backbone
 //= require handlebars
@@ -84,15 +86,19 @@
       this.listenTo(this.router, 'route:action', this.fetchFilteredCollections);
       this.listenTo(this.router, 'route:about', this.aboutPage);
       this.listenTo(this.router, 'change:queryParams',
-        this.fetchFilteredCollections);
+        this.onQueryParamsChange);
     },
 
     aboutPage: function() {
 
     },
 
+    onQueryParamsChange: function() {
+      this.fetchFilteredCollections({ force: true });
+    },
+
     /* Fetch only the collections that are not filtered out */
-    fetchFilteredCollections: function() {
+    fetchFilteredCollections: function(options) {
       var queryParams = this.router.getQueryParams();
 
       /* If one of the required filter doesn't have any value, we just don't
@@ -104,10 +110,12 @@
         return;
       }
 
+      var params = _.extend({}, options || {});
       if(!queryParams.types || queryParams.types.length === 2) {
-        this.fetchCollections({ force: true });
+        this.fetchCollections(params);
       } else {
-        this.fetchCollections({ force: true, only: queryParams.types[0] });
+        params.only = queryParams.types[0];
+        this.fetchCollections(params);
       }
     },
 

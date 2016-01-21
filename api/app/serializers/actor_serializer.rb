@@ -1,11 +1,12 @@
 class ActorSerializer < BaseSerializer
   cached
-  self.version = 6
+  self.version = 7
 
   attributes :id, :level, :name, :observation
 
   # Locations
   has_many :actor_localizations, key: :locations
+  has_many :comments
 
   # Actors relations below: def actors
   # Actions relations below: def actions
@@ -75,6 +76,7 @@ class ActorSerializer < BaseSerializer
     include! :organization_types,     serializer: CategorySerializer
     include! :socio_cultural_domains, serializer: CategorySerializer
     include! :other_domains,          serializer: CategorySerializer
+    include! :comments,               serializer: CommentSerializer
   end
 
   def cache_key

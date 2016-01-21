@@ -1,7 +1,7 @@
 require 'application_responder'
 
 module API
-  class ApplicationController < ActionController::Base
+  class ApiBaseController < ActionController::Base
     self.responder = ApplicationResponder
     respond_to :json
   end

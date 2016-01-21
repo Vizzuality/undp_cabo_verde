@@ -1,5 +1,5 @@
 module API::V1
-  class ActorsController < API::ApplicationController
+  class ActorsController < API::ApiBaseController
     before_action :set_actor, only: :show
     before_action :set_search_filter, only: :index
 

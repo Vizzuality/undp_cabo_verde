@@ -27,6 +27,7 @@
       this.router = options.router;
       this.status = new Status();
       this.$inputFields = this.$el.find('.js-input');
+      this.$dateFields = this.$el.find('.js-date');
       this.applyButton = this.el.querySelector('.js-apply');
       this.errorMessage = this.el.querySelector('.js-error');
       this.inputs = this.el.querySelectorAll('.js-input');
@@ -34,6 +35,7 @@
         this.el.querySelectorAll('.js-input[disabled="disabled"]');
       this.syncInputsWithQueryParams();
       this.syncCheckboxesWithHiddenInputs();
+      this.initDateFields();
       this.setListeners();
     },
 
@@ -472,6 +474,51 @@
         !this.isErrorMessageVisible());
       this.errorMessage.setAttribute('aria-hidden',
         !this.isErrorMessageVisible());
+    },
+
+    /* Initialize the date fields with datepickers */
+    initDateFields: function() {
+      var fromField = $(this.$dateFields[0]),
+          toField   = $(this.$dateFields[1]);
+
+      /* We modify the inner of jQuery UI in order to bring a custom positioning
+       * to the datepicker */
+      $.extend($.datepicker, {
+        _checkOffset: function(instance) {
+          var position = instance.input.position();
+          var datepickerWidth = instance.dpDiv.outerWidth();
+          var containerWidth = this.$el.width();
+          var containerPadding = 25;
+
+          position.top += 180;
+          if(instance.input[0] === fromField[0]) {
+            position.left = containerPadding;
+          } else {
+            position.left = containerWidth - containerPadding - datepickerWidth;
+          }
+
+          return position;
+        }.bind(this)
+      });
+
+      this.$dateFields.datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showOptions: { direction: 'down' },
+        /* We automatically update the min/maxDate of the two inputs */
+        onClose: function(selectedDate) {
+          if(this === fromField[0]) {
+            toField.datepicker('option', 'minDate', selectedDate);
+          } else {
+            fromField.datepicker('option', 'maxDate', selectedDate);
+          }
+        },
+        /* We move the datepicker to the sidebar so we can have an absolute
+         * positioning inside of it */
+        beforeShow: function() {
+          this.$el.append(arguments[1].dpDiv);
+        }.bind(this)
+      });
     }
 
   });
