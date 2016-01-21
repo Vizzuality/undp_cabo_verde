@@ -61,6 +61,7 @@
       this.listenTo(root.app.pubsub, 'sync:actionModel',
         this.onActionModelRemoteSync);
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.onGoBack);
     },
 
     /* GETTERS */
@@ -205,6 +206,11 @@
 
       this.actionModel.clear({ silent: true });
       this.actionModel.set(model.toJSON());
+    },
+
+    onGoBack: function() {
+      this.map.closePopup();
+      this.resetMarkersHighlight();
     },
 
     /* LOGIC */
