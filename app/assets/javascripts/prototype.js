@@ -45,22 +45,12 @@
 
     initialize: function() {
       this.router = new root.app.Router();
-
-      this.actorsCollection = new root.app.Collection.actorsCollection(null, {
-        router: this.router
-      });
-      this.actionsCollection = new root.app.Collection.actionsCollection(null, {
-        router: this.router
-      });
+      Backbone.history.start({ pushState: false });
 
       this.mapView = new root.app.View.mapView({
-        actorsCollection: this.actorsCollection,
-        actionsCollection: this.actionsCollection,
         router: this.router
       });
       this.sidebarView = new root.app.View.sidebarView({
-        actorsCollection: this.actorsCollection,
-        actionsCollection: this.actionsCollection,
         router: this.router
       });
       this.sidebarActionToolbarView = new root.app.View.sidebarActionToolbarView({
@@ -75,72 +65,10 @@
       this.actionView = new root.app.View.sidebarActionView({
         router: this.router
       });
-
-      this.setListeners();
-    },
-
-    setListeners: function() {
-      this.listenTo(this.router, 'route:welcome',
-        this.fetchFilteredCollections);
-      this.listenTo(this.router, 'route:actor', this.fetchFilteredCollections);
-      this.listenTo(this.router, 'route:action', this.fetchFilteredCollections);
-      this.listenTo(this.router, 'route:about', this.aboutPage);
-      this.listenTo(this.router, 'change:queryParams',
-        this.onQueryParamsChange);
-    },
-
-    aboutPage: function() {
-
-    },
-
-    onQueryParamsChange: function() {
-      this.fetchFilteredCollections({ force: true });
-    },
-
-    /* Fetch only the collections that are not filtered out */
-    fetchFilteredCollections: function(options) {
-      var queryParams = this.router.getQueryParams();
-
-      /* If one of the required filter doesn't have any value, we just don't
-       * fetch the collections, the user will see a warning in the sidebar
-       * anyway */
-      if(queryParams.types && queryParams.types.length === 0 ||
-        queryParams.levels && queryParams.levels.length === 0 ||
-        queryParams.domains_ids && queryParams.domains_ids.length === 0) {
-        return;
-      }
-
-      var params = _.extend({}, options || {});
-      if(!queryParams.types || queryParams.types.length === 2) {
-        this.fetchCollections(params);
-      } else {
-        params.only = queryParams.types[0];
-        this.fetchCollections(params);
-      }
-    },
-
-    /* Fetch the actor and actions collections if empty
-     * Options:
-     *  - force (boolean): force the collections to be fetched
-     *  - only ("actors" or "actions"): restrict the fetch to only one
-     *    collection */
-    fetchCollections: function(options) {
-      if((this.actorsCollection.length === 0 || options && options.force) &&
-        (!(options && options.only) || options && options.only === 'actors')) {
-        this.actorsCollection.fetch();
-      }
-      if((this.actionsCollection.length === 0 || options && options.force) &&
-        (!(options && options.only) || options && options.only === 'actions')) {
-        this.actionsCollection.fetch();
-      }
-    },
-
-    start: function() {
-      Backbone.history.start({ pushState: false });
     }
 
   });
 
-  new app.AppView().start();
+  new app.AppView();
 
 })(this);

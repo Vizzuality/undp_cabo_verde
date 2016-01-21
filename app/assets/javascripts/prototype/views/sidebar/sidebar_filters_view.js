@@ -40,17 +40,10 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
+      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
+      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
       this.listenTo(this.status, 'change', this.applySearch);
-    },
-
-    /* According to the route broadcast by the router show or hide the pane */
-    toggleVisibilityFromRoute: function(route) {
-      if(route !== 'welcome') {
-        this.hide();
-      } else {
-        this.show();
-      }
     },
 
     /* GETTERS */
@@ -198,6 +191,7 @@
         this.checkFilterAllCheckboxes(filterRootElem);
       }
 
+      this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
       this.updateFilterToggleCheckButton(filterRootElem);
       this.updateFilterNotificationBadge(filterRootElem);
       this.updateApplyButtonState();
@@ -215,6 +209,18 @@
       if(!this.isApplyButtonDisabled()) {
         this.applyFilters();
       }
+    },
+
+    onActorShow: function() {
+      this.hide();
+    },
+
+    onActionShow: function() {
+      this.hide();
+    },
+
+    onClickGoBack: function() {
+      this.show();
     },
 
     /* LOGIC */
@@ -417,8 +423,6 @@
      * TODO: remove the console.warn once the form features are all implemented
      */
     applyFilters: function() {
-      console.warn('The feature is only partially implemented');
-
       var inputs = this.getAllInputs();
 
       var field, value, summary = {};
