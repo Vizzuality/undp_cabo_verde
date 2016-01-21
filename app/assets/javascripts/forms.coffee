@@ -44,3 +44,27 @@ jQuery ->
     el = $(@)
     if el.val() != ''
       el.closest('.form-inputs').find('.switch_child_form, .switch_parent_form').remove()
+
+  $(document).on 'click', '.add_other_domain', (event) ->
+    domains_form   = $('.form-inputs-other-domains:visible')
+    domains_select = $('.domains-chose')
+    if (domains_form.length == 2)
+      $(this).hide()
+    if (domains_select.val().length > 1)
+      $(this).hide()
+    event.preventDefault()
+
+  $(document).on 'click', '.remove_domains', (event) ->
+    $('.add_other_domain').show()
+    return
+    event.preventDefault()
+
+
+
+  #   toggleDomainLink = (event) ->
+  # if $(event.currentTarget).val().length > 2
+  #   $('.add_other_domain').hide()
+  #   $('.form-inputs-other-domains').remove()
+  # else
+  #   $('.add_other_domain').show()
+  # return

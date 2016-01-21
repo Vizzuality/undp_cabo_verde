@@ -31,7 +31,7 @@ class Actor < ActiveRecord::Base
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
-  accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid
+  accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid, limit: 3
 
   after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'

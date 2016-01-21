@@ -4,3 +4,10 @@
       = f.label :name, t('categories.name') + '*', class: 'right inline'
     .column.medium-8
       = f.input :name, label: false, input_html: { class: 'name' }, disabled: common_form?
+  - unless common_form?
+    .row
+      .column
+        p.text-right.remove_link
+          / Do not move this fields!
+          = f.hidden_field :_destroy
+          = link_to t('categories.remove_domain'), '#', class: 'remove_fields remove_domains'
