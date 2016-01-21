@@ -243,6 +243,7 @@
 
     onGoBack: function() {
       this.map.closePopup();
+      this.updateLegendRelationships();
       this.resetMarkersHighlight();
       this.removeRelations();
     },
