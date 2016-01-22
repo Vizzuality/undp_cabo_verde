@@ -65,7 +65,7 @@ resource 'Actors' do
           expect(actor_4['locations'].size).to eq(2)
         end
       end
-        
+
       context 'Actors list filtered by level or SCD' do
         get "/api/actors" do
           parameter :levels, 'Filter actors by level (micro, meso or macro)'
@@ -103,7 +103,7 @@ resource 'Actors' do
           actors[2].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
           actors[3].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
         end
-        
+
         get "/api/actors" do
           parameter :start_date, 'Filter actors by start-date (2014-01-31)'
           parameter :end_date, 'Filter actors by end-date (2015-01-31)'
@@ -287,7 +287,7 @@ resource 'Actors' do
           expect(actor['actors']['children'][0]['locations'].size).to eq(1)
 
           expect(actor['actors']['children_info'][0]['parent_id']).to      eq(actor_with_relations.id)
-          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil   
+          expect(actor['actors']['children_info'][0]['child_id']).not_to   be_nil
           expect(actor['actors']['children_info'][0]['start_date']).not_to be_nil
           expect(actor['actors']['children_info'][0]['end_date']).not_to   be_nil
 

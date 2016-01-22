@@ -60,4 +60,80 @@
 
   .content .message { clear: both; }
 
+  #ui-datepicker-div {
+    font-size: 11px;
+    color: $color-10;
+    font-family: "Helvetica Neue", sans-serif;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    width: 205px;
+    padding: 15px 20px;
+    background: $color-11;
+    box-shadow: 0 2px 4px 0 rgba($color-3, .2);
+
+    & > .ui-datepicker-header {
+      background: none;
+      border: none;
+      border-radius: 0;
+      margin-bottom: 8px;
+
+      & > .ui-datepicker-prev,
+      & > .ui-datepicker-next {
+        display: none;
+      }
+
+      & > .ui-datepicker-title {
+        margin: 0;
+
+        & > select {
+          width: calc(50% - 5px);
+          &:first-child { margin-right: 10px; }
+
+          appearance: none;
+          outline: none;
+          background: none;
+          border: none;
+          border-radius: 0;
+          &::-ms-expand { display: none; }
+
+          border-bottom: 1px solid $color-14;
+          background: url(asset_path("form-arrow.png")) no-repeat center right / 8px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    & > .ui-datepicker-calendar {
+      table-layout: fixed;
+      font-size: 1em;
+
+      th {
+        padding: 0;
+        font-weight: 400;
+      }
+
+      td > .ui-state-default {
+        background: none;
+        border: 1px solid $color-16;
+        font-size: 1em;
+        text-align: center;
+        color: $color-16;
+        padding: 0;
+        padding-top: 4px;
+
+        &.ui-state-highlight {
+          border: 1px solid transparent;
+          color: $color-10;
+        }
+
+        &.ui-state-active {
+          border: 1px solid $color-2;
+          background-color: $color-2;
+          color: $color-1;
+        }
+      }
+    }
+  }
+
 }

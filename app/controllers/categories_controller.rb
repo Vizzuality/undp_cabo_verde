@@ -58,7 +58,7 @@ class CategoriesController < ApplicationController
     def type_class
       type.constantize
     end
-  
+
     def set_category
       @category = type_class.find(params[:id])
     end

@@ -5,11 +5,11 @@ class ActIndicatorRelation < ActiveRecord::Base
   belongs_to :indicator, foreign_key: :indicator_id, touch: true
   belongs_to :unit,      foreign_key: :unit_id
   belongs_to :relation_type
-  
+
   has_many :measurements, dependent: :destroy
 
   accepts_nested_attributes_for :measurements, allow_destroy: true
-  
+
   def self.get_dates(act, indicator)
     @dates = where(act_id: act.id, indicator_id: indicator.id).pluck(:start_date, :end_date, :deadline)
     @dates.flatten.map { |d| d.to_date.to_formatted_s(:long).to_s rescue nil } if @dates.present?
@@ -21,10 +21,5 @@ class ActIndicatorRelation < ActiveRecord::Base
 
   def target_unit_name
     unit.name
-  end
-
-  def measurements_form
-    collection = measurements
-    collection.any? ? collection : measurements.build
   end
 end

@@ -12,12 +12,12 @@ RSpec.describe CommentsController, type: :controller do
       @comment   = create(:comment, user: @user, commentable: @macro)
       @comment_2 = create(:comment, user: @user, commentable: @macro, active: false)
     end
-    
-    let!(:attri) do 
+
+    let!(:attri) do
       { body: Faker::Lorem.paragraph(2, true, 4) }
     end
 
-    let!(:attri_fail) do 
+    let!(:attri_fail) do
       { body: '' }
     end
 
@@ -103,12 +103,12 @@ RSpec.describe CommentsController, type: :controller do
       @comment   = create(:comment, user: @user, commentable: @macro)
       @comment_2 = create(:comment, user: @user, commentable: @macro, active: false)
     end
-    
-    let!(:attri) do 
+
+    let!(:attri) do
       { body: Faker::Lorem.paragraph(2, true, 4) }
     end
 
-    let!(:attri_fail) do 
+    let!(:attri_fail) do
       { body: '' }
     end
 
@@ -194,12 +194,12 @@ RSpec.describe CommentsController, type: :controller do
       @comment   = create(:comment, user: @user, commentable: @indicator)
       @comment_2 = create(:comment, user: @user, commentable: @indicator, active: false)
     end
-    
-    let!(:attri) do 
+
+    let!(:attri) do
       { body: Faker::Lorem.paragraph(2, true, 4) }
     end
 
-    let!(:attri_fail) do 
+    let!(:attri_fail) do
       { body: '' }
     end
 

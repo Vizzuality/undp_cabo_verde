@@ -40,6 +40,8 @@
         color: $color-10;
         font-size: 13px;
         line-height: 20px;
+        opacity: 1;
+        transition: opacity .3s;
 
         > .icon {
           width: 12px;
@@ -49,7 +51,7 @@
           margin-right: 5px;
 
           &.-large {
-            width: 42px;
+            width: 30px;
             padding-top: 2px;
             margin-right: 10px;
           }
@@ -64,6 +66,8 @@
           text-transform: uppercase;
           margin-bottom: 10px;
         }
+
+        &.-disabled { opacity: .3; }
       }
     }
 
@@ -126,4 +130,9 @@
   }
 
   .cartodb-logo { display: none !important; }
+
+  .leaflet-popup-content > .message.-loading {
+    height: 180px;
+    & > .icon { margin-top: 42px; }
+  }
 }

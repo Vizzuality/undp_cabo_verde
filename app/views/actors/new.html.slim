@@ -16,6 +16,11 @@
             = f.label :type, class: 'right inline'
           .column.medium-8
             = f.input :type, label: false, collection: @types, as: :collection_select, prompt: 'Select a level'
+        .row
+          .column.medium-4
+            = f.label :name, class: 'right inline'
+          .column.medium-8
+            = f.input :name, label: false
         #form-actor.micro._hidden
           .row
             .column.medium-4

@@ -3,7 +3,7 @@ class Measurement < ActiveRecord::Base
 
   belongs_to :user, foreign_key: :user_id
   belongs_to :unit, foreign_key: :unit_id
-  
+
   belongs_to :act_indicator_relation, foreign_key: :act_indicator_relation_id, touch: true
 
   validates :value,   presence: true

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_current_user, only: :dashboard
   before_action :set_user, except: [:index, :dashboard]
   before_action :user_filters, only: :index
-  
+
   def index
     @users = if current_user && current_user.admin?
                User.filter_users(user_filters).page params[:page]
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   end
 
   private
-  
+
     def user_filters
       params.permit(:active)
     end

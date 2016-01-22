@@ -5,7 +5,7 @@ class ActLocalization < ActiveRecord::Base
   scope :main_locations, -> { where( main: true ) }
 
   after_update :check_main_location, if: 'main and main_changed?'
-  
+
   private
 
     def check_main_location
