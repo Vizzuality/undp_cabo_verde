@@ -228,7 +228,7 @@
     /* Expand or contract a filter depending of its current state */
     expandFilter: function(filterRootElem) {
       var content = this.getFilterContent(filterRootElem);
-      var isContracted = content.getAttribute('aria-hidden');
+      var isContracted = content.getAttribute('aria-hidden') === 'true';
 
       content.setAttribute('aria-hidden', !isContracted);
     },
