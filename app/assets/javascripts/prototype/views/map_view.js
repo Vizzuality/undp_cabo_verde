@@ -457,8 +457,11 @@
         this.actionModel;
 
       popup.setContent(this.popupTemplate(model.toJSON()));
-      this.$el.find('.js-more').on('click', function() {
+      this.$el.find('.leaflet-popup .js-more').on('click', function() {
         this.onMoreInfoButtonClick(marker);
+      }.bind(this));
+      this.$el.find('.leaflet-popup .js-close').on('click', function() {
+        this.map.closePopup();
       }.bind(this));
     },
 

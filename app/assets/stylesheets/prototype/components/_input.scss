@@ -43,7 +43,6 @@
     border-bottom: 1px solid $color-14;
 
     &.-small { height: 25px; }
-    &.-monospace { font-family: monospace, sans-serif; }
     &.-arrowicon { background: url(asset_path("form-arrow.png")) no-repeat center right / 13px; }
     &.-calendaricon { background: url(asset_path("calendar.png")) no-repeat center right 5px / 18px; }
 
