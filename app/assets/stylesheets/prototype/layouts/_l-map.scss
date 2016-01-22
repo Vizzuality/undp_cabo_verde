@@ -75,6 +75,15 @@
     & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
   }
 
+  #map-slider {
+    position: absolute;
+    width: 500px;
+    height: 100px;
+    bottom: 30px;
+    left: 210px;
+    background-color: rgba(255,255,255,.3)
+  }
+
   #map-buttons,
   .leaflet-control-attribution {
     position: absolute;
