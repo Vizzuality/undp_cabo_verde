@@ -252,6 +252,7 @@ GEM
       sprockets-rails
     rails-assets-backbone (1.2.3)
       rails-assets-underscore (>= 1.7.0)
+    rails-assets-d3 (3.5.13)
     rails-assets-fastclick (1.0.6)
     rails-assets-foundation (5.5.3)
       rails-assets-fastclick (>= 0.6.11)
@@ -444,6 +445,7 @@ DEPENDENCIES
   raddocs
   rails (= 4.2.4)
   rails-assets-backbone!
+  rails-assets-d3!
   rails-assets-foundation!
   rails-assets-handlebars!
   rails-assets-leaflet!

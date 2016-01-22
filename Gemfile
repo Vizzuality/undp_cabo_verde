@@ -22,6 +22,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-backbone'
   gem 'rails-assets-handlebars'
   gem 'rails-assets-leaflet'
+  gem 'rails-assets-d3'
 end
 
 # Templating
