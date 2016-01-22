@@ -2,7 +2,7 @@ class CategorySerializer < BaseSerializer
   cached
   self.version = 6
 
-  attributes :id, :name, :type, :slug
+  attributes :id, :name, :type, :icon_identifier
 
   def type
     case object.type
@@ -10,10 +10,6 @@ class CategorySerializer < BaseSerializer
     when 'OtherDomain'         then 'Other domains'
     when 'SocioCulturalDomain' then 'Socio cultural domain'
     end
-  end
-
-  def slug
-    object.name.gsub(",","").gsub(" ","_").downcase
   end
 
   def cache_key
