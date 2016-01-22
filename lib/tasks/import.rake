@@ -81,15 +81,15 @@ namespace :import do
       ["Water, Sanitation and Irrigation", "cat-water-sanitation"]
     ].each do |arr|
       puts "Time for #{arr.join(";")}"
-      cat = Category.first_or_initialize(name: arr[0])
-      cat.icon_identifier = arr[1]
-      if cat.new_record?
-        cat.type = "OtherDomain"
+      kat = Category.where(name: arr[0]).first_or_initialize
+      kat.icon_identifier = arr[1]
+      if kat.new_record?
+        kat.type = "OtherDomain"
       end
       if arr.size == 3
-        cat.name = arr[2]
+        kat.name = arr[2]
       end
-      cat.save
+      kat.save!
     end
   end
 
