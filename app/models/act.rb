@@ -163,35 +163,6 @@ class Act < ActiveRecord::Base
     to_s.underscore
   end
 
-  def localizations_form
-    collection = localizations
-    collection.any? ? collection : localizations.build
-  end
-
-  def action_parents_form
-    collection = act_relations_as_child
-    collection.any? ? collection : act_relations_as_child.build
-  end
-
-  def action_children_form
-    collection = act_relations_as_parent
-    collection.any? ? collection : act_relations_as_parent.build
-  end
-
-  def actors_form
-    collection = act_actor_relations
-    collection.any? ? collection : act_actor_relations.build
-  end
-
-  def indicators_form
-    collection = act_indicator_relations
-    collection.any? ? collection : act_indicator_relations.build
-  end
-
-  def other_domains_form
-    socio_cultural_domains.build
-  end
-
   def main_locations
     act_localizations.main_locations
   end

@@ -159,30 +159,6 @@ class Actor < ActiveRecord::Base
     updated_at.to_s
   end
 
-  def localizations_form
-    collection = localizations
-    collection.any? ? collection : localizations.build
-  end
-
-  def actor_parents_form
-    collection = actor_relations_as_child
-    collection.any? ? collection : actor_relations_as_child.build
-  end
-
-  def actor_children_form
-    collection = actor_relations_as_parent
-    collection.any? ? collection : actor_relations_as_parent.build
-  end
-
-  def actions_form
-    collection = act_actor_relations
-    collection.any? ? collection : act_actor_relations.build
-  end
-
-  def other_domains_form
-    socio_cultural_domains.build
-  end
-
   def main_locations
     actor_localizations.main_locations
   end

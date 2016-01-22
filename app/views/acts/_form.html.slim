@@ -73,8 +73,8 @@
       .column.medium-8.medium-offset-4
         h2 = t('localizations.localizations')
 
-    = form.fields_for :localizations do |localizations_form|
-      = render 'localizations/form', f: localizations_form
+    = form.fields_for :localizations do |localizat_form|
+      = render 'localizations/form', f: localizat_form
 
     - unless common_form?
       .row

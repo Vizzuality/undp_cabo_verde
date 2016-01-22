@@ -5,8 +5,9 @@ jQuery ->
     event.preventDefault()
 
   $(document).on 'click', '.add_fields', (event) ->
-    regexp = new RegExp($(this).data('id'))
-    $(this).before($(this).data('fields').replace(regexp))
+    time = new Date().getTime()
+    regexp = new RegExp($(this).data('id'), 'g')
+    $(this).before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
     showDatepicker()
 
@@ -16,8 +17,9 @@ jQuery ->
     initPreviewMap($siblings[$siblings.length - 1])
 
   $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
-    regexp = new RegExp($(this).data('id'))
-    $('.add-relations').before($(this).data('fields').replace(regexp))
+    time = new Date().getTime()
+    regexp = new RegExp($(this).data('id'), 'g')
+    $('.add-relations').before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
     current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
     value = $('#actor_name, #act_name').val()
@@ -58,13 +60,3 @@ jQuery ->
     $('.add_other_domain').show()
     return
     event.preventDefault()
-
-
-
-  #   toggleDomainLink = (event) ->
-  # if $(event.currentTarget).val().length > 2
-  #   $('.add_other_domain').hide()
-  #   $('.form-inputs-other-domains').remove()
-  # else
-  #   $('.add_other_domain').show()
-  # return
