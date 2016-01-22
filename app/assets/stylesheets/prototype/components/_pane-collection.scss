@@ -21,7 +21,7 @@
       background-color: $color-1;
 
       &.-secondary {
-        background-color: transparent;
+        background-color: $color-13;
 
         /* Kind of margin-top but making sure that the background is white */
         &:before {

@@ -56,6 +56,47 @@ namespace :import do
      end
   end
 
+  desc 'Update icon_identifier of categories, adds missing ones'
+  task categories_icons: :environment do
+    [
+      ["Agriculture", "cat-agriculture"],
+      ["Health", "cat-health"],
+      ["Economy", "cat-economic-governance"],
+      ["Education", "cat-education"],
+      ["Faith", "cat-faith"],
+      ["Family", "cat-family"],
+      ["Politics", "cat-politics"],
+      ["Democratic Governance", "cat-democratic-governance"],
+      ["Energy and Mining", "cat-energy-mining"],
+      ["Environment, Lands, and Natural Resources", "cat-environment"],
+      ["Information, Communication Technology and Research Development", "cat-it-itc"],
+      ["Integrated Rural Development", "cat-rural-dev"],
+      ["Knowledge", "cat-knowledge"],
+      ["Public Administration", "cat-public-administration"],
+      ["Resources", "cat-resources"],
+      ["Transport", "cat-roads", "Roads, Public Works and Transport"],
+      ["Tourism, Wildlife and Culture", "cat-tourism"],
+      ["Trade, Industry and Private Sector Development", "cat-trade-industry"],
+      ["Vulnerability, Disaster and Risk Management", "cat-vulnerability-disaster"],
+      ["Water, Sanitation and Irrigation", "cat-water-sanitation"]
+    ].each do |arr|
+      puts "Time for #{arr.join(";")}"
+      if arr.size == 3
+        kat = Category.where(name: arr[2]).first || Category.where(name: arr[0]).first_or_initialize
+      else
+        kat = Category.where(name: arr[0]).first_or_initialize
+      end
+      kat.icon_identifier = arr[1]
+      if kat.new_record?
+        kat.type = "OtherDomain"
+      end
+      if arr.size == 3
+        kat.name = arr[2]
+      end
+      kat.save!
+    end
+  end
+
   desc 'Import micro actors data from sample CSV files'
   task individuals: :environment do
     ActorMicro.delete_all
@@ -65,7 +106,7 @@ namespace :import do
     table = CSV.read(file)
     table.shift
     table.each do |row|
-      ActorMicro.create(
+      ActorMicro.create!(
         user_id: user.id,
         active: true,
         name: row[0] && row[0].strip,
@@ -86,7 +127,7 @@ namespace :import do
             user_id: user.id
           })
         ],
-        categories: Category.where(name: row[7].strip.titleize,
+        merged_domains: Category.where(name: row[7].strip.titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[8] && row[8].split(",").map(&:titleize),
                                    type: "OtherDomain")
@@ -132,7 +173,7 @@ namespace :import do
         legal_status: row[10] && row[10].strip,
         localizations: location,
         comments: comment,
-        categories: Category.where(name: row[12].titleize,
+        merged_domains: Category.where(name: row[12].titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[12].titleize,
                                    type: 'SocioCulturalDomain') +
@@ -191,7 +232,8 @@ namespace :import do
         end_date: row[10] && Date.parse(row[10]),
         description: row[11].presence,
         budget: row[12].presence,
-        categories: Category.where(name: row[14] && row[14].titleize,
+        budget_cents: 0,
+        merged_domains: Category.where(name: row[14] && row[14].titleize,
                          type: "SocioCulturalDomain") +
                     Category.where(name: row[15] && row[15].split(",").map(&:titleize),
                                    type: "OtherDomain")

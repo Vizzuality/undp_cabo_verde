@@ -156,6 +156,53 @@
       ]
     },
     {
+      "name": "Comments",
+      "examples": [
+        {
+          "description": "Create comment on action",
+          "link": "comments/create_comment_on_action.json",
+          "groups": "all",
+          "route": "/api/actions/:id/comments?token=:auth_token&body=:body",
+          "method": "post"
+        },
+        {
+          "description": "Create comment on actor",
+          "link": "comments/create_comment_on_actor.json",
+          "groups": "all",
+          "route": "/api/actors/:id/comments?token=:auth_token&body=:body",
+          "method": "post"
+        },
+        {
+          "description": "Create comment on artifact",
+          "link": "comments/create_comment_on_artifact.json",
+          "groups": "all",
+          "route": "/api/artifacts/:id/comments?token=:auth_token&body=:body",
+          "method": "post"
+        },
+        {
+          "description": "Getting a comments list for action",
+          "link": "comments/getting_a_comments_list_for_action.json",
+          "groups": "all",
+          "route": "/api/actions/:id/comments",
+          "method": "get"
+        },
+        {
+          "description": "Getting a comments list for actor",
+          "link": "comments/getting_a_comments_list_for_actor.json",
+          "groups": "all",
+          "route": "/api/actors/:id/comments",
+          "method": "get"
+        },
+        {
+          "description": "Getting a comments list for artifact",
+          "link": "comments/getting_a_comments_list_for_artifact.json",
+          "groups": "all",
+          "route": "/api/artifacts/:id/comments",
+          "method": "get"
+        }
+      ]
+    },
+    {
       "name": "Domains",
       "examples": [
         {

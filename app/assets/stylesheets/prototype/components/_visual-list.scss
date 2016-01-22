@@ -6,6 +6,10 @@
   padding: 0;
 
   & > .item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
     width: 53px;
     margin: 8px;
     overflow: hidden;
@@ -15,12 +19,14 @@
     color: $color-10;
 
     & > .icon {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+      width: 32px;
+      height: 32px;
 
       /* NOTE: temporary styles */
       &.-placeholder {
-        width: 53px;
-        height: 53px;
+        width: 32px;
+        height: 32px;
         position: relative;
         border: 1px solid rgba($color-10, .3);
 

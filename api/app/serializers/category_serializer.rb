@@ -2,7 +2,7 @@ class CategorySerializer < BaseSerializer
   cached
   self.version = 6
 
-  attributes :id, :name, :type
+  attributes :id, :name, :type, :icon_identifier
 
   def type
     case object.type

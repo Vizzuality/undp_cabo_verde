@@ -18,6 +18,14 @@ Then /^I should have two domains$/ do
   Category.domain_categories.size.should >= 2
 end
 
+Then /^I should have five domains$/ do
+  Category.domain_categories.size.should >= 5
+end
+
+Then /^I should have six domains$/ do
+  Category.domain_categories.size.should >= 6
+end
+
 Given /^category$/ do
   FactoryGirl.create(:category, name: 'Category one')
 end
@@ -36,6 +44,17 @@ end
 
 Given /^socio_cultural_domain$/ do
   FactoryGirl.create(:socio_cultural_domain, name: 'SCD')
+end
+
+Given /^socio_cultural_domain_2$/ do
+  FactoryGirl.create(:socio_cultural_domain, name: 'Faith')
+end
+
+Given /^socio_cultural_domain_tree$/ do
+  FactoryGirl.create(:socio_cultural_domain, name: 'XYZ 1')
+  FactoryGirl.create(:socio_cultural_domain, name: 'XYZ 2')
+  FactoryGirl.create(:socio_cultural_domain, name: 'XYZ 3')
+  FactoryGirl.create(:socio_cultural_domain, name: 'XYZ 4')
 end
 
 Given /^category_tree$/ do

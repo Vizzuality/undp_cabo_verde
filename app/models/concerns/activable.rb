@@ -24,7 +24,7 @@ module Activable
     def activated?
       self.active?
     end
-    
+
     def set_deactivated_at
       self.deactivated_at = Time.now if self.active_changed? && self.deactivated?
     end

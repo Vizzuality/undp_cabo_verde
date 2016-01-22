@@ -27,6 +27,7 @@
       this.router = options.router;
       this.status = new Status();
       this.$inputFields = this.$el.find('.js-input');
+      this.$dateFields = this.$el.find('.js-date');
       this.applyButton = this.el.querySelector('.js-apply');
       this.errorMessage = this.el.querySelector('.js-error');
       this.inputs = this.el.querySelectorAll('.js-input');
@@ -34,21 +35,15 @@
         this.el.querySelectorAll('.js-input[disabled="disabled"]');
       this.syncInputsWithQueryParams();
       this.syncCheckboxesWithHiddenInputs();
+      this.initDateFields();
       this.setListeners();
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
+      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
+      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
       this.listenTo(this.status, 'change', this.applySearch);
-    },
-
-    /* According to the route broadcast by the router show or hide the pane */
-    toggleVisibilityFromRoute: function(route) {
-      if(route !== 'welcome') {
-        this.hide();
-      } else {
-        this.show();
-      }
     },
 
     /* GETTERS */
@@ -196,6 +191,7 @@
         this.checkFilterAllCheckboxes(filterRootElem);
       }
 
+      this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
       this.updateFilterToggleCheckButton(filterRootElem);
       this.updateFilterNotificationBadge(filterRootElem);
       this.updateApplyButtonState();
@@ -213,6 +209,18 @@
       if(!this.isApplyButtonDisabled()) {
         this.applyFilters();
       }
+    },
+
+    onActorShow: function() {
+      this.hide();
+    },
+
+    onActionShow: function() {
+      this.hide();
+    },
+
+    onClickGoBack: function() {
+      this.show();
     },
 
     /* LOGIC */
@@ -415,8 +423,6 @@
      * TODO: remove the console.warn once the form features are all implemented
      */
     applyFilters: function() {
-      console.warn('The feature is only partially implemented');
-
       var inputs = this.getAllInputs();
 
       var field, value, summary = {};
@@ -472,6 +478,51 @@
         !this.isErrorMessageVisible());
       this.errorMessage.setAttribute('aria-hidden',
         !this.isErrorMessageVisible());
+    },
+
+    /* Initialize the date fields with datepickers */
+    initDateFields: function() {
+      var fromField = $(this.$dateFields[0]),
+          toField   = $(this.$dateFields[1]);
+
+      /* We modify the inner of jQuery UI in order to bring a custom positioning
+       * to the datepicker */
+      $.extend($.datepicker, {
+        _checkOffset: function(instance) {
+          var position = instance.input.position();
+          var datepickerWidth = instance.dpDiv.outerWidth();
+          var containerWidth = this.$el.width();
+          var containerPadding = 25;
+
+          position.top += 180;
+          if(instance.input[0] === fromField[0]) {
+            position.left = containerPadding;
+          } else {
+            position.left = containerWidth - containerPadding - datepickerWidth;
+          }
+
+          return position;
+        }.bind(this)
+      });
+
+      this.$dateFields.datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showOptions: { direction: 'down' },
+        /* We automatically update the min/maxDate of the two inputs */
+        onClose: function(selectedDate) {
+          if(this === fromField[0]) {
+            toField.datepicker('option', 'minDate', selectedDate);
+          } else {
+            fromField.datepicker('option', 'maxDate', selectedDate);
+          }
+        },
+        /* We move the datepicker to the sidebar so we can have an absolute
+         * positioning inside of it */
+        beforeShow: function() {
+          this.$el.append(arguments[1].dpDiv);
+        }.bind(this)
+      });
     }
 
   });

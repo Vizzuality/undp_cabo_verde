@@ -12,18 +12,34 @@
     routes: {
       '(/)': 'welcome',
       'about(/)': 'about',
-      'actors/:id/:locationId(/)': 'actor',
-      'actions/:id/:locationId(/)': 'action'
+      'actors/:id/:locationId(/)': 'actors',
+      'actions/:id/:locationId(/)': 'actions'
     },
 
     initialize: function() {
       this.queryParams = new QueryParams();
+      this.currentRoute = { name: null, params: [] };
+
       this.retrieveQueryParams();
       this.setListeners();
     },
 
     setListeners: function() {
       this.listenTo(this.queryParams, 'change', this.queryParamsOnChange);
+      this.listenTo(this, 'route', this.saveCurrentRoute);
+    },
+
+    /* Save the current route and its parameters */
+    saveCurrentRoute: function() {
+      this.currentRoute = {
+        name: arguments[0],
+        params: [].slice.call(arguments, 1)[0]
+      };
+    },
+
+    /* Return the current route */
+    getCurrentRoute: function() {
+      return this.currentRoute;
     },
 
     /* Save the query params passed as argument inside the queryParams model */

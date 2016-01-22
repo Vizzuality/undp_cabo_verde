@@ -14,7 +14,7 @@
     el: document.querySelector('.tab-navigation'),
 
     events: {
-      'click li': 'tabChangeListener'
+      'click li': 'onTabChange'
     },
 
     initialize: function(options) {
@@ -25,17 +25,28 @@
 
     setListeners: function() {
       this.listenTo(this.status, 'change:activeTab', this.triggerTabChange);
-      this.listenTo(this.router, 'route', this.updateActiveTabFromRoute);
+      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
+      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
     },
 
-    /* Show the active tab in the DOM and modify the activeTab property of the
-     * status model */
-    tabChangeListener: function(e) {
+    /* EVENTS HANDLERS */
+
+    onActorShow: function() {
+      this.setActiveTab('overall');
+    },
+
+    onActionShow: function() {
+      this.setActiveTab('overall');
+    },
+
+    onTabChange: function(e) {
       e.preventDefault();
       var selectedTab     = e.currentTarget,
           selectedTabName = selectedTab.getAttribute('data-tab');
       this.setActiveTab(selectedTabName);
     },
+
+    /* LOGIC */
 
     /* Switch the active tab to the one passed as argument */
     setActiveTab: function(selectedTabName) {
@@ -60,15 +71,6 @@
         newTab:      this.status.get('activeTab')
       });
     },
-
-    /* Set the active tab depending on the route passed as argument */
-    updateActiveTabFromRoute: function(route) {
-      switch(route) {
-        case 'actor':
-          this.setActiveTab('overall');
-          break;
-      }
-    }
 
   });
 

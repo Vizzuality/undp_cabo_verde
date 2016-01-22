@@ -214,7 +214,7 @@ RSpec.describe ActorsController, type: :controller do
       expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
     end
 
-    it 'GET show returns access denied de without login' do
+    it 'GET show returns access denied without login' do
       get :show, id: @micro.id, type: 'ActorMicro'
       expect(response).to be_redirect
       expect(response).to have_http_status(302)

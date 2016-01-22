@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'prototype' => 'prototype#index'
+  get 'prototype', to: 'prototype#index', as: :prototype
 
   devise_for :users, path: 'account', path_names: {
                                         sign_in: 'login', sign_out: 'logout',
@@ -127,7 +127,7 @@ Rails.application.routes.draw do
         patch 'activate',   on: :member
       end
     end
-     
+
     # Categories
     resources :categories
     resources :socio_cultural_domains, controller: 'categories', type: 'SocioCulturalDomain'
@@ -153,5 +153,4 @@ Rails.application.routes.draw do
   # API Documentation
   mount Raddocs::App => 'api/docs'
   get 'api', to: redirect('api/docs')
-
 end

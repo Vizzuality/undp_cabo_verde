@@ -17,13 +17,13 @@ resource 'Acts' do
   context 'Acts API Version 1' do
     let!(:actions) do
       actions = []
-      
+
       actions << create(:act_macro, name: 'Indicator of Organization', user: @user, localizations: [@location],
-                        description: Faker::Lorem.paragraph(2, true, 4), 
+                        description: Faker::Lorem.paragraph(2, true, 4),
                         short_name: Faker::Name.name, budget: '2000',
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
       actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location],
-                        user: @user, description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name, 
+                        user: @user, description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
       actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
@@ -182,7 +182,7 @@ resource 'Acts' do
           expect(action['actions']['children'][0]['locations'].size).to eq(1)
 
           expect(action['actions']['children_info'][0]['parent_id']).to      eq(action_with_relations.id)
-          expect(action['actions']['children_info'][0]['child_id']).not_to   be_nil   
+          expect(action['actions']['children_info'][0]['child_id']).not_to   be_nil
           expect(action['actions']['children_info'][0]['start_date']).not_to be_nil
           expect(action['actions']['children_info'][0]['end_date']).not_to   be_nil
 
@@ -220,7 +220,7 @@ resource 'Acts' do
                                           alternative_name: Faker::Name.name, budget: '2000',
                                           categories: [@category_1, @category_2], localizations: [@location])
 
-        action_with_measurement.act_indicator_relations << ActIndicatorRelation.create(indicator: indicator, start_date: Time.zone.now - 20.days, 
+        action_with_measurement.act_indicator_relations << ActIndicatorRelation.create(indicator: indicator, start_date: Time.zone.now - 20.days,
                                                                                        end_date: Time.zone.now, relation_type: relation_type_indicator,
                                                                                        unit: @unit, target_value: '200', deadline: Time.zone.now + 20.days)
         action_with_measurement.save
@@ -258,7 +258,7 @@ resource 'Acts' do
           # Relations object details for indicator
           expect(action['artifacts'][0]['indicator']['id']).not_to be_nil
           expect(action['artifacts'][0]['indicator']['name']).to   eq('Indicator one')
-          
+
           # Relations object details for measurements
           expect(action['artifacts'][0]['measurements'][1]['id']).not_to         be_nil
           expect(action['artifacts'][0]['measurements'][1]['value']).to          eq('300.0')

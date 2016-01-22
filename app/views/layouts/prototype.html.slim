@@ -9,158 +9,16 @@ html lang="en"
     link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
     = csrf_meta_tags
   body
-    / Cache all the SVG icons
-    svg style="display: none;"
-      defs
-        g id="macroMarkerIcon"
-          rect x="6" y="6" width="10" height="10"
-        g id="macroOutlineMarkerIcon"
-          rect x="3" y="3" width="16" height="16"
-        g id="mesoMarkerIcon"
-          circle cx="11" cy="11" r="5"
-        g id="mesoOutlineMarkerIcon"
-          circle cx="11" cy="11" r="8"
-        g id="microMarkerIcon"
-          polygon points="6 17 11 8 16 17"
-        g id="microOutlineMarkerIcon"
-          polygon points="2 19 11 4 20 19"
-        g id="actorToActionIcon"
-          path d="M12,5 L30,5" stroke="#4a4a4a" stroke-width="2" stroke-dasharray="4,3"
-          circle cx="4.5" cy="4.5" r="4.5"
-          polygon points="37.5 0 42 9 33 9 "
-        g id="actorToActorIcon"
-          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
-          circle cx="37.5" cy="4.5" r="4.5"
-          circle cx="4.5" cy="4.5" r="4.5"
-        g id="actionToActionIcon"
-          path d="M11.3526543,5 L29.6906787,5" stroke="#4a4a4a" stroke-width="2"
-          polygon points="37.5 0 42 9 33 9 "
-          polygon points="4.5 0 9 9 0 9 "
-        g id="moreInfoIcon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
-          circle fill="#222222" cx="12" cy="8" r="1"
-          circle fill="#222222" cx="8" cy="8" r="1"
-          circle fill="#222222" cx="4" cy="8" r="1"
-          circle stroke="#222222" cx="8" cy="8" r="8"
-        / Agriculture category
-        g transform="rotate(30 11 29.928)" stroke="#222" fill="none" fill-rule="evenodd"
-          ellipse cx="7" cy="11.067" rx="4.529" ry="10.61"
-          path d="M6.968 18.345C5.58 13.503 0 10.702 0 10.702s2.084 3.763 1.438 8.498C0 27.042 5.144 27.765 5.144 27.765V29c0 .548.448 1 1.002 1H7.72c.553 0 1.002-.452 1.002-1v-1.235s5.144-.723 3.706-8.565c-.647-4.735 1.438-8.498 1.438-8.498s-5.41 2.775-6.898 7.643z" stroke-linejoin="round" fill="#FFF"
-        / Democratic Governance
-        g
-          path d="M2 6.995A1 1 0 0 1 3.003 6h23.994C27.55 6 28 6.45 28 6.995v17.01a1 1 0 0 1-1.003.995H3.003C2.45 25 2 24.55 2 24.005V6.995zM15 15.5l12-8.55H3l12 8.55z" stroke="#222" fill="none" fill-rule="evenodd"
-        / Economic Governance
-        g stroke="#222" fill="none" fill-rule="evenodd"
-          circle cx="15" cy="15" r="12.5"
-          g transform="translate(11 6)" stroke-linecap="round"
-            g transform="translate(0 2.25)"
-              path d="M8 3.6C8 1.86 6.21.45 4 .45S0 1.86 0 3.6s1.79 3.15 4 3.15M4.5 6.75c2.485 0 4.5 1.612 4.5 3.6s-2.015 3.6-4.5 3.6S0 12.338 0 10.35"
-            path d="M4.09.774v17.1"
-        / Education
-        g transform="rotate(30 6.768 30.428)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M0 3.01A3.004 3.004 0 0 1 3 0h7c1.657 0 3 1.344 3 3.01v18.47l-6.795 6.644L0 21.48V3.01zM.542 20.944h11.916"
-          path d="M3.55 24.405h5.764"
-        / Energy and Mining
-        g transform="translate(6 3)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M6.618 5.916C6.828 5.41 7 4.556 7 4V0h6v4c0 .552.162 1.414.362 1.93l5.593 14.328c.804 2.06-.327 3.73-2.546 3.73L3.07 24c-2.21 0-3.312-1.65-2.463-3.684L6.617 5.916z"
-          g transform="translate(2 9)" stroke-linecap="round"
-            path d="M3.33 1.96h3.5M1.33 6.018h4M.01 9.928h4"
-        / Environment, Lands and Natural Resources
-        g transform="rotate(30 9.527 27.09)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M4.654 15.81l3.376 1.993 3.41-1.993M4.607 9.545l3.376 1.993 3.41-1.993" stroke-linecap="round"
-          path d="M8 23c3.723 0 8-3.582 8-8C16 9 8 0 8 0S0 8.974 0 15c0 4.418 4.277 8 8 8z"
-          path d="M8 27.83v-21" stroke-linecap="round"
-        / Existential
-        g transform="translate(2 2)" stroke="#222" fill="none" fill-rule="evenodd"
-          ellipse cx="13" cy="13" rx="12.547" ry="12.547"
-          path d="M13.007.927v3.02m12.08 9.06h-3.02m-9.06 12.08v-3.02m-12.08-9.06h3.02" stroke-linecap="round" fill="#D8D8D8"
-          path d="M14.516 10.224c.52.176 1.084.74 1.26 1.26l1.88 5.55c.178.52-.1.8-.62.623l-5.552-1.88c-.52-.177-1.084-.74-1.26-1.26l-1.88-5.552c-.178-.52.1-.8.62-.622l5.552 1.88z"
-        / Family
-        g
-          path d="M12 19v9H3V11.8L15 1l12 10.8V28h-9v-9h-6z" stroke="#222" fill="none" fill-rule="evenodd"
-        / Health
-        g fill="none" fill-rule="evenodd"
-          g transform="translate(5 8)" stroke-linecap="round" stroke="#000"
-            path d="M2.728.654v5M5.228 3.154h-5"
-          path d="M1.524 12.434C1.524 0 14.986 2.028 14.986 8.078c0-6.05 13.514-8.078 13.514 4.39C28.5 23 14.986 28.01 14.986 28.01S1.524 23.054 1.524 12.434z" stroke="#222" stroke-linejoin="round"
-        / Information, Communication Technology and Research Development
-        g
-          path d="M21 22h5a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10.505l5.062 4.956c.79.775 1.433.507 1.433-.598V22z" stroke="#222" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
-        / Integrated Rural Development
-        g transform="translate(2 2)" stroke="#222" fill="none" fill-rule="evenodd"
-          circle cx="13" cy="13" r="13"
-          circle cx="13" cy="13" r="2"
-          circle cx="13" cy="13" r="11"
-          path d="M13.058 11.05V1.988m1.378 9.635l6.41-6.41M15.005 13h9.065m-9.634 1.378l6.41 6.41m-7.788-5.84v9.065m-1.378-9.635l-6.41 6.41M11.11 13H2.043m9.636-1.378l-6.41-6.41"
-        / Knowledge
-        g transform="translate(1 4)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M.49 3.473V21.26s3.05-2.842 6.504-2.842c3.455 0 7.006 2.648 7.006 2.648s3.13-2.816 7.125-2.816c3.993 0 6.384 3.07 6.384 3.07V3.472S24.98.51 21.124.51 14 3.055 14 3.055 10.972.51 7 .51.49 3.472.49 3.472z" stroke-linejoin="round"
-          path d="M14.053 5.477v12" stroke-linecap="round"
-        / New Category
-        g fill="none" fill-rule="evenodd"
-          circle stroke="#222" cx="15.5" cy="15.5" r="12.5"
-          text font-family="Helvetica Neue" font-size="9" fill="#000"
-            tspan x="5.915" y="19">AMC
-        / Power
-        g
-          path d="M17.88 2.53L7.536 16.893h6.824l-2.574 10.562L22.324 12.81H15.54l2.34-10.28z" stroke="#222" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
-        / Public Administration
-        g transform="rotate(30 9.366 27.49)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M4.518 15.204v1.132l1.796 1.457-1.796 1.603 1.796 1.397L4.518 22.5l1.796 1.874-1.796 1.323L8.55 29.47l2.968-2.54V15.188a8 8 0 1 0-7 .017z"
-          circle cx="8" cy="5" r="2"
-        / Resources
-        g transform="rotate(30 6.268 33.16)" fill="none" fill-rule="evenodd"
-          path d="M0 21.57c0 2.754 2.303 4.986 5.143 4.986s5.143-2.232 5.143-4.985V11" stroke="#222"
-          g stroke="#222"
-            path d="M7.875 3.714C7.875 1.66 6.112 0 3.937 0 1.764 0 0 1.66 0 3.714V22"
-            path d="M7.875 19.37a2.253 2.253 0 0 1-2.25 2.255 2.253 2.253 0 0 1-2.25-2.256v-8.745M7.875 19.508V3.492"
-        / Roads, Public Works and Transport
-        g stroke="#222" fill="none" fill-rule="evenodd"
-          g transform="translate(7 3)"
-            path stroke-linejoin="round" d="M8 0l8 23H0z"
-            path d="M2.734 15.65H13.29M5.382 8.035h5.347"
-          path d="M3 26h24.5" stroke-linecap="round"
-        / Tourism, Wildlife and Culture
-        g transform="rotate(30 7.902 20.964)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M19.602 19.16c-2.034 2.453-5.093 4.012-8.513 4.012-3.243 0-6.16-1.402-8.19-3.637a13.84 13.84 0 0 1 8.6-2.983c3.02 0 5.817.966 8.102 2.608zM19.148 4.325A13.825 13.825 0 0 1 11.5 6.62a13.83 13.83 0 0 1-8.138-2.634A11.01 11.01 0 0 1 11.09.828a11.02 11.02 0 0 1 8.058 3.497z"
-          path d="M10.677.835A13.67 13.67 0 0 0 4.93 12a13.67 13.67 0 0 0 5.747 11.165c.137.005.274.007.412.007 6.124 0 11.09-5.002 11.09-11.172C22.18 5.83 17.213.828 11.09.828c-.14 0-.276.002-.413.007z"
-          path d="M11.502 23.165A13.67 13.67 0 0 0 17.25 12 13.67 13.67 0 0 0 11.502.835a11.204 11.204 0 0 0-.413-.007C4.964.828 0 5.83 0 12c0 6.17 4.965 11.172 11.09 11.172.137 0 .275-.002.412-.007zM0 12h22.194M11.097.82v22.36"
-        / Trade, Industry and Private Sector Development
-        g transform="rotate(30 8.46 25.172)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M13.12 17.333a9.148 9.148 0 0 0 5.046-8.19C18.166 4.092 14.1 0 9.083 0S0 4.093 0 9.142a9.148 9.148 0 0 0 5.046 8.19v7.07c0 .543.45.992 1.006.992h6.062c.55 0 1.006-.444 1.006-.992v-7.07zM9.083 3.047c-3.344 0-6.055 2.73-6.055 6.095" stroke-linejoin="round"
-          path d="M4.588 18.792h9.056"
-        / Vulerability, Disaster and Risk Management
-        g stroke="#222" transform="translate(2 2)" fill="none" fill-rule="evenodd"
-          circle cx="13" cy="13" r="12.5"
-          circle cx="13" cy="13" r="5.75"
-          path d="M5.38 22.575l4.833-4.833M1.576 8.744l6.09 3.103M13.557.853l-1.07 6.752m12.276 2.203l-6.752 1.07m1.698 12.355L18.32 20.51c-.57-1.122-1.715-3.368-1.715-3.368"
-        / Water, Sanation and Irrigation
-        g transform="translate(7 3)" stroke="#222" fill="none" fill-rule="evenodd"
-          path d="M8 24.02c2.973 0 7.5-1.845 7.5-7.02C15.5 11.662 8 .02 8 .02S.5 11.72.5 17c0 5.117 4.527 7.02 7.5 7.02zM8 20.42c1.833 0 4.625-1.138 4.625-4.33"
-        g id="checkIcon"
-          path d="M0 2.844l3.703 3.52L8.836 0" stroke="#175CA0" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd"
-        g id="uncheckIcon" transform="translate(0 -1)" stroke-linecap="round" stroke="#175CA0" fill="none" fill-rule="evenodd"
-          path d="M8.536 1.464L1.464 8.536M8.536 8.536L1.464 1.464"
-        g id="searchesIcon" transform="translate(1 1)" fill="none" fill-rule="evenodd"
-          g transform="translate(5 6)"
-            path d="M4.022 1h7.5" stroke="#175ca0" stroke-linecap="round"
-            circle fill="#175ca0" cx="1" cy="1" r="1"
-            path d="M4.022 5h7.5" stroke="#175ca0" stroke-linecap="round"
-            circle fill="#175ca0" cx="1" cy="5" r="1"
-            path d="M4.022 9h7.5" stroke="#175ca0" stroke-linecap="round"
-            circle fill="#175ca0" cx="1" cy="9" r="1"
-          circle stroke="#175ca0" cx="11" cy="11" r="11"
-        g id="backArrowIcon"
-          path d="M7.842.684l-5.684 6L7.82 12.66" stroke="#175ca0" stroke-width="2" fill="none" fill-rule="evenodd"
-          
+    = render partial: 'shared/svg_declarations'
     .container
       .l-map
         #map
-        = link_to (image_tag 'undp-logo-gradient.png', id: "logo"), "/"
+        = link_to (image_tag 'undp-logo-gradient.png', id: "logo"), "/prototype"
         #map-legend
           ul
             li.title
               = t('front.actor')
-            li 
+            li
               svg.icon.-actor
                 use xlink:href="#macroMarkerIcon" x="-6" y="-6"
               | Macro
@@ -175,7 +33,7 @@ html lang="en"
           ul
             li.title
               = t('front.action')
-            li 
+            li
               svg.icon.-action
                 use xlink:href="#macroMarkerIcon" x="-6" y="-6"
               | Macro
@@ -190,17 +48,17 @@ html lang="en"
           ul
             li.title
               = t('front.relationships')
-            li
+            li.js-actor-to-action
               svg.icon.-large.-monochrome
-                use xlink:href="#actorToActionIcon" x="0" y="0"
+                use xlink:href="#actorToActionIcon" x="0" y="4"
               = t('front.actor_to_action')
-            li
+            li.js-actor-to-actor
               svg.icon.-large.-monochrome
-                use xlink:href="#actorToActorIcon" x="0" y="0"
+                use xlink:href="#actorToActorIcon" x="0" y="4"
               = t('front.actor_to_actor')
-            li
+            li.js-action-to-action
               svg.icon.-large.-monochrome
-                use xlink:href="#actionToActionIcon" x="0" y="0"
+                use xlink:href="#actionToActionIcon" x="0" y="4"
               = t('front.action_to_action')
         #map-buttons
           .checkbox.-reversed.-negative
@@ -292,13 +150,13 @@ html lang="en"
                         svg.icon.-marginright width="10" height="10"
                           use xlink:href="#uncheckIcon" x="0" y="0"
                         span = t('front.uncheck_all')
-                          
+
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate" required="required"
+                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace.js-input type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate" required="required"
+                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate"
                 button.button.-outlined.js-reset type="button" = t('front.reset')
                 button.button.js-apply type="submit" = t('front.apply')
                 .message.-error._hidden.js-error aria-hidden="true" = t('front.cant_apply_search_0_check')
@@ -306,7 +164,7 @@ html lang="en"
               .content.-secondary
                 .searches
                   p = t('front.want_save_search')
-                  button.button = t('front.save') 
+                  button.button = t('front.save')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"

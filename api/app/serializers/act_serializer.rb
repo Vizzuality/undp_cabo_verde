@@ -3,11 +3,14 @@ class ActSerializer < BaseSerializer
   self.version = 6
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
-  
+
   # Actor relations below: def actors
   # Action relations below: def actions
   # Locations
   has_many :act_localizations, key: :locations
+
+  # Comments
+  has_many :comments
 
   # Indicators and measurements
   has_many :act_indicator_relations, key: :artifacts
@@ -83,12 +86,10 @@ class ActSerializer < BaseSerializer
     include! :organization_types,      serializer: CategorySerializer
     include! :socio_cultural_domains,  serializer: CategorySerializer
     include! :other_domains,           serializer: CategorySerializer
+    include! :comments,                serializer: CommentSerializer
   end
 
   def cache_key
-    # For filter options
-    cache_params = nil
-    
-    self.class.cache_key << [object, object.updated_at, cache_params]
+    self.class.cache_key << [object, object.updated_at]
   end
 end

@@ -116,7 +116,7 @@ class ActsController < ApplicationController
       # @socio_cultural_domains = SocioCulturalDomain.order(:name)
       # @other_domains          = OtherDomain.order(:name)
       @merged_domains         = Category.domain_categories.order(:name)
-      
+
       @parents_to_select      = Act.order(:name).filter_actives
       @actors_to_select       = Actor.order(:name).filter_actives
       @indicators_to_select   = Indicator.order(:name).filter_actives

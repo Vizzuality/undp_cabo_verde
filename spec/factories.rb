@@ -64,29 +64,29 @@ FactoryGirl.define do
     name 'Person two'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(1001..2000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_micro, class: ActorMicro do
     name 'Person one'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(2001..3000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_meso, class: ActorMeso do
     name 'Department one'
     type 'ActorMeso'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(3001..4000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_macro, class: ActorMacro do
     name 'Organization one'
     type 'ActorMacro'
     observation 'Lorem ipsum...'
-    after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global_#{rand(1001..2000).to_s}").id) }
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(4001..5000).to_s}")] }
+    after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global, #{ Faker::Commerce.department(5, true) }").id) }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Fishery, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   # Acts
@@ -94,21 +94,21 @@ FactoryGirl.define do
     name 'Third one'
     type 'ActMicro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(5001..6000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :act_meso, class: ActMeso do
     name 'Second one'
     type 'ActMeso'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(6001..7000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :act_macro, class: ActMacro do
     name 'First one'
     type 'ActMacro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Faith_#{rand(7001..8000).to_s}")] }
+    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   # Localizations
@@ -127,21 +127,21 @@ FactoryGirl.define do
 
   # Categories
   factory :category do
-    name  { "Category one_#{rand(1000).to_s}" }
+    name  { "Category one, #{ Faker::Commerce.department(5, true) }" }
     type 'OtherDomain'
   end
 
   factory :operational_field, class: OperationalField do
-    name { "Global_#{rand(1000).to_s}" }
+    name { "Local, #{ Faker::Commerce.department(5, true) }" }
   end
 
   factory :socio_cultural_domain, class: SocioCulturalDomain do
-    name { "Faith_#{rand(1000).to_s}" }
+    name { "Faith, #{ Faker::Commerce.department(5, true) }" }
   end
 
   # Comments
   factory :comment do
-    body Faker::Lorem.paragraph(2, true, 4)
+    body Faker::Lorem.paragraph(5, true, 4)
   end
 
   # Relation types
@@ -173,7 +173,7 @@ FactoryGirl.define do
   factory :indicator, class: Indicator do
     name             'Indicator one'
     alternative_name 'Indicator one alternative'
-    description      Faker::Lorem.paragraph(2, true, 4)
+    description      Faker::Lorem.paragraph(5, true, 4)
   end
 
   factory :act_indicator_relation, class: ActIndicatorRelation do
@@ -191,7 +191,7 @@ FactoryGirl.define do
   factory :measurement, class: Measurement do
     date    Time.zone.now
     value   '100.001'
-    details Faker::Lorem.paragraph(2, true, 4)
+    details Faker::Lorem.paragraph(5, true, 4)
   end
 
   factory :act_indicator_relation_type_belongs, class: RelationType do
