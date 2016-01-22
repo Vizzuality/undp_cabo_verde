@@ -61,13 +61,20 @@ var showDatepicker = function() {
 
 var showMultiselect = function() {
   var multiselects = $('.js-mselect');
+  var multiselects_domains = $('.domains-chose')
 
   for(var i = 0; i < multiselects.length; i++) {
     multiselects[i].classList.add('chosen');
     multiselects[i].classList.add('chosen-select');
   }
 
+  for(var i = 0; i < multiselects_domains.length; i++) {
+    multiselects_domains[i].classList.add('chosen');
+    multiselects_domains[i].classList.add('chosen-select');
+  }
+
   multiselects.chosen();
+  multiselects_domains.chosen({ max_selected_options: 3 });
 };
 
 /* Display a mini map into the container and return it */
@@ -228,10 +235,46 @@ var getClosestParent = function(element, selector) {
   return res;
 };
 
+var showHideDomainLink = function() {
+  var domainsValues = $('.domains-chose').val();
+
+  if (domainsValues && domainsValues.length < 3 && domainsValues.length > 0) {
+    $('.add_other_domain').show();
+  } else {
+    $('.add_other_domain').hide();
+  }
+
+  var toggleDomainLink;
+
+  toggleDomainLink = function(event) {
+    var targetVal = $(event.currentTarget).val();
+
+    if (targetVal && targetVal.length > 2) {
+      $('.add_other_domain').hide();
+      $('.form-inputs-other-domains').remove();
+    } else if (targetVal && targetVal.length > 0) {
+      if (targetVal.length == 2 && $('.form-inputs-other-domains:visible').length == 2) {
+        $('.add_other_domain').hide();
+        $('.form-inputs-other-domains:visible:last').remove();
+      } else if (targetVal.length > 1 && $('.form-inputs-other-domains:visible').length > 0) {
+        $('.add_other_domain').hide();
+      } else if (targetVal.length > 0) {
+        $('.add_other_domain').show();
+      }
+    } else {
+      $('.add_other_domain').hide();
+      $('.form-inputs-other-domains').remove();
+    }
+  };
+
+  $('.domains-chose').on('change', toggleDomainLink);
+};
+
 function onReady() {
   filterForms();
   showMultiselect();
   showDatepicker();
+  showHideDomainLink();
   /* Initialize the mini maps attached to the location forms */
   var previewMaps = document.querySelectorAll('.map-preview');
   var form;

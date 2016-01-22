@@ -20,11 +20,19 @@
             #form-action.micro._hidden
             #form-action.macro._hidden
             #form-action.meso.macro._hidden
+    .row
+      .column.medium-8.medium-offset-1
+        .form-inputs
+          .row
+            .column.medium-4
+              = f.label :name, class: 'right inline'
+            .column.medium-8
+              = f.input :name, label: false
 
     = render partial: f
-    
+
     .row.footer-helper
-    
+
     .row.fixed-row
       .button-collection.-formcollection
         = f.button :submit, t('shared.create'), class: '-primary'
