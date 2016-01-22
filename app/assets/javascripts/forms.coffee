@@ -41,6 +41,12 @@ jQuery ->
     $(this).closest('.form-inputs-child')
       .html($('.add_parent_actor, .add_parent_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
+    value = $('#actor_name, #act_name').val()
+    current_actor_action.text value
+    $('#actor_name, #act_name').on 'keyup', (e)->
+      current_actor_action.text e.currentTarget.value
+      return
     showDatepicker()
 
   $(document).on 'click', '.switch_child_form', (event) ->
@@ -50,6 +56,12 @@ jQuery ->
     $(this).closest('.form-inputs-parent')
       .html($('.add_child_actor, .add_child_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
+    value = $('#actor_name, #act_name').val()
+    current_actor_action.text value
+    $('#actor_name, #act_name').on 'keyup', (e)->
+      current_actor_action.text e.currentTarget.value
+      return
     showDatepicker()
 
   relations = $('.relation_child_id, .relation_parent_id')
