@@ -56,6 +56,43 @@ namespace :import do
      end
   end
 
+  desc 'Update icon_identifier of categories, adds missing ones'
+  task categories_icons: :environment do
+    [
+      ["Agriculture", "cat-agriculture"],
+      ["Health", "cat-health"],
+      ["Economy", "cat-economic-governance"],
+      ["Education", "cat-education"],
+      ["Faith", "cat-faith"],
+      ["Family", "cat-family"],
+      ["Politics", "cat-politics"],
+      ["Democratic Governance", "cat-democratic-governance"],
+      ["Energy and Mining", "cat-energy-mining"],
+      ["Environment, Lands, and Natural Resources", "cat-environment"],
+      ["Information, Communication Technology and Research Development", "cat-it-itc"],
+      ["Integrated Rural Development", "cat-rural-dev"],
+      ["Knowledge", "cat-knowledge"],
+      ["Public Administration", "cat-public-administration"],
+      ["Resources", "cat-resources"],
+      ["Transport", "cat-roads", "Roads, Public Works and Transport"],
+      ["Tourism, Wildlife and Culture", "cat-tourism"],
+      ["Trade, Industry and Private Sector Development", "cat-trade-industry"],
+      ["Vulnerability, Disaster and Risk Management", "cat-vulnerability-disaster"],
+      ["Water, Sanitation and Irrigation", "cat-water-sanitation"]
+    ].each do |arr|
+      puts "Time for #{arr.join(";")}"
+      cat = Category.first_or_initialize(name: arr[0])
+      cat.icon_identifier = arr[1]
+      if cat.new_record?
+        cat.type = "OtherDomain"
+      end
+      if arr.size == 3
+        cat.name = arr[2]
+      end
+      cat.save
+    end
+  end
+
   desc 'Import micro actors data from sample CSV files'
   task individuals: :environment do
     ActorMicro.delete_all
