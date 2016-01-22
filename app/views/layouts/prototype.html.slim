@@ -129,10 +129,6 @@ html lang="en"
                         input#levelsMicro.input.-checkbox type="checkbox" value="micro" checked="checked"
                         label.label for="levelsMicro"
                           | Micro
-                      button.button.-outlined.-small.js-toggle-check type="button"
-                        svg.icon.-marginright width="10" height="10"
-                          use xlink:href="#uncheckIcon" x="0" y="0"
-                        span = t('front.uncheck_all')
                   li.section
                     input#filtersSection2.toggle-button type="checkbox" value="" style="display: none;"
                     label#filtersTab2.title for="filtersSection2" aria-label="toggle domain filter" aria-controls="filtersPanel2"
@@ -146,17 +142,21 @@ html lang="en"
                         .form-input
                           input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
                           label.label for="domains#{domain.id}" = domain.name
-                      button.button.-outlined.-small.js-toggle-check type="button"
+                      button.button.-outlined.-small._floatright.js-check-all type="button"
+                        svg.icon.-marginright width="10" height="10"
+                          use xlink:href="#checkIcon" x="0" y="0"
+                        span = t('front.check_all')
+                      button.button.-outlined.-small.js-uncheck-all type="button"
                         svg.icon.-marginright width="10" height="10"
                           use xlink:href="#uncheckIcon" x="0" y="0"
                         span = t('front.uncheck_all')
 
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate"
+                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.-monospace.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate"
+                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate"
                 button.button.-outlined.js-reset type="button" = t('front.reset')
                 button.button.js-apply type="submit" = t('front.apply')
                 .message.-error._hidden.js-error aria-hidden="true" = t('front.cant_apply_search_0_check')
