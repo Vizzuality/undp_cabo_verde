@@ -20,7 +20,8 @@
       'click .js-apply': 'onApplyFilters',
       'change .toggle-button': 'onExpandFilter',
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
-      'click .js-toggle-check': 'onClickToggleCheckButton'
+      'click .js-uncheck-all': 'onClickUncheckAll',
+      'click .js-check-all': 'onClickCheckAll'
     },
 
     initialize: function(options) {
@@ -179,18 +180,21 @@
       this.updateErrorMessageVisibility();
     },
 
-    onClickToggleCheckButton: function(e) {
+    onClickUncheckAll: function(e) {
       e.preventDefault();
-
       var filterRootElem = this.getFilterRootElem(e.currentTarget);
-      var checkedCheckBoxes = this.getFilterCheckedCheckboxes(filterRootElem);
+      this.uncheckFilterAllCheckboxes(filterRootElem);
+      this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
+      this.updateFilterToggleCheckButton(filterRootElem);
+      this.updateFilterNotificationBadge(filterRootElem);
+      this.updateApplyButtonState();
+      this.updateErrorMessageVisibility();
+    },
 
-      if(checkedCheckBoxes.length > 0) {
-        this.uncheckFilterAllCheckboxes(filterRootElem);
-      } else {
-        this.checkFilterAllCheckboxes(filterRootElem);
-      }
-
+    onClickCheckAll: function(e) {
+      e.preventDefault();
+      var filterRootElem = this.getFilterRootElem(e.currentTarget);
+      this.checkFilterAllCheckboxes(filterRootElem);
       this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
       this.updateFilterToggleCheckButton(filterRootElem);
       this.updateFilterNotificationBadge(filterRootElem);
