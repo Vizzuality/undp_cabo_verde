@@ -4,7 +4,16 @@
   {{#if socio_cultural_domains}}
     <ul class="visual-list">
       {{#each socio_cultural_domains}}
-        <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+        <li class="item" title="{{name}}">
+          {{#if icon_identifier}}
+            <svg class="icon" title="{{{name}}}">
+                <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+            </svg>
+          {{else}}
+            <div class="icon -placeholder"></div>
+          {{/if}}
+          {{{trunc name}}}
+        </li>
       {{/each}}
     </ul>
   {{/if}}
@@ -12,7 +21,16 @@
   {{#if other_domains}}
     <ul class="visual-list">
       {{#each other_domains}}
-        <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+        <li class="item" title="{{name}}">
+          {{#if icon_identifier}}
+            <svg class="icon" title="{{{name}}}">
+                <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+            </svg>
+          {{else}}
+            <div class="icon -placeholder"></div>
+          {{/if}}
+          {{{trunc name}}}
+        </li>
       {{/each}}
     </ul>
   {{/if}}

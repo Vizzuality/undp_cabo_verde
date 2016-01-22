@@ -7,7 +7,16 @@
   {{{t 'front.socio_cultural_domains'}}}:
   <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
     {{#each socio_cultural_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      <li class="item" title="{{name}}">
+        {{#if icon_identifier}}
+          <svg class="icon">
+              <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+          </svg>
+        {{else}}
+          <div class="icon -placeholder"></div>
+        {{/if}}
+        {{{trunc name}}}
+      </li>
     {{/each}}
   </ul>
 {{/if}}
@@ -15,7 +24,16 @@
   {{{t 'front.other_domains'}}}:
   <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
     {{#each other_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      <li class="item" title="{{name}}">
+        {{#if icon_identifier}}
+          <svg class="icon">
+              <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+          </svg>
+        {{else}}
+          <div class="icon -placeholder"></div>
+        {{/if}}
+        {{{trunc name}}}
+      </li>
     {{/each}}
   </ul>
 {{/if}}
