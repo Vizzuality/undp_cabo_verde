@@ -9,13 +9,13 @@
     {{#each socio_cultural_domains}}
       <li class="item" title="{{name}}">
         {{#if icon_identifier}}
-          <svg class="icon" title="{{{name}}}">
+          <svg class="icon">
               <use xlink:href="#{{icon_identifier}}" x="0" y="0">
           </svg>
         {{else}}
           <div class="icon -placeholder"></div>
         {{/if}}
-        {{name}}
+        {{{trunc name}}}
       </li>
     {{/each}}
   </ul>
@@ -26,13 +26,13 @@
     {{#each other_domains}}
       <li class="item" title="{{name}}">
         {{#if icon_identifier}}
-          <svg class="icon" title="{{{name}}}">
+          <svg class="icon">
               <use xlink:href="#{{icon_identifier}}" x="0" y="0">
           </svg>
         {{else}}
           <div class="icon -placeholder"></div>
         {{/if}}
-        {{name}}
+        {{{trunc name}}}
       </li>
     {{/each}}
   </ul>
