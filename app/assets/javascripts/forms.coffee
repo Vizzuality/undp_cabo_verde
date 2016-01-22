@@ -16,10 +16,15 @@ jQuery ->
     map = $($siblings[$siblings.length - 1]).find('.map-preview')[0]
     initPreviewMap($siblings[$siblings.length - 1])
 
+  cloneCount = 1
+
   $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
-    time = new Date().getTime()
-    regexp = new RegExp($(this).data('id'), 'g')
-    $('.add-relations').before($(this).data('fields').replace(regexp, time))
+    time       = new Date().getTime()
+    regexp     = new RegExp($(this).data('id'), 'g')
+    container  = $('#add-relations').clone().attr('id', 'add-relations'+ cloneCount++)
+
+    container.html($(this).data('fields').replace(regexp, time))
+    $('#add-relations').before(container)
     event.preventDefault()
     current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
     value = $('#actor_name, #act_name').val()
@@ -30,16 +35,22 @@ jQuery ->
     showDatepicker()
 
   $(document).on 'click', '.switch_parent_form', (event) ->
-    $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('.form-inputs-child').hide()
-    $('.add_parent_actor, .add_parent_action').click()
+    time       = new Date().getTime()
+    regexp     = new RegExp($('.add_parent_actor, .add_parent_action').data('id'), 'g')
+
+    $(this).closest('.form-inputs-child')
+      .html($('.add_parent_actor, .add_parent_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    showDatepicker()
 
   $(document).on 'click', '.switch_child_form', (event) ->
-    $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('.form-inputs-parent').hide()
-    $('.add_child_actor, .add_child_action').click()
+    time       = new Date().getTime()
+    regexp     = new RegExp($('.add_child_actor, .add_child_action').data('id'), 'g')
+
+    $(this).closest('.form-inputs-parent')
+      .html($('.add_child_actor, .add_child_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    showDatepicker()
 
   relations = $('.relation_child_id, .relation_parent_id')
   relations.each ->
@@ -58,5 +69,5 @@ jQuery ->
 
   $(document).on 'click', '.remove_domains', (event) ->
     $('.add_other_domain').show()
-    return
     event.preventDefault()
+    return

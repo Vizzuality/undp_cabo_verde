@@ -69,8 +69,8 @@ var showMultiselect = function() {
   }
 
   for(var i = 0; i < multiselects_domains.length; i++) {
-    multiselects[i].classList.add('chosen');
-    multiselects[i].classList.add('chosen-select');
+    multiselects_domains[i].classList.add('chosen');
+    multiselects_domains[i].classList.add('chosen-select');
   }
 
   multiselects.chosen();
