@@ -49,11 +49,24 @@ RSpec.describe Actor, type: :model do
     expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
   end
 
-  it 'actor domain validation' do
-    @person_reject = build(:actor_micro, merged_domains: [], user_id: @user.id)
+  context "actor domain validation" do
+    it 'actor domain validation min 1 domain' do
+      @person_reject = build(:actor_micro, merged_domains: [], user_id: @user.id)
 
-    @person_reject.valid?
-    expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domain ids can't be blank")
+      @person_reject.valid?
+      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domain ids can't be blank, Merged domains is too short (minimum is 1 character)")
+    end
+
+    it 'actor domain validation max 3 domains' do
+      @cat_1 = create(:operational_field, name: 'Cat 1')
+      @cat_2 = create(:operational_field, name: 'Cat 2')
+      @cat_3 = create(:operational_field, name: 'Cat 3')
+      @cat_4 = create(:operational_field, name: 'Cat 4')
+      @person_reject = build(:actor_micro, merged_domains: [@cat_1, @cat_2, @cat_3, @cat_4], user_id: @user.id)
+
+      @person_reject.valid?
+      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domains is too long (maximum is 3 characters)")
+    end
   end
 
   it 'actor with actor type' do

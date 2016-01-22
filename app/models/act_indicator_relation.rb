@@ -22,9 +22,4 @@ class ActIndicatorRelation < ActiveRecord::Base
   def target_unit_name
     unit.name
   end
-
-  def measurements_form
-    collection = measurements
-    collection.any? ? collection : measurements.build
-  end
 end

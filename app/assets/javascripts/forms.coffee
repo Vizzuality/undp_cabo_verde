@@ -5,8 +5,9 @@ jQuery ->
     event.preventDefault()
 
   $(document).on 'click', '.add_fields', (event) ->
-    regexp = new RegExp($(this).data('id'))
-    $(this).before($(this).data('fields').replace(regexp))
+    time = new Date().getTime()
+    regexp = new RegExp($(this).data('id'), 'g')
+    $(this).before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
     showDatepicker()
 
@@ -15,9 +16,15 @@ jQuery ->
     map = $($siblings[$siblings.length - 1]).find('.map-preview')[0]
     initPreviewMap($siblings[$siblings.length - 1])
 
+  cloneCount = 1
+
   $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
-    regexp = new RegExp($(this).data('id'))
-    $('.add-relations').before($(this).data('fields').replace(regexp))
+    time       = new Date().getTime()
+    regexp     = new RegExp($(this).data('id'), 'g')
+    container  = $('#add-relations').clone().attr('id', 'add-relations'+ cloneCount++)
+
+    container.html($(this).data('fields').replace(regexp, time))
+    $('#add-relations').before(container)
     event.preventDefault()
     current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
     value = $('#actor_name, #act_name').val()
@@ -28,19 +35,51 @@ jQuery ->
     showDatepicker()
 
   $(document).on 'click', '.switch_parent_form', (event) ->
-    $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('.form-inputs-child').hide()
-    $('.add_parent_actor, .add_parent_action').click()
+    time       = new Date().getTime()
+    regexp     = new RegExp($('.add_parent_actor, .add_parent_action').data('id'), 'g')
+
+    $(this).closest('.form-inputs-child')
+      .html($('.add_parent_actor, .add_parent_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
+    value = $('#actor_name, #act_name').val()
+    current_actor_action.text value
+    $('#actor_name, #act_name').on 'keyup', (e)->
+      current_actor_action.text e.currentTarget.value
+      return
+    showDatepicker()
 
   $(document).on 'click', '.switch_child_form', (event) ->
-    $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('.form-inputs-parent').hide()
-    $('.add_child_actor, .add_child_action').click()
+    time       = new Date().getTime()
+    regexp     = new RegExp($('.add_child_actor, .add_child_action').data('id'), 'g')
+
+    $(this).closest('.form-inputs-parent')
+      .html($('.add_child_actor, .add_child_action').data('fields').replace(regexp, time))
     event.preventDefault()
+    current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
+    value = $('#actor_name, #act_name').val()
+    current_actor_action.text value
+    $('#actor_name, #act_name').on 'keyup', (e)->
+      current_actor_action.text e.currentTarget.value
+      return
+    showDatepicker()
 
   relations = $('.relation_child_id, .relation_parent_id')
   relations.each ->
     el = $(@)
     if el.val() != ''
       el.closest('.form-inputs').find('.switch_child_form, .switch_parent_form').remove()
+
+  $(document).on 'click', '.add_other_domain', (event) ->
+    domains_form   = $('.form-inputs-other-domains:visible')
+    domains_select = $('.domains-chose')
+    if (domains_form.length == 2)
+      $(this).hide()
+    if (domains_select.val().length > 1)
+      $(this).hide()
+    event.preventDefault()
+
+  $(document).on 'click', '.remove_domains', (event) ->
+    $('.add_other_domain').show()
+    event.preventDefault()
+    return

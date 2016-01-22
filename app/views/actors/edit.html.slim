@@ -17,6 +17,11 @@
             = f.label :type, class: 'right inline'
           .column.medium-8
             = f.input :type, label: false, collection: @types, as: :collection_select
+        .row
+          .column.medium-4
+            = f.label :name, class: 'right inline'
+          .column.medium-8
+            = f.input :name, label: false
         -if @actor.micro?
           .row
             .column.medium-4
@@ -59,9 +64,9 @@
               = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
 
     = render partial: f
-    
+
     .row.footer-helper
-      
+
     .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.delete'), actor_path(@actor), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
