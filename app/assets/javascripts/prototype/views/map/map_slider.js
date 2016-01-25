@@ -38,12 +38,15 @@
 
       var outerWidth = sliderBox.width();
       var innerWidth = sliderBox.width() - 2 * margin;
-      var height = sliderBox.height();
+
+      var outerHeight = sliderBox.height();
+      var innerHeight = 3;
 
       this.maxDays = 365;
 
       var x = d3.scale.linear()
         .range([0, innerWidth])
+        .clamp(true)
         .domain([0, this.maxDays]);
 
       var progress, trail;
@@ -76,7 +79,7 @@
         .append('svg')
         .attr('class', 'svg-timeline')
         .attr('width', outerWidth)
-        .attr('height', height);
+        .attr('height', outerHeight);
 
       trail = svg.append('g')
         .attr('class', 'trail')
@@ -85,7 +88,7 @@
         .call(brush);
 
       trail.selectAll('.background')
-        .attr('height', height); //remove -> progress does not appear
+        .attr('height', innerHeight);
 
       trail.selectAll('.extent, .resize').remove();
 
@@ -93,7 +96,7 @@
         .attr('class', 'progress')
         .style('fill', '#175ca0')
         .attr('width', 0)
-        .attr('height', 3);
+        .attr('height', innerHeight);
 
       circle = trail.append('circle')
         .attr('class', 'circle')
