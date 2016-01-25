@@ -1,17 +1,41 @@
 #slider {
-  // background-color: $color-1;
+  background-color: $color-1;
   height: 25px;
-  width: 285px;
+  width: 284px;
   position: relative;
-  // border-radius: 12px;
+  border-radius: 12px;
 
   .slider-tooltip {
+    width: 100px;
+    height: 25px;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+
     position: absolute;
-    width: 60px;
-    height: 20px;
-    background-color: $color-1;
-    color: $color-2;
     transform: translate(-50%);
     bottom: 30px;
+
+    background-color: $color-1;
+    color: $color-2;
+
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    text-align: center;
+
+    &:before {
+      content: " ";
+      width: 0px;
+      height: 0px;
+      border-top: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 4px solid $color-1;
+      border-left: 4px solid $color-1;
+
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translate(-50%) rotate(-45deg);
+    }
   }
 }
