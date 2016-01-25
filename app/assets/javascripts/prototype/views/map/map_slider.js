@@ -33,23 +33,21 @@
 
     slider: function() {
       var sliderBox = this.$el.find('#slider');
-      var width = sliderBox.width();
+
+      var margin = 12;
+
+      var outerWidth = sliderBox.width();
+      var innerWidth = sliderBox.width() - 2 * margin;
       var height = sliderBox.height();
+
       this.maxDays = 365;
 
       var x = d3.scale.linear()
-        .range([0, width])
+        .range([0, innerWidth])
         .domain([0, this.maxDays]);
 
-      var xAxis = d3.svg.axis()
-        .scale(x)
-        .ticks(this.maxDays)
-        .innerTickSize(height)
-        .tickFormat(function() {
-          return '';
-        });
-
       var progress, trail;
+      var circle;
       var tooltip = $('.slider-tooltip');
 
       var self = this;
@@ -67,6 +65,8 @@
             tooltip
               .css({left: x(brush.extent()[0])})
               .html('Day ' + Math.ceil(self.currentDay));
+            circle
+              .attr('cx', x(brush.extent()[0]));
           }
           progress.attr('width', x(value));
         })
@@ -75,32 +75,38 @@
       var svg = d3.select('#slider')
         .append('svg')
         .attr('class', 'svg-timeline')
-        .attr('width', width)
-        .attr('height', height)
+        .attr('width', outerWidth)
+        .attr('height', height);
 
       trail = svg.append('g')
         .attr('class', 'trail')
+        .attr('transform', 'translate(12 11)')
         .style('fill', 'white')
         .call(brush);
 
       trail.selectAll('.background')
-        .attr('height', height);
+        .attr('height', height); //remove -> progress does not appear
 
       trail.selectAll('.extent, .resize').remove();
 
       progress = trail.append('rect')
         .attr('class', 'progress')
-        .style('fill', 'red')
+        .style('fill', '#175ca0')
         .attr('width', 0)
-        .attr('height', 20);
+        .attr('height', 3);
 
-      svg.append('g')
-        .attr('class', 'xaxis')
-        .call(xAxis)
+      circle = trail.append('circle')
+        .attr('class', 'circle')
+        .attr("cx", 0)
+        .attr("cy", 1)
+        .attr("r", 7.5)
+        .style("fill", "#175ca0");
+
 
       progress
         .call(brush.extent([0,0]))
         .call(brush.event);
+
 
       tooltip
         .css({left: x(brush.extent()[0])})
@@ -109,6 +115,7 @@
       this.tooltip = tooltip;
       this.svg = svg;
       this.progress = progress;
+      this.circle = circle;
       this.x = x;
 
     }
