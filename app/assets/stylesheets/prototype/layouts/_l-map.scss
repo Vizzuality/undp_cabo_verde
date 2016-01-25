@@ -78,10 +78,16 @@
   #map-slider {
     position: absolute;
     width: 500px;
-    height: 100px;
+    height: 25px;
     bottom: 30px;
     left: 210px;
-    background-color: rgba(255,255,255,.3)
+    background-color: rgba(255,255,255,.3);
+
+    >.slider-controls,
+    >#slider {
+      display: inline-block;
+      float: left;
+    }
   }
 
   #map-buttons,

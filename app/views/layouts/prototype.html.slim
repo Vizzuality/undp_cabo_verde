@@ -200,7 +200,14 @@ html lang="en"
               = t('front.action_to_action')
         #map-slider
           .slider-controls
+            .playbutton
+              = link_to('#', class: 'play paused')
+                .left
+                .right
+                .triangle1
+                .triangle2
           #slider
+            .slider-tooltip
 
         #map-buttons
           .checkbox.-reversed.-negative
