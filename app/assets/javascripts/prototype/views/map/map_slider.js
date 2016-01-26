@@ -25,15 +25,18 @@
 
       this.setListeners();
       this.cacheVars();
-      console.log(#{@start_date});
       this.slider();
     },
 
     cacheVars: function() {
       this.playbutton = $('.play')[0];
-      this.currentDay = new Date('#{@start_date.strftime("%m/%d/%Y")}');
-      this.startDate = new Date('#{@start_date.strftime("%m/%d/%Y")}');
-      this.endDate = new Date('#{@end_date.strftime("%m/%d/%Y")}');
+
+      var minDateString = document.getElementById('startDate').dataset["min"];
+      var maxDateString = document.getElementById('endDate').dataset["max"];
+
+      this.currentDay = new Date(minDateString);
+      this.startDate = new Date(minDateString);
+      this.endDate = new Date(maxDateString);
     },
 
     setListeners: function() {
