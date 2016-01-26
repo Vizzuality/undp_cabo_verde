@@ -49,5 +49,5 @@ config/database.yml
 /public/javascripts/translations.js
 
 # Ignore act and actor localizations models temporally
-# app/models/localizations
-# config/application.rb
+app/models/localizations
+config/application.rb
