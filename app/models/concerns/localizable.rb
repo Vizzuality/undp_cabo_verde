@@ -3,7 +3,7 @@ module Localizable
 
   included do
     def main_location
-      main_locations.first.localization if main_locations.any?
+      main_locations.first if main_locations.any?
     end
 
     def main_street

@@ -23,6 +23,8 @@ class Search::Actors
       @options.keys.each { |k| instance_variable_set("@#{k}", @options[k]) }
     end
 
+    # Table name LOCATIONS
+    # Model name Localizations
     def initialize_query
       @query = Actor.filter_actives.recent
 
@@ -34,22 +36,22 @@ class Search::Actors
       end
 
       if @start_date && !@end_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.start_date >= ? OR actor_localizations.end_date >= ?",
+        @query = @query.joins(:localizations).
+                        where("locations.start_date >= ? OR locations.end_date >= ?",
                                @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
       end
 
       if @end_date && !@start_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.end_date <= ? OR actor_localizations.start_date <= ?",
+        @query = @query.joins(:localizations).
+                        where("locations.end_date <= ? OR locations.start_date <= ?",
                                @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
       end
 
       if @start_date && @end_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.start_date BETWEEN ? AND ? OR
-                               actor_localizations.end_date BETWEEN ? AND ? OR
-                               ? BETWEEN actor_localizations.start_date AND actor_localizations.end_date",
+        @query = @query.joins(:localizations).
+                        where("locations.start_date BETWEEN ? AND ? OR
+                               locations.end_date BETWEEN ? AND ? OR
+                               ? BETWEEN locations.start_date AND locations.end_date",
                                @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
       end
 

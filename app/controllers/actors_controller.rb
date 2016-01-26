@@ -106,7 +106,7 @@ class ActorsController < ApplicationController
     end
 
     def set_actor_preload
-      @actor = type_class.preload(:localizations, localizations: :actor_localizations).find(params[:id])
+      @actor = type_class.preload(:localizations).find(params[:id])
     end
 
     def set_selection

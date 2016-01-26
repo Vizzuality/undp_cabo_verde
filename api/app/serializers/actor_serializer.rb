@@ -5,7 +5,7 @@ class ActorSerializer < BaseSerializer
   attributes :id, :level, :name, :observation
 
   # Locations
-  has_many :actor_localizations, key: :locations
+  has_many :localizations, key: :locations
   has_many :comments
 
   # Actors relations below: def actors
@@ -72,7 +72,7 @@ class ActorSerializer < BaseSerializer
   end
 
   def include_associations!
-    include! :actor_localizations,    serializer: RelationalLocalizationSerializer
+    include! :localizations,          serializer: LocalizationSerializer
     include! :organization_types,     serializer: CategorySerializer
     include! :socio_cultural_domains, serializer: CategorySerializer
     include! :other_domains,          serializer: CategorySerializer

@@ -7,7 +7,7 @@ class ActSerializer < BaseSerializer
   # Actor relations below: def actors
   # Action relations below: def actions
   # Locations
-  has_many :act_localizations, key: :locations
+  has_many :localizations, key: :locations
 
   # Comments
   has_many :comments
@@ -82,7 +82,7 @@ class ActSerializer < BaseSerializer
 
   def include_associations!
     include! :act_indicator_relations, serializer: ActIndicatorSerializer
-    include! :act_localizations,       serializer: RelationalLocalizationSerializer
+    include! :localizations,           serializer: LocalizationSerializer
     include! :organization_types,      serializer: CategorySerializer
     include! :socio_cultural_domains,  serializer: CategorySerializer
     include! :other_domains,           serializer: CategorySerializer

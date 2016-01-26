@@ -2,25 +2,26 @@
   .row
     .column.medium-8.medium-offset-4
       .map-preview
-  = f.fields_for relation_location_class do |form|
-    .row
-      .column.medium-8.medium-offset-4
-        = form.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: "Main location", disabled: common_form?
-    .row
-      .column.medium-4
-        = form.label :start_date, class: 'right inline'
-      .column.medium-8
-        = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
-                                    'data-max-date': Date.today,
-                                    class: 'js-datepicker location_start_date', disabled: common_form?
-    .row
-      .column.medium-4
-        = form.label :end_date, class: 'right inline'
-      .column.medium-8
-        = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+  .row
+    .column.medium-4
+      = f.label :main, t('localizations.main'), class: 'right inline'
+    .column.medium-8
+      = f.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: false, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :start_date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,
-                                  'data-blank-date': true,
-                                  class: 'js-datepicker location_end_date', disabled: common_form?
+                                  class: 'js-datepicker location_start_date', disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :end_date, class: 'right inline'
+    .column.medium-8
+      = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
+                                'data-max-date': Date.today,
+                                'data-blank-date': true,
+                                class: 'js-datepicker location_end_date', disabled: common_form?
 
   .row
     .column.medium-4

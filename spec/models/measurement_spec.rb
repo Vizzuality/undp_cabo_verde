@@ -10,7 +10,7 @@ RSpec.describe Measurement, type: :model do
     @measurement_1          = create(:measurement, act_indicator_relation: @act_indicator_relation, unit: @unit, user: @user, date: Time.zone.now)
     @measurement_2          = create(:measurement, act_indicator_relation: @act_indicator_relation, unit: @unit, user: @user, date: Time.zone.now)
   end
-  
+
   it 'Create measurements and get data' do
     expect(Measurement.count).to eq(2)
     expect(@unit.measurements.count).to eq(2)

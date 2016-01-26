@@ -284,6 +284,7 @@ en:
     to_current_actor: 'To current actor'
     to_actor: 'To actor'
     relation_name: 'Relation title'
+    main: 'Main location'
 
   acts:
     act: 'Action'
@@ -324,6 +325,7 @@ en:
     remove_measurement: 'Remove measurement'
     add_measurement: 'Add measurement'
     measurements: 'Measurements'
+    main: 'Main location'
 
   categories:
     categories: 'Categories'
@@ -346,6 +348,7 @@ en:
     localizations: 'Locations'
     edit_localization: 'Edit location'
     deactivate: 'Deacticate'
+    main: 'Main location'
 
   navbar:
     dashboard: 'Dashboard'

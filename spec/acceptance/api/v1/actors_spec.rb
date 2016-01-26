@@ -10,6 +10,9 @@ resource 'Actors' do
     @user       = FactoryGirl.create(:random_user)
     @location   = FactoryGirl.create(:localization, user: @user)
     @location_2 = FactoryGirl.create(:localization, user: @user)
+    @location_3 = FactoryGirl.create(:localization, user: @user)
+    @location_4 = FactoryGirl.create(:localization, user: @user)
+    @location_5 = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category one')
     @category_2 = FactoryGirl.create(:category, name: 'Category two', type: 'SocioCulturalDomain')
     @category_3 = FactoryGirl.create(:category, name: 'Category three',  type: 'OrganizationType')
@@ -25,15 +28,15 @@ resource 'Actors' do
                         localizations: [@location, @location_2], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name,
                         categories: [@category_1, @category_2, @category_3])
-      actors << create(:actor_macro, name: 'Education Institution', localizations: [@location],
+      actors << create(:actor_macro, name: 'Education Institution', localizations: [@location_3],
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
       actors << create(:actor_meso,  name: 'Department of Education',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
-                        localizations: [@location], short_name: Faker::Name.name,
+                        localizations: [@location_4], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2])
       actors << create(:actor_micro, name: 'Director of Department',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
-                        localizations: [@location], gender: 2,
+                        localizations: [@location_5], gender: 2,
                         title: 2, categories: [@category_2])
 
       actors.each do |a|
@@ -97,11 +100,11 @@ resource 'Actors' do
       context 'Actors list filtered by date' do
         before :each do
           # Time.local(2015, 9, 1, 12, 0, 0, 0)
-          actors[0].actor_localizations[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
-          actors[0].actor_localizations[1].update_attributes(start_date: Time.zone.now - 2.years, end_date: Time.zone.now - 1.year)
-          actors[1].actor_localizations[0].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
-          actors[2].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
-          actors[3].actor_localizations[0].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+          actors[0].localizations[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actors[0].localizations[1].update_attributes(start_date: Time.zone.now - 2.years, end_date: Time.zone.now - 1.year)
+          actors[1].localizations[0].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actors[2].localizations[0].update_attributes(start_date: Time.zone.now - 1.day,   end_date: Time.zone.now + 2.days)
+          actors[3].localizations[0].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
         end
 
         get "/api/actors" do
@@ -162,15 +165,20 @@ resource 'Actors' do
           expect(actor['short_name']).not_to               be_nil
           expect(actor['legal_status']).not_to             be_nil
           expect(actor['other_names']).not_to              be_nil
-          expect(actor['locations'][0]['info_data']['name']).not_to     be_nil
-          expect(actor['locations'][0]['info_data']['country']).not_to  be_nil
-          expect(actor['locations'][0]['info_data']['city']).not_to     be_nil
-          expect(actor['locations'][0]['info_data']['zip_code']).not_to be_nil
-          expect(actor['locations'][0]['info_data']['state']).not_to    be_nil
-          expect(actor['locations'][0]['info_data']['district']).not_to be_nil
-          expect(actor['locations'][0]['info_data']['web_url']).not_to  be_nil
-          expect(actor['locations'][0]['info_data']['lat']).not_to      be_nil
-          expect(actor['locations'][0]['info_data']['long']).not_to     be_nil
+          expect(actor['locations'][0]['name']).not_to     be_nil
+          expect(actor['locations'][0]['country']).not_to  be_nil
+          expect(actor['locations'][0]['city']).not_to     be_nil
+          expect(actor['locations'][0]['zip_code']).not_to be_nil
+          expect(actor['locations'][0]['state']).not_to    be_nil
+          expect(actor['locations'][0]['district']).not_to be_nil
+          expect(actor['locations'][0]['web_url']).not_to  be_nil
+          expect(actor['locations'][0]['lat']).not_to      be_nil
+          expect(actor['locations'][0]['long']).not_to     be_nil
+          expect(actor['locations'][0]['start_date']).to   be_nil
+          expect(actor['locations'][0]['end_date']).to     be_nil
+
+          expect(actor['locations'][0]['main']).to         eq(false)
+          expect(actor['locations'][1]['main']).to         eq(true)
 
           # Micro specific
           expect(actor['title']).to         be_nil
@@ -223,16 +231,19 @@ resource 'Actors' do
 
     context 'Actor details with actor and actions relations' do
       let(:actor_with_relations) do
+        @location_6 = FactoryGirl.create(:localization, user: @user)
+        @location_7 = FactoryGirl.create(:localization, user: @user)
+
         relation_type = create(:actors_relation_type_belongs)
         relation_type_action = create(:act_actor_relation_type)
 
-        action = create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location],
+        action = create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location_6],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
 
         actor_with_relations = create(:actor_macro, name: 'Education Organization', user: @user,
                                    observation: Faker::Lorem.paragraph(2, true, 4), operational_field: @field, short_name: Faker::Name.name,
                                    legal_status: Faker::Name.name, other_names: Faker::Name.name,
-                                   categories: [@category_1, @category_2])
+                                   categories: [@category_1, @category_2], localizations: [@location_7])
 
         actor_with_relations.actor_relations_as_child  << ActorRelation.create(parent: actors.first,  start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
         actor_with_relations.actor_relations_as_parent << ActorRelation.create(child:  actors.second, start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)

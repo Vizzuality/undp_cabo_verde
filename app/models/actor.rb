@@ -10,13 +10,11 @@ class Actor < ActiveRecord::Base
   has_many :children, through: :actor_relations_as_parent, dependent: :destroy
   has_many :parents,  through: :actor_relations_as_child,  dependent: :destroy
 
-  has_many :actor_localizations, foreign_key: :actor_id
-  has_many :localizations, through: :actor_localizations, dependent: :destroy
-
   has_many :act_actor_relations, foreign_key: :actor_id
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
-  has_many :comments, as: :commentable
+  has_many :comments,      as: :commentable, dependent: :destroy
+  has_many :localizations, as: :localizable, dependent: :destroy
 
   # Categories
   has_and_belongs_to_many :categories
@@ -139,7 +137,7 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMeso') || type.include?('ActorMacro')
   end
 
-  def localizations?
+  def locations?
     localizations.any?
   end
 
@@ -160,21 +158,21 @@ class Actor < ActiveRecord::Base
   end
 
   def main_locations
-    actor_localizations.main_locations
+    localizations.main_locations
   end
 
-  def actor_localizations_by_date(options)
+  def actor_locations_by_date(options)
     start_date = options['start_date'] if options['start_date'].present?
     end_date   = options['end_date']   if options['end_date'].present?
 
-    actor_localizations.by_date(start_date, end_date)
+    localizations.by_date(start_date, end_date)
   end
 
   private
 
     def deactivate_dependencies
-      localizations.filter_actives.each do |localization|
-        unless localization.deactivate
+      localizations.filter_actives.each do |location|
+        unless location.deactivate
           return false
         end
       end
@@ -209,8 +207,8 @@ class Actor < ActiveRecord::Base
     end
 
     def set_main_location
-      if actor_localizations.main_locations.empty?
-        actor_localizations.order(:created_at).first.update( main: true )
+      if localizations.main_locations.empty?
+        localizations.order(:created_at).first.update( main: true )
       end
     end
 end

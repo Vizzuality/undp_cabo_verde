@@ -12,16 +12,14 @@ class Act < ActiveRecord::Base
   has_many :children, through: :act_relations_as_parent, dependent: :destroy
   has_many :parents, through: :act_relations_as_child, dependent: :destroy
 
-  has_many :act_localizations, foreign_key: :act_id
-  has_many :localizations, through: :act_localizations, dependent: :destroy
-
   has_many :act_actor_relations, foreign_key: :act_id
   has_many :actors, through: :act_actor_relations, dependent: :destroy
 
   has_many :act_indicator_relations, foreign_key: :act_id
   has_many :indicators, through: :act_indicator_relations, dependent: :destroy
 
-  has_many :comments, as: :commentable
+  has_many :comments,      as: :commentable, dependent: :destroy
+  has_many :localizations, as: :localizable, dependent: :destroy
 
   # Categories
   has_and_belongs_to_many :categories
@@ -139,7 +137,7 @@ class Act < ActiveRecord::Base
     type.include?('ActMicro') || type.include?('ActMeso')
   end
 
-  def localizations?
+  def locations?
     localizations.any?
   end
 
@@ -164,14 +162,14 @@ class Act < ActiveRecord::Base
   end
 
   def main_locations
-    act_localizations.main_locations
+    localizations.main_locations
   end
 
   private
 
     def deactivate_dependencies
-      localizations.filter_actives.each do |localization|
-        unless localization.deactivate
+      localizations.filter_actives.each do |location|
+        unless location.deactivate
           return false
         end
       end
@@ -210,8 +208,8 @@ class Act < ActiveRecord::Base
     end
 
     def set_main_location
-      if act_localizations.main_locations.empty?
-        act_localizations.order(:created_at).first.update( main: true )
+      if localizations.main_locations.empty?
+        localizations.order(:created_at).first.update( main: true )
       end
     end
 end

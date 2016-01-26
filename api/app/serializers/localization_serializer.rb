@@ -2,7 +2,9 @@ class LocalizationSerializer < BaseSerializer
   cached
   self.version = 7
 
-  attributes :name, :iso, :country, :city, :zip_code, :state, :district, :street, :web_url, :lat, :long
+  attributes :name, :iso, :country, :city, :zip_code, :state,
+             :district, :street, :web_url, :lat, :long, :main,
+             :start_date, :end_date
 
   def iso
     object.country

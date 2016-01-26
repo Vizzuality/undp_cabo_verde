@@ -10,6 +10,8 @@ resource 'Acts' do
     @user       = FactoryGirl.create(:random_user)
     @unit       = FactoryGirl.create(:unit, user: @user)
     @location   = FactoryGirl.create(:localization, user: @user)
+    @location_1 = FactoryGirl.create(:localization, user: @user)
+    @location_2 = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
   end
@@ -22,10 +24,10 @@ resource 'Acts' do
                         description: Faker::Lorem.paragraph(2, true, 4),
                         short_name: Faker::Name.name, budget: '2000',
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location],
+      actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location_1],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location],
+      actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location_2],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
 
       actions.each do |a|
@@ -120,16 +122,19 @@ resource 'Acts' do
 
     context 'Act details with actions, actors, locations' do
       let(:action_with_relations) do
+        @location_3 = FactoryGirl.create(:localization, user: @user)
+        @location_4 = FactoryGirl.create(:localization, user: @user)
+
         relation_type       = create(:acts_relation_type)
         relation_type_actor = create(:act_actor_relation_type)
         actor = create(:actor_micro, name: 'Director of Department',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), gender: 2,
-                        title: 2, categories: [@category_2], localizations: [@location])
+                        title: 2, categories: [@category_2], localizations: [@location_3])
 
         action_with_relations = create(:act_macro, name: 'Indicator of Organization', user: @user,
                                         description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                                         alternative_name: Faker::Name.name, budget: '2000',
-                                        categories: [@category_1, @category_2], localizations: [@location])
+                                        categories: [@category_1, @category_2], localizations: [@location_4])
 
         action_with_relations.act_relations_as_child  << ActRelation.create(parent: actions.first,  start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
         action_with_relations.act_relations_as_parent << ActRelation.create(child:  actions.second, start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
