@@ -124,7 +124,6 @@
         .attr("r", 7.5)
         .style("fill", "#175ca0");
 
-
       progress
         .call(brush.extent([0,0]))
         .call(brush.event);
@@ -140,8 +139,70 @@
       this.circle = circle;
       this.x = x;
 
+    },
+
+    onPlay: function() {
+      var play = $('.play')[0];
+      play.classList.toggle('paused');
+      var isPlaying = !play.classList.contains('paused');
+
+      if (isPlaying) {
+        this.play();
+      } else {
+        this.pause();
+      }
+
+    },
+
+    play: function() {
+      var self = this;
+      var maxWidth = this.innerWidth;
+
+      this.progress
+        .transition()
+        .duration(5000)
+        .ease('linear')
+        .attr('width', this.innerWidth);
+
+      this.circle
+        .transition()
+        .duration(5000)
+        .ease('linear')
+        .attr('cx', this.innerWidth);
+
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+
+      this.interval = setInterval(function() {
+        var width = self.progress.attr('width');
+        if (Number(width) >= self.innerWidth) {
+          self.progress.attr('width', 0);
+          self.circle.attr('cx', 0);
+          self.play();
+          return;
+        }
+        var value = self.x.invert(width);
+        self.brush.extent([value, value]);
+        self.currentDay = value;
+        self.tooltip
+          .css({left: self.x(self.brush.extent()[0])})
+          .html(self.convertDate(self.currentDay));
+        self.trigger('timeline:change', value);
+      }, 1);
+
+    },
+
+    pause: function() {
+      this.progress
+        .interrupt();
+
+      this.circle
+        .interrupt();
+
     }
 
   });
+
 
 })(this);
