@@ -29,6 +29,7 @@
 
     cacheVars: function() {
       this.currentDay = new Date('01/01/1991');
+      this.playbutton = $('.play')[0];
     },
 
     convertDate: function(date) {
@@ -81,6 +82,7 @@
         .on('brush', function() {
           var value = brush.extent()[1];
           if (d3.event.sourceEvent) {
+            self.stopAfterDrag();
             value = x.invert(d3.mouse(this)[0]);
             brush.extent([value, value]);
             self.currentDay = value;
@@ -89,6 +91,7 @@
               .html(self.convertDate(self.currentDay));
             circle
               .attr('cx', x(brush.extent()[0]));
+
           }
           progress.attr('width', x(value));
         })
@@ -143,19 +146,16 @@
     },
 
     onPlay: function() {
-      var play = $('.play')[0];
-      play.classList.toggle('paused');
-      var isPlaying = !play.classList.contains('paused');
-
-      if (isPlaying) {
-        this.play();
-      } else {
+      if (this.isPlaying()) {
         this.pause();
+      } else {
+        this.play();
       }
-
     },
 
     play: function() {
+      this.playbutton.classList.remove('paused');
+
       var self = this;
 
       var duration = 5000; //ms
@@ -184,7 +184,9 @@
         if (Number(width) >= self.innerWidth) {
           self.progress.attr('width', 0);
           self.circle.attr('cx', 0);
-          self.play();
+          if (self.isPlaying()) {
+            self.play();
+          }
           return;
         }
         var value = self.x.invert(width);
@@ -198,13 +200,24 @@
 
     },
 
+    stopAfterDrag: function() {
+      if (this.isPlaying()) {
+        this.pause();
+      }
+    },
+
     pause: function() {
+      this.playbutton.classList.add('paused');
+
       this.progress
         .interrupt();
-
       this.circle
         .interrupt();
+    },
 
+    isPlaying: function() {
+      var isPlaying = !this.playbutton.classList.contains('paused');
+      return isPlaying;
     }
 
   });
