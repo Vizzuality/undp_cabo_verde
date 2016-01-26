@@ -84,10 +84,7 @@
 
       var marker = locationId ? document.querySelector(selector) :
         document.querySelectorAll(selector);
-      if(locationId && !marker || !locationId && marker.length === 0) {
-        console.warn('Unable to find the marker(s) /' +
-          [ type, id, locationId ].join('/'));
-      }
+
       return marker;
     },
 
