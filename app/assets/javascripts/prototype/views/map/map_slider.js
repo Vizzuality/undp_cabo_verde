@@ -23,31 +23,50 @@
       this.router = options.router;
       this.status = new Status();
 
+      this.cacheVars();
       this.slider();
     },
 
-    onPlay: function() {
-      var play = $('.play')[0];
-      play.classList.toggle('paused');
+    cacheVars: function() {
+      this.currentDay = new Date('01/01/1991');
+    },
+
+    convertDate: function(date) {
+      var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+      var day = date.getDate();
+      var month = date.getMonth(); // -> Jan is 0
+      var year = date.getFullYear() // getYear not recommended
+
+      var dateString = (day + " " + months[month] + " " + year);
+      return dateString;
     },
 
     slider: function() {
       var sliderBox = this.$el.find('#slider');
 
+      var startDate = new Date('05/24/1992');
+      var endDate = new Date('01/26/2015');
+
       var margin = 12;
 
-      var outerWidth = sliderBox.width();
-      var innerWidth = sliderBox.width() - 2 * margin;
+      this.outerWidth = sliderBox.width();
+      this.innerWidth = sliderBox.width() - 2 * margin;
 
-      var outerHeight = sliderBox.height();
-      var innerHeight = 3;
+      this.outerHeight = sliderBox.height();
+      this.innerHeight = 3;
 
       this.maxDays = 365;
 
-      var x = d3.scale.linear()
-        .range([0, innerWidth])
+      var x = d3.time.scale()
+        .range([0, this.innerWidth])
         .clamp(true)
-        .domain([0, this.maxDays]);
+        .domain([startDate, endDate])
+
+      // var x = d3.scale.linear()
+      //   .range([0, this.innerWidth])
+      //   .clamp(true)
+      //   .domain([0, this.maxDays]);
 
       var progress, trail;
       var circle;
@@ -67,7 +86,7 @@
             self.currentDay = value;
             tooltip
               .css({left: x(brush.extent()[0])})
-              .html('Day ' + Math.ceil(self.currentDay));
+              .html(self.convertDate(self.currentDay));
             circle
               .attr('cx', x(brush.extent()[0]));
           }
@@ -78,8 +97,8 @@
       var svg = d3.select('#slider')
         .append('svg')
         .attr('class', 'svg-timeline')
-        .attr('width', outerWidth)
-        .attr('height', outerHeight);
+        .attr('width', this.outerWidth)
+        .attr('height', this.outerHeight);
 
       trail = svg.append('g')
         .attr('class', 'trail')
@@ -88,7 +107,7 @@
         .call(brush);
 
       trail.selectAll('.background')
-        .attr('height', innerHeight);
+        .attr('height', this.innerHeight);
 
       trail.selectAll('.extent, .resize').remove();
 
@@ -96,7 +115,7 @@
         .attr('class', 'progress')
         .style('fill', '#175ca0')
         .attr('width', 0)
-        .attr('height', innerHeight);
+        .attr('height', this.innerHeight);
 
       circle = trail.append('circle')
         .attr('class', 'circle')
@@ -113,7 +132,7 @@
 
       tooltip
         .css({left: x(brush.extent()[0])})
-        .html('Day ' + this.currentDay);
+        .html(self.convertDate(self.currentDay));
 
       this.tooltip = tooltip;
       this.svg = svg;
