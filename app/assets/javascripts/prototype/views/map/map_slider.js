@@ -103,10 +103,11 @@
       trail = svg.append('g')
         .attr('class', 'trail')
         .attr('transform', 'translate(12 11)')
-        .style('fill', 'white')
         .call(brush);
 
       trail.selectAll('.background')
+        .style('visibility', 'visible')
+        .style('fill', '#175ca0')
         .attr('height', this.innerHeight);
 
       trail.selectAll('.extent, .resize').remove();
