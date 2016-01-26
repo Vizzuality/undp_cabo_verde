@@ -10,7 +10,7 @@ class RenameLocalizationsToLocations < ActiveRecord::Migration
     add_index  :locations, [:localizable_id, :localizable_type]
 
     unless Rails.env.test?
-      if ActLocalization.any?
+      if (ActiveRecord::Base.connection.table_exists? 'act_localizations') && (File.exists? File.join('app', 'models', 'localizations', 'act_localization.rb'))
         ActLocalization.all.each do |location|
           Localization.find(location.localization_id).
                    update_attributes(localizable_id: location.act_id,
@@ -21,7 +21,8 @@ class RenameLocalizationsToLocations < ActiveRecord::Migration
                                      )
         end
       end
-      if ActorLocalization.any?
+
+      if (ActiveRecord::Base.connection.table_exists? 'actor_localizations') && (File.exists? File.join('app', 'models', 'localizations', 'actor_localization.rb'))
         ActorLocalization.all.each do |location|
           Localization.find(location.localization_id).
                    update_attributes(localizable_id: location.actor_id,

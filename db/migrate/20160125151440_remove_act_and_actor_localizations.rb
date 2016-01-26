@@ -9,8 +9,8 @@ class RemoveActAndActorLocalizations < ActiveRecord::Migration
         system("cp config/application.rb.new config/application.rb") if File.exists?('config/application.rb.new')
       end
       # Drop unused tables
-      drop_table :act_localizations
-      drop_table :actor_localizations
+      drop_table :act_localizations   if ActiveRecord::Base.connection.table_exists? 'act_localizations'
+      drop_table :actor_localizations if ActiveRecord::Base.connection.table_exists? 'actor_localizations'
     end
   end
 end
