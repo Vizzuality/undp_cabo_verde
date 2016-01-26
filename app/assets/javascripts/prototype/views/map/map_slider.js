@@ -156,17 +156,21 @@
 
     play: function() {
       var self = this;
-      var maxWidth = this.innerWidth;
+
+      var duration = 5000; //ms
+      var percentageMoved = Number(this.progress.attr('width')) / this.innerWidth; // of 1, not 100
+      var percentageLeft = 1 - percentageMoved;
+      var durationLeft = duration * percentageLeft;
 
       this.progress
         .transition()
-        .duration(5000)
+        .duration(durationLeft)
         .ease('linear')
         .attr('width', this.innerWidth);
 
       this.circle
         .transition()
-        .duration(5000)
+        .duration(durationLeft)
         .ease('linear')
         .attr('cx', this.innerWidth);
 
