@@ -578,34 +578,39 @@
 
         var otherEntity, otherEntityLatLng, latLngs;
         _.each(relations, function(relation) {
-          /* TODO: real main location */
-          otherEntityLatLng = L.latLng(relation.locations[0].lat,
-            relation.locations[0].long);
+          if(!!relation.locations.length) {
+            /* TODO: real main location */
+            otherEntityLatLng = L.latLng(relation.locations[0].lat,
+              relation.locations[0].long);
 
-          /* We also highlight the other entity on the map */
-          otherEntity = this.getMarker(entityType, relation.id,
-            relation.locations[0].id);
+            /* We also highlight the other entity on the map */
+            otherEntity = this.getMarker(entityType, relation.id,
+              relation.locations[0].id);
 
-          /* As the markers can be filtered out, we make sure to only add the
-           * relations with the ones visible on the map */
-          if(!!otherEntity) {
-            if(this.status.get('relationshipsVisible')) {
-              this.highlightMarker(otherEntity);
+            /* As the markers can be filtered out, we make sure to only add the
+             * relations with the ones visible on the map */
+            if(!!otherEntity) {
+              if(this.status.get('relationshipsVisible')) {
+                this.highlightMarker(otherEntity);
+              }
+              /* And we add a special class to it so it can't be hidden with the
+               * toggle button for the relationships */
+              otherEntity.classList.add('js-relation-highlight');
+
+              latLngs = [ entityLatLng, otherEntityLatLng ];
+
+              /* We define the line's options */
+              var options = { className: 'map-line js-line' };
+              if(entityType !== type) options.dashArray = '3, 6';
+              if(!this.status.get('relationshipsVisible')) {
+                options.className += ' -hidden';
+              }
+
+              L.polyline(latLngs, options).addTo(this.map);
             }
-            /* And we add a special class to it so it can't be hidden with the
-             * toggle button for the relationships */
-            otherEntity.classList.add('js-relation-highlight');
-
-            latLngs = [ entityLatLng, otherEntityLatLng ];
-
-            /* We define the line's options */
-            var options = { className: 'map-line js-line' };
-            if(entityType !== type) options.dashArray = '3, 6';
-            if(!this.status.get('relationshipsVisible')) {
-              options.className += ' -hidden';
-            }
-
-            L.polyline(latLngs, options).addTo(this.map);
+          } else {
+            console.warn('Unable to show the relation with /' + type + '/' +
+              relation.id + ' because it doesn\'t have any location');
           }
         }, this);
       }.bind(this);
