@@ -335,69 +335,153 @@
       this.addMarkers(params);
     },
 
+    /* Return the icon corresponding to each specific entity and location */
+    /* Internal method used by _addEntityMarkers to create the icons of the
+     * markers. Expects the type of markers, its level, its id and location id
+     * NOTE: it shouldn't be called outside of _addEntityMarkers */
+    _generateMarkerIcon: function(type, level, id, locationId) {
+      return L.divIcon({
+        html: '<svg class="map-marker ' +
+          ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
+          ' data-id="' + id + '" data-location="' + locationId + '">' +
+          '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
+          '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
+          '</svg>',
+        className: type === 'actors' ? 'actor' : 'action',
+        iconSize: L.point(22, 22),
+        iconAnchor: L.point(11, 11),
+        popupAnchor: L.point(0, -10)
+      });
+    },
+
+    /* Internal method used by addMarkers to add markers to the map. Expects the
+     * collection of actors/actions (the JSON object) and its type ("actions" or
+     * "actions")
+     * NOTE: it shouldn't be called outside of addMarkers */
+    _addEntityMarkers: function(collection, type) {
+      var marker, popup;
+      _.each(collection, function(entity) {
+        _.each(entity.locations, function(location) {
+
+          marker = L.marker([location.lat, location.long], {
+            icon: this._generateMarkerIcon(type, entity.level, entity.id,
+              location.id),
+            type: type,
+            id: entity.id,
+            locationId: location.id
+          });
+
+          this.markersLayer.addLayer(marker);
+
+          /* We bind the basic popup */
+          popup = L.popup({
+            closeButton: false,
+            minWidth: 220,
+            maxWidth: 276, /* 20px padding + 4 icons */
+            className: 'popup -' + type + ' -' + entity.level
+          }).setContent('<div class="message -loading"><svg class="icon">' +
+             '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
+             I18n.translate('front.loading') +
+             '</message>');
+          marker.bindPopup(popup);
+
+          marker.on('click', this.onMarkerClick.bind(this));
+        }, this);
+      }, this);
+    },
+
     /* Add markers for each location of each entity of the collection.
     * Options:
     *  - only ("actors" or "actions"): restrict to only one collection */
     addMarkers: function(options) {
-      /* Return the icon corresponding to each specific entity and location */
-      var makeIcon = function(type, level, id, locationId) {
-        return L.divIcon({
-          html: '<svg class="map-marker ' +
-            ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
-            ' data-id="' + id + '" data-location="' + locationId + '">' +
-            '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
-            '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
-            '</svg>',
-          className: type === 'actors' ? 'actor' : 'action',
-          iconSize: L.point(22, 22),
-          iconAnchor: L.point(11, 11),
-          popupAnchor: L.point(0, -10)
-        });
-      };
-
-      /* Method which actually adds the markers. Expects the collection (the
-       * JSON object) and the type ("actions" or "actions") */
-      var addEntityMarkers = function(collection, type) {
-        var marker, popup;
-        _.each(collection, function(entity) {
-          _.each(entity.locations, function(location) {
-
-            marker = L.marker([location.lat, location.long], {
-              icon: makeIcon(type, entity.level, entity.id, location.id),
-              type: type,
-              id: entity.id,
-              locationId: location.id
-            });
-            marker.addTo(this.map);
-
-            /* We bind the basic popup */
-            popup = L.popup({
-              closeButton: false,
-              minWidth: 220,
-              maxWidth: 276, /* 20px padding + 4 icons */
-              className: 'popup -' + type + ' -' + entity.level
-            }).setContent('<div class="message -loading"><svg class="icon">' +
-               '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
-               I18n.translate('front.loading') +
-               '</message>');
-            marker.bindPopup(popup);
-
-            marker.on('click', this.onMarkerClick.bind(this));
-          }, this);
-        }, this);
-      };
-
       /* We close the current popup if exists */
       this.map.closePopup();
 
+      this.markersLayer = L.layerGroup();
+
       if(!(options && options.only) || options && options.only === 'actors') {
-        addEntityMarkers.apply(this,
-          [ this.actorsCollection.toJSON(), 'actors' ]);
+        this._addEntityMarkers(this.actorsCollection.toJSON(), 'actors');
       }
       if(!(options && options.only) || options && options.only === 'actions') {
-        addEntityMarkers.apply(this,
-          [ this.actionsCollection.toJSON(), 'actions' ]);
+        this._addEntityMarkers(this.actionsCollection.toJSON(), 'actions');
       }
+
+      this.computeMarkersOptimalPosition();
+      this.markersLayer.addTo(this.map);
+    },
+
+    // /* Return a LatLng Leaflet object representing the coordinates of the
+    //  * centroid of a set of markers (passed as arguments) */
+    // _computeCentroidLatLng: function() {
+    //   var markers      = arguments[0],
+    //       markersCount = arguments[0].length,
+    //       centroidLat  = 0,
+    //       centroidLng  = 0;
+    //
+    //   var latLng;
+    //   _.each(markers, function(m) {
+    //     latLng = m.getLatLng();
+    //     centroidLat += latLng.lat;
+    //     centroidLng += latLng.lng;
+    //   });
+    //
+    //   return L.latLng(centroidLat / markersCount, centroidLng / markersCount);
+    // },
+
+    /* Compute the position of each marker depending on the position of the
+     * other ones. If several markers have the exact same position, we move them
+     * along an archimede spiral. Expects the layer of markers. */
+    computeMarkersOptimalPosition: function() {
+      /* Constants used as parameters for the spiral */
+      var spiralGap             = 0.001, /* unitless param */
+          spiralInitialDistance = 0.005, /* unitless param */
+          spiralAngleFactor     = Math.PI / 3; /* rad */
+
+      var markers = this.markersLayer.getLayers();
+
+      /* By grouping and filtering the markers, we get an array of all the
+       * groups of markers which share the same location (ie an array of arrays
+       * of markers with the same location) */
+      var latLng;
+      var conflictingMarkersGroups = _.filter(_.groupBy(markers, function(m) {
+        latLng = m.getLatLng();
+        return ''.concat(latLng.lat, latLng.lng);
+      }), function(group) {
+        return group.length > 1;
+      });
+
+      var centroidLatLng;
+      _.each(conflictingMarkersGroups, function(conflictingMarkersGroup) {
+        /* The centroid is the position of any marker as they all share the same
+         * coordinates */
+        centroidLatLng = conflictingMarkersGroup[0].getLatLng();
+
+        L.marker(centroidLatLng).addTo(this.map);
+
+        /* We compute the position of each marker from the centroid position.
+         * Basically, we add a small deviance that follow the path of this
+         * Archimedean spiral:
+         * rho = a * theta + b (polar coordinates)
+         *    where: a     is spiralGap
+         *           b     is spiralInitialDistance
+         *           theta is angle
+         */
+        var angle = spiralAngleFactor,
+            optimalLat,
+            optimalLng;
+        _.each(conflictingMarkersGroup, function(conflictingMarker) {
+          optimalLat = centroidLatLng.lat +
+            (spiralInitialDistance + spiralGap * angle) * Math.cos(angle);
+          optimalLng = centroidLatLng.lng +
+            (spiralInitialDistance + spiralGap * angle) * Math.sin(angle);
+
+          conflictingMarker.setLatLng(L.latLng(optimalLat, optimalLng));
+          conflictingMarker.options.originalLatLng = centroidLatLng;
+
+          angle += spiralAngleFactor;
+        });
+
+      }, this);
     },
 
     /* Highlight the marker associated to the actor/action present in the URL if
