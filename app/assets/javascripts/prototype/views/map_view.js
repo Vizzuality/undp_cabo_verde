@@ -34,10 +34,8 @@
       this.actionModel = new root.app.Model.actionModel();
 
       this.$legend = this.$el.find('#map-legend');
-      this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
-      this.$credits = this.$el.find('.leaflet-control-attribution');
       /* Cache for the relationships part of the legend */
       this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
       this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
@@ -217,7 +215,11 @@
 
     initMap: function() {
       this.renderMap()
-        .then(this.fetchFilteredCollections.bind(this))
+        .then(function() {
+          this.fetchFilteredCollections;
+          this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
+          this.$credits = this.$el.find('.leaflet-control-attribution');
+        }.bind(this))
         .then(function() {
           this.addFilteredMarkers();
           this.highlightActiveMarker();
