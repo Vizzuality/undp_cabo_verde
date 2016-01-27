@@ -96,8 +96,9 @@
       })
     },
 
-    /* Return the type, id and locationId of the active marker */
-    getActiveMarkerInfo: function() {
+    /* Return the type, id and locationId of the selected marker (ie the marker
+     * whose info is displayed in the sidebar) */
+    getSelectedMarkerInfo: function() {
       var route = this.router.getCurrentRoute();
       var markerInfo = {};
 
@@ -127,14 +128,20 @@
       this.removeRelations();
       this.updateLegendRelationships();
       if(route.name === 'actions' || route.name === 'actors') {
-        this.highlightActiveMarkers();
-        this.renderActiveMarkerRelations();
+        this.highlightSelectedMarkers();
+        this.renderSelectedMarkerRelations();
       }
     },
 
     onMarkerClick: function(e) {
       var markers = this.getMarker(e.target.options.type,
         e.target.options.id);
+
+      this.lastActiveMarkerInfo = {
+        type:       e.target.options.type,
+        id:         e.target.options.id,
+        locationId: e.target.options.locationId
+      };
 
       this.resetMarkersHighlight();
       this.removeRelations();
@@ -241,6 +248,18 @@
       this.removeRelations();
     },
 
+    onZoomEnd: function() {
+      this.updateMarkersSize();
+      this.computeMarkersOptimalPosition();
+      this.removeRelations();
+
+      if(!_.isEmpty(this.lastActiveMarkerInfo)) {
+        this.renderMarkerRelations(this.lastActiveMarkerInfo.type,
+          this.lastActiveMarkerInfo.id,
+          this.lastActiveMarkerInfo.locationId);
+      }
+    },
+
     /* LOGIC */
 
     initMap: function() {
@@ -248,9 +267,10 @@
         .then(this.fetchFilteredCollections.bind(this))
         .then(function() {
           this.addFilteredMarkers();
-          this.highlightActiveMarkers();
-          this.renderActiveMarkerRelations();
+          this.highlightSelectedMarkers();
+          this.renderSelectedMarkerRelations();
           this.updateLegendRelationships();
+          this.lastActiveMarkerInfo = this.getSelectedMarkerInfo();
         }.bind(this));
     },
 
@@ -268,7 +288,7 @@
 
       this.map.zoomControl.setPosition('bottomleft');
       this.map.on('click', this.onMapClick.bind(this));
-      this.map.on('zoomend', this.updateMarkersSize.bind(this));
+      this.map.on('zoomend', this.onZoomEnd.bind(this));
 
       var deferred = $.Deferred();
       cartodb.createLayer(this.map,
@@ -441,9 +461,27 @@
      * along an archimede spiral. Expects the layer of markers. */
     computeMarkersOptimalPosition: function() {
       /* Constants used as parameters for the spiral */
-      var spiralGap             = 0.001, /* unitless param */
-          spiralInitialDistance = 0.005, /* unitless param */
-          spiralAngleFactor     = Math.PI / 3; /* rad */
+      var spiralGap, spiralInitialDistance, spiralAngleFactor;
+      var mapZoom = this.map.getZoom();
+      switch(true) {
+        case mapZoom <= 9:
+          spiralGap             = 2;
+          spiralInitialDistance = 0;
+          spiralAngleFactor     = Math.PI / 3;
+          break;
+
+        case mapZoom <= 11:
+          spiralGap             = 5;
+          spiralInitialDistance = 2;
+          spiralAngleFactor     = Math.PI / 3;
+          break;
+
+        default:
+          spiralGap             = 10;
+          spiralInitialDistance = 5;
+          spiralAngleFactor     = Math.PI / 3;
+          break;
+      }
 
       var markers = this.markersLayer.getLayers();
 
@@ -452,7 +490,7 @@
        * of markers with the same location) */
       var latLng;
       var conflictingMarkersGroups = _.filter(_.groupBy(markers, function(m) {
-        latLng = m.getLatLng();
+        latLng = m.options.originalLatLng || m.getLatLng();
         return ''.concat(latLng.lat, latLng.lng);
       }), function(group) {
         return group.length > 1;
@@ -461,21 +499,27 @@
       /* This layer contains all the map's elements useful for the user to
        * understand that some markers have been moved from their original
        * positions. It contains lines and a marker at the original position. */
-      this.optimalPositioningLayer = L.layerGroup();
+      if(this.optimalPositioningLayer) {
+        this.optimalPositioningLayer.clearLayers();
+      } else {
+        this.optimalPositioningLayer = L.layerGroup();
+      }
 
-      var centroidLatLng;
+      var centroidLatLng, centroidXY;
       _.each(conflictingMarkersGroups, function(conflictingMarkersGroup) {
         /* The centroid is the position of any marker as they all share the same
          * coordinates */
-        centroidLatLng = conflictingMarkersGroup[0].getLatLng();
+        centroidLatLng = conflictingMarkersGroup[0].options.originalLatLng ||
+          conflictingMarkersGroup[0].getLatLng();
+        centroidXY = this.map.latLngToLayerPoint(centroidLatLng);
 
         /* We add a marker at the original position so the user knows where the
          * original markers' position */
         L.marker(centroidLatLng, {
           icon: L.divIcon({
-            className: 'map-marker -secondary',
-            iconSize: L.point(6, 6),
-            iconAnchor: L.point(3, 3)
+            className: 'map-marker -secondary js-position-marker',
+            iconSize: L.point(4, 4),
+            iconAnchor: L.point(2, 2)
           })
         }).addTo(this.optimalPositioningLayer);
 
@@ -488,20 +532,22 @@
          *           theta is angle
          */
         var angle = spiralAngleFactor,
-            optimalLat,
-            optimalLng;
+            optimalX,
+            optimalY;
         _.each(conflictingMarkersGroup, function(conflictingMarker) {
-          optimalLat = centroidLatLng.lat +
+          optimalX = centroidXY.x +
             (spiralInitialDistance + spiralGap * angle) * Math.cos(angle);
-          optimalLng = centroidLatLng.lng +
+          optimalY = centroidXY.y +
             (spiralInitialDistance + spiralGap * angle) * Math.sin(angle);
 
-          conflictingMarker.setLatLng(L.latLng(optimalLat, optimalLng));
+          conflictingMarker.setLatLng(this.map.layerPointToLatLng([optimalX,
+            optimalY]));
           conflictingMarker.options.originalLatLng = centroidLatLng;
 
           /* We add a line between the marker which represents the original
            * position and the marker which moved */
-           L.polyline([ centroidLatLng, L.latLng(optimalLat, optimalLng) ], {
+           L.polyline([ centroidLatLng, this.map.layerPointToLatLng([optimalX,
+             optimalY]) ], {
              className: 'map-line -secondary'
            }).addTo(this.optimalPositioningLayer);
 
@@ -510,13 +556,15 @@
 
       }, this);
 
-      this.optimalPositioningLayer.addTo(this.map);
+      if(!this.map.hasLayer(this.optimalPositioningLayer)) {
+        this.optimalPositioningLayer.addTo(this.map);
+      }
     },
 
     /* Highlight the marker associated to the actor/action present in the URL if
      * exists, otherwise do nothing */
-    highlightActiveMarkers: function() {
-      var activeMarkerInfo = this.getActiveMarkerInfo();
+    highlightSelectedMarkers: function() {
+      var activeMarkerInfo = this.getSelectedMarkerInfo();
 
       if(!_.isEmpty(activeMarkerInfo)) {
         var activeMarkers = this.getMarker(activeMarkerInfo.type,
@@ -615,6 +663,20 @@
 
       this.$el.find('.js-actor-marker, .js-action-marker').css('transform',
         'scale(' + scale + ')');
+
+      /* We also udate the size of the position markers but as the CSS transform
+       * property already has a value, we add the scale to it */
+      var positionMarkers = this.$el.find('.js-position-marker'),
+          transform;
+      for(var i = 0, j = positionMarkers.length; i < j; i++) {
+        transform = positionMarkers[i].style.transform;
+        if(/scale\(.*\)/gi.test(transform)) {
+          transform.replace(/scale\(.*\)/gi, 'scale(' + scale + ')');
+        } else {
+          transform += ' scale(' + scale + ')';
+        }
+        positionMarkers[i].style.transform = transform;
+      }
     },
 
     /* Trigger the visibility of the relationships (ie links) on the map */
@@ -731,8 +793,8 @@
       addLines(relations, 'actions');
     },
 
-    renderActiveMarkerRelations: function() {
-      var activeMarkerInfo = this.getActiveMarkerInfo();
+    renderSelectedMarkerRelations: function() {
+      var activeMarkerInfo = this.getSelectedMarkerInfo();
 
       if(!_.isEmpty(activeMarkerInfo)) {
         this.fetchModelFor(activeMarkerInfo.type, activeMarkerInfo.id)
