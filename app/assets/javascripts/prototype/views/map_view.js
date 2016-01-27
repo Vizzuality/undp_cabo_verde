@@ -458,13 +458,26 @@
         return group.length > 1;
       });
 
+      /* This layer contains all the map's elements useful for the user to
+       * understand that some markers have been moved from their original
+       * positions. It contains lines and a marker at the original position. */
+      this.optimalPositioningLayer = L.layerGroup();
+
       var centroidLatLng;
       _.each(conflictingMarkersGroups, function(conflictingMarkersGroup) {
         /* The centroid is the position of any marker as they all share the same
          * coordinates */
         centroidLatLng = conflictingMarkersGroup[0].getLatLng();
 
-        L.marker(centroidLatLng).addTo(this.map);
+        /* We add a marker at the original position so the user knows where the
+         * original markers' position */
+        L.marker(centroidLatLng, {
+          icon: L.divIcon({
+            className: 'map-marker -secondary',
+            iconSize: L.point(6, 6),
+            iconAnchor: L.point(3, 3)
+          })
+        }).addTo(this.optimalPositioningLayer);
 
         /* We compute the position of each marker from the centroid position.
          * Basically, we add a small deviance that follow the path of this
@@ -486,10 +499,18 @@
           conflictingMarker.setLatLng(L.latLng(optimalLat, optimalLng));
           conflictingMarker.options.originalLatLng = centroidLatLng;
 
+          /* We add a line between the marker which represents the original
+           * position and the marker which moved */
+           L.polyline([ centroidLatLng, L.latLng(optimalLat, optimalLng) ], {
+             className: 'map-line -secondary'
+           }).addTo(this.optimalPositioningLayer);
+
           angle += spiralAngleFactor;
-        });
+        }, this);
 
       }, this);
+
+      this.optimalPositioningLayer.addTo(this.map);
     },
 
     /* Highlight the marker associated to the actor/action present in the URL if
@@ -577,6 +598,7 @@
     /* Delete all the map's markers */
     removeMarkers: function() {
       this.map.removeLayer(this.markersLayer);
+      this.map.removeLayer(this.optimalPositioningLayer);
     },
 
     /* Update the markers' size according to the map's zoom level */
@@ -586,12 +608,13 @@
        * than 12px. To do so, we use the css transform: scale property and bound
        * it to values between .42 and 1 (default marker's size is 12px). We
        * consider 13 the level from which makers' size shouldn't change. */
-       var scale;
-       if(zoom <= 5)       { scale = 0.42; }
-       else if(zoom >= 13) { scale = 1; }
-       else                { scale = zoom / 13; }
+      var scale;
+      if(zoom <= 5)       { scale = 0.42; }
+      else if(zoom >= 13) { scale = 1; }
+      else                { scale = zoom / 13; }
 
-       this.$el.find('.map-marker').css('transform', 'scale(' + scale + ')');
+      this.$el.find('.js-actor-marker, .js-action-marker').css('transform',
+        'scale(' + scale + ')');
     },
 
     /* Trigger the visibility of the relationships (ie links) on the map */
