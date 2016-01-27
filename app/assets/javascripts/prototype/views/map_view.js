@@ -574,16 +574,9 @@
       }
     },
 
-    /* Delete all the map's markers or only one type of markers if specified */
-    removeMarkers: function(type) {
-      var selector = '.js-actor-marker, .js-action-marker';
-      if(type) {
-        selector = (type === 'actors') ? selector.split(', ')[0] :
-          selector.split(', ')[1];
-      }
-      /* We actually remove the parent of the marker because leaflet adds a
-       * wrapper */
-      this.$el.find(selector).parent().remove();
+    /* Delete all the map's markers */
+    removeMarkers: function() {
+      this.map.removeLayer(this.markersLayer);
     },
 
     /* Update the markers' size according to the map's zoom level */
