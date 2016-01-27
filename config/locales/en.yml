@@ -349,6 +349,9 @@ en:
     edit_localization: 'Edit location'
     deactivate: 'Deacticate'
     main: 'Main location'
+    select_country: 'Select country'
+    address: 'Address'
+    select_parent_location: 'Select location from parent or add a new one.'
 
   navbar:
     dashboard: 'Dashboard'

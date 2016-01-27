@@ -35,6 +35,9 @@ class Actor < ActiveRecord::Base
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
+  # after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro?'
+  after_update :set_parent_location, if: 'parents_locations and micro?'
+
   validates :type,              presence: true
   validates :name,              presence: true
   validates :merged_domain_ids, presence: true
@@ -49,13 +52,27 @@ class Actor < ActiveRecord::Base
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)',
                                           child.id) }
 
-  scope :last_max_update,    -> { maximum(:updated_at)                     }
-  scope :recent,             -> { order('updated_at DESC')                 }
-  scope :meso_and_macro,     -> { where(type: ['ActorMeso', 'ActorMacro']) }
+  scope :last_max_update, -> { maximum(:updated_at)                     }
+  scope :recent,          -> { order('updated_at DESC')                 }
+  scope :meso_and_macro,  -> { where(type: ['ActorMeso', 'ActorMacro']) }
+  scope :with_locations,  -> { joins(:localizations) }
   # End scopes
 
   def self.types
     %w(ActorMacro ActorMeso ActorMicro)
+  end
+
+  def parents_locations
+    parent_ids = includes_actor_relations_belongs(self)
+    locations  = if parent_ids.present?
+                   Actor.filter_actives.where(id: parent_ids).with_locations.preload(:localizations).map { |p| ["#{p.name} (#{p.main_address})", p.main_location_id] }
+                 end
+    locations
+  end
+
+  def includes_actor_relations_belongs(child)
+    # relation_type_id: 2 for belongs to actor - actor relation
+    ActorRelation.where(relation_type_id: 2, child_id: child.id).pluck(:parent_id)
   end
 
   def self.filter_actors(filters)
@@ -209,6 +226,12 @@ class Actor < ActiveRecord::Base
     def set_main_location
       if localizations.main_locations.empty?
         localizations.order(:created_at).first.update( main: true )
+      end
+    end
+
+    def set_parent_location
+      if !parent_location_id && parents_locations.any?
+        self.update!(parent_location_id: parents_locations.first[1])
       end
     end
 end

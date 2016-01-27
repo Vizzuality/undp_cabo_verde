@@ -28,7 +28,7 @@ RSpec.describe Localization, type: :model do
     end
 
     it 'Set other location for actor macro as main location' do
-      @macro.update!(localizations: [@localization, @localization_new])
+      @macro.update_attributes(localizations: [@localization, @localization_new])
       expect(@macro.localizations.count).to eq(2)
       @localization_new.update!(main: true)
       expect(@macro.main_location_name).to eq('Main Localization')

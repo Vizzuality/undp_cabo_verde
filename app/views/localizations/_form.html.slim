@@ -32,7 +32,7 @@
     .column.medium-4
       = f.label :country, class: 'right inline'
     .column.medium-8
-      = f.input :country, input_html: { class: 'localization_country' }, prompt: cape_verde, label: false, disabled: common_form?
+      = f.input :country, input_html: { class: 'localization_country' }, prompt: t('localizations.select_country'), label: false, disabled: common_form?
   .row
     .column.medium-4
       = f.label :city, class: 'right inline'

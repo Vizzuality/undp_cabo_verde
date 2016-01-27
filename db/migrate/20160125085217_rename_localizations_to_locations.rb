@@ -35,7 +35,7 @@ class RenameLocalizationsToLocations < ActiveRecord::Migration
       end
 
       if Localization.any?
-        Localization.where(localizable_id: nil).delete_all
+        Localization.where(localizable_id: nil).delete_all && Localization.where(country: nil).update_all(country: 'CV')
       end
     end
   end
