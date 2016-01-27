@@ -76,11 +76,17 @@
   }
 
   #map-slider {
-    position: absolute;
-    width: 400px;
+    width: 320px;
     height: 25px;
-    bottom: 33px;
+    margin-right: 20px;
+
+    position: absolute;
+    bottom: 75px;
     left: 210px;
+
+    @media screen and (min-width: 740px) {
+      bottom: 33px;
+    }
 
     >.slider-controls,
     >#slider {
