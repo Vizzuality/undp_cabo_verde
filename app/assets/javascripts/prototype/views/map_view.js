@@ -88,6 +88,14 @@
       return marker;
     },
 
+    /* Return the Leaflet marker corresponding to the passed arguments */
+    getLeafletMarker: function(type, id, locationId) {
+      return _.find(this.markersLayer.getLayers(), function(m) {
+        return m.options.type === type && m.options.id === id &&
+          m.options.locationId === locationId;
+      })
+    },
+
     /* Return the type, id and locationId of the active marker */
     getActiveMarkerInfo: function() {
       var route = this.router.getCurrentRoute();
@@ -96,8 +104,8 @@
       if(route.name === 'actors' || route.name === 'actions') {
         markerInfo = {
           type: route.name,
-          id: route.params[0],
-          locationId: route.params[1]
+          id: parseInt(route.params[0]),
+          locationId: parseInt(route.params[1])
         };
       }
 
@@ -645,40 +653,44 @@
       * relations is the collection of relations and entityType designates the
       * type of the relations ("actors" or "actions") */
       var addLines = function(relations, entityType) {
-        /* We search for the location's coordinates */
-        var location = _.findWhere(model.get('locations'),
-          { id: parseInt(locationId) });
-        if(!location) {
-          console.warn('Unable to find the location ' + locationId +
-            ' of the ' + ((type === 'actors') ? 'actor' : 'action') + ' ' +
-            id);
+        var markers = this.markersLayer.getLayers();
+
+        /* We search the position of the clicked marker as it can differ from
+         * the one stored in the model because of the "optimal positioning" */
+        var clickedMarker = this.getLeafletMarker(type, id, locationId);
+
+        if(!clickedMarker) {
+          console.warn('Unable to find the clicked marker');
           return;
         }
-        var entityLatLng = L.latLng(location.info_data.lat,
-          location.info_data.long);
 
-        var otherEntity, otherEntityLatLng, latLngs;
+        var clickedMarkerLatLng = clickedMarker.getLatLng();
+
+        /* We then find each marker which is linked to the clicked one, save its
+         * coordinates and add a line between them */
+        var otherMarker, otherDOMMarker, otherMarkerLatLng, latLngs;
         _.each(relations, function(relation) {
-          if(!!relation.locations.length) {
+          if(!relation.locations.length) {
+            console.warn('Unable to show the relation with /' + entityType +
+              '/' + relation.id + ' because it doesn\'t have any location');
+          } else {
             /* TODO: real main location */
-            otherEntityLatLng = L.latLng(relation.locations[0].lat,
-              relation.locations[0].long);
-
-            /* We also highlight the other entity on the map */
-            otherEntity = this.getMarker(entityType, relation.id,
+            otherMarker = this.getLeafletMarker(entityType, relation.id,
               relation.locations[0].id);
 
-            /* As the markers can be filtered out, we make sure to only add the
-             * relations with the ones visible on the map */
-            if(!!otherEntity) {
+            if(!!otherMarker) {
+              otherMarkerLatLng = otherMarker.getLatLng();
+              otherDOMMarker = this.getMarker(entityType, relation.id,
+                relation.locations[0].id);
+
               if(this.status.get('relationshipsVisible')) {
-                this.highlightMarker(otherEntity);
+                this.highlightMarker(otherDOMMarker);
               }
               /* And we add a special class to it so it can't be hidden with the
                * toggle button for the relationships */
-              otherEntity.classList.add('js-relation-highlight');
+              otherDOMMarker.classList.add('js-relation-highlight');
 
-              latLngs = [ entityLatLng, otherEntityLatLng ];
+              latLngs = [ clickedMarkerLatLng, otherMarkerLatLng ];
 
               /* We define the line's options */
               var options = { className: 'map-line js-line' };
@@ -689,9 +701,6 @@
 
               L.polyline(latLngs, options).addTo(this.map);
             }
-          } else {
-            console.warn('Unable to show the relation with /' + type + '/' +
-              relation.id + ' because it doesn\'t have any location');
           }
         }, this);
       }.bind(this);
