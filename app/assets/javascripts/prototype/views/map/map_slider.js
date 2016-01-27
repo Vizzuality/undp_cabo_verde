@@ -24,19 +24,14 @@
       this.status = new Status();
 
       this.setListeners();
-      this.cacheVars();
-      this.slider();
-    },
 
-    cacheVars: function() {
       this.playbutton = $('.play')[0];
 
-      var minDateString = document.getElementById('startDate').dataset["min"];
-      var maxDateString = document.getElementById('endDate').dataset["max"];
+      this.setMin();
+      this.setMax();
 
-      this.currentDay = new Date(minDateString);
-      this.startDate = new Date(minDateString);
-      this.endDate = new Date(maxDateString);
+      this.isActive = false;
+      this.createMockBackground();
     },
 
     setListeners: function() {
@@ -44,9 +39,74 @@
     },
 
     onFiltering: function() {
-      this.startDate = new Date(this.router.getQueryParams()["start_date"]);
-      this.endDate = new Date(this.router.getQueryParams()["end_date"]);
-      this.slider();
+      this.isActive = false; // slider idle
+      this.resetSlider();
+
+      var startDateQuery = this.router.getQueryParams()["start_date"];
+      var endDateQuery = this.router.getQueryParams()["end_date"];
+
+      this.setStart();
+      this.setEnd();
+
+    },
+
+    setMin: function() {
+      var minDateString = document.getElementById('startDate').dataset["min"];
+      this.startDate = new Date(minDateString);
+      this.currentDay = this.startDate;
+    },
+
+    setMax: function() {
+      var maxDateString = document.getElementById('endDate').dataset["max"];
+      this.endDate = new Date(maxDateString);
+    },
+
+    setStart: function() {
+      var startDateQuery = this.router.getQueryParams()["start_date"];
+      if (startDateQuery.length !== 0) {
+        this.startDate = new Date(startDateQuery);
+        this.currentDay = this.startDate;
+      }else{
+        this.setMin();
+      }
+    },
+
+    setEnd: function() {
+      var endDateQuery = this.router.getQueryParams()["end_date"];
+      if (endDateQuery.length !== 0) {
+        this.endDate = new Date(this.router.getQueryParams()["end_date"]);
+      }else{
+        this.setMax();
+      }
+    },
+
+    destroySlider: function() {
+      var sliderBox = this.$el.find('#slider')[0];
+      while (sliderBox.firstChild) {
+        sliderBox.removeChild(sliderBox.firstChild);
+      }
+    },
+
+    createMockBackground: function() {
+      var self = this;
+
+      var svg = d3.select('#slider')
+        .append('svg')
+        .attr('class', 'svg-timeline')
+        .attr('width', 284)
+        .attr('height', 25);
+
+      var bg = svg.append('rect')
+        .attr('class', 'bg')
+        .attr('width', 260)
+        .attr('height', 3)
+        .style('fill', '#175ca0')
+        .attr('transform', 'translate(12 11)');
+    },
+
+    resetSlider: function() {
+      this.destroySlider();
+      this.createMockBackground();
     },
 
     convertDate: function(date) {
@@ -61,6 +121,7 @@
     },
 
     slider: function() {
+
       var sliderBox = this.$el.find('#slider');
 
       var margin = 12;
@@ -71,8 +132,6 @@
       this.outerHeight = sliderBox.height();
       this.innerHeight = 3;
 
-      this.maxDays = 365;
-
       var x = d3.time.scale()
         .range([0, this.innerWidth])
         .clamp(true)
@@ -80,7 +139,12 @@
 
       var progress, trail;
       var circle;
-      var tooltip = $('.slider-tooltip');
+
+      var tooltip = document.createElement('div');
+      tooltip.className = "slider-tooltip";
+      sliderBox[0].insertBefore(tooltip, null);
+
+      tooltip = $('.slider-tooltip');
 
       var self = this;
 
@@ -100,7 +164,6 @@
               .html(self.convertDate(self.currentDay));
             circle
               .attr('cx', x(brush.extent()[0]));
-
           }
           progress.attr('width', x(value));
         })
@@ -155,10 +218,18 @@
     },
 
     onPlay: function() {
-      if (this.isPlaying()) {
-        this.pause();
-      } else {
+      if (!this.isActive) {
+        this.isActive = true;
+        this.destroySlider();
+        this.slider();
         this.play();
+      }else{
+        //if slider is active, switch between play and pause
+        if (this.isPlaying()) {
+          this.pause();
+        } else {
+          this.play();
+        }
       }
     },
 
@@ -167,7 +238,7 @@
 
       var self = this;
 
-      var duration = 5000; //ms
+      var duration = 10000; //ms
       var percentageMoved = Number(this.progress.attr('width')) / this.innerWidth; // of 1, not 100
       var percentageLeft = 1 - percentageMoved;
       var durationLeft = duration * percentageLeft;
@@ -194,7 +265,7 @@
           self.progress.attr('width', 0);
           self.circle.attr('cx', 0);
           if (self.isPlaying()) {
-            self.play();
+            self.pause();
           }
           return;
         }
