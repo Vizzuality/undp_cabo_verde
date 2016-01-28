@@ -1,6 +1,6 @@
 class ActorArraySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 10
 
   attributes :id, :name, :level, :locations
 
@@ -14,11 +14,11 @@ class ActorArraySerializer < BaseSerializer
 
   def locations
     if @options[:search_filter]['start_date'].present? || @options[:search_filter]['end_date'].present?
-      object.actor_locations_by_date(@options[:search_filter]).map do |actor_localizations|
+      object.get_locations_by_date(@options[:search_filter]).map do |actor_localizations|
         LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     else
-      object.localizations.map do |localizations|
+      object.get_locations.map do |localizations|
         LocalizationArraySerializer.new(localizations, root: false).serializable_hash
       end
     end

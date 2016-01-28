@@ -3,6 +3,7 @@ class Actor < ActiveRecord::Base
   include Localizable
 
   belongs_to :user, foreign_key: :user_id
+  belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
 
   has_many :actor_relations_as_parent, class_name: 'ActorRelation', foreign_key: :parent_id
   has_many :actor_relations_as_child,  class_name: 'ActorRelation', foreign_key: :child_id
@@ -35,8 +36,7 @@ class Actor < ActiveRecord::Base
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
-  # after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro?'
-  after_update :set_parent_location, if: 'parents_locations and micro?'
+  after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
 
   validates :type,              presence: true
   validates :name,              presence: true
@@ -55,24 +55,15 @@ class Actor < ActiveRecord::Base
   scope :last_max_update, -> { maximum(:updated_at)                     }
   scope :recent,          -> { order('updated_at DESC')                 }
   scope :meso_and_macro,  -> { where(type: ['ActorMeso', 'ActorMacro']) }
-  scope :with_locations,  -> { joins(:localizations) }
+  scope :only_micro,      -> { where(type: 'ActorMicro')                }
+  scope :with_locations,  -> { joins(:localizations)                    }
+  # Used in serach
+  scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
+  scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
   # End scopes
 
   def self.types
     %w(ActorMacro ActorMeso ActorMicro)
-  end
-
-  def parents_locations
-    parent_ids = includes_actor_relations_belongs(self)
-    locations  = if parent_ids.present?
-                   Actor.filter_actives.where(id: parent_ids).with_locations.preload(:localizations).map { |p| ["#{p.name} (#{p.main_address})", p.main_location_id] }
-                 end
-    locations
-  end
-
-  def includes_actor_relations_belongs(child)
-    # relation_type_id: 2 for belongs to actor - actor relation
-    ActorRelation.where(relation_type_id: 2, child_id: child.id).pluck(:parent_id)
   end
 
   def self.filter_actors(filters)
@@ -87,6 +78,27 @@ class Actor < ActiveRecord::Base
                all
              end
     actors
+  end
+
+  def get_locations
+    locations = if micro? && localizations.blank?
+                  # Get location from parent_location_id (main parent location) unless parent_location_id present get all parents main locations
+                  parent_location_id.present? ? Localization.where(id: parent_location_id) : get_all_parents_locations
+                else
+                  localizations.filter_actives
+                end
+  end
+
+  def get_all_parents_locations
+    # Get main locations from all parents
+    get_parents.present? ? get_parents.map { |p| p.main_location } : []
+  end
+
+  def get_locations_by_date(options)
+    start_date = options['start_date'] if options['start_date'].present?
+    end_date   = options['end_date']   if options['end_date'].present?
+
+    get_locations.by_date(start_date, end_date)
   end
 
   def membership_date(actor, parent)
@@ -178,11 +190,8 @@ class Actor < ActiveRecord::Base
     localizations.main_locations
   end
 
-  def actor_locations_by_date(options)
-    start_date = options['start_date'] if options['start_date'].present?
-    end_date   = options['end_date']   if options['end_date'].present?
-
-    localizations.by_date(start_date, end_date)
+  def parents_locations
+    get_parents.map { |p| ["#{p.name} (#{p.main_address})", p.main_location_id] } if get_parents.present?
   end
 
   private
@@ -221,6 +230,18 @@ class Actor < ActiveRecord::Base
 
     def other_domain_invalid(attributes)
       attributes['name'].empty?
+    end
+
+    def includes_actor_relations_belongs(child)
+      # relation_type_id: 2 for belongs to actor - actor relation
+      ActorRelation.where(relation_type_id: 2, child_id: child.id).pluck(:parent_id)
+    end
+
+    def get_parents
+      parent_ids = includes_actor_relations_belongs(self)
+      locations  = if parent_ids.present?
+                     Actor.filter_actives.where(id: parent_ids).with_locations.preload(:localizations)
+                   end
     end
 
     def set_main_location
