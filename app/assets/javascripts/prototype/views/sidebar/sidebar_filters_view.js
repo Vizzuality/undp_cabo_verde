@@ -20,7 +20,8 @@
       'click .js-apply': 'onApplyFilters',
       'change .toggle-button': 'onExpandFilter',
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
-      'click .js-toggle-check': 'onClickToggleCheckButton'
+      'click .js-uncheck-all': 'onClickUncheckAll',
+      'click .js-check-all': 'onClickCheckAll'
     },
 
     initialize: function(options) {
@@ -40,17 +41,10 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
+      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
+      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
       this.listenTo(this.status, 'change', this.applySearch);
-    },
-
-    /* According to the route broadcast by the router show or hide the pane */
-    toggleVisibilityFromRoute: function(route) {
-      if(route !== 'welcome') {
-        this.hide();
-      } else {
-        this.show();
-      }
     },
 
     /* GETTERS */
@@ -186,18 +180,22 @@
       this.updateErrorMessageVisibility();
     },
 
-    onClickToggleCheckButton: function(e) {
+    onClickUncheckAll: function(e) {
       e.preventDefault();
-
       var filterRootElem = this.getFilterRootElem(e.currentTarget);
-      var checkedCheckBoxes = this.getFilterCheckedCheckboxes(filterRootElem);
+      this.uncheckFilterAllCheckboxes(filterRootElem);
+      this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
+      this.updateFilterToggleCheckButton(filterRootElem);
+      this.updateFilterNotificationBadge(filterRootElem);
+      this.updateApplyButtonState();
+      this.updateErrorMessageVisibility();
+    },
 
-      if(checkedCheckBoxes.length > 0) {
-        this.uncheckFilterAllCheckboxes(filterRootElem);
-      } else {
-        this.checkFilterAllCheckboxes(filterRootElem);
-      }
-
+    onClickCheckAll: function(e) {
+      e.preventDefault();
+      var filterRootElem = this.getFilterRootElem(e.currentTarget);
+      this.checkFilterAllCheckboxes(filterRootElem);
+      this.syncFilterHiddenInputWithCheckboxes(filterRootElem);
       this.updateFilterToggleCheckButton(filterRootElem);
       this.updateFilterNotificationBadge(filterRootElem);
       this.updateApplyButtonState();
@@ -217,12 +215,24 @@
       }
     },
 
+    onActorShow: function() {
+      this.hide();
+    },
+
+    onActionShow: function() {
+      this.hide();
+    },
+
+    onClickGoBack: function() {
+      this.show();
+    },
+
     /* LOGIC */
 
     /* Expand or contract a filter depending of its current state */
     expandFilter: function(filterRootElem) {
       var content = this.getFilterContent(filterRootElem);
-      var isContracted = content.getAttribute('aria-hidden');
+      var isContracted = content.getAttribute('aria-hidden') === 'true';
 
       content.setAttribute('aria-hidden', !isContracted);
     },
@@ -417,8 +427,6 @@
      * TODO: remove the console.warn once the form features are all implemented
      */
     applyFilters: function() {
-      console.warn('The feature is only partially implemented');
-
       var inputs = this.getAllInputs();
 
       var field, value, summary = {};

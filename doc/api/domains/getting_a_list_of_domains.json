@@ -26,17 +26,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 209,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 212,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\"\n    },\n    {\n      \"id\": 210,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\"\n    },\n    {\n      \"id\": 211,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
+      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 209,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 212,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 210,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 211,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"cf7147e138a7b6f3fa6c8611449694c0\"",
+        "ETag": "W/\"e2f1291d0e41462859dcfe17943ec72f\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "804aac4c-101b-4cdc-8499-365ffc21da46",
-        "X-Runtime": "0.113983",
-        "Content-Length": "273"
+        "X-Request-Id": "be433636-b4cb-44a0-90ce-31439409ab09",
+        "X-Runtime": "0.083500",
+        "Content-Length": "365"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/domains\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

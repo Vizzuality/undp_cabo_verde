@@ -27,8 +27,13 @@
   }
 
   .more-button {
-    width: 18px;
-    height: 18px;
+    margin: 5px auto 15px auto;
+    display: block;
+  }
+
+  .close-button {
+    width: 19px;
+    height: 19px;
     display: block;
     position: absolute;
     top: 20px;
@@ -41,6 +46,7 @@
     .leaflet-popup-tip {
       background-color: $color-7;
     }
+    .more-button { color: $color-7; }
   }
 
   &.-actions {
@@ -48,5 +54,6 @@
     .leaflet-popup-tip {
       background-color: $color-6;
     }
+    .more-button { color: $color-6; }
   }
 }

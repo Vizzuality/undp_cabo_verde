@@ -3,11 +3,6 @@
     .form-inputs
       .row
         .column.medium-4
-          = form.label :name, class: 'right inline'
-        .column.medium-8
-          = form.input :name, label: false, disabled: common_form?
-      .row
-        .column.medium-4
           = form.label :observation, class: 'right inline'
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
@@ -16,7 +11,7 @@
         .column.medium-4
           = form.label :merged_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
       - unless common_form?
         .row
           .column
@@ -41,6 +36,22 @@
 
 
 .row
+  .columns.medium-8.medium-offset-1
+    = form.fields_for :actor_relations_as_parent do |actor_children_form|
+      p
+        = render 'actor_relation_children_form', f: actor_children_form
+
+- unless common_form?
+  .row
+    .columns.medium-8.medium-offset-1#add-relations
+      .row.add-relations
+        .column
+          p.text-right
+            = add_actor_relation_path t('actors.add_actor'), form, :actor_relations_as_child, 'add_parent_actor hidden mini-text add_actors_fields'
+            / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
+            = add_actor_relation_children_path t('actors.add_actor'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
+
+.row.actor-connection-action
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4

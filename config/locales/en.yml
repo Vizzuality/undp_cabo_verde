@@ -336,6 +336,7 @@ en:
     other_domains: 'Other domains'
     organization_types: 'Organization types'
     name: 'Name'
+    remove_domain: 'Remove domain'
 
   comments:
     comments: 'Comments'

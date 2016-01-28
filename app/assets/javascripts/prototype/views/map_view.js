@@ -8,6 +8,10 @@
   root.app.pubsub = root.app.pubsub || {};
   root.app.Helper = root.app.Helper || {};
 
+  var Status = Backbone.Model.extend({
+    defaults: { relationshipsVisible: true }
+  });
+
   root.app.View.mapView = Backbone.View.extend({
 
     el: '.l-map',
@@ -19,24 +23,21 @@
     popupTemplate: HandlebarsTemplates['popup_template'],
 
     initialize: function(options) {
-      this.actorsCollection = options.actorsCollection;
-      this.actionsCollection = options.actionsCollection;
+      this.router = options.router;
+      this.status = new Status();
+
+      this.actorsCollection = new root.app.Collection.actorsCollection(null, {
+        router: this.router
+      });
+      this.actionsCollection = new root.app.Collection.actionsCollection(null, {
+        router: this.router
+      });
       /* actorModel and actionModel are used to store the information about the
        * maker whose popup is open. Their data can be fetched by this view, or
        * synced by another one using the pubsub object. */
       this.actorModel = new root.app.Model.actorModel();
       this.actionModel = new root.app.Model.actionModel();
-      this.router = options.router;
-      /* queue is an array of methods and arguments ([ func, args ]) that is
-       * stored in order to wait for the map to be instanced. Once done, each
-       * queue's methods are called. The queue's elements have a priority number
-       * so the ones with the smallest number are executed first (FIFO). */
-      this.queue = [];
-      this.renderMap();
-      /* We make a first call to addMarkers in order to make sure to add them
-       * in case the collection would be populated before the view would be
-       * instanced */
-      this.addActorsMarkers();
+
       this.$legend = this.$el.find('#map-legend');
       this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
@@ -48,70 +49,299 @@
       this.$actionToActionLegend = this.$el.find('.js-action-to-action');
 
       this.setListeners();
+
+      this.initMap();
     },
 
     setListeners: function() {
-      this.listenTo(this.actorsCollection, 'sync change',
-        this.addActorsMarkers);
-      this.listenTo(this.actionsCollection, 'sync change',
-        this.addActionsMarkers);
-      this.listenTo(this.router, 'route', this.onRoute);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
-        this.toggleRelationshipsVisibility);
+        this.onRelationshipsVisibilityChange);
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
-        this.slideButtons);
-      this.map.on('zoomend', this.updateMarkersSize.bind(this));
-      this.listenTo(this.actorModel, 'sync', this.triggerActorModelSync);
-      this.listenTo(this.actionModel, 'sync', this.triggerActionModelSync);
+        this.onSidebarVisibilityChange);
+
+      this.listenTo(this.actorModel, 'sync', this.onActorModelSync);
+      this.listenTo(this.actionModel, 'sync', this.onActionModelSync);
       this.listenTo(root.app.pubsub, 'sync:actorModel',
-        this.populateActorModelFrom);
+        this.onActorModelRemoteSync);
       this.listenTo(root.app.pubsub, 'sync:actionModel',
-        this.populateActionModelFrom);
+        this.onActionModelRemoteSync);
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.onGoBack);
     },
 
-    renderMap: function() {
-      if(!this.map) {
-        this.map = new L.Map('map', {
-          center: [14.91, -23.51],
-          zoom: 13,
-          minZoom: 8,
-          maxBounds: [
-            L.latLng(13.637819, -28.389729),
-            L.latLng(18.228372, -19.292213)
-          ]
-        });
+    /* GETTERS */
 
-        this.map.zoomControl.setPosition('bottomleft');
-        this.map.on('click', this.onMapClick.bind(this));
+    /* Return the marker (DOM element) corresponding at the type, id and
+     * locationId passed as arguments. If not found, display a warning in the
+     * console.
+     * NOTE: in case the locationId is omited, return all the entity's markers
+     */
+    getMarker: function(type, id, locationId) {
+      var entityClass = type === 'actors' ? '.js-actor-marker' :
+        '.js-action-marker';
+      var selector = entityClass + '[data-id="' + id + '"]' +
+        (locationId ? '[data-location="' + locationId + '"]' : '');
+
+      var marker = locationId ? document.querySelector(selector) :
+        document.querySelectorAll(selector);
+      if(locationId && !marker || !locationId && marker.length === 0) {
+        console.warn('Unable to find the marker(s) /' +
+          [ type, id, locationId ].join('/'));
+      }
+      return marker;
+    },
+
+    /* Return the type, id and locationId of the active marker */
+    getActiveMarkerInfo: function() {
+      var route = this.router.getCurrentRoute();
+      var markerInfo = {};
+
+      if(route.name === 'actors' || route.name === 'actions') {
+        markerInfo = {
+          type: route.name,
+          id: route.params[0],
+          locationId: route.params[1]
+        };
       }
 
-      this.isMapInstanciated = false;
-      cartodb.createLayer(this.map,
-        'https://simbiotica.cartodb.com/api/v2/viz/d26b8254-78d1-11e5-b910-0ecfd53eb7d3/viz.json')
-        .addTo(this.map)
-        .on('done', function() {
-          this.isMapInstanciated = true;
-          this.applyQueue();
-        }.bind(this))
-        .on('error', function(error) {
-          console.error('Unable to render the map: ' + error);
-        });
+      return markerInfo;
     },
+
+    /* Return all the map's highlighted markers as a NodeList */
+    getAllHighlightedMarkers: function() {
+      var selector = '.js-actor-marker.-active, .js-action-marker.-active';
+      return document.querySelectorAll(selector);
+    },
+
+    /* EVENT HANDLERS */
 
     onMapClick: function() {
       var route = this.router.getCurrentRoute();
-      if(route.name === 'welcome' || route.name === 'about') {
-        this.resetMarkersFocus();
-      } else {
-        this.updateMarkersFocus.apply(this, [route.name + 's'].concat(route.params));
+
+      this.resetMarkersHighlight();
+      this.removeRelations();
+      this.updateLegendRelationships();
+      if(route.name === 'actions' || route.name === 'actors') {
+        this.highlightActiveMarkers();
+        this.renderActiveMarkerRelations();
       }
     },
 
-    /* Add markers for each location of each entity of the collection. Depending
-     * on the type ("actors" or "actions"), the attributes and callbacks of the
-     * markers will differ. */
-    addMarkers: function(collection, type) {
+    onMarkerClick: function(e) {
+      var markers = this.getMarker(e.target.options.type,
+        e.target.options.id);
+
+      this.resetMarkersHighlight();
+      this.removeRelations();
+      this.highlightMarkers(markers);
+      this.updateLegendRelationships(e.target);
+
+      this.fetchModelFor(e.target.options.type, e.target.options.id)
+        .then(function() {
+          this.renderMarkerRelations(e.target.options.type, e.target.options.id,
+            e.target.options.locationId);
+          this.renderPopupFor(e.target);
+        }.bind(this));
+    },
+
+    onMoreInfoButtonClick: function(marker) {
+      this.router.navigate([
+        '/' + marker.options.type,
+        marker.options.id,
+        marker.options.locationId
+      ].join('/'), { trigger: true });
+
+      root.app.pubsub.trigger('show:' + marker.options.type.slice(0, -1), {
+        id: marker.options.id,
+        locationId: marker.options.locationId
+      });
+
+      this.map.closePopup(marker.getPopup());
+    },
+
+    onFiltering: function() {
+      this.map.closePopup();
+      this.fetchFilteredCollections()
+        .then(function() {
+          this.removeMarkers();
+          this.removeRelations();
+          this.addFilteredMarkers();
+          this.updateLegendRelationships();
+        }.bind(this));
+    },
+
+    onRelationshipsVisibilityChange: function(options) {
+      var isVisible = options.visible;
+      /* We toggle the part concerning the relationships from the legend */
+      this.$legend.toggleClass('-reduced', !isVisible);
+      /* We move the zoom buttons according to the legend move */
+      this.$zoomButtons.toggleClass('-slided', !isVisible);
+      /* We toggle the switch button concerning the relationships */
+      this.$relationshipsToggle.prop('checked', isVisible);
+      /* We save the visibility to the model */
+      this.status.set({ relationshipsVisible: isVisible });
+      /* We toggle the relations' visibility */
+      this.toggleRelationsVisibility();
+    },
+
+    onSidebarVisibilityChange: function(options) {
+      this.$buttons.toggleClass('-slided', options.isHidden);
+      this.$credits.toggleClass('-slided', options.isHidden);
+    },
+
+    /* Trigger an event through the pubsub object to inform about the new state
+     * of the actor model */
+    onActorModelSync: function() {
+      root.app.pubsub.trigger('sync:actorModel', this.actorModel);
+    },
+
+    /* Trigger an event through the pubsub object to inform about the new state
+     * of the action model */
+    onActionModelSync: function() {
+      root.app.pubsub.trigger('sync:actionModel', this.actionModel);
+    },
+
+    /* Set the content of this.actorModel with the content of the passed model
+     * NOTE: as the view itself can trigger this method by the sync event of its
+     * own model, we make the comprobation that the id of the passed model is
+     * different from the one stored in the current model */
+    onActorModelRemoteSync: function(model) {
+      if(!_.isEmpty(this.actorModel.attributes) &&
+        this.actorModel.get('id') === model.get('id')) {
+        return;
+      }
+
+      this.actorModel.clear({ silent: true });
+      this.actorModel.set(model.toJSON());
+    },
+
+    /* Set the content of this.actionModel with the content of the passed model
+     * NOTE: as the view itself can trigger this method by the sync event of its
+     * own model, we make the comprobation that the id of the passed model is
+     * different from the one stored in the current model */
+    onActionModelRemoteSync: function(model) {
+      if(!_.isEmpty(this.actionModel.attributes) &&
+        this.actionModel.get('id') === model.get('id')) {
+        return;
+      }
+
+      this.actionModel.clear({ silent: true });
+      this.actionModel.set(model.toJSON());
+    },
+
+    onGoBack: function() {
+      this.map.closePopup();
+      this.updateLegendRelationships();
+      this.resetMarkersHighlight();
+      this.removeRelations();
+    },
+
+    /* LOGIC */
+
+    initMap: function() {
+      this.renderMap()
+        .then(this.fetchFilteredCollections.bind(this))
+        .then(function() {
+          this.addFilteredMarkers();
+          this.highlightActiveMarkers();
+          this.renderActiveMarkerRelations();
+          this.updateLegendRelationships();
+        }.bind(this));
+    },
+
+    /* Render the map and return a deferred */
+    renderMap: function() {
+      this.map = new L.Map('map', {
+        center: [14.91, -23.51],
+        zoom: 13,
+        minZoom: 8,
+        maxBounds: [
+          L.latLng(13.637819, -28.389729),
+          L.latLng(18.228372, -19.292213)
+        ]
+      });
+
+      this.map.zoomControl.setPosition('bottomleft');
+      this.map.on('click', this.onMapClick.bind(this));
+      this.map.on('zoomend', this.updateMarkersSize.bind(this));
+
+      var deferred = $.Deferred();
+      cartodb.createLayer(this.map,
+        'https://simbiotica.cartodb.com/api/v2/viz/d26b8254-78d1-11e5-b910-0ecfd53eb7d3/viz.json')
+        .addTo(this.map)
+        .on('done', deferred.resolve)
+        .on('error', function(error) {
+          console.error('Unable to render the map: ' + error);
+          deferred.reject();
+        });
+
+      return deferred;
+    },
+
+    /* Fetch only the collections that are not filtered out and return a
+     * deferred object */
+    fetchFilteredCollections: function() {
+      var queryParams = this.router.getQueryParams();
+
+      /* If one of the required filter doesn't have any value, we just don't
+       * fetch the collections, the user will see a warning in the sidebar
+       * anyway */
+      if(queryParams.types && queryParams.types.length === 0 ||
+        queryParams.levels && queryParams.levels.length === 0 ||
+        queryParams.domains_ids && queryParams.domains_ids.length === 0) {
+        console.error('A required parameter hasn\'t been provided');
+        return;
+      }
+
+      var params = {};
+      if(queryParams.types && queryParams.types.length !== 2) {
+        params.only = queryParams.types[0];
+      }
+
+      return this.fetchCollections(params);
+    },
+
+    /* Fetch the actors and actions collections and returns a deferred object
+     * Options:
+     *  - only ("actors" or "actions"): restrict the fetch to only one
+     *    collection */
+    fetchCollections: function(options) {
+      var collectionsToFetch = [];
+
+      if(!(options && options.only) || options && options.only === 'actors') {
+        collectionsToFetch.push(this.actorsCollection);
+      }
+      if(!(options && options.only) || options && options.only === 'actions') {
+        collectionsToFetch.push(this.actionsCollection);
+      }
+
+      var deferred = $.Deferred();
+      $.when.apply(null, _.invoke(collectionsToFetch, 'fetch'))
+        .done(deferred.resolve)
+        .fail(function() {
+          console.error('Unable to fetch the collections');
+          deferred.reject();
+        });
+
+      return deferred;
+    },
+
+    /* Only add the markers of the collections that haven't been filtered out */
+    addFilteredMarkers: function() {
+      var queryParams = this.router.getQueryParams();
+
+      var params = {};
+      if(queryParams.types && queryParams.types.length !== 2) {
+        params.only = queryParams.types[0];
+      }
+
+      this.addMarkers(params);
+    },
+
+    /* Add markers for each location of each entity of the collection.
+    * Options:
+    *  - only ("actors" or "actions"): restrict to only one collection */
+    addMarkers: function(options) {
       /* Return the icon corresponding to each specific entity and location */
       var makeIcon = function(type, level, id, locationId) {
         return L.divIcon({
@@ -128,87 +358,86 @@
         });
       };
 
+      /* Method which actually adds the markers. Expects the collection (the
+       * JSON object) and the type ("actions" or "actions") */
+      var addEntityMarkers = function(collection, type) {
+        var marker, popup;
+        _.each(collection, function(entity) {
+          _.each(entity.locations, function(location) {
+
+            marker = L.marker([location.lat, location.long], {
+              icon: makeIcon(type, entity.level, entity.id, location.id),
+              type: type,
+              id: entity.id,
+              locationId: location.id
+            });
+            marker.addTo(this.map);
+
+            /* We bind the basic popup */
+            popup = L.popup({
+              closeButton: false,
+              minWidth: 220,
+              maxWidth: 276, /* 20px padding + 4 icons */
+              className: 'popup -' + type + ' -' + entity.level
+            }).setContent('<div class="message -loading"><svg class="icon">' +
+               '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
+               I18n.translate('front.loading') +
+               '</message>');
+            marker.bindPopup(popup);
+
+            marker.on('click', this.onMarkerClick.bind(this));
+          }, this);
+        }, this);
+      };
+
       /* We close the current popup if exists */
       this.map.closePopup();
 
-      var marker, popup;
-      _.each(collection, function(entity) {
-        _.each(entity.locations, function(location) {
-          marker = L.marker([location.lat, location.long], {
-            icon: makeIcon(type, entity.level, entity.id, location.id),
-            type: type,
-            id: entity.id,
-            locationId: location.id
-          });
-          marker.addTo(this.map);
-          /* TODO: give an initial state to the popup */
-          popup = L.popup({
-            closeButton: false,
-            minWidth: 220,
-            maxWidth: 276, /* 20px padding + 4 icons */
-            className: 'popup -' + type + ' -' + entity.level
-          }).setContent('');
-          marker.bindPopup(popup);
-          marker.on('click', this.markerOnClick.bind(this));
-        }, this);
-      }, this);
+      if(!(options && options.only) || options && options.only === 'actors') {
+        addEntityMarkers.apply(this,
+          [ this.actorsCollection.toJSON(), 'actors' ]);
+      }
+      if(!(options && options.only) || options && options.only === 'actions') {
+        addEntityMarkers.apply(this,
+          [ this.actionsCollection.toJSON(), 'actions' ]);
+      }
     },
 
-    /* Delete the selected type of markers */
-    removeMarkers: function(type) {
-      var selector = type === 'actors' ? '.js-actor-marker' :
-        '.js-action-marker';
-      /* We actually remove the parent of the marker because leaflet adds a
-       * wrapper */
-      this.$el.find(selector).parent().remove();
+    /* Highlight the marker associated to the actor/action present in the URL if
+     * exists, otherwise do nothing */
+    highlightActiveMarkers: function() {
+      var activeMarkerInfo = this.getActiveMarkerInfo();
+
+      if(!_.isEmpty(activeMarkerInfo)) {
+        var activeMarkers = this.getMarker(activeMarkerInfo.type,
+          activeMarkerInfo.id);
+        this.highlightMarkers(activeMarkers);
+      }
     },
 
-    /* Add the markers for the actors
-     * NOTE: we should debounce the method so it's not called twice because the
-     * collection gets populated right after this view is instanciated, but this
-     * cause the priority order to not be respected when applying the queue */
-    addActorsMarkers: function() {
-      if(!this.isMapInstanciated) {
-        this.queue.push([ this.addActorsMarkers, null, 1 ]);
+    /* Highlight the marker passed as argument or display a warning in the
+     * console if the marker is evaluated as false (ie null or undefined) */
+    highlightMarker: function(marker) {
+      if(!marker) {
+        console.warn('Unable to highlight a marker on the map');
         return;
       }
-
-      /* We remove the previous markers in case the method has been called
-       * multiple times
-       * TODO: instead of removing and adding once again the markers, just add
-       * them once */
-      this.removeMarkers('actors');
-      this.addMarkers(this.actorsCollection.toJSON(), 'actors');
+      marker.classList.add('-active');
     },
 
-    /* Add the markers for the actions
-     * NOTE: we should debounce the method so it's not called twice because the
-     * collection gets populated right after this view is instanciated, but this
-     * cause the priority order to not be respected when applying the queue */
-    addActionsMarkers: function() {
-      if(!this.isMapInstanciated) {
-        this.queue.push([ this.addActionsMarkers, null, 1 ]);
-        return;
+    /* Highlight all the markers passed as argument */
+    highlightMarkers: function(markers) {
+      for(var i = 0, j = markers.length; i < j; i++) {
+        this.highlightMarker(markers[i]);
       }
-
-      /* We remove the previous markers in case the method has been called
-       * multiple times
-       * TODO: instead of removing and adding once again the markers, just add
-       * them once */
-      this.removeMarkers('actions');
-      this.addMarkers(this.actionsCollection.toJSON(), 'actions');
     },
 
-    /* Triggers an event with the id of the clicked entity */
-    markerOnClick: function(e) {
-      var marker = e.target;
-      this.updateMarkersFocus(marker.options.type, marker.options.id);
-      this.renderPopupFor(marker);
-    },
-
-    onRoute: function() {
-      this.updateMapFromRoute.apply(this, arguments);
-      this.updateLegendFromRoute.apply(this, arguments);
+    /* Remove the highlight effects to all the map's markers */
+    resetMarkersHighlight: function() {
+      var highlightedMarkers = this.getAllHighlightedMarkers();
+      for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
+        highlightedMarkers[i].classList.remove('-active');
+      }
     },
 
     /* Load the content of the passed marker and display it inside the popup
@@ -227,92 +456,49 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
-      /* Function which will actually render the content of the popup and which
-       * sets the event listener for the "more info" button */
-      var render = function() {
-        popup.setContent(this.popupTemplate(model.toJSON()));
-        this.$el.find('.js-more').on('click', function() {
-          this.moreInfoOnClick(marker);
-        }.bind(this));
-      }.bind(this);
+      popup.setContent(this.popupTemplate(model.toJSON()));
+      this.$el.find('.leaflet-popup .js-more').on('click', function() {
+        this.onMoreInfoButtonClick(marker);
+      }.bind(this));
+      this.$el.find('.leaflet-popup .js-close').on('click', function() {
+        this.map.closePopup();
+      }.bind(this));
+    },
 
-      /* Before fetching the model and getting the data, we fill the popup
-       * with a loader */
-       popup.setContent('<div class="message -loading"><svg class="icon">' +
-        '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
-        I18n.translate('front.loading') +
-        '</message>');
-
-      /* In case we already have the data for the selected marker, we don't want
-       * to fetch the model again */
-      if(!_.isEmpty(model.attributes) && model.get('id') === marker.options.id) {
-        render();
+    /* Dynamically hide a part of the relationships legend depending on the
+     * active marker type: if a marker is passed as parameter (Leaflet object),
+     * consider it as the active marker, otherwise, take into account the marker
+     * attached to the current URL. If there's no active marker, reset the
+     * legend in its original state */
+    updateLegendRelationships: function(marker) {
+      if(marker) {
+        this.$actionToActionLegend.toggleClass('-disabled',
+          marker.options.type === 'actors');
+        this.$actorToActorLegend.toggleClass('-disabled',
+          marker.options.type === 'actions');
       } else {
-        model.setId(marker.options.id);
-        model.fetch().done(function() { render(); }.bind(this));
+        var route = this.router.getCurrentRoute();
+        this.$actionToActionLegend.toggleClass('-disabled',
+          route.name === 'actors');
+        this.$actorToActorLegend.toggleClass('-disabled',
+          route.name === 'actions');
       }
     },
 
-    /* When the more info button of the popup attached to the marker is clicked,
-     * update the URL and close the popup
-     */
-    moreInfoOnClick: function(marker) {
-      this.router.navigate([
-        marker.options.type === 'actors' ? '/actors' : '/actions',
-        marker.options.id,
-        marker.options.locationId
-      ].join('/'), { trigger: true });
-
-      this.map.closePopup(marker.getPopup());
-    },
-
-    /* Trigger an event through the pubsub object to inform about the new state
-     * of the actor model */
-    triggerActorModelSync: function() {
-      root.app.pubsub.trigger('sync:actorModel', this.actorModel);
-    },
-
-    /* Trigger an event through the pubsub object to inform about the new state
-     * of the action model */
-    triggerActionModelSync: function() {
-      root.app.pubsub.trigger('sync:actionModel', this.actionModel);
-    },
-
-    /* Set the content of this.actorModel with the content of the passed model
-     * NOTE: as the view itself can trigger this method by the sync event of its
-     * own model, we make the comprobation that the id of the passed model is
-     * different from the one stored in the current model */
-    populateActorModelFrom: function(model) {
-      if(!_.isEmpty(this.actorModel.attributes) &&
-        this.actorModel.get('id') === model.get('id')) {
-        return;
+    /* Delete all the map's markers or only one type of markers if specified */
+    removeMarkers: function(type) {
+      var selector = '.js-actor-marker, .js-action-marker';
+      if(type) {
+        selector = (type === 'actors') ? selector.split(', ')[0] :
+          selector.split(', ')[1];
       }
-
-      this.actorModel.clear({ silent: true });
-      this.actorModel.set(model.toJSON());
-    },
-
-    /* Set the content of this.actionModel with the content of the passed model
-     * NOTE: as the view itself can trigger this method by the sync event of its
-     * own model, we make the comprobation that the id of the passed model is
-     * different from the one stored in the current model */
-    populateActionModelFrom: function(model) {
-      if(!_.isEmpty(this.actionModel.attributes) &&
-        this.actionModel.get('id') === model.get('id')) {
-        return;
-      }
-
-      this.actionModel.clear({ silent: true });
-      this.actionModel.set(model.toJSON());
+      /* We actually remove the parent of the marker because leaflet adds a
+       * wrapper */
+      this.$el.find(selector).parent().remove();
     },
 
     /* Update the markers' size according to the map's zoom level */
     updateMarkersSize: function() {
-      if(!this.isMapInstanciated) {
-        this.queue.push([this.updateMarkersSize, null, 2]);
-        return;
-      }
-
       var zoom = this.map.getZoom();
       /* We don't want the markers to be smaller than 5px but also no bigger
        * than 12px. To do so, we use the css transform: scale property and bound
@@ -326,156 +512,136 @@
        this.$el.find('.map-marker').css('transform', 'scale(' + scale + ')');
     },
 
-    /* Remove the focus styles to all the actors or actions markers depending on
-     * the value of type ("actors" or "actions").
-     * NOTE: If type is null or undefined the focus is removed from all
-     * markers. */
-    resetMarkersFocus: function(type) {
-      var selector = '.js-actor-marker, .js-action-marker';
-      if(type && type === 'actors') {
-        selector = selector.split(' ')[0].slice(0, -1);
-      } else if(type && type === 'actions') {
-        selector = selector.split(' ')[1];
-      }
-
-      var markers = this.$el.find(selector);
-      for(var i = 0, j = markers.length; i < j; i++) {
-        markers[i].classList.remove('-active');
-      }
-    },
-
-    /* Add the focus styles to the entity's marker which id and location id is
-     * passed as argument
-     * NOTE: the location id is optional */
-    focusOnMarker: function(type, id, locationId) {
-      //debugger;
-      var entityClass = type === 'actors' ? '.js-actor-marker' :
-        '.js-action-marker';
-      var selector = entityClass + '[data-id="' + id + '"]' +
-        (locationId ? '[data-location="' + locationId + '"]' : '');
-      var markers = this.$el.find(selector);
-
-      if(markers.length === 0) {
-        console.warn('Unable to highlight the marker(s) ' + type + '/' + id +
-          ' on the map');
-      } else {
-        for(var i = 0, j = markers.length; i < j; i++) {
-          markers[i].classList.add('-active');
-        }
-      }
-    },
-
-    /* Update the markers depending on the entity's id passed as parameter, by
-     * focusing it and bluring the other ones */
-    updateMarkersFocus: function(type, id) {
-      if(!this.isMapInstanciated) {
-        this.queue.push([this.updateMarkersFocus, [ type, id ],
-          2]);
-        return;
-      }
-
-      this.resetMarkersFocus();
-      this.focusOnMarker(type, id);
-    },
-
-    /* Update the map and the markers according to the route triggered by the
-     * router */
-    updateMapFromRoute: function(route) {
-      switch(route) {
-        case 'actor':
-          this.updateMarkersFocus('actors', arguments[1][0]);
-          break;
-
-        case 'action':
-          this.updateMarkersFocus('actions', arguments[1][0]);
-          break;
-
-        default:
-          this.resetMarkersFocus();
-          break;
-      }
-    },
-
-    /* Reduce the opacity of relationships parts of the legend which don't
-     * make sense on specific routes */
-    updateLegendFromRoute: function(route) {
-      switch(route) {
-        case 'actor':
-          this.$actionToActionLegend.toggleClass('-disabled', true);
-          this.$actorToActorLegend.toggleClass('-disabled', false);
-          break;
-
-        case 'action':
-          this.$actionToActionLegend.toggleClass('-disabled', false);
-          this.$actorToActorLegend.toggleClass('-disabled', true);
-          break;
-
-        default:
-          this.$actionToActionLegend.toggleClass('-disabled', false);
-          this.$actorToActorLegend.toggleClass('-disabled', false);
-          break;
-      }
-    },
-
-    /* Call all the methods stored in this.queue in order */
-    applyQueue: function() {
-      /* We sort the queue so that the numbers with the smallest priority number
-       * are executed the first */
-      this.queue = this.queue.sort(function(a, b) {
-        if(a.length < 3 || b.length < 3) {
-          console.warning('Each element of the queue needs a priority number');
-          return -1;
-        }
-        return a[2] - b[2];
-      });
-
-      _.each(this.queue, function(method) {
-        if(!method || method.length < 2 || typeof method[0] !== 'function') {
-          console.warn('Unable to execute a queue\'s method');
-        } else {
-          method[0].apply(this, method[1]);
-        }
-      }, this);
-    },
-
-    /* Toggle the visibility of the relationships on the map (ie the links) and
-     * the switch button
-     * options can be null/undefined or { visible: [boolean] } */
-    toggleRelationshipsVisibility: function(options) {
-      var isVisible = options.visible;
-      /* We toggle the part concerning the relationships from the legend */
-      this.$legend.toggleClass('-reduced', !isVisible);
-      /* We move the zoom buttons according to the legend move */
-      this.$zoomButtons.toggleClass('-slided', !isVisible);
-      /* We toggle the switch button concerning the relationships */
-      this.$relationshipsToggle.prop('checked', isVisible);
-      /* TODO: implementation of the method */
-      console.warn('Feature not yet implemented');
-    },
-
     /* Trigger the visibility of the relationships (ie links) on the map */
     triggerRelationshipsVisibility: function(e) {
       root.app.pubsub.trigger('relationships:visibility',
         { visible: e.currentTarget.checked });
     },
 
-    /* Move the buttons and the credits aligned with the sidebar */
-    slideButtons: function(options) {
-      this.$buttons.toggleClass('-slided', options.isHidden);
-      this.$credits.toggleClass('-slided', options.isHidden);
+    /* Remove all the relations from the map */
+    removeRelations: function() {
+      this.$el.find('.js-line').remove();
+      var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
+      for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
+        highlightedMarkers[i].classList.remove('js-relation-highlight');
+      }
     },
 
-    /* Remove a type of markers if it has been filtered out */
-    onFiltering: function() {
-      var typefiltering = this.router.getQueryParams().types;
 
-      /* If the user ask for both the actors and actions, we don't do anything
-       */
-      if(!typefiltering || typefiltering.length === 2) return;
+    /* Fetch the model for the marker mathcing the type and id and return a
+     * deferred object
+     * NOTE: if the current stored model has the right information, there won't
+     * be any API call */
+    fetchModelFor: function(type, id) {
+      var deferred = $.Deferred();
 
-      /* Otherwise, we remove the entity type which shouldn't appear anymore */
-      var entities = ['actors', 'actions'];
-      this.removeMarkers(_.difference(entities, typefiltering)[0]);
+      /* Model which will contain the information about the actor or action */
+      var model = (type === 'actors') ? this.actorModel : this.actionModel;
+
+      /* In case we already have the data for the selected marker, we don't want
+       * to fetch the model again */
+      if(!_.isEmpty(model.attributes) && model.get('id') === id) {
+        deferred.resolve();
+      } else {
+        model.setId(id);
+        model.fetch()
+          .done(deferred.resolve)
+          .fail(function() {
+            console.warn('Unable to fetch the model /' + [type, id].join('/'));
+            deferred.reject();
+          });
+      }
+
+      return deferred;
+    },
+
+    /* Render the relations of the marker matching the type, id and locationId
+     * passed as arguments */
+    renderMarkerRelations: function(type, id, locationId) {
+      var model = (type === 'actors') ? this.actorModel : this.actionModel;
+
+      /* Method which draws the lines
+      * relations is the collection of relations and entityType designates the
+      * type of the relations ("actors" or "actions") */
+      var addLines = function(relations, entityType) {
+        /* We search for the location's coordinates */
+        var location = _.findWhere(model.get('locations'),
+          { id: parseInt(locationId) });
+        if(!location) {
+          console.warn('Unable to find the location ' + locationId +
+            ' of the ' + ((type === 'actors') ? 'actor' : 'action') + ' ' +
+            id);
+          return;
+        }
+        var entityLatLng = L.latLng(location.info_data.lat,
+          location.info_data.long);
+
+        var otherEntity, otherEntityLatLng, latLngs;
+        _.each(relations, function(relation) {
+          /* TODO: real main location */
+          otherEntityLatLng = L.latLng(relation.locations[0].lat,
+            relation.locations[0].long);
+
+          /* We also highlight the other entity on the map */
+          otherEntity = this.getMarker(entityType, relation.id,
+            relation.locations[0].id);
+
+          /* As the markers can be filtered out, we make sure to only add the
+           * relations with the ones visible on the map */
+          if(!!otherEntity) {
+            if(this.status.get('relationshipsVisible')) {
+              this.highlightMarker(otherEntity);
+            }
+            /* And we add a special class to it so it can't be hidden with the
+             * toggle button for the relationships */
+            otherEntity.classList.add('js-relation-highlight');
+
+            latLngs = [ entityLatLng, otherEntityLatLng ];
+
+            /* We define the line's options */
+            var options = { className: 'map-line js-line' };
+            if(entityType !== type) options.dashArray = '3, 6';
+            if(!this.status.get('relationshipsVisible')) {
+              options.className += ' -hidden';
+            }
+
+            L.polyline(latLngs, options).addTo(this.map);
+          }
+        }, this);
+      }.bind(this);
+
+      /* We add the relations with the actors */
+      var relations = _.union(model.get('actors').parents,
+        model.get('actors').children);
+      addLines(relations, 'actors');
+      /* We add the relations with the actions */
+      relations = _.union(model.get('actions').parents,
+        model.get('actions').children);
+      addLines(relations, 'actions');
+    },
+
+    renderActiveMarkerRelations: function() {
+      var activeMarkerInfo = this.getActiveMarkerInfo();
+
+      if(!_.isEmpty(activeMarkerInfo)) {
+        this.fetchModelFor(activeMarkerInfo.type, activeMarkerInfo.id)
+          .then(function() {
+            this.renderMarkerRelations(activeMarkerInfo.type,
+              activeMarkerInfo.id, activeMarkerInfo.locationId);
+          }.bind(this));
+      }
+    },
+
+    /* Toggle the visibility of the map's relations */
+    toggleRelationsVisibility: function() {
+      var lines = this.el.querySelectorAll('.js-line');
+      for(var i = 0, j = lines.length; i < j; i++) {
+        lines[i].classList.toggle('-hidden');
+      }
+      var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
+      for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
+        highlightedMarkers[i].classList.toggle('-active');
+      }
     }
 
   });

@@ -108,7 +108,7 @@ end
 
 When /^(?:|I )select_chosen "([^"]*)" from "([^"]*)"(?: within "([^"]*)")?$/ do |value, field, selector|
   with_scope(selector) do
-    select_from_chosen(value, :from => field)
+    find("##{field}", visible: false).set "#{value}"
   end
 end
 

@@ -5,18 +5,26 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
-  
+
   = simple_form_for @act do |f|
     .row
       .column.medium-8.medium-offset-1
         .row
           .column.medium-8.medium-offset-4
             = f.error_notification
-            
+    .row
+      .column.medium-8.medium-offset-1
+        .form-inputs
+          .row
+            .column.medium-4
+              = f.label :name, class: 'right inline'
+            .column.medium-8
+              = f.input :name, label: false
+
     = render partial: f
 
     .row.footer-helper
-    
+
     .row.fixed-row
       .button-collection.-formcollection
         = link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'

@@ -18,7 +18,7 @@ resource 'Comments' do
 
   let!(:user_expired) {
     user_expired = FactoryGirl.create(:random_user, firstname: 'Not Commented', lastname: 'User', institution: 'Vizzuality', authentication_token: '7Nw1A13xrHrZDHj631MB')
-    ActiveRecord::Base.connection.execute("UPDATE users SET token_expires_at = '01/19/2012 08:05:35' WHERE id = #{user_expired.id}")
+    ActiveRecord::Base.connection.execute("UPDATE users SET token_expires_at = '#{3.years.ago}' WHERE id = #{user_expired.id}")
     user_expired
   }
 

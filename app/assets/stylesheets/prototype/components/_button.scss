@@ -39,6 +39,12 @@
     padding: 0 20px;
   }
 
+  &.-extrasmall {
+    height: 22px;
+    font-size: 10px;
+    padding: 0 12px;
+  }
+
   &.-disabled {
     opacity: .3;
     cursor: default;
@@ -51,5 +57,7 @@
     &.-marginright { margin-right: 10px; }
     &.-marginleft { margin-left: 10px; }
   }
+
+  &.-black { background-color: $color-10; }
 
 }

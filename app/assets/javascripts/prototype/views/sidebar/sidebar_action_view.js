@@ -28,25 +28,25 @@
       this.model = new root.app.Model.actionModel();
       /* The DOM element to receive the Handlbars template */
       this.setListeners();
+
+      this.init();
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route', this.toggleVisibilityFromRoute);
-      this.listenTo(this.router, 'route:action', this.fetchDataAndRender);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
+      this.listenTo(root.app.pubsub, 'show:actor', this.hide);
+      this.listenTo(root.app.pubsub, 'show:action', this.fetchDataAndRender);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sync:actionModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
     },
 
-    /* According to the route broadcast by the router show or hide the pane */
-    toggleVisibilityFromRoute: function(route) {
-      if(route === 'action') {
-        /* We don't do anything because we want the view to render before the
-         * content to by slided. The call to this.show() is made in the render
-         * method. */
-      } else {
-        this.hide();
+    /* Initialize the pane state (ie visibility and content) */
+    init: function() {
+      var route = this.router.getCurrentRoute();
+      if(route.name === 'actions') {
+        this.fetchDataAndRender(route.params[0]);
       }
     },
 

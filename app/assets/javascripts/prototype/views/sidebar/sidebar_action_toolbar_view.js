@@ -19,33 +19,27 @@
       this.router = options.router;
       this.$goBackButton = this.$el.find('.js-back');
       this.setListeners();
+      this.init();
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'route', this.updateFromRoute);
+      this.listenTo(root.app.pubsub, 'show:actor', this.showGoBackButton);
+      this.listenTo(root.app.pubsub, 'show:action', this.showGoBackButton);
+      this.listenTo(root.app.pubsub, 'click:goBack', this.hideGoBackButton);
     },
 
-    /* According to the route broadcast by the router show or hide options from
-     * the toolbar */
-    updateFromRoute: function(route) {
-      switch(route) {
-        case 'actor':
-          this.showGoBackButton();
-          break;
-
-        case 'action':
-          this.showGoBackButton();
-          break;
-
-        default:
-          this.hideGoBackButton();
-          break;
+    /* Set the initial visibility of the go back button */
+    init: function() {
+      var route = this.router.getCurrentRoute();
+      if(route.name === 'actors' || route.name === 'actions') {
+        this.showGoBackButton();
       }
     },
 
     /* Reset the URL to its original state */
     goBack: function() {
       this.router.navigate('/', { trigger: true });
+      root.app.pubsub.trigger('click:goBack');
     },
 
     showGoBackButton: function() {

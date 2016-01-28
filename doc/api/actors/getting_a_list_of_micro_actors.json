@@ -36,17 +36,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 28,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 13,\n          \"lat\": \"57.42653522249182\",\n          \"long\": \"-108.35379001891273\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:03.820Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 41,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 19,\n          \"lat\": \"-23.608096184946874\",\n          \"long\": \"66.7653266954035\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:25.466Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"4d0992801363405616df986f4ff1ffc1\"",
+        "ETag": "W/\"d0dfb1c8ca98daeec0d062acd5336216\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "d983b1d8-0b1e-4ed3-b01b-23a2501776ee",
-        "X-Runtime": "0.036204",
-        "Content-Length": "207"
+        "X-Request-Id": "ad0cbbff-17e3-4323-95ff-46a39510421c",
+        "X-Runtime": "0.163572",
+        "Content-Length": "206"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
