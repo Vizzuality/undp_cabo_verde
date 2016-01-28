@@ -3,11 +3,11 @@
     .column.medium-4
       = f.label t('actors.current_actor'), class: 'right inline'
     .column.medium-8.text-left.current-actor-wrapper
-      - if request.path.include?('/actors/new')
+      - if @actor.new_record?
         p.current-actor.-disabled
       - else
         p.current-actor-edit.-disabled
-          = @actor.name unless request.path.include?('/actors/new')
+          = @actor.name
   .row
     .column.medium-4
       = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline'
