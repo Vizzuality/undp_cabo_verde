@@ -42,16 +42,17 @@ I want to manage an act
   Scenario: User can edit owned act macro and add custom domain
     Given I am authenticated user
     And first act
-    And I should have one domain
+    And socio_cultural_domain_tree
+    And I should have five domains
     When I go to the edit act page for "First one"
     And I fill in "act_macro_name" with "New First"
     And I choose "act_macro_event_true"
-    And I click on overlapping ".add_other_domain"
+    And I click on overlapping ".add_other_domain" within ".form-actions"
     And I fill in the following field ".name" with "Custom domain" within ".form-inputs-other-domains"
     And I press "Update"
     Then I should be on the act page for "New First"
     And the field "Name" should contain "New First"
-    And I should have two domains
+    And I should have six domains
 
   Scenario: Adminuser can edit not owned act
     Given user

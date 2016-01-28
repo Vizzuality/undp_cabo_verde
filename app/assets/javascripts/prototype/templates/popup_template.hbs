@@ -1,5 +1,5 @@
-<svg class="more-button js-more" title="{{{t 'front.more_info'}}}">
-    <use xlink:href="#moreInfoIcon" x="1" y="1">
+<svg class="close-button js-close" title="{{{t 'front.more_info'}}}">
+    <use xlink:href="#closePopupIcon" x="1" y="1">
 </svg>
 <h1 class="title -tertiary">{{name}}</h1>
 <hr class="delimiter">
@@ -7,7 +7,16 @@
   {{{t 'front.socio_cultural_domains'}}}:
   <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
     {{#each socio_cultural_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      <li class="item" title="{{name}}">
+        {{#if icon_identifier}}
+          <svg class="icon">
+              <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+          </svg>
+        {{else}}
+          <div class="icon -placeholder"></div>
+        {{/if}}
+        {{{trunc name}}}
+      </li>
     {{/each}}
   </ul>
 {{/if}}
@@ -15,7 +24,17 @@
   {{{t 'front.other_domains'}}}:
   <ul class="visual-list {{#compare socio_cultural_domains.length ">" 4}}-textual{{/compare}}">
     {{#each other_domains}}
-      <li class="item" title="{{name}}"><div class="icon -placeholder"></div>{{name}}</li>
+      <li class="item" title="{{name}}">
+        {{#if icon_identifier}}
+          <svg class="icon">
+              <use xlink:href="#{{icon_identifier}}" x="0" y="0">
+          </svg>
+        {{else}}
+          <div class="icon -placeholder"></div>
+        {{/if}}
+        {{{trunc name}}}
+      </li>
     {{/each}}
   </ul>
 {{/if}}
+<button class="button -extrasmall -black more-button js-more">{{{t 'front.more_info'}}}</button>

@@ -3,11 +3,6 @@
     .form-inputs
       .row
         .column.medium-4
-          = form.label :name, class: 'right inline'
-        .column.medium-8
-          = form.input :name, label: false, disabled: common_form?
-      .row
-        .column.medium-4
           = form.label :observation, class: 'right inline'
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
@@ -16,7 +11,7 @@
         .column.medium-4
           = form.label :merged_domain_ids, class: 'right inline'
         .column.medium-8
-          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
       - unless common_form?
         .row
           .column
@@ -56,7 +51,7 @@
 
 - unless common_form?
   .row
-    .columns.medium-8.medium-offset-1
+    .columns.medium-8.medium-offset-1#add-relations
       .row.add-relations
         .column
           p.text-right

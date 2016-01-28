@@ -144,8 +144,9 @@
 
     & > .leaflet-disabled,
     & > .leaflet-disabled {
-      color: $color-4;
-      background-color: $color-5;
+      opacity: .4;
+      color: $color-1;
+      background-color: $color-12;
     }
   }
 

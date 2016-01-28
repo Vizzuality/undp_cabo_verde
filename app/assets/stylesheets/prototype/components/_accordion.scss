@@ -19,8 +19,22 @@
       font-size: 14px;
       color: $color-10;
       line-height: 42px;
-      background: url(asset_path("form-arrow.png")) no-repeat center right / 13px;
+      position: relative;
       cursor: pointer;
+
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 13px;
+        top: 0;
+        right: 0;
+        background: url(asset_path("form-arrow.png")) no-repeat center right / 13px;
+        /* The delay is used to make the transition happen as the same time as
+         * the content is expanded (delay due to the browser's calculations) */
+        transition: transform .3s .08s;
+      }
     }
 
     & > .content {
@@ -33,6 +47,9 @@
     & > .toggle-button:checked {
       /* It should have a high value so the content isn't hidden */
       & ~.content { max-height: 200vh; }
+      & ~.title:before {
+        transform: rotate(180deg);
+      }
     }
   }
 }
