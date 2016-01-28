@@ -76,6 +76,19 @@ class Act < ActiveRecord::Base
     acts
   end
 
+  def get_locations
+    localizations.filter_actives
+  end
+
+  def get_locations_by_date(options)
+    # Don't filter locations by date for Actions
+    # start_date = options['start_date'] if options['start_date'].present?
+    # end_date   = options['end_date']   if options['end_date'].present?
+
+    # get_locations.by_date(start_date, end_date)
+    get_locations
+  end
+
   def membership_date(act, parent)
     relation   = act_relations_as_parent.get_dates(act, parent)
     start_date = relation.first.blank? ? 'now' : relation.first

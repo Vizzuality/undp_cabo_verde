@@ -1,7 +1,7 @@
 module API::V1
   class ActorsController < API::ApiBaseController
     before_action :set_actor, only: :show
-    before_action :set_search_filter, only: :index
+    before_action :set_search_filter, only: [:index, :show]
 
     def index
       @search = Search::Actors.new(params)
@@ -10,7 +10,7 @@ module API::V1
     end
 
     def show
-      respond_with @actor, serializer: ActorSerializer
+      respond_with @actor, serializer: ActorSerializer, search_filter: @search_filter
     end
 
     private

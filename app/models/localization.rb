@@ -43,22 +43,23 @@ class Localization < ActiveRecord::Base
     @query = self
 
     if start_date && !end_date
-      @query = @query.where("COALESCE(start_date, '#{Time.zone.now.change(year: 1900)}') >= ? OR COALESCE(end_date, '#{Time.zone.now.change(year: 2100)}') >= ?",
+      @query = @query.where("COALESCE(start_date, '#{start_date.to_time.end_of_day}') >= ? OR COALESCE(end_date, '#{start_date.to_time.end_of_day}') >= ?",
                              start_date.to_time.beginning_of_day, start_date.to_time.beginning_of_day)
     end
 
     if end_date && !start_date
-      @query = @query.where("COALESCE(end_date, '#{Time.zone.now.change(year: 2100)}') <= ? OR COALESCE(start_date, '#{Time.zone.now.change(year: 1900)}') <= ?",
+      @query = @query.where("COALESCE(end_date, '#{end_date.to_time.beginning_of_day}') <= ? OR COALESCE(start_date, '#{end_date.to_time.beginning_of_day}') <= ?",
                              end_date.to_time.end_of_day, end_date.to_time.beginning_of_day)
     end
 
     if start_date && end_date
-      @query = @query.where("COALESCE(start_date, '#{Time.zone.now.change(year: 1900)}') BETWEEN ? AND ? OR
-                             COALESCE(end_date, '#{Time.zone.now.change(year: 2100)}') BETWEEN ? AND ? OR
-                             ? BETWEEN COALESCE(start_date, '#{Time.zone.now.change(year: 1900)}') AND COALESCE(end_date, '#{Time.zone.now.change(year: 2100)}')",
+      @query = @query.where("COALESCE(start_date, '#{start_date.to_time.end_of_day}') BETWEEN ? AND ? OR
+                             COALESCE(end_date, '#{end_date.to_time.beginning_of_day}') BETWEEN ? AND ? OR
+                             ? BETWEEN COALESCE(start_date, '#{start_date.to_time.beginning_of_day}') AND COALESCE(end_date, '#{end_date.to_time.end_of_day}')",
                              start_date.to_time.beginning_of_day, end_date.to_time.end_of_day, start_date.to_time.beginning_of_day, end_date.to_time.end_of_day, start_date.to_time.beginning_of_day)
     end
-    @query
+
+    @query = @query.distinct
   end
 
   private
