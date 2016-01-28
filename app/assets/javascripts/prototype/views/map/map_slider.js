@@ -38,29 +38,30 @@
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
     },
 
+    /* Destroys current slider, creates mockup slider. Gets selected dates from router, sets them as global Params */
     onFiltering: function() {
       this.isActive = false; // slider idle
-      this.resetSlider();
-
-      var startDateQuery = this.router.getQueryParams()["start_date"];
-      var endDateQuery = this.router.getQueryParams()["end_date"];
+      this.makeSliderInactive();
 
       this.setStart();
       this.setEnd();
 
     },
 
+    /* Sets Start and Current Date to the dataset's earliest date */
     setMin: function() {
       var minDateString = document.getElementById('startDate').dataset["min"];
       this.startDate = new Date(minDateString);
       this.currentDay = this.startDate;
     },
 
+    /* Sets End Date to the Dataset's latest date */
     setMax: function() {
       var maxDateString = document.getElementById('endDate').dataset["max"];
       this.endDate = new Date(maxDateString);
     },
 
+    /* Sets Start and Current Date to the selected end date */
     setStart: function() {
       var startDateQuery = this.router.getQueryParams()["start_date"];
       if (startDateQuery.length !== 0) {
@@ -71,6 +72,7 @@
       }
     },
 
+    /* Sets End Date to the selected end date */
     setEnd: function() {
       var endDateQuery = this.router.getQueryParams()["end_date"];
       if (endDateQuery.length !== 0) {
@@ -80,6 +82,7 @@
       }
     },
 
+    /* Destroys the slider by deleting the child nodes of the containing box, #slider */
     destroySlider: function() {
       var sliderBox = this.$el.find('#slider')[0];
       while (sliderBox.firstChild) {
@@ -87,6 +90,7 @@
       }
     },
 
+    /* Adds a blue line to the slider box to simulate inactive state */
     createMockBackground: function() {
       var self = this;
 
@@ -104,12 +108,13 @@
         .attr('transform', 'translate(12 11)');
     },
 
-    resetSlider: function() {
+    makeSliderInactive: function() {
       this.destroySlider();
       this.createMockBackground();
     },
 
-    convertDate: function(date) {
+    /* Converts a date object to a string like "8 Jan 2013" */
+    dateForTooltip: function(date) {
       var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 
       var day = date.getDate();
@@ -120,6 +125,21 @@
       return dateString;
     },
 
+    /* Converts a date object to a string like "01/08/2013" */
+    dateForQuery: function(date) {
+      var month = (1 + date.getMonth()).toString();
+      month = month.length > 1 ? month : '0' + month;
+
+      var day = date.getDate().toString();
+      day = day.length > 1 ? day : '0' + day;
+
+      var year = date.getFullYear();
+
+      var dateString = [month, day, year].join("/");
+      return dateString;
+    },
+
+    /* Initializes the slider incl. tooltip, sets inner and outer width/height variables */
     slider: function() {
 
       var sliderBox = this.$el.find('#slider');
@@ -159,9 +179,21 @@
             value = x.invert(d3.mouse(this)[0]);
             brush.extent([value, value]);
             self.currentDay = value;
+
+            // TODO: Does not work like this because
+            // setting the URL params triggers an event at the same time
+            // which resets the slider
+
+            // var summary = {};
+
+            // summary["start_date"] = self.dateForQuery(self.currentDay);
+            // summary["end_date"] = self.dateForQuery(self.currentDay);
+
+            // self.router.setQueryParams(summary);
+
             tooltip
               .css({left: x(brush.extent()[0])})
-              .html(self.convertDate(self.currentDay));
+              .html(self.dateForTooltip(self.currentDay));
             circle
               .attr('cx', x(brush.extent()[0]));
           }
@@ -207,7 +239,7 @@
 
       tooltip
         .css({left: x(brush.extent()[0])})
-        .html(self.convertDate(self.currentDay));
+        .html(self.dateForTooltip(self.currentDay));
 
       this.tooltip = tooltip;
       this.svg = svg;
@@ -217,6 +249,7 @@
 
     },
 
+    /* Decide if to activate the slider (by destroying the mockup and making a new one) or if to enter play/pause mode */
     onPlay: function() {
       if (!this.isActive) {
         this.isActive = true;
@@ -224,7 +257,7 @@
         this.slider();
         this.play();
       }else{
-        //if slider is active, switch between play and pause
+        //if slider is already active, switch between play and pause
         if (this.isPlaying()) {
           this.pause();
         } else {
@@ -233,13 +266,14 @@
       }
     },
 
+    /* The animation of the slider */
     play: function() {
       this.playbutton.classList.remove('paused');
 
       var self = this;
 
-      var duration = 10000; //ms
-      var percentageMoved = Number(this.progress.attr('width')) / this.innerWidth; // of 1, not 100
+      var duration = 10000; // total trajectory time in ms
+      var percentageMoved = Number(this.progress.attr('width')) / this.innerWidth; // percentage: of 1, not 100!
       var percentageLeft = 1 - percentageMoved;
       var durationLeft = duration * percentageLeft;
 
@@ -261,6 +295,8 @@
 
       this.interval = setInterval(function() {
         var width = self.progress.attr('width');
+
+        // Reset to position at zero and pause animation when finished
         if (Number(width) >= self.innerWidth) {
           self.progress.attr('width', 0);
           self.circle.attr('cx', 0);
@@ -269,23 +305,19 @@
           }
           return;
         }
+
         var value = self.x.invert(width);
         self.brush.extent([value, value]);
         self.currentDay = value;
         self.tooltip
           .css({left: self.x(self.brush.extent()[0])})
-          .html(self.convertDate(self.currentDay));
+          .html(self.dateForTooltip(self.currentDay));
         self.trigger('timeline:change', value);
       }, 1);
 
     },
 
-    stopAfterDrag: function() {
-      if (this.isPlaying()) {
-        this.pause();
-      }
-    },
-
+    /* Stop the animation and change state of the button */
     pause: function() {
       this.playbutton.classList.add('paused');
 
@@ -293,6 +325,13 @@
         .interrupt();
       this.circle
         .interrupt();
+    },
+
+    /* When grabbing the handle during the animation, stop the animation */
+    stopAfterDrag: function() {
+      if (this.isPlaying()) {
+        this.pause();
+      }
     },
 
     isPlaying: function() {
