@@ -438,24 +438,6 @@
       this.markersLayer.addTo(this.map);
     },
 
-    // /* Return a LatLng Leaflet object representing the coordinates of the
-    //  * centroid of a set of markers (passed as arguments) */
-    // _computeCentroidLatLng: function() {
-    //   var markers      = arguments[0],
-    //       markersCount = arguments[0].length,
-    //       centroidLat  = 0,
-    //       centroidLng  = 0;
-    //
-    //   var latLng;
-    //   _.each(markers, function(m) {
-    //     latLng = m.getLatLng();
-    //     centroidLat += latLng.lat;
-    //     centroidLng += latLng.lng;
-    //   });
-    //
-    //   return L.latLng(centroidLat / markersCount, centroidLng / markersCount);
-    // },
-
     /* Compute the position of each marker depending on the position of the
      * other ones. If several markers have the exact same position, we move them
      * along an archimede spiral. Expects the layer of markers. */
