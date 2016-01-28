@@ -56,3 +56,8 @@ jQuery ->
     el = $(@)
     if el.val() != ''
       el.closest('.form-inputs').find('.switch_child_form, .switch_parent_form').remove()
+
+  $(document).on 'click', '.view-relation', (event) ->
+    event.preventDefault()
+    $(this).closest('.relation-preview').hide()
+    $("#expanded-"+$(this).attr('id')).show()
