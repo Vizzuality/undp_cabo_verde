@@ -71,8 +71,6 @@ jQuery ->
 
   $(document).on 'click', '.view-relation', (event) ->
     event.preventDefault()
-    $('.relation-preview').show()
     $(this).closest('.relation-preview').hide()
-    if $(this).data('type') == 'actor-actor-relation'
-      $('.js-collapsable-actor').hide()
+    $('.'+$(this).data('relation-type')).hide()
     $("#expanded-"+$(this).attr('id')).show()
