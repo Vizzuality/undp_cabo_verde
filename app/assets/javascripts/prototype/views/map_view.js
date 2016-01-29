@@ -65,6 +65,7 @@
         this.onActionModelRemoteSync);
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
       this.listenTo(root.app.pubsub, 'click:goBack', this.onGoBack);
+      this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
     },
 
     /* GETTERS */
@@ -173,7 +174,10 @@
       /* We toggle the part concerning the relationships from the legend */
       this.$legend.toggleClass('-reduced', !isVisible);
       /* We move the zoom buttons according to the legend move */
-      this.$zoomButtons.toggleClass('-slided', !isVisible);
+      if(this.$zoomButtons) {
+        /* The variable only exists after the map is initialized */
+        this.$zoomButtons.toggleClass('-slided', !isVisible);
+      }
       /* We toggle the switch button concerning the relationships */
       this.$relationshipsToggle.prop('checked', isVisible);
       /* We save the visibility to the model */
@@ -184,7 +188,10 @@
 
     onSidebarVisibilityChange: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
-      this.$credits.toggleClass('-slided', options.isHidden);
+      if(this.$credits) {
+        /* The variable only exists once the map is initialized */
+        this.$credits.toggleClass('-slided', options.isHidden);
+      }
     },
 
     /* Trigger an event through the pubsub object to inform about the new state
@@ -234,24 +241,30 @@
       this.removeRelations();
     },
 
+    onTimelineChange: function(date) {
+      this.filterMarkersByDate(date);
+    },
+
     /* LOGIC */
 
     initMap: function() {
       this.renderMap()
+        .then(this.fetchFilteredCollections.bind(this))
         .then(function() {
-          this.fetchFilteredCollections();
+          /* We wait for the map to create the elements */
           this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
           this.$credits = this.$el.find('.leaflet-control-attribution');
 
-          this.mapSliderView = new root.app.View.mapSliderView({
-            router: this.router
-          });
-        }.bind(this))
-        .then(function() {
           this.addFilteredMarkers();
           this.highlightActiveMarkers();
           this.renderActiveMarkerRelations();
           this.updateLegendRelationships();
+
+          /* We initialize the map's timeline when we're sure the map is ready
+           */
+          this.mapSliderView = new root.app.View.mapSliderView({
+            router: this.router
+          });
         }.bind(this));
     },
 
@@ -648,6 +661,16 @@
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
         highlightedMarkers[i].classList.toggle('-active');
       }
+    },
+
+    /* Filter the map's markers depending on if they exist at the passed date.
+     * If not, they're hidden.
+     * NOTE: this function MUST BE optimized as much as possible because it's
+     * called in a requestAnimationFrame (its duration should be less than 10
+     * ms)*/
+    filterMarkersByDate: function(date) {
+      console.time('filter');
+      console.timeEnd('filter');
     }
 
   });

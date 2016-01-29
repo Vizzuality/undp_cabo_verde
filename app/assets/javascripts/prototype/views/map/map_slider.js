@@ -83,6 +83,10 @@
       if(d3.mouse(this.timeline)[0]) {
         this.timelineTooltip.classList.toggle('-hidden', false);
       }
+
+      /* We update the map */
+      root.app.pubsub.trigger('change:timeline',
+        { date: this.timelineScale.invert(position) });
     },
 
     /* LOGIC */
@@ -179,6 +183,10 @@
       /* We update the position and the content of the tooltip */
       this.timelineTooltip.style.left = position + 'px';
       this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.invert(position));
+
+      /* We update the map */
+      root.app.pubsub.trigger('change:timeline',
+        { date: this.timelineScale.invert(position) });
 
       this.animationFrameCounter++;
 
