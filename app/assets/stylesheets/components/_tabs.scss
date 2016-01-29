@@ -56,4 +56,19 @@
     height: 48px;
     border-bottom: 1px solid $color-13;
   }
+
+  &:after {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    left: -191px;
+    color: red;
+    width: 200px;
+    height: 48px;
+    border-bottom: 1px solid $color-13;
+  }
+}
+
+.tabs-content {
+  margin-top: 3rem;
 }
