@@ -41,7 +41,6 @@
       this.$legend = this.$el.find('#map-legend');
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
-      this.$slider = this.$el.find('#map-slider');
       /* Cache for the relationships part of the legend */
       this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
       this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
@@ -186,7 +185,6 @@
     onSidebarVisibilityChange: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
       this.$credits.toggleClass('-slided', options.isHidden);
-      this.$slider.toggleClass('-slided', options.isHidden);
     },
 
     /* Trigger an event through the pubsub object to inform about the new state
@@ -241,9 +239,13 @@
     initMap: function() {
       this.renderMap()
         .then(function() {
-          this.fetchFilteredCollections;
+          this.fetchFilteredCollections();
           this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
           this.$credits = this.$el.find('.leaflet-control-attribution');
+
+          this.mapSliderView = new root.app.View.mapSliderView({
+            router: this.router
+          });
         }.bind(this))
         .then(function() {
           this.addFilteredMarkers();

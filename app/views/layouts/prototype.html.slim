@@ -61,15 +61,19 @@ html lang="en"
                 use xlink:href="#actionToActionIcon" x="0" y="4"
               = t('front.action_to_action')
         #map-slider
-          .slider-controls
-            .playbutton
-              = link_to('#', class: 'play paused')
-                .left
-                .right
-                .triangle1
-                .triangle2
-                .link-helper
-          #slider
+          a.slider-controls.js-play-button
+            .left
+            .right
+            .triangle1
+            .triangle2
+          .slider
+            .slider-tooltip.-hidden.js-timeline-tooltip
+              | -
+            svg
+              g transform="translate(12 11)"
+                rect.timeline.js-timeline
+                g.handle-container
+                  circle.handle r="7.5" cx="0" cy="1.5"
 
         #map-buttons
           .checkbox.-reversed.-negative
@@ -164,10 +168,10 @@ html lang="en"
 
                 .form-input
                     label.label for="startDate" = t('front.start_date')
-                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate" data-min="#{@start_date}"
+                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="start_date" id="startDate"
                 .form-input
                     label.label for="endDate" = t('front.end_date')
-                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate" data-max="#{@end_date}"
+                    input.input.-small.-calendaricon.js-input.js-date type="text" placeholder="MM/DD/YYYY" name="end_date" id="endDate"
                 button.button.-outlined.js-reset type="button" = t('front.reset')
                 button.button.js-apply type="submit" = t('front.apply')
                 .message.-error._hidden.js-error aria-hidden="true" = t('front.cant_apply_search_0_check')
@@ -182,4 +186,5 @@ html lang="en"
           | About content
 
     script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    = Gon::Base.render_data
     = javascript_include_tag "prototype"

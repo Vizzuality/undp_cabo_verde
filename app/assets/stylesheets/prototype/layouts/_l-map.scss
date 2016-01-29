@@ -78,20 +78,14 @@
   #map-slider {
     width: 320px;
     height: 25px;
-    margin-right: 20px;
-
     position: absolute;
     bottom: 75px;
     left: 210px;
+    display: flex;
+    justify-content: space-between;
 
     @media screen and (min-width: 740px) {
       bottom: 33px;
-    }
-
-    >.slider-controls,
-    >#slider {
-      display: inline-block;
-      float: left;
     }
   }
 

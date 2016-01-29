@@ -1,42 +1,65 @@
-#slider {
-  background-color: $color-1;
+.slider {
   height: 25px;
   width: 284px;
   position: relative;
   border-radius: 12px;
+  background-color: $color-1;
 
-  .slider-tooltip {
+  & > svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  .timeline {
+    height: 3px;
+    width: 260px;
+    fill: $color-2;
+  }
+
+  .trail {
+    height: 3px;
+    width: 3px;
+    border-radius: 100%;
+    background-color: $color-2;
+  }
+
+  .handle {
+    fill: $color-2;
+    &.-hidden { display: none; }
+  }
+
+  & > .slider-tooltip {
+    @extend %vertical-align;
+
+    position: absolute;
+    bottom: 35px;
     width: 100px;
     height: 25px;
     padding: 5px 10px;
-    margin-bottom: 5px;
-    margin-left: 12px;
-
-    position: absolute;
-    transform: translate(-50%);
-    bottom: 30px;
-
-    background-color: $color-1;
     color: $color-2;
-
-    font-family: "Helvetica Neue", sans-serif;
-    font-weight: 500;
     font-size: 11px;
     text-align: center;
+    background-color: $color-1;
+    transform: translateX(calc(-50% + 12px));
+    opacity: 1;
+    transition: opacity .4s;
 
     &:before {
-      content: " ";
-      width: 0px;
-      height: 0px;
-      border-top: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-bottom: 4px solid $color-1;
-      border-left: 4px solid $color-1;
-
+      content: '';
       position: absolute;
       bottom: -4px;
       left: 50%;
-      transform: translate(-50%) rotate(-45deg);
+      width: 0;
+      height: 0;
+      border-top:    4px solid transparent;
+      border-right:  4px solid transparent;
+      border-bottom: 4px solid $color-1;
+      border-left:   4px solid $color-1;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    &.-hidden {
+      opacity: 0;
     }
   }
 }

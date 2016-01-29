@@ -1,92 +1,56 @@
 .slider-controls {
+  position: relative;
   height: 25px;
   width: 25px;
   background-color: $color-1;
   border-radius: 50%;
-  margin-right: 10px;
-  position: relative;
+  cursor: pointer;
 
     // Source: http://codepen.io/aralon/pen/NqGWXZ
 
-  > .playbutton{
+  & > .left,
+  & > .right {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 1px;
-  }
-
-  .play {
-    width: 8px;
-    height: 8px;
-    display: inline-block;
-    overflow: visible;
-    position: relative;
-  }
-
-  .left {
-    height: 100%;
-    float: left;
+    top: 8px;
+    height: 10px;
+    width: 5px;
     background-color: $color-2;
-    // background-color: yellow;
-    width: 38%;
-    transition: all 0.25s ease;
-    overflow: visible;
+    transition: width .2s ease;
   }
 
-  .triangle1 {
-    transform: translate(0, -100%);
-    // border-right: 12px solid blue;
-  }
+  & > .left  { left:  50%; transform: translateX(-5px); }
+  & > .right { right: 50%; transform: translateX(5px); }
 
-  .triangle2 {
-    transform: translate(0, 100%);
-    // border-right: 12px solid green;
-  }
-
-  .triangle1,
-  .triangle2 {
+  & > .triangle1,
+  & > .triangle2 {
     position: absolute;
-    top: 0;
-    right: 0;
-    background-color: transparent;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 0;
     height: 0;
-    border-right: 8px solid $color-1;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-    transition: transform 0.25s ease;
+    border-right: 10px solid $color-1;
+    transition: transform .2s ease;
   }
 
-  .right {
-    height: 100%;
-    float: right;
-    width: 33%;
-    background-color: $color-2;
-    // background-color: red;
-    transition: all 0.25s ease;
+  & > .triangle1 {
+    top: 8px;
+    border-bottom: 5px solid transparent;
+
   }
 
-  .paused {
-    .left,
-    .right {
-      width: 50%;
-    }
-    .triangle1 {
-      transform: translate(0, -50%);
-    }
-    .triangle2 {
-      transform: translate(0, 50%);
-    }
+  & > .triangle2 {
+    bottom: 7px;
+    border-top: 5px solid transparent;
   }
 
-  .link-helper {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-top: 4px;
-    transform: translate(-50%, -50%);
+  &.-paused {
+    & > .left,
+    & > .right {
+      width: 4px;
+    }
+
+    & > .triangle1 { transform: translate(-50%, -100%); }
+    & > .triangle2 { transform: translate(-50%, 100%);  }
   }
 
 }

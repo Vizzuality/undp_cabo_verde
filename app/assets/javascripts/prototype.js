@@ -66,9 +66,6 @@
       this.actionView = new root.app.View.sidebarActionView({
         router: this.router
       });
-      this.sliderView = new root.app.View.sliderView({
-        router: this.router
-      });
     }
 
   });
