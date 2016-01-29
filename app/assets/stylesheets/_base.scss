@@ -88,6 +88,10 @@ input[type="password"],
   &:disabled, &.-disabled {
     border: none;
   }
+
+  .searchfield & {
+    border: 1px solid $color-12;
+  }
 }
 
 textarea,
