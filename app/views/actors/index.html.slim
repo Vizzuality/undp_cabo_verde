@@ -6,6 +6,16 @@
     .button-collection
       = render 'index_tabs'
 
+  .section.search-section
+    .search-label
+    = simple_form_for actors_path, method: :get, id: "actors_search" do
+      span.searchfield.-primary
+        = text_field_tag :search_term, params[:search], :placeholder => 'Search'
+      span.searchfield.-secondary
+        = select_tag :level,  options_for_select(@types, :id), :multiple => true, class: 'js-mselect', :data => {:placeholder => 'Type'}
+      span.searchfield.-secondary
+        = select_tag :category,  options_from_collection_for_select(@categories, :id, :name), :multiple => true, class: 'js-mselect', :data => {:placeholder => 'Category'}
+
   .section.table-container
     - @actors.each do |actor|
       .table-row
