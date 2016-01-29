@@ -1,0 +1,33 @@
+.relation-preview {
+  padding: 30px 0px 20px;
+  border-top: 1px solid $color-13;
+  border-bottom: 1px solid $color-13;
+  margin-top: -1px;
+
+
+  >.relationtype {
+    margin-bottom: 8px;
+    @include font(helvetica, xxsmall, light, 1);
+    color: $color-6;
+    text-transform: capitalize;
+  }
+  >.relationtitle {
+    margin-bottom: 10px;
+    @include font(helvetica, small, light, 1.4);
+    color: $color-2;
+  }
+  >.relationbuttons {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+
+    > span {
+      margin-left: 30px;
+    }
+
+    > .view-relation {
+
+    }
+  }
+}
