@@ -8,7 +8,7 @@
         p.relationbuttons
           span= link_to "View", "#", id: "actors-relation-#{f.object.id}",
             class: "view-relation", 'data-type': "actor-actor-relation"
-.form-inputs.form-inputs-child.js-collapsable-actor class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
+.form-inputs.form-inputs-child.form-inputs-relations.js-collapsable-actor class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
       = f.label :child_id, t('actors.actor') + '*', class: 'right inline'
