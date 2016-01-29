@@ -372,6 +372,7 @@ en:
     actions_relations: 'Connections with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
+    add_new_relation: 'Add new relation'
     actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
@@ -397,6 +398,7 @@ en:
     organization_types: 'Organization types'
     current_indicator: 'Current indicator'
     remove_action: 'Remove action'
+    remove_indicator: 'Remove indicator'
 
     units:
       units: 'Units'
