@@ -18,8 +18,8 @@ class ActorArraySerializer < BaseSerializer
         LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     else
-      object.get_locations.map do |localizations|
-        LocalizationArraySerializer.new(localizations, root: false).serializable_hash
+      object.get_locations.map do |actor_localizations|
+        LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     end
   end

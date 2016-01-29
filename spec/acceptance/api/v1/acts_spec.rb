@@ -169,13 +169,6 @@ resource 'Acts' do
 
           expect(action['actions']['parents'][0]['locations'].size).to eq(1)
 
-          expect(action['actions']['parents_info'][0]['parent_id']).not_to  be_nil
-          expect(action['actions']['parents_info'][0]['child_id']).to       eq(action_with_relations.id)
-          expect(action['actions']['parents_info'][0]['start_date']).not_to be_nil
-          expect(action['actions']['parents_info'][0]['end_date']).not_to   be_nil
-
-          expect(action['actions']['parents_info'][0]['relation_type']['title']).to         eq('contains')
-          expect(action['actions']['parents_info'][0]['relation_type']['title_reverse']).to eq('belongs to')
           # Relations object details for children
           expect(action['actions']['children'][0]['id']).not_to    be_nil
           expect(action['actions']['children'][0]['name']).to      eq('Indicator of Education')
@@ -186,14 +179,6 @@ resource 'Acts' do
           expect(action['actions']['children'][1]['locations'].size).to eq(1)
           expect(action['actions']['children'][0]['locations'].size).to eq(1)
 
-          expect(action['actions']['children_info'][0]['parent_id']).to      eq(action_with_relations.id)
-          expect(action['actions']['children_info'][0]['child_id']).not_to   be_nil
-          expect(action['actions']['children_info'][0]['start_date']).not_to be_nil
-          expect(action['actions']['children_info'][0]['end_date']).not_to   be_nil
-
-          expect(action['actions']['children_info'][0]['relation_type']['title']).to         eq('contains')
-          expect(action['actions']['children_info'][0]['relation_type']['title_reverse']).to eq('belongs to')
-
           # Actor Relations size
           expect(action['actors']['parents'].size).to  eq(1)
           # Actor Relations object details for parents
@@ -202,14 +187,6 @@ resource 'Acts' do
           expect(action['actors']['parents'][0]['level']).to     eq('micro')
 
           expect(action['actors']['parents'][0]['locations'].size).to eq(1)
-
-          expect(action['actors']['parents_info'][0]['actor_id']).to   eq(Actor.last.id)
-          expect(action['actors']['parents_info'][0]['act_id']).to     eq(action_with_relations.id)
-          expect(action['actors']['parents_info'][0]['start_date']).to eq('2015-08-12')
-          expect(action['actors']['parents_info'][0]['end_date']).to   eq('2015-09-01')
-
-          expect(action['actors']['parents_info'][0]['relation_type']['title']).to         eq('implements')
-          expect(action['actors']['parents_info'][0]['relation_type']['title_reverse']).to eq('implemented by')
         end
       end
     end

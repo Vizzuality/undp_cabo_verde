@@ -1,6 +1,7 @@
 class Actor < ActiveRecord::Base
   include Activable
   include Localizable
+  include Filterable
 
   belongs_to :user, foreign_key: :user_id
   belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
@@ -78,6 +79,24 @@ class Actor < ActiveRecord::Base
                all
              end
     actors
+  end
+
+  def get_parents_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'parents')
+  end
+
+  def get_children_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'children')
+  end
+
+  def get_actions_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'acts')
   end
 
   def get_locations
@@ -194,6 +213,10 @@ class Actor < ActiveRecord::Base
     get_parents.map { |p| ["#{p.name} (#{p.main_address})", p.main_location_id] } if get_parents.present?
   end
 
+  def is_actor?
+    self.class.name.include?('Actor')
+  end
+
   private
 
     def deactivate_dependencies
@@ -242,6 +265,13 @@ class Actor < ActiveRecord::Base
       locations  = if parent_ids.present?
                      Actor.filter_actives.where(id: parent_ids).with_locations.preload(:localizations)
                    end
+    end
+
+    def filter_params(options)
+      @start_date = options['start_date']  if options['start_date'].present?
+      @end_date   = options['end_date']    if options['end_date'].present?
+      @levels     = options['levels']      if options['level'].present?
+      @domains    = options['domains_ids'] if options['domains_ids'].present?
     end
 
     def set_main_location

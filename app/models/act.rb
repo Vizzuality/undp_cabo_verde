@@ -1,6 +1,7 @@
 class Act < ActiveRecord::Base
   include Activable
   include Localizable
+  include Filterable
 
   monetize :budget_cents, allow_nil: true
 
@@ -74,6 +75,30 @@ class Act < ActiveRecord::Base
              all
            end
     acts
+  end
+
+  def get_parents_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'parents')
+  end
+
+  def get_children_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'children')
+  end
+
+  def get_actors_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'actors')
+  end
+
+  def get_values_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date,
+           model_name: 'act_indicator_relation')
   end
 
   def get_locations
@@ -178,6 +203,10 @@ class Act < ActiveRecord::Base
     localizations.main_locations
   end
 
+  def is_actor?
+    self.class.name.include?('Actor')
+  end
+
   private
 
     def deactivate_dependencies
@@ -218,6 +247,13 @@ class Act < ActiveRecord::Base
 
     def other_domain_invalid(attributes)
       attributes['name'].empty?
+    end
+
+    def filter_params(options)
+      @start_date = options['start_date']  if options['start_date'].present?
+      @end_date   = options['end_date']    if options['end_date'].present?
+      @levels     = options['levels']      if options['level'].present?
+      @domains    = options['domains_ids'] if options['domains_ids'].present?
     end
 
     def set_main_location

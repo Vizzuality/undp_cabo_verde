@@ -39,33 +39,21 @@ class ActorSerializer < BaseSerializer
 
   def actors
     data = {}
-    data['parents']       = object.parents.sort_by { |parent| parent['id'] }.map do |parent|
-                              SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter]).serializable_hash
-                            end
+    data['parents']  = object.get_parents_by_date(@options[:search_filter]).sort_by { |parent| parent['id'] }.map do |parent|
+                         SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter]).serializable_hash
+                       end
 
-    data['parents_info']  = object.actor_relations_as_child.sort_by { |parent| parent['parent_id'] }.map do |parent|
-                              SelfRelationSerializer.new(parent, root: :parent_info).serializable_hash
-                            end
-
-    data['children']      = object.children.sort_by { |child| child['id'] }.map do |child|
-                              SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter]).serializable_hash
-                            end
-
-    data['children_info'] = object.actor_relations_as_parent.sort_by { |child| child['child_id'] }.map do |child|
-                              SelfRelationSerializer.new(child, root: :children_info).serializable_hash
-                            end
+    data['children'] = object.get_children_by_date(@options[:search_filter]).sort_by { |child| child['id'] }.map do |child|
+                         SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter]).serializable_hash
+                       end
     data
   end
 
   def actions
     data = {}
-    data['children']      = object.acts.sort_by { |action| action['id'] }.map do |action|
-                              ActActorRelationArraySerializer.new(action, root: :actions, search_filter: @options[:search_filter]).serializable_hash
-                            end
-
-    data['children_info'] = object.act_actor_relations.sort_by { |relation| relation['act_id'] }.map do |relation|
-                              ActActorRelationSerializer.new(relation, root: :actions_info).serializable_hash
-                            end
+    data['children'] = object.get_actions_by_date(@options[:search_filter]).sort_by { |action| action['id'] }.map do |action|
+                         ActActorRelationArraySerializer.new(action, root: :actions, search_filter: @options[:search_filter]).serializable_hash
+                       end
     data
   end
 
@@ -75,8 +63,8 @@ class ActorSerializer < BaseSerializer
         LocalizationSerializer.new(object_localizations, root: false).serializable_hash
       end
     else
-      object.get_locations.map do |localizations|
-        LocalizationSerializer.new(localizations, root: false).serializable_hash
+      object.get_locations.map do |object_localizations|
+        LocalizationSerializer.new(object_localizations, root: false).serializable_hash
       end
     end
   end

@@ -38,6 +38,7 @@ class Search::Actors
         where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') >= ? OR
                        COALESCE(locations.end_date, '#{@start_date.to_time.end_of_day}') >= ?",
                        @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day
+
         a = @query.joins(:location).where(where_query)
 
         b = @query.joins(:localizations).where(where_query)
@@ -53,6 +54,7 @@ class Search::Actors
         where_query = "COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') <= ? OR
                        COALESCE(locations.start_date, '#{@end_date.to_time.beginning_of_day}') <= ?",
                        @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day
+
         a = @query.joins(:location).where(where_query)
 
         b = @query.joins(:localizations).where(where_query)
@@ -71,6 +73,7 @@ class Search::Actors
                        @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                        @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                        @start_date.to_time.beginning_of_day
+
         a = @query.joins(:location).where(where_query)
 
         b = @query.joins(:localizations).where(where_query)
