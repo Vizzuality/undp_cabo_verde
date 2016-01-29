@@ -8,12 +8,13 @@ class ActorsController < ApplicationController
   before_action :set_actor_preload, only: [:show, :edit]
   before_action :actor_filters, only: :index
   before_action :set_type
-  before_action :set_selection, only: [:new, :edit, :show, :create, :update]
+  before_action :set_selection, only: [:new, :edit, :show, :create, :update, :index]
   before_action :set_micro_selection, only: [:new, :create]
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
+    @categories = Category.where(type: ["OtherDomain", "SocioCulturalDomain"]).order(:name)
     @actors = if current_user && current_user.admin?
                 type_class.order(:name).filter_actors(actor_filters).page params[:page]
               else
