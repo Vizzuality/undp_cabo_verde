@@ -21,10 +21,9 @@ jQuery ->
   $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
     time       = new Date().getTime()
     regexp     = new RegExp($(this).data('id'), 'g')
-    container  = $('#add-relations').clone().attr('id', 'add-relations'+ cloneCount++)
 
-    container.html($(this).data('fields').replace(regexp, time))
-    $('#add-relations').before(container)
+    $(this).before($(this).data('fields').replace(regexp, time))
+
     event.preventDefault()
     current_actor_action = $('.current-actor-wrapper .current-actor, .current-action-wrapper .current-action')
     value = $('#actor_name, #act_name').val()
