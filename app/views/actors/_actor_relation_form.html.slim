@@ -1,12 +1,14 @@
 - preview = !f.object.new_record?
 - if preview
-  .relation-preview
-    p= f.object.relation_type.title
-    p= f.object.parent.name
-    p
-      span= link_to "View", "#", id: "actors-relation-#{f.object.id}",
-        class: "view-relation"
-.form-inputs.form-inputs-parent class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
+  .row
+    .column.medium-8.medium-offset-4
+      .relation-preview
+        p.relationtype= f.object.relation_type.title
+        p.relationtitle= f.object.parent.name
+        p.relationbuttons
+          span= link_to "View", "#", id: "actors-relation-#{f.object.id}",
+            class: "view-relation", 'data-type': "actor-actor-relation"
+.form-inputs.form-inputs-parent.js-collapsable-actor class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
       = f.label t('actors.current_actor'), class: 'right inline'
