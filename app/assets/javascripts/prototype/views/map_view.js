@@ -500,6 +500,31 @@
         return group.length > 1;
       });
 
+      /* We create an array of all the markers that will be moved */
+      var optimallyPositionedMarkers = _.flatten(_.map(conflictingMarkersGroups,
+        function(conflictingMarkersGroup) {
+        return _.map(conflictingMarkersGroup, function(conflictingMarker) {
+          return conflictingMarker;
+        });
+      }));
+
+      /* We compare the list of all the markers which will be moved with the
+       * previously moved to compute if we need to restore their original
+       * position */
+      var markersToRestorePosition = _.compact(_.map(this.optimallyPositionedMarkers,
+        function(m) {
+        if(!~optimallyPositionedMarkers.indexOf(m)) {
+          return m;
+        }
+      }, this));
+
+      /* We restore the position of markers */
+      _.each(markersToRestorePosition, function(m) {
+        m.setLatLng(m.options.originalLatLng);
+      });
+
+      this.optimallyPositionedMarkers = optimallyPositionedMarkers;
+
       /* This layer contains all the map's elements useful for the user to
        * understand that some markers have been moved from their original
        * positions. It contains lines and a marker at the original position. */
