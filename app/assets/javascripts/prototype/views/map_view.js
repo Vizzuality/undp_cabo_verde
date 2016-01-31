@@ -447,19 +447,19 @@
       var mapZoom = this.map.getZoom();
       switch(true) {
         case mapZoom <= 9:
-          spiralGap             = 2;
+          spiralGap             = 1;
           spiralInitialDistance = 0;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         case mapZoom <= 11:
-          spiralGap             = 5;
+          spiralGap             = 2;
           spiralInitialDistance = 2;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         default:
-          spiralGap             = 10;
+          spiralGap             = 5;
           spiralInitialDistance = 5;
           spiralAngleFactor     = Math.PI / 3;
           break;
