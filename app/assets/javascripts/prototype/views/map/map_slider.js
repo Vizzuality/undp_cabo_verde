@@ -36,21 +36,18 @@
     },
 
     setListeners: function() {
-      this.listenTo(this.router, 'change:queryParams', this.onDatesChange);
+      this.listenTo(this.router, 'change:queryParams',
+        this.onQueryParamsChange);
       this.listenTo(this.status, 'change:isPlaying',
         this.onAnimationStatusChange);
     },
 
     /* EVENT HANDLERS */
 
-    // /* Destroys current slider, creates mockup slider. Gets selected dates from
-    //  * router, sets them as global params. */
-    // onDatesChange: function() {
-    //   this.isPlaying = false; // slider idle
-    //   this.makeSliderInactive();
-    //   this.setStartDate();
-    //   this.setEndDate();
-    // },
+    onQueryParamsChange: function(options) {
+      this.pause();
+      this.updateTimeline(options);
+    },
 
     onAnimationStatusChange: function() {
       this.updateControls();
@@ -128,6 +125,9 @@
         .call(this.timelineBrush.event)
         .selectAll('.extent, .resize, .background')
         .remove();
+
+      /* Use the selected dates from the URL for the timeline's range */
+      this.updateTimeline(this.router.getQueryParams());
     },
 
     /* Pause the animation */
@@ -145,6 +145,7 @@
       var duration = 10000;
       var fps      = 60;
 
+      /* TODO: save in a variable the position instead of accessing the DOM */
       var handlePosition = parseFloat((this.timelineHandle[0][0].style.transform ||
         this.timelineHandle[0][0].style.webkitTransform).match(/translate(X)?\((.*)px\)/)[2]);
       var percentageLeft = 1 - handlePosition / this.timelineScale.range()[1];
@@ -171,11 +172,8 @@
       /* In case the user puts the handle directly at the end, we move it to the
        * beginning */
       if(this.animationRemainingFrames === 0) {
-        this.timelineHandle[0][0].style.transform       = 'translateX(0)';
-        this.timelineHandle[0][0].style.webkitTransform = 'translateX(0)';
-        this.timelineTooltip.style.transform       = 'translateX(0)';
-        this.timelineTooltip.style.webkitTransform = 'translateX(0)';
         this.pause();
+        this.resetTimelineState();
         return;
       }
 
@@ -208,22 +206,41 @@
       } else {
         /* We make sure that when we reach the end, we go back to the beginning
          */
-        this.timelineHandle[0][0].style.transform       = 'translateX(0)';
-        this.timelineHandle[0][0].style.webkitTransform = 'translateX(0)';
-        this.timelineTooltip.style.transform       = 'translateX(0)';
-        this.timelineTooltip.style.webkitTransform = 'translateX(0)';
-
-        this.timelineTooltip.classList.toggle('-hidden', true);
-        this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.domain()[0]);
         this.pause();
+        this.resetTimelineState();
 
         /* We reset the map */
         root.app.pubsub.trigger('change:timeline', {});
       }
     },
 
+    /* Switch the control button's icon depending on the state of the animation
+     */
     updateControls: function() {
       this.playbutton.classList.toggle('-paused', this.status.get('isPlaying'));
+    },
+
+    /* Update the date range of the timeline and resets its state */
+    updateTimeline: function(options) {
+      var minDate = options.start_date && new Date(options.start_date) || this.minDate,
+          maxDate = options.end_date && new Date(options.end_date)   || this.maxDate;
+
+      this.timelineScale.domain([minDate, maxDate]);
+      this.timelineBrush.extent([minDate, maxDate]);
+
+      this.resetTimelineState();
+    },
+
+    /* Move the timeline's handle and tooltip to the beginning, hide the tooltip
+     * and reset its content */
+    resetTimelineState: function() {
+      this.timelineHandle[0][0].style.transform       = 'translateX(0)';
+      this.timelineHandle[0][0].style.webkitTransform = 'translateX(0)';
+      this.timelineTooltip.style.transform       = 'translateX(0)';
+      this.timelineTooltip.style.webkitTransform = 'translateX(0)';
+
+      this.timelineTooltip.classList.toggle('-hidden', true);
+      this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.domain()[0]);
     }
 
   });
