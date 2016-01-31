@@ -860,11 +860,21 @@
      * called in a requestAnimationFrame (its duration should be less than 10
      * ms) */
     filterMarkers: function(options) {
+      /* If we're asked to filter the markers for the same date, we don't do
+       * anything (important for rendering improvements when seing a big range)
+       */
+      if(this.lastFilterDate && this.lastFilterDate === options.date) {
+        return;
+      } else {
+        this.lastFilterDate = options.date;
+      }
+
       this.map.removeLayer(this.markersLayer);
 
       /* In case there's no date, we reset the markers */
       if(!options.date) {
         this.markersLayer = L.layerGroup(this.leafletMarkers);
+        this.lastFilterDate = null;
       } else {
         this.markersLayer = L.layerGroup(_.filter(this.leafletMarkers,
           function(m) {
