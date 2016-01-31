@@ -253,8 +253,8 @@
       this.removeRelations();
     },
 
-    onTimelineChange: function(date) {
-      this.filterMarkersByDate(date);
+    onTimelineChange: function(options) {
+      this.filterMarkers(options);
     },
 
     onZoomEnd: function() {
@@ -454,7 +454,11 @@
         this._addEntityMarkers(this.actionsCollection.toJSON(), 'actions');
       }
 
+      /* Cache for the timeline animation */
+      this.leafletMarkers = this.markersLayer.getLayers();
+
       this.computeMarkersOptimalPosition();
+
       this.markersLayer.addTo(this.map);
     },
 
@@ -485,13 +489,11 @@
           break;
       }
 
-      var markers = this.markersLayer.getLayers();
-
       /* By grouping and filtering the markers, we get an array of all the
        * groups of markers which share the same location (ie an array of arrays
        * of markers with the same location) */
       var latLng;
-      var conflictingMarkersGroups = _.filter(_.groupBy(markers, function(m) {
+      var conflictingMarkersGroups = _.filter(_.groupBy(this.markersLayer.getLayers(), function(m) {
         latLng = m.options.originalLatLng || m.getLatLng();
         return ''.concat(latLng.lat, latLng.lng);
       }), function(group) {
@@ -689,7 +691,10 @@
 
     /* Remove all the relations from the map */
     removeRelations: function() {
-      this.$el.find('.js-line').remove();
+      if(this.map.hasLayer(this.relationsLayer)) {
+        this.map.removeLayer(this.relationsLayer);
+      }
+
       var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
         highlightedMarkers[i].classList.remove('js-relation-highlight');
@@ -749,7 +754,9 @@
         /* We then find each marker which is linked to the clicked one, save its
          * coordinates and add a line between them */
         var otherMarker, otherDOMMarker, otherMarkerLatLng, latLngs;
-        _.each(relations, function(relation) {
+        this.relationsLayer = L.layerGroup(_.compact(_.map(relations,
+          function(relation) {
+
           if(!relation.locations.length) {
             console.warn('Unable to show the relation with /' + entityType +
               '/' + relation.id + ' because it doesn\'t have any location');
@@ -779,10 +786,10 @@
                 options.className += ' -hidden';
               }
 
-              L.polyline(latLngs, options).addTo(this.map);
+              return L.polyline(latLngs, options);
             }
           }
-        }, this);
+        }, this)));
       }.bind(this);
 
       /* We add the relations with the actors */
@@ -793,6 +800,9 @@
       relations = _.union(model.get('actions').parents,
         model.get('actions').children);
       addLines(relations, 'actions');
+
+      /* We finally add the relations to the map */
+      this.relationsLayer.addTo(this.map);
     },
 
     renderSelectedMarkerRelations: function() {
@@ -823,10 +833,24 @@
      * If not, they're hidden.
      * NOTE: this function MUST BE optimized as much as possible because it's
      * called in a requestAnimationFrame (its duration should be less than 10
-     * ms)*/
-    filterMarkersByDate: function(date) {
-      console.time('filter');
-      console.timeEnd('filter');
+     * ms) */
+    filterMarkers: function(options) {
+      this.map.removeLayer(this.markersLayer);
+
+      /* In case there's no date, we reset the markers */
+      if(!options.date) {
+        this.markersLayer = L.layerGroup(this.leafletMarkers);
+      } else {
+        this.markersLayer = L.layerGroup(_.filter(this.leafletMarkers,
+          function(m) {
+          return Math.random() < 0.5;
+        }));
+      }
+
+      this.removeRelations();
+      this.computeMarkersOptimalPosition();
+
+      this.markersLayer.addTo(this.map);
     }
 
   });

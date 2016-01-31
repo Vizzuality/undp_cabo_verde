@@ -71,13 +71,16 @@
       /* We update the position of the handle */
       var position = d3.mouse(this.timeline)[0] || 0;
       position = this.timelineScale(this.timelineScale.invert(position));
+
+      var translatePosition = 'translate(' + position + 'px)';
       /* We bound the handle to the timeline */
-      this.timelineHandle.attr('cx', position);
+      this.timelineHandle[0][0].style.transform = translatePosition;
+      this.timelineHandle[0][0].style.webkitTransform = translatePosition;
       this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.invert(position));
 
       /* We give the position to the tooltip */
-      this.timelineTooltip.style.left = this.timelineScale(this.timelineScale.invert(position)) +
-        'px';
+      this.timelineTooltip.style.transform       = translatePosition;
+      this.timelineTooltip.style.webkitTransform = translatePosition;
 
       /* We make sure the tooltip is visible when the user moves the handle */
       if(d3.mouse(this.timeline)[0]) {
@@ -85,8 +88,10 @@
       }
 
       /* We update the map */
-      root.app.pubsub.trigger('change:timeline',
-        { date: this.timelineScale.invert(position) });
+      if(d3.mouse(this.timeline)[0]) {
+        root.app.pubsub.trigger('change:timeline',
+          { date: this.timelineScale.invert(position) });
+      }
     },
 
     /* LOGIC */
@@ -140,7 +145,8 @@
       var duration = 10000;
       var fps      = 60;
 
-      var handlePosition = parseInt(this.timelineHandle.attr('cx'));
+      var handlePosition = parseFloat((this.timelineHandle[0][0].style.transform ||
+        this.timelineHandle[0][0].style.webkitTransform).match(/translate(X)?\((.*)px\)/)[2]);
       var percentageLeft = 1 - handlePosition / this.timelineScale.range()[1];
       /* These values won't be updated during the animation. We use at as
        * references for the percentage computed in the animate method. */
@@ -165,8 +171,10 @@
       /* In case the user puts the handle directly at the end, we move it to the
        * beginning */
       if(this.animationRemainingFrames === 0) {
-        this.timelineHandle.attr('cx', 0);
-        this.timelineTooltip.style.left = 0;
+        this.timelineHandle[0][0].style.transform       = 'translateX(0)';
+        this.timelineHandle[0][0].style.webkitTransform = 'translateX(0)';
+        this.timelineTooltip.style.transform       = 'translateX(0)';
+        this.timelineTooltip.style.webkitTransform = 'translateX(0)';
         this.pause();
         return;
       }
@@ -177,29 +185,40 @@
       var position = this.animationInitialPosition +
         relativePercentage * this.animationRemainingDistance;
 
+      /* Caches for performance improvements */
+      var translatePosition = 'translateX(' + position + 'px)';
+      var date = this.timelineScale.invert(position);
+
       /* We update the position of the handle */
-      this.timelineHandle.attr('cx', position);
+      this.timelineHandle[0][0].style.transform = translatePosition;
+      this.timelineHandle[0][0].style.webkitTransform = translatePosition;
 
       /* We update the position and the content of the tooltip */
-      this.timelineTooltip.style.left = position + 'px';
-      this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.invert(position));
-
-      /* We update the map */
-      root.app.pubsub.trigger('change:timeline',
-        { date: this.timelineScale.invert(position) });
+      this.timelineTooltip.style.transform = translatePosition;
+      this.timelineTooltip.style.webkitTransform = translatePosition;
+      this.timelineTooltip.textContent = this.dateFormat(date);
 
       this.animationFrameCounter++;
 
       if(this.animationFrameCounter < this.animationRemainingFrames) {
+        /* We update the map */
+        root.app.pubsub.trigger('change:timeline', { date: date });
+
         this.currentAnimationID = requestAnimationFrame(this.animate.bind(this));
       } else {
         /* We make sure that when we reach the end, we go back to the beginning
          */
-        this.timelineHandle.attr('cx', 0);
+        this.timelineHandle[0][0].style.transform       = 'translateX(0)';
+        this.timelineHandle[0][0].style.webkitTransform = 'translateX(0)';
+        this.timelineTooltip.style.transform       = 'translateX(0)';
+        this.timelineTooltip.style.webkitTransform = 'translateX(0)';
+
         this.timelineTooltip.classList.toggle('-hidden', true);
-        this.timelineTooltip.style.left = 0;
         this.timelineTooltip.textContent = this.dateFormat(this.timelineScale.domain()[0]);
         this.pause();
+
+        /* We reset the map */
+        root.app.pubsub.trigger('change:timeline', {});
       }
     },
 
