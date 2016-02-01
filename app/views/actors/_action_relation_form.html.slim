@@ -7,7 +7,7 @@
         p.relationtitle= f.object.act.name
         p.relationbuttons
           span= link_to "View", "#", id: "actions-relation-#{f.object.id}",
-            class: "view-relation", 'data-type': "actor-action-relation"
+            class: "view-relation", 'data-relation-type': "actor-action-relation"
 .form-inputs.form-inputs-action.form-inputs-relations.actor-action-relation class=('hide' if preview) id=("expanded-actions-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
