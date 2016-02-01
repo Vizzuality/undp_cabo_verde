@@ -7,35 +7,35 @@ RSpec.describe ActorsController, type: :controller do
     FactoryGirl.create(:admin)
 
     @field = create(:operational_field)
-
-    @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
     @meso  = create(:actor_meso, user_id: @user.id)
+    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro])
+    @location = create(:localization, name: 'First Localization', user: @user, main: true, localizable: @macro)
     @socio_cultural_domain = create(:socio_cultural_domain, name: 'SCD')
   end
 
-  let!(:attri) do 
+  let!(:attri) do
     { name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: '', operational_field: ''
     }
   end
 
-  let!(:attri_micro) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', 
+  let!(:attri_micro) do
+    { name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: 'Test'
     }
   end
 
   let!(:attri_macro) do
     {
-      name: 'New first', observation: 'Lorem ipsum dolor...', 
+      name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: 'Test', operational_field: @field.id
     }
   end
 
-  let!(:attri_meso) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: 'Test', type: 'ActorMeso' 
+  let!(:attri_meso) do
+    { name: 'New first', observation: 'Lorem ipsum dolor...',
+      active: true, title: 'Test', type: 'ActorMeso'
     }
   end
 
@@ -68,6 +68,8 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(@micro.micro?).to eq(true)
+      # after_commit rspec broken on rails 4
+      # expect(@micro.parent_location_id).to eq(@location.id)
     end
 
     it 'update actor micro and redirect to membership_actor_micro_path' do
@@ -163,9 +165,9 @@ RSpec.describe ActorsController, type: :controller do
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
-        @meso_linked  = create(:actor_meso,  user_id: @user.id, 
+        @meso_linked  = create(:actor_meso,  user_id: @user.id,
                                parents: [@macro_active])
-        @micro_linked = create(:actor_micro, user_id: @user.id, 
+        @micro_linked = create(:actor_micro, user_id: @user.id,
                                parents: [@macro_active, @meso_linked])
         FactoryGirl.create(:actor_macro, user_id: @user.id)
         FactoryGirl.create(:actor_meso, user_id: @user.id)
