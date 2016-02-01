@@ -71,6 +71,10 @@ jQuery ->
 
   $(document).on 'click', '.view-relation', (event) ->
     event.preventDefault()
-    $(this).closest('.relation-preview').hide()
+
     $('.'+$(this).data('relation-type')).hide()
+    parent = $(this).parents('.content.active')
+    parent.find('.relation-preview').show()
+
+    $(this).closest('.relation-preview').hide()
     $("#expanded-"+$(this).attr('id')).show()
