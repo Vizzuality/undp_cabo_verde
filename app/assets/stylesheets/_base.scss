@@ -82,7 +82,9 @@ input[type="email"],
 input[type="url"],
 input[type="password"],
 .current-actor,
-.current-actor-edit {
+.current-actor-edit,
+.current-action,
+.current-action-edit {
   border-bottom: 1px solid $color-13;
 
   &:disabled, &.-disabled {
