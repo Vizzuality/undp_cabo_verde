@@ -1,6 +1,7 @@
 class Act < ActiveRecord::Base
   include Activable
   include Localizable
+  include Filterable
 
   monetize :budget_cents, allow_nil: true
 
@@ -12,16 +13,14 @@ class Act < ActiveRecord::Base
   has_many :children, through: :act_relations_as_parent, dependent: :destroy
   has_many :parents, through: :act_relations_as_child, dependent: :destroy
 
-  has_many :act_localizations, foreign_key: :act_id
-  has_many :localizations, through: :act_localizations, dependent: :destroy
-
   has_many :act_actor_relations, foreign_key: :act_id
   has_many :actors, through: :act_actor_relations, dependent: :destroy
 
   has_many :act_indicator_relations, foreign_key: :act_id
   has_many :indicators, through: :act_indicator_relations, dependent: :destroy
 
-  has_many :comments, as: :commentable
+  has_many :comments,      as: :commentable, dependent: :destroy
+  has_many :localizations, as: :localizable, dependent: :destroy
 
   # Categories
   has_and_belongs_to_many :categories
@@ -76,6 +75,43 @@ class Act < ActiveRecord::Base
              all
            end
     acts
+  end
+
+  def get_parents_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'parents')
+  end
+
+  def get_children_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'children')
+  end
+
+  def get_actors_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'actors')
+  end
+
+  def get_values_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date,
+           model_name: 'act_indicator_relation')
+  end
+
+  def get_locations
+    localizations.filter_actives
+  end
+
+  def get_locations_by_date(options)
+    # Don't filter locations by date for Actions
+    # start_date = options['start_date'] if options['start_date'].present?
+    # end_date   = options['end_date']   if options['end_date'].present?
+
+    # get_locations.by_date(start_date, end_date)
+    get_locations
   end
 
   def membership_date(act, parent)
@@ -139,7 +175,7 @@ class Act < ActiveRecord::Base
     type.include?('ActMicro') || type.include?('ActMeso')
   end
 
-  def localizations?
+  def locations?
     localizations.any?
   end
 
@@ -164,14 +200,18 @@ class Act < ActiveRecord::Base
   end
 
   def main_locations
-    act_localizations.main_locations
+    localizations.main_locations
+  end
+
+  def is_actor?
+    self.class.name.include?('Actor')
   end
 
   private
 
     def deactivate_dependencies
-      localizations.filter_actives.each do |localization|
-        unless localization.deactivate
+      localizations.filter_actives.each do |location|
+        unless location.deactivate
           return false
         end
       end
@@ -209,9 +249,16 @@ class Act < ActiveRecord::Base
       attributes['name'].empty?
     end
 
+    def filter_params(options)
+      @start_date = options['start_date']  if options['start_date'].present?
+      @end_date   = options['end_date']    if options['end_date'].present?
+      @levels     = options['levels']      if options['level'].present?
+      @domains    = options['domains_ids'] if options['domains_ids'].present?
+    end
+
     def set_main_location
-      if act_localizations.main_locations.empty?
-        act_localizations.order(:created_at).first.update( main: true )
+      if localizations.main_locations.empty?
+        localizations.order(:created_at).first.update( main: true )
       end
     end
 end

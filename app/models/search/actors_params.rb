@@ -8,7 +8,9 @@ class Search::ActorsParams < Hash
       start_date: params[:start_date] || nil,
       end_date: params[:end_date] || nil,
       page: params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1,
-      per_page: params[:per_page] && params[:per_page].to_i > 0 ? params[:per_page].to_i : 25
+      per_page: params[:per_page] && params[:per_page].to_i > 0 ? params[:per_page].to_i : 25,
+      model_name: params[:model_name] || nil,
+      relation_name: params[:relation_name] || nil
     }
 
     super(sanitized_params)

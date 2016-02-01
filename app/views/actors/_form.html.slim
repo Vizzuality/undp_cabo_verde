@@ -23,6 +23,14 @@
     .row
       .column.medium-8.medium-offset-4
         h2 = t('localizations.localizations')
+    - unless @actor.new_record? || @actor.meso_or_macro?
+      .row
+        .column.medium-8.medium-offset-4
+          h6
+            = t('localizations.select_parent_location')
+      .row
+        .column.medium-8.medium-offset-4
+          = form.input :parent_location_id, collection: @parent_locations, as: :select, label: false, input_html: { class: 'parent-location' }, disabled: common_form?
 
     = form.fields_for :localizations do |localizations_form|
       = render 'localizations/form', f: localizations_form

@@ -23,34 +23,66 @@ class Search::Actors
       @options.keys.each { |k| instance_variable_set("@#{k}", @options[k]) }
     end
 
+    # Table name LOCATIONS
+    # Model name Localizations
     def initialize_query
       @query = Actor.filter_actives.recent
 
       @query = @query.where(type: @levels) if @levels
 
       if @domains.present?
-        @query = @query.joins(:categories).
-          where({ categories: { id: @domains }})
+        @query = @query.joins(:categories).where({ categories: { id: @domains }})
       end
 
       if @start_date && !@end_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.start_date >= ? OR actor_localizations.end_date >= ?",
-                               @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
+        where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') >= ? OR
+                       COALESCE(locations.end_date, '#{@start_date.to_time.end_of_day}') >= ?",
+                       @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day
+
+        a = @query.joins(:location).where(where_query)
+
+        b = @query.joins(:localizations).where(where_query)
+
+        sql = @query.connection.unprepared_statement {
+          "((#{a.to_sql}) UNION (#{b.to_sql})) AS actors"
+        }
+
+        @query = Actor.from(sql)
       end
 
       if @end_date && !@start_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.end_date <= ? OR actor_localizations.start_date <= ?",
-                               @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
+        where_query = "COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') <= ? OR
+                       COALESCE(locations.start_date, '#{@end_date.to_time.beginning_of_day}') <= ?",
+                       @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day
+
+        a = @query.joins(:location).where(where_query)
+
+        b = @query.joins(:localizations).where(where_query)
+
+        sql = @query.connection.unprepared_statement {
+          "((#{a.to_sql}) UNION (#{b.to_sql})) AS actors"
+        }
+
+        @query = Actor.from(sql)
       end
 
       if @start_date && @end_date
-        @query = @query.joins(:actor_localizations).
-                        where("actor_localizations.start_date BETWEEN ? AND ? OR
-                               actor_localizations.end_date BETWEEN ? AND ? OR
-                               ? BETWEEN actor_localizations.start_date AND actor_localizations.end_date",
-                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
+        where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') BETWEEN ? AND ? OR
+                       COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') BETWEEN ? AND ? AND
+                       ? BETWEEN COALESCE(locations.start_date, '#{@start_date.to_time.beginning_of_day}') AND COALESCE(locations.end_date, '#{@end_date.to_time.end_of_day}')",
+                       @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                       @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                       @start_date.to_time.beginning_of_day
+
+        a = @query.joins(:location).where(where_query)
+
+        b = @query.joins(:localizations).where(where_query)
+
+        sql = @query.connection.unprepared_statement {
+          "((#{a.to_sql}) UNION (#{b.to_sql})) AS actors"
+        }
+
+        @query = Actor.from(sql)
       end
 
       @query = @query.distinct

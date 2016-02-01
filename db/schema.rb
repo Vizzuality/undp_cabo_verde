@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122134622) do
+ActiveRecord::Schema.define(version: 20160126110245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,19 +51,6 @@ ActiveRecord::Schema.define(version: 20160122134622) do
   add_index "act_indicator_relations", ["indicator_id"], name: "index_act_indicator_relations_on_indicator_id", using: :btree
   add_index "act_indicator_relations", ["user_id"], name: "index_act_indicator_relations_on_user_id", using: :btree
 
-  create_table "act_localizations", force: :cascade do |t|
-    t.integer  "localization_id"
-    t.integer  "act_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "main",            default: false
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
-  add_index "act_localizations", ["act_id"], name: "index_act_localizations_on_act_id", using: :btree
-  add_index "act_localizations", ["localization_id"], name: "index_act_localizations_on_localization_id", using: :btree
-
   create_table "act_relations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "parent_id"
@@ -79,19 +66,6 @@ ActiveRecord::Schema.define(version: 20160122134622) do
   add_index "act_relations", ["parent_id", "child_id"], name: "index_act_parent_child", unique: true, using: :btree
   add_index "act_relations", ["parent_id"], name: "index_act_relations_on_parent_id", using: :btree
   add_index "act_relations", ["user_id"], name: "index_act_relations_on_user_id", using: :btree
-
-  create_table "actor_localizations", force: :cascade do |t|
-    t.integer  "localization_id"
-    t.integer  "actor_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "main",            default: false
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
-  add_index "actor_localizations", ["actor_id"], name: "index_actor_localizations_on_actor_id", using: :btree
-  add_index "actor_localizations", ["localization_id"], name: "index_actor_localizations_on_localization_id", using: :btree
 
   create_table "actor_relations", force: :cascade do |t|
     t.integer  "user_id"
@@ -111,21 +85,23 @@ ActiveRecord::Schema.define(version: 20160122134622) do
 
   create_table "actors", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "type",                             null: false
-    t.string   "name",                             null: false
-    t.boolean  "active",            default: true, null: false
+    t.string   "type",                              null: false
+    t.string   "name",                              null: false
+    t.boolean  "active",             default: true, null: false
     t.datetime "deactivated_at"
     t.text     "observation"
-    t.integer  "gender",            default: 1
+    t.integer  "gender",             default: 1
     t.integer  "operational_field"
-    t.integer  "title",             default: 1
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "title",              default: 1
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "short_name"
     t.string   "legal_status"
     t.string   "other_names"
+    t.integer  "parent_location_id"
   end
 
+  add_index "actors", ["parent_location_id"], name: "index_actors_on_parent_location_id", using: :btree
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
   add_index "actors", ["user_id"], name: "index_actors_on_user_id", using: :btree
 
@@ -211,9 +187,9 @@ ActiveRecord::Schema.define(version: 20160122134622) do
 
   add_index "indicators", ["user_id"], name: "index_indicators_on_user_id", using: :btree
 
-  create_table "localizations", force: :cascade do |t|
+  create_table "locations", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "active",         default: true, null: false
+    t.boolean  "active",           default: true,  null: false
     t.datetime "deactivated_at"
     t.string   "country"
     t.string   "city"
@@ -224,12 +200,18 @@ ActiveRecord::Schema.define(version: 20160122134622) do
     t.string   "lat"
     t.string   "long"
     t.string   "web_url"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "street"
+    t.integer  "localizable_id"
+    t.string   "localizable_type"
+    t.boolean  "main",             default: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
-  add_index "localizations", ["user_id"], name: "index_localizations_on_user_id", using: :btree
+  add_index "locations", ["localizable_id", "localizable_type"], name: "index_locations_on_localizable_id_and_localizable_type", using: :btree
+  add_index "locations", ["user_id"], name: "index_locations_on_user_id", using: :btree
 
   create_table "measurements", force: :cascade do |t|
     t.integer  "user_id"
@@ -300,7 +282,7 @@ ActiveRecord::Schema.define(version: 20160122134622) do
   add_foreign_key "admin_users", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "indicators", "users"
-  add_foreign_key "localizations", "users"
+  add_foreign_key "locations", "users"
   add_foreign_key "measurements", "act_indicator_relations"
   add_foreign_key "measurements", "users"
   add_foreign_key "units", "users"

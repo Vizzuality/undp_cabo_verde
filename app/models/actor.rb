@@ -1,8 +1,10 @@
 class Actor < ActiveRecord::Base
   include Activable
   include Localizable
+  include Filterable
 
   belongs_to :user, foreign_key: :user_id
+  belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
 
   has_many :actor_relations_as_parent, class_name: 'ActorRelation', foreign_key: :parent_id
   has_many :actor_relations_as_child,  class_name: 'ActorRelation', foreign_key: :child_id
@@ -10,13 +12,11 @@ class Actor < ActiveRecord::Base
   has_many :children, through: :actor_relations_as_parent, dependent: :destroy
   has_many :parents,  through: :actor_relations_as_child,  dependent: :destroy
 
-  has_many :actor_localizations, foreign_key: :actor_id
-  has_many :localizations, through: :actor_localizations, dependent: :destroy
-
   has_many :act_actor_relations, foreign_key: :actor_id
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
-  has_many :comments, as: :commentable
+  has_many :comments,      as: :commentable, dependent: :destroy
+  has_many :localizations, as: :localizable, dependent: :destroy
 
   # Categories
   has_and_belongs_to_many :categories
@@ -37,6 +37,8 @@ class Actor < ActiveRecord::Base
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
+  after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
+
   validates :type,              presence: true
   validates :name,              presence: true
   validates :merged_domain_ids, presence: true
@@ -51,9 +53,14 @@ class Actor < ActiveRecord::Base
                                           where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)',
                                           child.id) }
 
-  scope :last_max_update,    -> { maximum(:updated_at)                     }
-  scope :recent,             -> { order('updated_at DESC')                 }
-  scope :meso_and_macro,     -> { where(type: ['ActorMeso', 'ActorMacro']) }
+  scope :last_max_update, -> { maximum(:updated_at)                     }
+  scope :recent,          -> { order('updated_at DESC')                 }
+  scope :meso_and_macro,  -> { where(type: ['ActorMeso', 'ActorMacro']) }
+  scope :only_micro,      -> { where(type: 'ActorMicro')                }
+  scope :with_locations,  -> { joins(:localizations)                    }
+  # Used in serach
+  scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
+  scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
   # End scopes
 
   def self.types
@@ -72,6 +79,45 @@ class Actor < ActiveRecord::Base
                all
              end
     actors
+  end
+
+  def get_parents_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'parents')
+  end
+
+  def get_children_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'actor', relation_name: 'children')
+  end
+
+  def get_actions_by_date(options)
+    filter_params(options)
+    filter(start_date: @start_date, end_date: @end_date, levels: @levels, domains_ids: @domains,
+           model_name: 'act', relation_name: 'acts')
+  end
+
+  def get_locations
+    locations = if micro? && localizations.blank?
+                  # Get location from parent_location_id (main parent location) unless parent_location_id present get all parents main locations
+                  parent_location_id.present? ? Localization.where(id: parent_location_id) : get_all_parents_locations
+                else
+                  localizations.filter_actives
+                end
+  end
+
+  def get_all_parents_locations
+    # Get main locations from all parents
+    get_parents.present? ? get_parents.map { |p| p.main_location } : []
+  end
+
+  def get_locations_by_date(options)
+    start_date = options['start_date'] if options['start_date'].present?
+    end_date   = options['end_date']   if options['end_date'].present?
+
+    get_locations.by_date(start_date, end_date)
   end
 
   def membership_date(actor, parent)
@@ -139,7 +185,7 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMeso') || type.include?('ActorMacro')
   end
 
-  def localizations?
+  def locations?
     localizations.any?
   end
 
@@ -160,21 +206,22 @@ class Actor < ActiveRecord::Base
   end
 
   def main_locations
-    actor_localizations.main_locations
+    localizations.main_locations
   end
 
-  def actor_localizations_by_date(options)
-    start_date = options['start_date'] if options['start_date'].present?
-    end_date   = options['end_date']   if options['end_date'].present?
+  def parents_locations
+    get_parents.map { |p| ["#{p.name} (#{p.main_address})", p.main_location_id] } if get_parents.present?
+  end
 
-    actor_localizations.by_date(start_date, end_date)
+  def is_actor?
+    self.class.name.include?('Actor')
   end
 
   private
 
     def deactivate_dependencies
-      localizations.filter_actives.each do |localization|
-        unless localization.deactivate
+      localizations.filter_actives.each do |location|
+        unless location.deactivate
           return false
         end
       end
@@ -208,9 +255,34 @@ class Actor < ActiveRecord::Base
       attributes['name'].empty?
     end
 
+    def includes_actor_relations_belongs(child)
+      # relation_type_id: 2 for belongs to actor - actor relation
+      ActorRelation.where(relation_type_id: 2, child_id: child.id).pluck(:parent_id)
+    end
+
+    def get_parents
+      parent_ids = includes_actor_relations_belongs(self)
+      locations  = if parent_ids.present?
+                     Actor.filter_actives.where(id: parent_ids).with_locations.preload(:localizations)
+                   end
+    end
+
+    def filter_params(options)
+      @start_date = options['start_date']  if options['start_date'].present?
+      @end_date   = options['end_date']    if options['end_date'].present?
+      @levels     = options['levels']      if options['level'].present?
+      @domains    = options['domains_ids'] if options['domains_ids'].present?
+    end
+
     def set_main_location
-      if actor_localizations.main_locations.empty?
-        actor_localizations.order(:created_at).first.update( main: true )
+      if localizations.main_locations.empty?
+        localizations.order(:created_at).first.update( main: true )
+      end
+    end
+
+    def set_parent_location
+      if !parent_location_id && parents_locations.any?
+        self.update!(parent_location_id: parents_locations.first[1])
       end
     end
 end

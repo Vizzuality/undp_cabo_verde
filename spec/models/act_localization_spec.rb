@@ -1,46 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe ActLocalization, type: :model do
+RSpec.describe Localization, type: :model do
   before :each do
     @user  = create(:user)
     @localization = create(:localization, name: 'First Localization', user: @user)
     @macro = create(:act_macro, user_id: @user.id, localizations: [@localization])
-    @meso  = create(:act_meso, user_id: @user.id, localizations: [@localization])
-    @micro = create(:act_micro, user_id: @user.id, localizations: [@localization])
   end
 
   it 'Create Relation act localization' do
     expect(@macro.name).to eq('First one')
     expect(@localization.name).to eq('First Localization')
     expect(Localization.count).to eq(1)
-    expect(Act.count).to eq(3)
-    expect(@micro.localizations.count).to eq(1)
     expect(@macro.localizations.count).to eq(1)
-    expect(ActLocalization.count).to eq(3)
+    expect(@macro.main_location_name).to eq('First Localization')
+    expect(@localization.localizable_type).to eq('Act')
   end
 
   it 'Delete Relation macro localization' do
     @macro.destroy
-    expect(ActLocalization.count).to eq(2)
-    expect(@localization.act_macros.count).to eq(0)
-  end
-
-  it 'Get localizations for macro, meso and micro acts' do
-    expect(@localization.acts.count).to eq(3)
-    expect(@localization.act_macros.count).to eq(1)
-    expect(@localization.act_mesos.count).to eq(1)
-    expect(@localization.act_micros.count).to eq(1)
+    expect(Localization.count).to eq(0)
   end
 
   context 'For main localizations' do
     before :each do
+      expect(@macro.localizations.count).to eq(1)
       @localization_new = create(:localization, name: 'Main Localization', user: @user)
     end
 
-    it 'Set other location for action meso as main location' do
-      expect(@meso.localizations.count).to eq(1)
-      ActMeso.find(@meso.id).update!(localizations: [@localization_new])
-      expect(@meso.main_location_name).to eq('Main Localization')
+    it 'Set other location for act macro as main location' do
+      @macro.update!(localizations: [@localization, @localization_new])
+      expect(@macro.localizations.count).to eq(2)
+      @localization_new.update!(main: true)
+      expect(@macro.main_location_name).to eq('Main Localization')
     end
   end
 end
