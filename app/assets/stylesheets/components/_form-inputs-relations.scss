@@ -8,12 +8,12 @@
     }
 
     //border for the expanded version, but only as wide as the .column.medium-8
-    &:before {
-        content: " ";
-        position: absolute;
-        border-top: 1px solid $color-13;
-        width: 508px;
-        right: 15px;
-        margin-top: -1px;}
+    // &:before {
+    //     content: " ";
+    //     position: absolute;
+    //     border-top: 1px solid $color-13;
+    //     width: 508px;
+    //     right: 15px;
+    //     margin-top: -1px;}
 
 }
