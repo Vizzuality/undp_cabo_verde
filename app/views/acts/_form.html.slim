@@ -83,22 +83,7 @@
             / Add more css classes to 'add_location', sample 'add_location your_class_name'
             = add_location_path t('shared.add_location'), form, :localizations, 'add_fields add_location'
 
-.row
-  .columns.medium-8.medium-offset-1
-    = form.fields_for :act_relations_as_parent do |action_children_form|
-      = render 'action_relation_children_form', f: action_children_form
-
-- unless common_form?
-  .row
-    .columns.medium-8.medium-offset-1#add-relations
-      .row.add-relations
-        .column
-          p.text-right
-            = add_action_relation_path t('acts.add_action'), form, :act_relations_as_child, 'add_parent_action hidden mini-text add_actions_fields'
-            / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
-            = add_action_relation_children_path t('acts.add_action'), form, :act_relations_as_parent, 'add_child_action add_actions_fields'
-
-.row
+.row.action-connection-action
   .columns.medium-8.medium-offset-1.actor_relations
     .row
       .column.medium-8.medium-offset-4

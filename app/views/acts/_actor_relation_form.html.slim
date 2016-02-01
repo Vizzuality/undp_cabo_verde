@@ -1,14 +1,33 @@
-.form-inputs.form-inputs-actor
+- preview = !f.object.new_record?
+- if preview
+  .row
+    .column.medium-8.medium-offset-4
+      .relation-preview
+        p.relationtype= f.object.relation_type.title
+        p.relationtitle= f.object.actor.name
+        p.relationbuttons
+          span= link_to "View", "#", id: "actors-relation-#{f.object.id}",
+            class: "view-relation", 'data-relation-type': "action-actor-relation"
+.form-inputs.form-inputs-actor.form-inputs-relations.action-actor-relation class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
-      = f.label :actor_id, t('actors.actor') + '*', class: 'right inline'
-    .column.medium-8
-      = f.input :actor_id, collection: @actors_to_select, as: :collection_select, label: false, input_html: { class: 'relation_actor_id' }, disabled: common_form?
+      = f.label t('acts.current_action'), class: 'right inline'
+    .column.medium-8.text-left.current-action-wrapper
+      - if @act.new_record?
+        p.current-action.-disabled
+      - else
+        p.current-action-edit.-disabled
+          = @act.name
   .row
     .column.medium-4
       = f.label :relation_type_id, t('acts.current_action') + '*', class: 'right inline'
     .column.medium-8
       = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :actor_id, t('actors.actor') + '*', class: 'right inline'
+    .column.medium-8
+      = f.input :actor_id, collection: @actors_to_select, as: :collection_select, label: false, input_html: { class: 'relation_actor_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline'

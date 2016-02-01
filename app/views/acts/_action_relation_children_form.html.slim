@@ -1,4 +1,14 @@
-.form-inputs.form-inputs-child
+- preview = !f.object.new_record?
+- if preview
+  .row
+    .column.medium-8.medium-offset-4
+      .relation-preview
+        p.relationtype= f.object.relation_type.title
+        p.relationtitle= f.object.child.name
+        p.relationbuttons
+          span= link_to "View", "#", id: "actions-relation-#{f.object.id}",
+            class: "view-relation", 'data-relation-type': "action-action-relation"
+.form-inputs.form-inputs-child.form-inputs-relations.action-action-relation class=('hide' if preview) id=("expanded-actions-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
       = f.label :child_id, t('acts.act') + '*', class: 'right inline'
@@ -14,9 +24,9 @@
       = f.label t('acts.current_action'), class: 'right inline'
     .column.medium-8.text-left.current-action-wrapper
       - if request.path.include?('/actions/new')
-        p.current-action
+        p.current-action.-disabled
       - else
-        p.current-action-edit
+        p.current-action-edit.-disabled
           = @act.name unless request.path.include?('/actions/new')
 
   - unless common_form?
