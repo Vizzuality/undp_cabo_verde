@@ -62,6 +62,12 @@
     },
 
     onTimelineBrush: function() {
+      /* On the application loading, a "brush" event is thrown and this method
+       * is called whereas it shouldn't. We then exit.
+       * NOTE: if we don't exit, d3.mouse(this.timeline) will throw an error on
+       * Firefox, it may be an error of d3. */
+      if(!d3.event.sourceEvent) return;
+
       /* We pause the animation whenever the user moves the handle */
       this.pause();
 
@@ -80,15 +86,11 @@
       this.timelineTooltip.style.webkitTransform = translatePosition;
 
       /* We make sure the tooltip is visible when the user moves the handle */
-      if(d3.mouse(this.timeline)[0]) {
-        this.timelineTooltip.classList.toggle('-hidden', false);
-      }
+      this.timelineTooltip.classList.toggle('-hidden', false);
 
       /* We update the map */
-      if(d3.mouse(this.timeline)[0]) {
-        root.app.pubsub.trigger('change:timeline',
-          { date: this.timelineScale.invert(position) });
-      }
+      root.app.pubsub.trigger('change:timeline',
+        { date: this.timelineScale.invert(position) });
     },
 
     /* LOGIC */

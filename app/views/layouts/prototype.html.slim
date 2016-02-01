@@ -71,7 +71,8 @@ html lang="en"
               | -
             svg
               g transform="translate(12 11)"
-                rect.timeline.js-timeline
+                / Firefox needs the height and width being specified
+                rect.timeline.js-timeline x="0" y="0" height="3" width="260"
                 g.handle-container
                   circle.handle r="7.5" cx="0" cy="1.5"
 

@@ -409,7 +409,6 @@
     _addEntityMarkers: function(collection, type) {
       var marker, popup;
       _.each(collection, function(entity) {
-        console.log(entity);
         _.each(entity.locations, function(location) {
 
           marker = L.marker([location.lat, location.long], {
