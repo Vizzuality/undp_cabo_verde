@@ -26,6 +26,7 @@
 
     render: function() {
       L.mapbox.accessToken = '';
+
       this.map = L.mapbox.map('map', 'undp-caboverde.48351cad', {
         center: [14.91, -23.51],
         zoom: 13
