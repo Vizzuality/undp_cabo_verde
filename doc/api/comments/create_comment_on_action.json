@@ -24,7 +24,7 @@
   "requests": [
     {
       "request_method": "POST",
-      "request_path": "/api/actions/34/comments?token=7Nw1A13xrHrZDHj631MA&body=My created comment",
+      "request_path": "/api/actions/16/comments?token=7Nw1A13xrHrZDHj631MA&body=My created comment",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -39,20 +39,20 @@
       "request_content_type": "application/json",
       "response_status": 201,
       "response_status_text": "Created",
-      "response_body": "{\n  \"comment\": {\n    \"body\": \"My created comment\",\n    \"date\": \"2015-09-01T12:00:30+02:00\",\n    \"commentable_type\": \"Act\",\n    \"commentable_id\": 34,\n    \"user\": {\n      \"firstname\": \"Comment\",\n      \"lastname\": \"Creator\",\n      \"institution\": \"Vizzuality\"\n    }\n  }\n}",
+      "response_body": "{\n  \"comment\": {\n    \"body\": \"My created comment\",\n    \"date\": \"2015-09-01T12:00:03+02:00\",\n    \"commentable_type\": \"Act\",\n    \"commentable_id\": 16,\n    \"user\": {\n      \"firstname\": \"Comment\",\n      \"lastname\": \"Creator\",\n      \"institution\": \"Vizzuality\"\n    }\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"e75a1d5a4e5ec6a6daafdc6c4754de99\"",
+        "ETag": "W/\"f7f45257c7760aae95d7b0e618d0bf4a\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "3afe9bb9-658a-449f-857d-f4f7020a50f4",
-        "X-Runtime": "0.107206",
+        "X-Request-Id": "11edb31f-a392-42c6-9d57-6d3d3a132a08",
+        "X-Runtime": "0.036451",
         "Content-Length": "200"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions/34/comments?token=7Nw1A13xrHrZDHj631MA&body=My created comment\" -d '' -X POST \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions/16/comments?token=7Nw1A13xrHrZDHj631MA&body=My created comment\" -d '' -X POST \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

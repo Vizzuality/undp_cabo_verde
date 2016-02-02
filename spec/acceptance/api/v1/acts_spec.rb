@@ -168,6 +168,11 @@ resource 'Acts' do
           expect(action['actions']['parents'][0]['level']).to     eq('macro')
 
           expect(action['actions']['parents'][0]['locations'].size).to eq(1)
+          expect(action['actions']['parents'][0]['info']['start_date']).not_to be_nil
+          expect(action['actions']['parents'][0]['info']['end_date']).not_to   be_nil
+
+          expect(action['actions']['parents'][0]['info']['title']).to         eq('contains')
+          expect(action['actions']['parents'][0]['info']['title_reverse']).to eq('belongs to')
 
           # Relations object details for children
           expect(action['actions']['children'][0]['id']).not_to    be_nil
@@ -178,6 +183,11 @@ resource 'Acts' do
 
           expect(action['actions']['children'][1]['locations'].size).to eq(1)
           expect(action['actions']['children'][0]['locations'].size).to eq(1)
+          expect(action['actions']['children'][0]['info']['start_date']).not_to be_nil
+          expect(action['actions']['children'][0]['info']['end_date']).not_to   be_nil
+
+          expect(action['actions']['children'][0]['info']['title']).to         eq('contains')
+          expect(action['actions']['children'][0]['info']['title_reverse']).to eq('belongs to')
 
           # Actor Relations size
           expect(action['actors']['parents'].size).to  eq(1)
@@ -187,6 +197,11 @@ resource 'Acts' do
           expect(action['actors']['parents'][0]['level']).to     eq('micro')
 
           expect(action['actors']['parents'][0]['locations'].size).to eq(1)
+          expect(action['actors']['parents'][0]['info']['start_date']).not_to be_nil
+          expect(action['actors']['parents'][0]['info']['end_date']).not_to   be_nil
+
+          expect(action['actors']['parents'][0]['info']['title']).to         eq('implements')
+          expect(action['actors']['parents'][0]['info']['title_reverse']).to eq('implemented by')
         end
       end
     end
