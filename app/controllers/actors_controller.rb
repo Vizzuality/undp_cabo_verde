@@ -43,7 +43,7 @@ class ActorsController < ApplicationController
   def create
     @actor = @user.actors.build(actor_params)
     if @actor.save
-      redirect_to edit_actor_path(@actor)
+      redirect_to @actor
     else
       render :new
     end

@@ -489,11 +489,13 @@
           break;
       }
 
+      var markers = this.markersLayer.getLayers();
+
       /* By grouping and filtering the markers, we get an array of all the
        * groups of markers which share the same location (ie an array of arrays
        * of markers with the same location) */
       var latLng;
-      var conflictingMarkersGroups = _.filter(_.groupBy(this.markersLayer.getLayers(), function(m) {
+      var conflictingMarkersGroups = _.filter(_.groupBy(markers, function(m) {
         latLng = m.options.originalLatLng || m.getLatLng();
         return ''.concat(latLng.lat, latLng.lng);
       }), function(group) {
@@ -781,7 +783,6 @@
         var otherMarker, otherDOMMarker, otherMarkerLatLng, latLngs;
         this.relationsLayer = L.layerGroup(_.compact(_.map(relations,
           function(relation) {
-
           if(!relation.locations.length) {
             console.warn('Unable to show the relation with /' + entityType +
               '/' + relation.id + ' because it doesn\'t have any location');

@@ -19,11 +19,11 @@ module Filterable
       # Model name Localizations
       def initialize_query
         @model_name    = if @model_name.present?
-                          @model_name.classify.constantize
-                        else
-                          self.class.name
-                        end
-        @relation_name = eval(@relation_name) if @relation_name.present?
+                           @model_name.classify.constantize
+                         else
+                           self.class.name
+                         end
+        @relation_name = send(@relation_name) if @relation_name.present?
 
         @query = if @relation_name
                    @relation_name

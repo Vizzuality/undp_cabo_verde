@@ -35,17 +35,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 27,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 32,\n          \"lat\": \"-17.49153563103704\",\n          \"long\": \"101.95134572562779\"\n        }\n      ]\n    },\n    {\n      \"id\": 26,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 32,\n          \"lat\": \"-17.49153563103704\",\n          \"long\": \"101.95134572562779\"\n        }\n      ]\n    },\n    {\n      \"id\": 25,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 32,\n          \"lat\": \"-17.49153563103704\",\n          \"long\": \"101.95134572562779\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 3,\n    \"cache_date\": \"2015-09-01T10:00:29.777Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 23,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"start_date\": \"2014-09-01\",\n      \"end_date\": \"2015-09-01\",\n      \"locations\": [\n        {\n          \"id\": 6,\n          \"lat\": \"31.82901607525453\",\n          \"long\": \"61.60798530068885\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 22,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"start_date\": \"2015-09-01\",\n      \"end_date\": \"2016-09-01\",\n      \"locations\": [\n        {\n          \"id\": 5,\n          \"lat\": \"44.54062773552417\",\n          \"long\": \"148.5682824659952\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 21,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"start_date\": \"2012-09-01\",\n      \"end_date\": \"2013-09-01\",\n      \"locations\": [\n        {\n          \"id\": 4,\n          \"lat\": \"-53.36377997171299\",\n          \"long\": \"177.24965714046806\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 3,\n    \"cache_date\": \"2015-09-01T10:00:04.145Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"dcdcb463abc3bed34334ca5d17910acb\"",
+        "ETag": "W/\"5c2977666ae51c66747a36fb8470b549\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "2395bcb1-53af-49e8-a352-02d4514b98e5",
-        "X-Runtime": "0.071653",
-        "Content-Length": "485"
+        "X-Request-Id": "8b2b4772-9f5e-46a3-a0e6-5196f76360c3",
+        "X-Runtime": "0.073772",
+        "Content-Length": "664"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?start_date=2012-01-31&end_date=2015-09-30\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
