@@ -335,6 +335,11 @@ resource 'Actors' do
           expect(actor['actors']['parents'][0]['level']).to  eq('macro')
 
           expect(actor['actors']['parents'][0]['locations'].size).to eq(2)
+          expect(actor['actors']['parents'][0]['info']['start_date']).not_to be_nil
+          expect(actor['actors']['parents'][0]['info']['end_date']).not_to   be_nil
+
+          expect(actor['actors']['parents'][0]['info']['title']).to         eq('contains')
+          expect(actor['actors']['parents'][0]['info']['title_reverse']).to eq('belongs to')
           # Relations object details for children
           expect(actor['actors']['children'][0]['id']).not_to be_nil
           expect(actor['actors']['children'][0]['name']).to   eq('Education Institution')
@@ -359,6 +364,12 @@ resource 'Actors' do
           expect(actor['actors']['children'][2]['locations'][0]['start_date']).to eq('2014-09-01')
           expect(actor['actors']['children'][2]['locations'][0]['main']).to       eq(true)
           expect(actor['actors']['children'][2]['locations'][0]['lat']).to        eq('1111111')
+
+          expect(actor['actors']['children'][0]['info']['start_date']).not_to be_nil
+          expect(actor['actors']['children'][0]['info']['end_date']).not_to   be_nil
+
+          expect(actor['actors']['children'][0]['info']['title']).to         eq('contains')
+          expect(actor['actors']['children'][0]['info']['title_reverse']).to eq('belongs to')
         end
       end
     end

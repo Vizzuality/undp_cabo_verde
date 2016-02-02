@@ -26,17 +26,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"artifacts\": [\n    {\n      \"id\": 20,\n      \"name\": \"Indicator of Department\",\n      \"alternative_name\": \"Morgan Mante MD\"\n    },\n    {\n      \"id\": 19,\n      \"name\": \"Indicator of Project\",\n      \"alternative_name\": \"Mrs. Elyse Huel\"\n    },\n    {\n      \"id\": 18,\n      \"name\": \"Indicator of Organization\",\n      \"alternative_name\": \"Cecilia Lemke\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 3,\n    \"cache_date\": \"2015-09-01T10:00:33.084Z\"\n  }\n}",
+      "response_body": "{\n  \"artifacts\": [\n    {\n      \"id\": 23,\n      \"name\": \"Indicator of Department\",\n      \"alternative_name\": \"Jo Nienow\"\n    },\n    {\n      \"id\": 22,\n      \"name\": \"Indicator of Project\",\n      \"alternative_name\": \"Geovany Boyle\"\n    },\n    {\n      \"id\": 21,\n      \"name\": \"Indicator of Organization\",\n      \"alternative_name\": \"Cynthia Rohan\"\n    }\n  ],\n  \"meta\": {\n    \"size\": 3,\n    \"cache_date\": \"2015-09-01T10:00:06.495Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"41236a520d7f994a460ec7e43a06194b\"",
+        "ETag": "W/\"1bb0a15e10de515c30bb0939eda4b94b\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "d747e2b9-4805-4bb6-a716-bda2297ac48a",
-        "X-Runtime": "0.099777",
-        "Content-Length": "310"
+        "X-Request-Id": "84dba604-30a5-446d-a579-826aaedde070",
+        "X-Runtime": "0.048755",
+        "Content-Length": "302"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
