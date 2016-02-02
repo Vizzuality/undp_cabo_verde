@@ -101,7 +101,7 @@ class ActsController < ApplicationController
     end
 
     def set_act_preload
-      @act = type_class.preload(:localizations, localizations: :act_localizations).find(params[:id])
+      @act = type_class.preload(:localizations).find(params[:id])
     end
 
     def set_act

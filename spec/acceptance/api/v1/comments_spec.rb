@@ -18,7 +18,7 @@ resource 'Comments' do
 
   let!(:user_expired) {
     user_expired = FactoryGirl.create(:random_user, firstname: 'Not Commented', lastname: 'User', institution: 'Vizzuality', authentication_token: '7Nw1A13xrHrZDHj631MB')
-    ActiveRecord::Base.connection.execute("UPDATE users SET token_expires_at = '01/19/2012 08:05:35' WHERE id = #{user_expired.id}")
+    ActiveRecord::Base.connection.execute("UPDATE users SET token_expires_at = '#{3.years.ago}' WHERE id = #{user_expired.id}")
     user_expired
   }
 
@@ -38,7 +38,7 @@ resource 'Comments' do
       expect(actor['level']).to eq('meso')
       expect(actor['comments'].size).to       eq(1)
       expect(actor['comments'][0]['body']).to eq('Test comment on actor')
-      expect(actor['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(actor['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(actor['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(actor['comments'][0]['user']['lastname']).to    eq('User')
@@ -62,7 +62,7 @@ resource 'Comments' do
       expect(action['level']).to eq('meso')
       expect(action['comments'].size).to       eq(1)
       expect(action['comments'][0]['body']).to eq('Test comment on action')
-      expect(action['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(action['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(action['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(action['comments'][0]['user']['lastname']).to    eq('User')
@@ -85,7 +85,7 @@ resource 'Comments' do
       expect(status).to eq(200)
       expect(artifact['comments'].size).to       eq(1)
       expect(artifact['comments'][0]['body']).to eq('Test comment on artifact')
-      expect(artifact['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(artifact['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(artifact['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(artifact['comments'][0]['user']['lastname']).to    eq('User')
@@ -110,7 +110,7 @@ resource 'Comments' do
       expect(status).to eq(200)
       expect(JSON.parse(response_body)['comments'].size).to       eq(1)
       expect(JSON.parse(response_body)['comments'][0]['body']).to eq('Test comment on actor')
-      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(JSON.parse(response_body)['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(JSON.parse(response_body)['comments'][0]['user']['lastname']).to    eq('User')
@@ -130,7 +130,7 @@ resource 'Comments' do
     example_request 'Create comment on actor' do
       expect(status).to eq (201)
       expect(JSON.parse(response_body)['comment']['body']).to eq('My created comment')
-      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12')
       # Actor info
       expect(JSON.parse(response_body)['comment']['commentable_type']).to eq('Actor')
       expect(JSON.parse(response_body)['comment']['commentable_id']).to   eq(actor.id)
@@ -203,7 +203,7 @@ resource 'Comments' do
       expect(status).to eq(200)
       expect(JSON.parse(response_body)['comments'].size).to       eq(1)
       expect(JSON.parse(response_body)['comments'][0]['body']).to eq('Test comment on action')
-      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(JSON.parse(response_body)['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(JSON.parse(response_body)['comments'][0]['user']['lastname']).to    eq('User')
@@ -226,7 +226,7 @@ resource 'Comments' do
     example_request 'Create comment on action' do
       expect(status).to eq (201)
       expect(JSON.parse(response_body)['comment']['body']).to eq('My created comment')
-      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12')
       # Actor info
       expect(JSON.parse(response_body)['comment']['commentable_type']).to eq('Act')
       expect(JSON.parse(response_body)['comment']['commentable_id']).to   eq(action.id)
@@ -268,7 +268,7 @@ resource 'Comments' do
       expect(status).to eq(200)
       expect(JSON.parse(response_body)['comments'].size).to       eq(1)
       expect(JSON.parse(response_body)['comments'][0]['body']).to eq('Test comment on artifact')
-      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comments'][0]['date']).to match('2015-09-01T12')
       # Comments user
       expect(JSON.parse(response_body)['comments'][0]['user']['firstname']).to   eq('Commented')
       expect(JSON.parse(response_body)['comments'][0]['user']['lastname']).to    eq('User')
@@ -291,7 +291,7 @@ resource 'Comments' do
     example_request 'Create comment on artifact' do
       expect(status).to eq (201)
       expect(JSON.parse(response_body)['comment']['body']).to eq('My created comment')
-      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12:00')
+      expect(JSON.parse(response_body)['comment']['date']).to match('2015-09-01T12')
       # Actor info
       expect(JSON.parse(response_body)['comment']['commentable_type']).to eq('Indicator')
       expect(JSON.parse(response_body)['comment']['commentable_id']).to   eq(artifact.id)

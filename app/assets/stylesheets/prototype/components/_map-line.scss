@@ -3,7 +3,6 @@
   stroke-width: 2px;
   stroke-opacity: 1;
 
-  &.-hidden {
-    display: none;
-  }
+  &.-secondary { stroke-opacity: .2; cursor: default; }
+  &.-hidden { display: none; }
 }

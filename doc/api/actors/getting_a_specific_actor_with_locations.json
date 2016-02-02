@@ -5,7 +5,14 @@
   "description": "Getting a specific actor with locations",
   "explanation": null,
   "parameters": [
-
+    {
+      "name": "start_date",
+      "description": "Filter actors by start-date (2014-01-31)"
+    },
+    {
+      "name": "end_date",
+      "description": "Filter actors by end-date (2015-01-31)"
+    }
   ],
   "response_fields": [
 
@@ -13,7 +20,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/actors/9",
+      "request_path": "/api/actors/26",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -26,20 +33,20 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actor\": {\n    \"id\": 9,\n    \"level\": \"macro\",\n    \"name\": \"Economy Organization\",\n    \"observation\": \"Tametsi vero crastinus aperte vel teres curis damno. Debitis ara alter quia agnosco arbitro tenetur. Sono saepe explicabo admiratio bos placeat considero.\",\n    \"scale\": \"Global, Sports, Automotive, Toys, Games & Health\",\n    \"short_name\": \"Alta Fisher\",\n    \"legal_status\": \"Brendan Bahringer\",\n    \"other_names\": \"Miss Cullen Reynolds\",\n    \"actors\": {\n      \"parents\": [\n\n      ],\n      \"parents_info\": [\n\n      ],\n      \"children\": [\n\n      ],\n      \"children_info\": [\n\n      ]\n    },\n    \"actions\": {\n      \"children\": [\n\n      ],\n      \"children_info\": [\n\n      ]\n    },\n    \"locations\": [\n      {\n        \"id\": 5,\n        \"main\": true,\n        \"info_data\": {\n          \"name\": \"Carmella Bode\",\n          \"iso\": \"CV\",\n          \"country\": \"Cape Verde\",\n          \"city\": \"Izaiahmouth\",\n          \"zip_code\": \"11742-1716\",\n          \"state\": \"New Jersey\",\n          \"district\": \"Tracey Fay\",\n          \"street\": \"7111 Hosea Roads\",\n          \"web_url\": \"http://sawaynbergstrom.org/sibyl_beatty\",\n          \"lat\": \"80.96517581108944\",\n          \"long\": \"138.61522121796105\"\n        }\n      },\n      {\n        \"id\": 6,\n        \"main\": false,\n        \"info_data\": {\n          \"name\": \"Ivy Cruickshank\",\n          \"iso\": \"CV\",\n          \"country\": \"Cape Verde\",\n          \"city\": \"Jonesshire\",\n          \"zip_code\": \"43252\",\n          \"state\": \"North Dakota\",\n          \"district\": \"Rylee Crooks\",\n          \"street\": \"1877 Erdman Greens\",\n          \"web_url\": \"http://dicki.com/olin_murazik\",\n          \"lat\": \"81.39811198508573\",\n          \"long\": \"-117.90339116841572\"\n        }\n      }\n    ],\n    \"organization_types\": [\n      {\n        \"id\": 23,\n        \"name\": \"Category three\",\n        \"type\": \"Organization type\"\n      }\n    ],\n    \"socio_cultural_domains\": [\n      {\n        \"id\": 22,\n        \"name\": \"Category two\",\n        \"type\": \"Socio cultural domain\"\n      },\n      {\n        \"id\": 25,\n        \"name\": \"Fishery, Home, Baby, Games, Outdoors & Computers\",\n        \"type\": \"Socio cultural domain\"\n      }\n    ],\n    \"other_domains\": [\n      {\n        \"id\": 21,\n        \"name\": \"Category one\",\n        \"type\": \"Other domains\"\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
+      "response_body": "{\n  \"actor\": {\n    \"id\": 26,\n    \"level\": \"macro\",\n    \"name\": \"Economy Organization\",\n    \"observation\": \"Peccatus strues delectus avarus arto aut deprimo. Aurum avarus non. Sed suppellex vobis vereor degusto. Cogito celo solus adopto est.\",\n    \"locations\": [\n      {\n        \"id\": 42,\n        \"name\": \"Vicenta Trantow\",\n        \"iso\": \"CV\",\n        \"country\": \"Cape Verde\",\n        \"city\": \"Cartwrighthaven\",\n        \"zip_code\": \"99221\",\n        \"state\": \"Minnesota\",\n        \"district\": \"Mina Greenholt\",\n        \"street\": \"39184 Braeden Track\",\n        \"web_url\": \"http://blandachristiansen.biz/ole\",\n        \"lat\": \"-13.444000775074812\",\n        \"long\": \"141.93692564883452\",\n        \"main\": false\n      },\n      {\n        \"id\": 41,\n        \"name\": \"Sarai Rempel\",\n        \"iso\": \"CV\",\n        \"country\": \"Cape Verde\",\n        \"city\": \"Cummingschester\",\n        \"zip_code\": \"26457-4563\",\n        \"state\": \"Tennessee\",\n        \"district\": \"Esperanza Heaney DVM\",\n        \"street\": \"763 Bernice Shoals\",\n        \"web_url\": \"http://wintheiser.name/isobel\",\n        \"lat\": \"-5.5097731995649895\",\n        \"long\": \"-87.11355428323387\",\n        \"main\": true\n      }\n    ],\n    \"scale\": \"Global, Sports, Books, Home, Clothing & Health\",\n    \"short_name\": \"America Rempel\",\n    \"legal_status\": \"Dedric Howe\",\n    \"other_names\": \"Giovani Hills Jr.\",\n    \"actors\": {\n      \"parents\": [\n\n      ],\n      \"children\": [\n\n      ]\n    },\n    \"actions\": {\n      \"children\": [\n\n      ]\n    },\n    \"organization_types\": [\n      {\n        \"id\": 114,\n        \"name\": \"Category three\",\n        \"type\": \"Organization type\",\n        \"icon_identifier\": null\n      }\n    ],\n    \"socio_cultural_domains\": [\n      {\n        \"id\": 113,\n        \"name\": \"Category two\",\n        \"type\": \"Socio cultural domain\",\n        \"icon_identifier\": null\n      },\n      {\n        \"id\": 116,\n        \"name\": \"Fishery, Jewelery, Tools, Garden, Computers & Books\",\n        \"type\": \"Socio cultural domain\",\n        \"icon_identifier\": null\n      }\n    ],\n    \"other_domains\": [\n      {\n        \"id\": 112,\n        \"name\": \"Category one\",\n        \"type\": \"Other domains\",\n        \"icon_identifier\": null\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"e4ff671b8638573333ca0b334895588d\"",
+        "ETag": "W/\"e00d3c861fb83c7e9f951ff5d4f3e246\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "374c1d9b-5f4f-4a1f-aca5-dcb15e8077b0",
-        "X-Runtime": "0.191406",
-        "Content-Length": "1523"
+        "X-Request-Id": "faa793f4-9bbf-4138-a317-96d8df15826e",
+        "X-Runtime": "0.095138",
+        "Content-Length": "1528"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors/9\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors/26\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

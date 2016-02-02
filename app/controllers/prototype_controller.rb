@@ -11,14 +11,14 @@ class PrototypeController < ApplicationController
 
     def min_start_date
       [
-        ActorLocalization.minimum(:start_date) || Date.today,
+        Localization.minimum(:start_date) || Date.today,
         Act.minimum(:start_date) || Date.today
       ].min
     end
 
     def max_end_date
       [
-        ActorLocalization.maximum(:end_date) || Date.today,
+        Localization.maximum(:end_date) || Date.today,
         Act.maximum(:end_date) || Date.today
       ].max
     end
