@@ -8,7 +8,7 @@ RSpec.describe ActRelation, type: :model do
     @micro = create(:act_micro, user_id: @user.id)
   end
 
-  let!(:meso_micro_params) do 
+  let!(:meso_micro_params) do
     { parent_id: @meso.id, child_id: @micro.id, relation_type_id: @relation_type.id }
   end
 

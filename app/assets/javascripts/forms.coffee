@@ -83,3 +83,6 @@ jQuery ->
     $('.add_other_domain').show()
     event.preventDefault()
     return
+
+  $(document).on 'change', 'input.localization_main', (event) ->
+    $('input.localization_main').not(this).prop('checked', false)

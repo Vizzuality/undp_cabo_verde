@@ -47,3 +47,7 @@ config/database.yml
 
 # Generated translation file
 /public/javascripts/translations.js
+
+# Ignore act and actor localizations models temporally
+app/models/localizations
+config/application.rb
