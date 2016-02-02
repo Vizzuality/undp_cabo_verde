@@ -14,6 +14,13 @@ class ActArraySerializer < BaseSerializer
     end
   end
 
+  def attributes
+    data = super
+    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
+    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
+    data
+  end
+
   def include_associations!
     include! :localizations, serializer: LocalizationArraySerializer
   end

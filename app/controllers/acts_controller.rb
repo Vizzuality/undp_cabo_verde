@@ -41,7 +41,7 @@ class ActsController < ApplicationController
   def create
     @act = @user.acts.build(act_params)
     if @act.save
-      redirect_to act_path(@act)
+      redirect_to @act
     else
       render :new
     end
@@ -101,7 +101,7 @@ class ActsController < ApplicationController
     end
 
     def set_act_preload
-      @act = type_class.preload(:localizations, localizations: :act_localizations).find(params[:id])
+      @act = type_class.preload(:localizations).find(params[:id])
     end
 
     def set_act

@@ -15,7 +15,7 @@ I want to manage a actor and act localization
     And I press "Update"
     Then I should be on the actor page for "Person one"
     And the field "Lat" should contain "22.22222" within ".actor_micro_localizations_lat"
-  
+
   @javascript
   Scenario: User can remove location from actor
     Given I am authenticated adminuser
@@ -38,7 +38,7 @@ I want to manage a actor and act localization
     And I press "Update"
     Then I should be on the act page for "Action one"
     And the field "Lat" should contain "22.22222" within ".act_micro_localizations_lat"
-  
+
   @javascript
   Scenario: User can remove location from action
     Given I am authenticated adminuser

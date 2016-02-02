@@ -3,7 +3,7 @@ module Localizable
 
   included do
     def main_location
-      main_locations.first.localization if main_locations.any?
+      main_locations.first if main_locations.any?
     end
 
     def main_street
@@ -18,7 +18,7 @@ module Localizable
       country_code = main_location.try(:country)
 
       country = ISO3166::Country[country_code]
-      country.translations[I18n.locale.to_s] || country.name
+      country.translations[I18n.locale.to_s] || country.name if country
     end
 
     def main_city
@@ -49,8 +49,16 @@ module Localizable
       main_location.try(:name)
     end
 
+    def main_location_id
+      main_location.try(:id)
+    end
+
     def main_url
       main_location.try(:web_url)
+    end
+
+    def main_address
+      [main_street, main_city, main_country].compact.join(', ')
     end
   end
 

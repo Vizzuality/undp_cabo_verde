@@ -75,6 +75,20 @@
     & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
   }
 
+  #map-slider {
+    width: 320px;
+    height: 25px;
+    position: absolute;
+    bottom: 75px;
+    left: 210px;
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (min-width: 740px) {
+      bottom: 33px;
+    }
+  }
+
   #map-buttons,
   .leaflet-control-attribution {
     position: absolute;

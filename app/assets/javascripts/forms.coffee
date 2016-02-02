@@ -77,10 +77,26 @@ jQuery ->
 
   $(document).on 'click', '.view-relation', (event) ->
     event.preventDefault()
-
     $('.'+$(this).data('relation-type')).hide()
     parent = $(this).parents('.content.active')
     parent.find('.relation-preview').show()
-
     $(this).closest('.relation-preview').hide()
     $("#expanded-"+$(this).attr('id')).show()
+
+  $(document).on 'click', '.add_other_domain', (event) ->
+    domains_form   = $('.form-inputs-other-domains:visible')
+    domains_select = $('.domains-chose')
+    if (domains_form.length == 2)
+      $(this).hide()
+    if (domains_select.val().length > 1)
+      $(this).hide()
+    event.preventDefault()
+
+  $(document).on 'click', '.remove_domains', (event) ->
+    $('.add_other_domain').show()
+    event.preventDefault()
+    return
+
+  $(document).on 'change', 'input.localization_main', (event) ->
+    $('input.localization_main').not(this).prop('checked', false)
+

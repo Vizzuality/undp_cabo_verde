@@ -15,5 +15,11 @@
   &.-action > use:first-of-type { fill: $color-6; }
   &.-action > use:last-of-type { fill: transparent; }
 
+  &.-secondary {
+    background-color: $color-1;
+    border-radius: 100%;
+    cursor: default;
+  }
+
   &.-active > use:last-of-type { stroke: $color-1; stroke-width: 2px; }
 }
