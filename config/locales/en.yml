@@ -377,6 +377,7 @@ en:
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
+    delete: 'Delete'
 
   users:
     my_actors: 'My actors'

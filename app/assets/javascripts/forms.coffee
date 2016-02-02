@@ -1,7 +1,13 @@
 jQuery ->
   $(document).on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
+    $(this).closest('.relation-preview').hide()
     $(this).closest('.form-inputs').hide()
+    event.preventDefault()
+
+  $(document).on 'click', '.remove_preview_fields', (event) ->
+    $(this).prev('input[type=hidden]').val('1')
+    $(this).closest('.relation-preview').hide()
     event.preventDefault()
 
   $(document).on 'click', '.add_fields', (event) ->
