@@ -15,6 +15,7 @@ gem 'chosen-rails'
 gem 'autoprefixer-rails'
 gem 'handlebars_assets'
 gem 'i18n-js', '>= 3.0.0.rc11'
+gem 'gon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-foundation'
@@ -22,6 +23,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-backbone'
   gem 'rails-assets-handlebars'
   gem 'rails-assets-leaflet'
+  gem 'rails-assets-d3'
 end
 
 # Templating

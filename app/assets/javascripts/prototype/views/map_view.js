@@ -39,10 +39,8 @@
       this.actionModel = new root.app.Model.actionModel();
 
       this.$legend = this.$el.find('#map-legend');
-      this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
       this.$buttons = this.$el.find('#map-buttons');
-      this.$credits = this.$el.find('.leaflet-control-attribution');
       /* Cache for the relationships part of the legend */
       this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
       this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
@@ -67,6 +65,7 @@
         this.onActionModelRemoteSync);
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
       this.listenTo(root.app.pubsub, 'click:goBack', this.onGoBack);
+      this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
     },
 
     /* GETTERS */
@@ -187,7 +186,10 @@
       /* We toggle the part concerning the relationships from the legend */
       this.$legend.toggleClass('-reduced', !isVisible);
       /* We move the zoom buttons according to the legend move */
-      this.$zoomButtons.toggleClass('-slided', !isVisible);
+      if(this.$zoomButtons) {
+        /* The variable only exists after the map is initialized */
+        this.$zoomButtons.toggleClass('-slided', !isVisible);
+      }
       /* We toggle the switch button concerning the relationships */
       this.$relationshipsToggle.prop('checked', isVisible);
       /* We save the visibility to the model */
@@ -198,7 +200,10 @@
 
     onSidebarVisibilityChange: function(options) {
       this.$buttons.toggleClass('-slided', options.isHidden);
-      this.$credits.toggleClass('-slided', options.isHidden);
+      if(this.$credits) {
+        /* The variable only exists once the map is initialized */
+        this.$credits.toggleClass('-slided', options.isHidden);
+      }
     },
 
     /* Trigger an event through the pubsub object to inform about the new state
@@ -248,6 +253,10 @@
       this.removeRelations();
     },
 
+    onTimelineChange: function(options) {
+      this.filterMarkers(options);
+    },
+
     onZoomEnd: function() {
       this.updateMarkersSize();
       this.computeMarkersOptimalPosition();
@@ -266,11 +275,22 @@
       this.renderMap()
         .then(this.fetchFilteredCollections.bind(this))
         .then(function() {
+          /* We wait for the map to create the elements */
+          this.$zoomButtons = this.$el.find('.leaflet-control-zoom');
+          this.$credits = this.$el.find('.leaflet-control-attribution');
+
           this.addFilteredMarkers();
           this.highlightSelectedMarkers();
           this.renderSelectedMarkerRelations();
           this.updateLegendRelationships();
+
           this.lastActiveMarkerInfo = this.getSelectedMarkerInfo();
+
+          /* We initialize the map's timeline when we're sure the map is ready
+           */
+          this.mapSliderView = new root.app.View.mapSliderView({
+            router: this.router
+          });
         }.bind(this));
     },
 
@@ -434,7 +454,11 @@
         this._addEntityMarkers(this.actionsCollection.toJSON(), 'actions');
       }
 
+      /* Cache for the timeline animation */
+      this.leafletMarkers = this.markersLayer.getLayers();
+
       this.computeMarkersOptimalPosition();
+
       this.markersLayer.addTo(this.map);
     },
 
@@ -694,7 +718,10 @@
 
     /* Remove all the relations from the map */
     removeRelations: function() {
-      this.$el.find('.js-line').remove();
+      if(this.map.hasLayer(this.relationsLayer)) {
+        this.map.removeLayer(this.relationsLayer);
+      }
+
       var highlightedMarkers = this.el.querySelectorAll('.js-relation-highlight');
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
         highlightedMarkers[i].classList.remove('js-relation-highlight');
@@ -754,7 +781,8 @@
         /* We then find each marker which is linked to the clicked one, save its
          * coordinates and add a line between them */
         var otherMarker, otherDOMMarker, otherMarkerLatLng, latLngs;
-        _.each(relations, function(relation) {
+        this.relationsLayer = L.layerGroup(_.compact(_.map(relations,
+          function(relation) {
           if(!relation.locations.length) {
             console.warn('Unable to show the relation with /' + entityType +
               '/' + relation.id + ' because it doesn\'t have any location');
@@ -784,10 +812,10 @@
                 options.className += ' -hidden';
               }
 
-              L.polyline(latLngs, options).addTo(this.map);
+              return L.polyline(latLngs, options);
             }
           }
-        }, this);
+        }, this)));
       }.bind(this);
 
       /* We add the relations with the actors */
@@ -798,6 +826,9 @@
       relations = _.union(model.get('actions').parents,
         model.get('actions').children);
       addLines(relations, 'actions');
+
+      /* We finally add the relations to the map */
+      this.relationsLayer.addTo(this.map);
     },
 
     renderSelectedMarkerRelations: function() {
@@ -822,6 +853,40 @@
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
         highlightedMarkers[i].classList.toggle('-active');
       }
+    },
+
+    /* Filter the map's markers depending on if they exist at the passed date.
+     * If not, they're hidden.
+     * NOTE: this function MUST BE optimized as much as possible because it's
+     * called in a requestAnimationFrame (its duration should be less than 10
+     * ms) */
+    filterMarkers: function(options) {
+      /* If we're asked to filter the markers for the same date, we don't do
+       * anything (important for rendering improvements when seing a big range)
+       */
+      if(this.lastFilterDate && this.lastFilterDate === options.date) {
+        return;
+      } else {
+        this.lastFilterDate = options.date;
+      }
+
+      this.map.removeLayer(this.markersLayer);
+
+      /* In case there's no date, we reset the markers */
+      if(!options.date) {
+        this.markersLayer = L.layerGroup(this.leafletMarkers);
+        this.lastFilterDate = null;
+      } else {
+        this.markersLayer = L.layerGroup(_.filter(this.leafletMarkers,
+          function(m) {
+          return Math.random() < 0.5;
+        }));
+      }
+
+      this.removeRelations();
+      this.computeMarkersOptimalPosition();
+
+      this.markersLayer.addTo(this.map);
     }
 
   });

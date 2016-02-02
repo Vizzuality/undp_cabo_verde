@@ -5,6 +5,8 @@ class PrototypeController < ApplicationController
     @domains    = Category.where(type: ['SocioCulturalDomain', 'OtherDomain']).order(:name)
     @start_date = min_start_date
     @end_date   = max_end_date
+    gon.min_date = @start_date
+    gon.max_date = @end_date
   end
 
   private

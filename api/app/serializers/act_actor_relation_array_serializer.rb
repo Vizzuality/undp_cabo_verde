@@ -2,7 +2,7 @@ class ActActorRelationArraySerializer < BaseSerializer
   cached
   self.version = 11
 
-  attributes :id, :name, :level, :locations
+  attributes :id, :name, :level, :locations, :info
 
   def level
     type = object.type
@@ -31,6 +31,14 @@ class ActActorRelationArraySerializer < BaseSerializer
       object.get_locations.map do |localizations|
         LocalizationArraySerializer.new(localizations, root: false).serializable_hash
       end
+    end
+  end
+
+  def info
+    type = object.class.name
+    case true
+    when type.include?('Actor') && options[:act_id].present?  then RelationInfoSerializer.new(object.act_actor_relations.find_by(actor_id: object.id, act_id: options[:act_id])).serializable_hash
+    when type.include?('Act')   && options[:actor_id].present? then RelationInfoSerializer.new(object.act_actor_relations.find_by(actor_id: options[:actor_id], act_id: object.id)).serializable_hash
     end
   end
 

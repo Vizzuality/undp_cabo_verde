@@ -41,7 +41,7 @@ class ActsController < ApplicationController
   def create
     @act = @user.acts.build(act_params)
     if @act.save
-      redirect_to act_path(@act)
+      redirect_to @act
     else
       render :new
     end

@@ -49,11 +49,11 @@ class ActSerializer < BaseSerializer
   def actions
     data = {}
     data['parents']  = object.get_parents_by_date(@options[:search_filter]).sort_by { |parent| parent['id'] }.map do |parent|
-                         SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter]).serializable_hash
+                         SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter], child_id: object.id).serializable_hash
                        end
 
     data['children'] = object.get_children_by_date(@options[:search_filter]).sort_by { |child| child['id'] }.map do |child|
-                         SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter]).serializable_hash
+                         SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter], parent_id: object.id).serializable_hash
                        end
     data
   end
@@ -61,13 +61,12 @@ class ActSerializer < BaseSerializer
   def actors
     data = {}
     data['parents'] = object.get_actors_by_date(@options[:search_filter]).sort_by { |actor| actor['id'] }.map do |actor|
-                        ActActorRelationArraySerializer.new(actor, root: :actors, search_filter: @options[:search_filter]).serializable_hash
+                        ActActorRelationArraySerializer.new(actor, root: :actors, search_filter: @options[:search_filter], act_id: object.id).serializable_hash
                       end
     data
   end
 
   def artifacts
-    data = {}
     data = object.get_values_by_date(@options[:search_filter]).sort_by { |value| value['id'] }.map do |value|
              ActIndicatorSerializer.new(value, root: :actors, search_filter: @options[:search_filter]).serializable_hash
            end

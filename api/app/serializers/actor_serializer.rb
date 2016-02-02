@@ -1,6 +1,6 @@
 class ActorSerializer < BaseSerializer
   cached
-  self.version = 11
+  self.version = 12
 
   attributes :id, :level, :name, :observation, :locations
 
@@ -40,11 +40,11 @@ class ActorSerializer < BaseSerializer
   def actors
     data = {}
     data['parents']  = object.get_parents_by_date(@options[:search_filter]).sort_by { |parent| parent['id'] }.map do |parent|
-                         SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter]).serializable_hash
+                         SelfRelationArraySerializer.new(parent, root: :parents, search_filter: @options[:search_filter], child_id: object.id).serializable_hash
                        end
 
     data['children'] = object.get_children_by_date(@options[:search_filter]).sort_by { |child| child['id'] }.map do |child|
-                         SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter]).serializable_hash
+                         SelfRelationArraySerializer.new(child, root: :children, search_filter: @options[:search_filter], parent_id: object.id).serializable_hash
                        end
     data
   end
@@ -52,7 +52,7 @@ class ActorSerializer < BaseSerializer
   def actions
     data = {}
     data['children'] = object.get_actions_by_date(@options[:search_filter]).sort_by { |action| action['id'] }.map do |action|
-                         ActActorRelationArraySerializer.new(action, root: :actions, search_filter: @options[:search_filter]).serializable_hash
+                         ActActorRelationArraySerializer.new(action, root: :actions, search_filter: @options[:search_filter], actor_id: object.id).serializable_hash
                        end
     data
   end
