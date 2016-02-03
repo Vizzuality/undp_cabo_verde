@@ -105,7 +105,7 @@
           - unless common_form?
             p.text-right.add-button
               / Add more css classes to 'add_actor', sample 'add_actor your_class_name'
-              = add_actor_relation_path t('relations.add_new_relation'), form, :act_actor_relations, 'add_fields add_actor'
+              = add_actor_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_fields add_actor'
 
         div#action_relation_form.content
           = form.fields_for :act_relations_as_child do |action_parents_form|
@@ -114,9 +114,9 @@
             = render 'action_relation_children_form', f: action_children_form
           - unless common_form?
             p.text-right.add-button
-              = add_action_relation_path t('relations.add_new_relation'), form, :act_relations_as_child, 'add_parent_action hidden mini-text add_actions_fields'
+              = add_action_relation_path t('relations.add_relation'), form, :act_relations_as_child, 'add_parent_action hidden mini-text add_actions_fields'
               / Add more css classes to 'add_parent_action', sample 'add_parent_action your_class_name'
-              = add_action_relation_children_path t('relations.add_new_relation'), form, :act_relations_as_parent, 'add_child_action add_actions_fields'
+              = add_action_relation_children_path t('relations.add_relation'), form, :act_relations_as_parent, 'add_child_action add_actions_fields'
 
         div#indicator_relation_form.content
           = form.fields_for :act_indicator_relations do |indicators_form|
@@ -124,4 +124,4 @@
           - unless common_form?
             p.text-right.add-button
               / Add more css classes to 'add_indicator', sample 'add_indicator your_class_name'
-              = add_indicator_relation_path t('relations.add_new_relation'), form, :act_indicator_relations, 'add_fields add_indicator'
+              = add_indicator_relation_path t('relations.add_relation'), form, :act_indicator_relations, 'add_fields add_indicator'
