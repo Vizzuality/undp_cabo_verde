@@ -290,6 +290,6 @@ I want to manage an act
     When I go to the act page for "Action with indicator and measurement"
     Then the select field "Indicator" should contain "Indicator one"
     When I follow "Edit"
-    And I click on ".remove_measurement"
+    And I click on ".delete_measurement"
     And I press "Update"
     Then I should be on the act page for "Action with indicator and measurement"

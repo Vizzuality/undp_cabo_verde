@@ -130,7 +130,8 @@ a {
     color: $color-10;
   }
 
-  &.remove_fields {
+  &.remove_fields,
+  &.remove_fields_preview {
     color: $color-6;
   }
 }

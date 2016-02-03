@@ -69,7 +69,7 @@
     .columns.medium-12.measurement_relations
       .row
         .column.medium-8.medium-offset-4
-          h3 = t('acts.measurements')
+          h3.measurement-heading = t('acts.measurements')
 
       = f.fields_for :measurements do |measurements_form|
         = render 'measurements_form', f: measurements_form

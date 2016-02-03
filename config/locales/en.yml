@@ -322,7 +322,7 @@ en:
     add_indicator: 'Add indicator'
     indicators: 'Indicators'
     measurement: 'Maesurement'
-    remove_measurement: 'Remove measurement'
+    delete_measurement: 'Delete measurement'
     add_measurement: 'Add measurement'
     measurements: 'Measurements'
     main: 'Main location'
