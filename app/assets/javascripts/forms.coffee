@@ -1,8 +1,13 @@
 jQuery ->
   $(document).on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('.relation-preview').hide()
     $(this).closest('.form-inputs').hide()
+    event.preventDefault()
+
+  $(document).on 'click', '.remove_fields_preview', (event) ->
+    $(this).closest('.relation-preview').remove()
+    pairID = $(this).data('delete-pair')
+    $('#' + pairID).trigger('click')
     event.preventDefault()
 
   $(document).on 'click', '.remove_preview_fields', (event) ->
