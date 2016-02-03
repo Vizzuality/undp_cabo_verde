@@ -4,6 +4,7 @@ jQuery ->
     $(this).closest('.form-inputs').hide()
     event.preventDefault()
 
+  ## Clicking on the preview delete-button triggers the real delete event in the form
   $(document).on 'click', '.remove_fields_preview', (event) ->
     $(this).closest('.relation-preview').remove()
     pairID = $(this).data('delete-pair')
