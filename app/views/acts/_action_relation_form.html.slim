@@ -6,8 +6,10 @@
         p.relationtype= f.object.relation_type.title
         p.relationtitle= f.object.parent.name
         p.relationbuttons
-          span= link_to "View", "#", id: "actions-relation-#{f.object.id}",
+          = link_to "View", "#", id: "actions-relation-#{f.object.id}",
             class: "view-relation", 'data-relation-type': "action-action-relation"
+          - unless common_form?
+            = link_to t('relations.delete'), "#", class: "remove_fields_preview", 'data-delete-pair': "delete-#{f.object.id}"
 .form-inputs.form-inputs-parent.form-inputs-relations.action-action-relation class=('hide' if preview) id=("expanded-actions-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
@@ -57,4 +59,4 @@
           / Do not move this fields!
           = f.hidden_field :user_id, value: current_user.id
           = f.hidden_field :_destroy
-          = link_to t('indicators.remove_indicator'), '#', class: 'remove_fields'
+          = link_to t('relations.delete'), '#', id: "delete-#{f.object.id}", class: 'remove_fields'
