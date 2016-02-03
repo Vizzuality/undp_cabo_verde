@@ -81,6 +81,7 @@
     },
 
     onMapRender: function(map) {
+      console.log(map);
       /* We set the object "this.map" for the markers and relations views */
       this.mapMarkersView.map   = map;
       this.mapRelationsView.map = map;

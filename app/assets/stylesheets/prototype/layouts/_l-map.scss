@@ -107,20 +107,24 @@
     text-align: right;
     background: none !important;
     color: $color-11 !important;
+    font-size: 11px;
     opacity: .5;
 
     & > a {
       color: $color-11 !important;
       text-decoration: underline !important;
+      &:nth-child(2) { display: none !important; }
     }
   }
 
   .leaflet-control-zoom {
     display: flex;
     box-shadow: none;
+    border: 0;
     border-radius: 0;
     left: 0;
     bottom: 0;
+    background: none;
     transform: translateY(-213px);
     transition: transform .4s;
 
@@ -133,7 +137,12 @@
       border-radius: 0 !important;
       color: $color-1;
       line-height: 24px;
+      text-indent: 0;
+      font: 700 18px 'Lucida Console', Monaco, monospace;
+      text-align: center;
       background-color: $color-12;
+      background-image: none;
+      opacity: 1;
     }
 
     & > .leaflet-disabled,
@@ -144,7 +153,7 @@
     }
   }
 
-  .cartodb-logo { display: none !important; }
+  .mapbox-logo { display: none !important; }
 
   .leaflet-popup-content > .message.-loading {
     height: 180px;
