@@ -76,7 +76,7 @@ I want to manage an actor
     And I check "Faith" within ".actor_merged_domain_ids"
     And I press "Create"
     Then I should have one actor
-    And I should be on the edit actor page for "Orga by admin"
+    And I should be on the actor macro page for "Orga by admin"
 
   @javascript
   Scenario: User can edit actor with custom domain
@@ -175,7 +175,7 @@ I want to manage an actor
     And department
     And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on overlapping ".add_child_actor" within ".add-relations"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     And I select from the following field ".relation_child_id" with "Organization one"
     And I select from the following field ".relation_type_id" with "belongs to"

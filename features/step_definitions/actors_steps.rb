@@ -7,11 +7,11 @@ Then /^I should have one actor$/ do
 end
 
 Then /^I should have one actor meso$/ do
-  ActorMeso.all.size.should >= 1
+  expect(ActorMeso.all.size).to be >= 1
 end
 
 Then /^I should have two actors$/ do
-  Actor.all.size.should >= 2
+  expect(Actor.all.size).to be >= 2
 end
 
 Given /^actor$/ do
