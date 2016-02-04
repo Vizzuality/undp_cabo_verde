@@ -213,7 +213,7 @@
 
         default:
           spiralGap             = 5;
-          spiralInitialDistance = 5;
+          spiralInitialDistance = 10;
           spiralAngleFactor     = Math.PI / 3;
           break;
       }
