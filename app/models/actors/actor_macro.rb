@@ -1,5 +1,5 @@
 class ActorMacro < Actor
-  validates :operational_field, presence: true, on: :update
+  validates :operational_field, presence: true
   after_save :rebuild_operational_field, if: 'operational_field_changed?'
 
   def operational_field_txt

@@ -5,6 +5,7 @@
         .column.medium-8.medium-offset-4
           h2
             = t('shared.general_info')
+            
   = simple_form_for @actor do |f|
     .row
       .column.medium-8.medium-offset-1
@@ -32,12 +33,12 @@
               = f.label :gender, class: 'right inline'
             .column.medium-8
               = f.input :gender, collection: @gender_select, as: :collection_select, label: false
-        #form-actor.macro._hidden
+        #form-actor.macro class=('_hidden' unless ['ActorMacro', 'ActorMeso'].include?(@actor.type))
           .row
             .column.medium-4
-              = f.label :operational_field, class: 'right inline'
+              = f.label :operational_field, class: 'right inline', required: true
             .column.medium-8
-              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, required: true
         #form-actor.meso.macro._hidden
           .row
             .column.medium-4
@@ -58,8 +59,7 @@
             .column.medium-4
               = f.label :organization_type_ids, class: 'right inline'
             .column.medium-8
-              = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
-
+              = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }
     = render partial: f
 
     .row.footer-helper
