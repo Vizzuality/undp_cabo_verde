@@ -107,6 +107,12 @@ textarea:focus {
   }
 }
 
+label {
+  &.disabled, &:disabled {
+    cursor: default;
+  }
+}
+
 .current-actor, .current-actor-edit, .current-action, .current-action-edit {
   padding-left: 8px;
   border: none;

@@ -1,7 +1,7 @@
 .form-inputs.form-inputs-measurement
   .row
     .column.medium-4
-      = f.label :date, class: 'right inline'
+      = f.label :date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                     'data-max-date': Date.today,
@@ -9,19 +9,19 @@
 
   .row
     .column.medium-4
-      = f.label :value, class: 'right inline'
+      = f.label :value, class: 'right inline', disabled: common_form?, disabled: common_form?
     .column.medium-8
       = f.input :value, input_html: { class: 'measurement_value' }, label: false, disabled: common_form?
 
   .row
     .column.medium-4
-      = f.label :unit_id, class: 'right inline'
+      = f.label :unit_id, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :unit_id, collection: @units, as: :collection_select, label: false, input_html: { class: 'measurement_unit' }, disabled: common_form?
 
   .row
     .column.medium-4
-      = f.label :details, class: 'right inline'
+      = f.label :details, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :details, input_html: { class: 'measurement_details' }, label: false, disabled: common_form?
 

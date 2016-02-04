@@ -11,24 +11,24 @@
             = form.collection_radio_buttons :human, [[true, t('acts.act_micro_human_true'), disabled: common_form?], [false, t('acts.act_micro_human_false'), disabled: common_form?]], :first, :second
       .row
         .column.medium-4.budget
-          = form.label :budget, class: 'right inline'
+          = form.label :budget, class: 'right inline', disabled: common_form?
         .column.medium-8.inline-label
           span.form-label.currency-label
             = Money.default_currency.symbol
           = form.input :budget, label: false, wrapper_html: { class: 'form-label currency-input' }, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :alternative_name, class: 'right inline'
+          = form.label :alternative_name, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :alternative_name, label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :short_name, class: 'right inline'
+          = form.label :short_name, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :short_name, label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :start_date, class: 'right inline'
+          = form.label :start_date, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
                                          'data-max-date': Date.today,
@@ -36,7 +36,7 @@
                                          label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :end_date, class: 'right inline'
+          = form.label :end_date, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_beginning_of_year,
                                        'data-max-date': Date.today,
@@ -45,19 +45,19 @@
                                        label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :description, class: 'right inline'
+          = form.label :description, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :description, label: false, disabled: common_form?
 
       .row
         .column.medium-4
-          = form.label :organization_type_ids, class: 'right inline'
+          = form.label :organization_type_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}, disabled: common_form?
       / Categories
       .row#domains-chose
         .column.medium-4
-          = form.label :merged_domain_ids, class: 'right inline'
+          = form.label :merged_domain_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
       - unless common_form?

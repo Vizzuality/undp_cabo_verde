@@ -13,7 +13,7 @@
 .form-inputs.form-inputs-parent.form-inputs-relations.action-action-relation class=('hide' if preview) id=("expanded-actions-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
-      = f.label t('acts.current_action'), class: 'right inline'
+      = f.label t('acts.current_action'), class: 'right inline', disabled: common_form?
     .column.medium-8.text-left.current-action-wrapper
       - if request.path.include?('/actions/new')
         p.current-action.-disabled
@@ -22,12 +22,12 @@
           = @act.name unless request.path.include?('/actions/new')
   .row
     .column.medium-4
-      = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline'
+      = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :relation_type_id, collection: @action_relation_children_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :parent_id, t('acts.act') + '*', class: 'right inline'
+      = f.label :parent_id, t('acts.act') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
   
@@ -38,14 +38,14 @@
         
   .row
     .column.medium-4
-      = f.label :start_date, class: 'right inline'
+      = f.label :start_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                     'data-max-date': Date.today,
                                     class: 'js-datepicker relation_start_date', disabled: common_form?
   .row
     .column.medium-4
-      = f.label :end_date, class: 'right inline'
+      = f.label :end_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,

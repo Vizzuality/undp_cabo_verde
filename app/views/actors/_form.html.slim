@@ -3,13 +3,13 @@
     .form-inputs
       .row
         .column.medium-4
-          = form.label :observation, class: 'right inline'
+          = form.label :observation, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
       / Categories
       .row
         .column.medium-4
-          = form.label :merged_domain_ids, class: 'right inline'
+          = form.label :merged_domain_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
       - unless common_form?
