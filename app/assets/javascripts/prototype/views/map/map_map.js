@@ -4,6 +4,7 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.Helper = root.app.Helper || {};
 
   root.app.View.mapMapView = Backbone.View.extend({
 
@@ -25,7 +26,7 @@
     },
 
     render: function() {
-      L.mapbox.accessToken = '';
+      L.mapbox.accessToken = root.app.Helper.globals.mapToken;
 
       this.map = L.mapbox.map('map', 'undp-caboverde.48351cad', {
         center: [14.91, -23.51],
@@ -36,6 +37,8 @@
       this.map.on('click',   this.onMapClick.bind(this));
       this.map.on('zoomend', this.onZoomEnd.bind(this));
 
+      /* We make sure to trigger the event once the map_view's setListeners
+       * method is executed */
       setTimeout(function() {this.onMapRendered();}.bind(this), 15);
     },
   });
