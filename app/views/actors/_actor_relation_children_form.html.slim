@@ -4,7 +4,7 @@
     .column.medium-8.medium-offset-4
       .relation-preview
         p.relationtype= f.object.relation_type.try(:title)
-        p.relationtitle= f.object.child.name
+        p.relationtitle= link_to f.object.child.name, f.object.child
         p.relationbuttons
           = link_to "View", "#", id: "actors-relation-#{f.object.id}",
             class: "view-relation", 'data-relation-type': "actor-actor-relation"
