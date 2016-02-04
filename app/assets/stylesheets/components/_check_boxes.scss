@@ -29,10 +29,6 @@
 
       border-radius: 0px;
       background-color: $color-7;
-
-      &.localization_main {
-        margin-top: 7px;
-      }
     }
 
     input[type="checkbox"]:checked {
@@ -79,6 +75,10 @@ input[type="checkbox"] {
 
   border-radius: 0px;
   background-color: $color-7;
+
+  &.localization_main {
+    margin-top: 7px;
+  }
 }
 
 input[type="checkbox"]:checked {
