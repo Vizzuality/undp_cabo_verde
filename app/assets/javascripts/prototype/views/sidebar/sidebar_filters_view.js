@@ -498,7 +498,7 @@
           var containerWidth = this.$el.width();
           var containerPadding = 25;
 
-          position.top += 180;
+          position.top = this.$dateFields.offset().top - this.$el.offset().top + 30;
           if(instance.input[0] === fromField[0]) {
             position.left = containerPadding;
           } else {
