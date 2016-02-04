@@ -24,6 +24,11 @@ h2 {
   margin: 0;
   padding: 0;
   padding-top: 11px;
+
+  .form-actions & {
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
 }
 
 select {
@@ -136,31 +141,4 @@ a {
   }
 }
 
-.hidden {
-  visibility: hidden;
-}
 
-.mini-text {
-  font-size: 0px;
-  position: absolute;
-}
-
-.form-actions  {
-  h2 {
-    margin-bottom: 20px;
-    margin-top: 40px;
-  }
-}
-
-.form-inputs .row {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.add-button {
-  margin-top: 20px;
-}
-
-.localization_main {
-  float: left;
-}

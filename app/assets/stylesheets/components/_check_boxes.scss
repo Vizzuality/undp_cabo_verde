@@ -29,6 +29,10 @@
 
       border-radius: 0px;
       background-color: $color-7;
+
+      &.localization_main {
+        margin-top: 7px;
+      }
     }
 
     input[type="checkbox"]:checked {
