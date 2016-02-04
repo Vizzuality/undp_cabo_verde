@@ -69,11 +69,13 @@ I want to manage an actor
   Scenario: User can create actor
     Given user
     And socio_cultural_domain_2
+    And operational field
     And I am authenticated adminuser
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
     And I check "Faith" within ".actor_merged_domain_ids"
+    And I select "International" from "actor_operational_field"
     And I press "Create"
     Then I should have one actor
     And I should be on the actor macro page for "Orga by admin"
@@ -183,7 +185,7 @@ I want to manage an actor
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then I should see "Contains" within "#actor_relation_form"
+    Then I should see "Belongs To" within "#actor_relation_form"
     And I should see "Organization one" within "#actor_relation_form"
 
   @javascript
@@ -204,7 +206,7 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then I should see "Organization one"
-    And I should see "Belongs To"
+    And I should see "Contains"
 
   @javascript
   Scenario: User can remove actor relation from actor
