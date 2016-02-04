@@ -178,15 +178,13 @@ I want to manage an actor
     And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     And I select from the following field ".relation_child_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "belongs to"
+    And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then the select field "Actor" should contain "New Organization"
-    Then the select field "Relation title" should contain "belongs to"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
+    Then I should see "Contains" within "#actor_relation_form"
+    And I should see "Organization one" within "#actor_relation_form"
 
   @javascript
   Scenario: User can add actor parent relation to actor
@@ -196,59 +194,57 @@ I want to manage an actor
     And department
     And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on overlapping ".add_child_actor" within ".add-relations"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     When I click on overlapping ".switch_parent_form"
     And I select from the following field ".relation_parent_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "belongs to"
+    And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then the select field "Actor" should contain "New Organization"
-    And the select field "Relation title" should contain "belongs to"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
+    Then I should see "Organization one"
+    And I should see "Belongs To"
 
   @javascript
   Scenario: User can remove actor relation from actor
     Given actor with relations
     And I am authenticated adminuser
     When I go to the actor page for "Person one with relation"
-    And the select field "Actor" should contain "Department one"
+    And I should see "Department one"
     When I follow "Edit"
-    And I click on ".remove_fields"
+    And I click on ".remove_fields_preview"
     And I press "Update"
     And I go to the actor page for "Person one with relation"
     Then I should not see "Department one"
 
-  @javascript
-  Scenario: User can add action relation to actor
-    Given I am authenticated user
-    And person
-    And first act
-    And act_actor_relation_types
-    When I go to the edit actor page for "Person one"
-    And I click on ".add_action"
-    And I select from the following field ".relation_action_id" with "First one"
-    And I select from the following field ".relation_type_id" with "implements"
-    When I fill in the following field ".relation_start_date" with "1990-03-10"
-    When I fill in the following field ".relation_end_date" with "2010-03-10"
-    And I press "Update"
-    And I go to the actor page for "Person one"
-    Then the select field "Action" should contain "First one"
-    Then the select field "Relation title" should contain "implements" within ".actor-connection-action"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
-
-  @javascript
-  Scenario: User can remove action relation from actor
-    Given actor with action relations
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one with relation"
-    Then the select field "Action" should contain "First one"
-    When I follow "Edit"
-    And I click on ".remove_fields"
-    And I press "Update"
-    And I go to the actor page for "Person one with relation"
-    Then I should not see "First one"
+  #  @javascript
+  #  Scenario: User can add action relation to actor
+  #    Given I am authenticated user
+  #    And person
+  #    And first act
+  #    And act_actor_relation_types
+  #    When I go to the edit actor page for "Person one"
+  #    And I click on ".add_action"
+  #    And I select from the following field ".relation_action_id" with "First one"
+  #    And I select from the following field ".relation_type_id" with "implements"
+  #    When I fill in the following field ".relation_start_date" with "1990-03-10"
+  #    When I fill in the following field ".relation_end_date" with "2010-03-10"
+  #    And I press "Update"
+  #    And I go to the actor page for "Person one"
+  #    Then the select field "Action" should contain "First one"
+  #    Then the select field "Relation title" should contain "implements" within ".actor-connection-action"
+  #    And the field "Start date" should contain "1990-03-10"
+  #    And the field "End date" should contain "2010-03-10"
+  #
+  #  @javascript
+  #  Scenario: User can remove action relation from actor
+  #    Given actor with action relations
+  #    And I am authenticated adminuser
+  #    When I go to the actor page for "Person one with relation"
+  #    Then the select field "Action" should contain "First one"
+  #    When I follow "Edit"
+  #    And I click on ".remove_fields"
+  #    And I press "Update"
+  #    And I go to the actor page for "Person one with relation"
+  #    Then I should not see "First one"
