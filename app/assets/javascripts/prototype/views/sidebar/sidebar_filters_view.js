@@ -21,7 +21,8 @@
       'change .toggle-button': 'onExpandFilter',
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
       'click .js-uncheck-all': 'onClickUncheckAll',
-      'click .js-check-all': 'onClickCheckAll'
+      'click .js-check-all': 'onClickCheckAll',
+      'click .js-save-search': 'onClickSaveSearch'
     },
 
     initialize: function(options) {
@@ -225,6 +226,25 @@
 
     onClickGoBack: function() {
       this.show();
+    },
+
+    onClickSaveSearch: function() {
+      var query = this.router.getQueryParams();
+      var object = {
+        name: "name",
+        query: query
+      };
+
+      var searches = localStorage.getItem('searches');
+      searches = JSON.parse(searches);
+
+      if (searches == null) {
+        searches = [];
+      }
+
+      searches.push(object);
+      localStorage.setItem('searches', JSON.stringify(searches));
+
     },
 
     /* LOGIC */
