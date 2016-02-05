@@ -76,7 +76,7 @@ I want to manage an actor
     And I check "Faith" within ".actor_merged_domain_ids"
     And I press "Create"
     Then I should have one actor
-    And I should be on the edit actor page for "Orga by admin"
+    And I should be on the actor page for "Orga by admin"
 
   @javascript
   Scenario: User can edit actor with custom domain
