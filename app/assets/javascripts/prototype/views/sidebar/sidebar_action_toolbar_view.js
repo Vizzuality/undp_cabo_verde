@@ -25,6 +25,7 @@
     setListeners: function() {
       this.listenTo(root.app.pubsub, 'show:actor', this.showGoBackButton);
       this.listenTo(root.app.pubsub, 'show:action', this.showGoBackButton);
+      this.listenTo(root.app.pubsub, 'show:searches', this.showGoBackButton);
       this.listenTo(root.app.pubsub, 'click:goBack', this.hideGoBackButton);
     },
 
