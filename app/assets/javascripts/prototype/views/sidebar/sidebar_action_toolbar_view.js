@@ -54,6 +54,7 @@
     },
 
     showSearches: function() {
+      root.app.pubsub.trigger('show:searches');
       console.warn('Feature not yet implemented');
     }
 
