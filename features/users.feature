@@ -22,8 +22,8 @@ I want to edit, view, activate, deactivate and make a user admin
     And I fill in "user_institution" with "Radio 3"
     And I fill in "user_email" with "don-morenito@sample.com"
     And I press "Update"
-    And the field "Email" should contain "don-morenito@sample.com" within ".form-actions"
-    And the field "Institution" should contain "Radio 3" within ".form-actions"
+    And the disabled field "Email" should contain "don-morenito@sample.com" within ".form-actions"
+    And the disabled field "Institution" should contain "Radio 3" within ".form-actions"
 
   Scenario: Adminuser can make user admin
     Given user

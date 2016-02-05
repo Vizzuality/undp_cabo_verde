@@ -3,7 +3,7 @@
   .row
     .column.medium-8.medium-offset-4
       .relation-preview
-        p.relationtype= f.object.relation_type.title
+        p.relationtype= f.object.relation_type.try(:title)
         p.relationtitle= f.object.act.name
         p.relationbuttons
           = link_to "View", "#", id: "actions-relation-#{f.object.id}",

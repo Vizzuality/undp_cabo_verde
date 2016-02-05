@@ -51,10 +51,10 @@
     .row
       .columns.medium-8.medium-offset-4
         ul.tabs.small-block-grid-2 data-tab="true" data-options="deep_linking: true; scroll_to_content: false;"
-          li.tab-title.active
-            = link_to t('actors.actors'), "#actor_relation_form"
-          li.tab-title
-            = link_to t('actions.actions'), "#action_relation_form"
+          li.tab-title.active.actors_relations
+            = link_to t('actors.actors'), "#actor_relation_form", class: 'actor_relation_form'
+          li.tab-title.action_relations
+            = link_to t('acts.acts'), "#action_relation_form", class: 'action_relation_form'
     .row
       div.tabs-content
         div#actor_relation_form.content.active

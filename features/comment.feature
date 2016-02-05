@@ -25,7 +25,7 @@ I want to create activate and deactivate a comment
     Given first act by admin with comment
     And I am authenticated user
     When I go to the act page for "Comment on first act by admin"
-    Then the field "Name" should contain "Comment on first act by admin"
+    Then the disabled field "Name" should contain "Comment on first act by admin"
     And I should not see "Deactivate" within "#comments"
 
   Scenario: User can activate deactivate owned comment

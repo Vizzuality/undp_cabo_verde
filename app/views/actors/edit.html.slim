@@ -1,4 +1,4 @@
-.form-actions
+.form-actors
   .row
     .column.medium-8.medium-offset-1
       .row
@@ -16,7 +16,7 @@
           .column.medium-4
             = f.label :type, class: 'right inline'
           .column.medium-8
-            = f.input :type, label: false, collection: @types, as: :collection_select
+            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
         .row
           .column.medium-4
             = f.label :name, class: 'right inline'

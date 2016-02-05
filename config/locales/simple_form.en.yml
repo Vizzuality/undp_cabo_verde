@@ -32,6 +32,7 @@ en:
           main: 'Main location'
       actor_micro:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -40,6 +41,7 @@ en:
           localizations: 'Location'
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -47,6 +49,7 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           localizations: 'Location'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'
@@ -56,6 +59,7 @@ en:
         main: 'Main location'
       actor_meso:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -64,6 +68,7 @@ en:
           localizations: 'Location'
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -71,6 +76,7 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           localizations: 'Location'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'
@@ -80,6 +86,7 @@ en:
         main: 'Main location'
       actor_macro:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           operational_filed: 'Scale'
           organization_type_ids: 'Organization types'
@@ -90,6 +97,7 @@ en:
           localizations:
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -97,6 +105,7 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           localizations: 'Location'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'
@@ -117,6 +126,7 @@ en:
           main: 'Main location'
       act_micro:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -124,12 +134,14 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'
@@ -138,6 +150,7 @@ en:
         main: 'Main location'
       act_meso:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -145,12 +158,14 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'
@@ -159,6 +174,7 @@ en:
         main: 'Main location'
       act_macro:
         edit:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
@@ -166,12 +182,14 @@ en:
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
         show:
+          type: 'Level'
           category_ids: 'Domains'
           organization_type_ids: 'Organization types'
           socio_cultural_domain_ids: 'Socio cultural domains'
           other_domain_ids: 'Other domains'
           merged_domain_ids: 'Socio cultural domains'
           main: 'Main location'
+        type: 'Level'
         category_ids: 'Domains'
         organization_type_ids: 'Organization types'
         socio_cultural_domain_ids: 'Socio cultural domains'

@@ -49,6 +49,19 @@ When /^(?:|I )click on overlapping "([^"]*)"(?: within "([^"]*)")?$/ do |div, se
   end
 end
 
+When /^(?:|I )click on hidden "([^"]*)" on "([^"]*)"(?: within "([^"]*)")?$/ do |div, hidden_el, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{hidden_el}').show()")
+    page.execute_script("$('#{div}').click()")
+  end
+end
+
+Then(/^I should see tab "(.*?)" within "(.*?)"$/) do |div, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{div}').show()")
+  end
+end
+
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
     fill_in(field, :with => value)
@@ -273,6 +286,20 @@ Then /^the select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")
     unless field
       field = field_labeled(field, disabled: true)
     end
+    expect(field.find('option[selected]')).to match(/#{value}/)
+  end
+end
+
+Then /^the disabled field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field = field_labeled(field, disabled: true)
+    expect(field.value).to match(/#{value}/)
+  end
+end
+
+Then /^the disabled select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field = field_labeled(field, disabled: true)
     expect(field.find('option[selected]')).to match(/#{value}/)
   end
 end
