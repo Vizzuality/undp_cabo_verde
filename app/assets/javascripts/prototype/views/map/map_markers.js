@@ -374,7 +374,7 @@
       this.$el.find('.js-actor-marker, .js-action-marker').css('transform',
         'scale(' + scale + ')');
 
-      /* We also udate the size of the position markers but as the CSS transform
+      /* We also update the size of the position markers but as the CSS transform
        * property already has a value, we add the scale to it */
       var positionMarkers = this.$el.find('.js-position-marker'),
           transform;
