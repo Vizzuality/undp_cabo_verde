@@ -322,7 +322,7 @@ en:
     add_indicator: 'Add indicator'
     indicators: 'Indicators'
     measurement: 'Maesurement'
-    remove_measurement: 'Remove measurement'
+    delete_measurement: 'Delete measurement'
     add_measurement: 'Add measurement'
     measurements: 'Measurements'
     main: 'Main location'
@@ -369,6 +369,7 @@ en:
     units: 'Units'
 
   relations:
+    relations: 'Relations'
     relation_category: 'Relation category'
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
@@ -377,10 +378,12 @@ en:
     actions_relations: 'Connections with Actions'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
+    add_new_relation: 'Add new relation'
     actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
     indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
+    delete: 'Delete'
 
   users:
     my_actors: 'My actors'
@@ -402,6 +405,7 @@ en:
     organization_types: 'Organization types'
     current_indicator: 'Current indicator'
     remove_action: 'Remove action'
+    remove_indicator: 'Remove indicator'
 
     units:
       units: 'Units'

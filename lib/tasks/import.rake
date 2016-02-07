@@ -129,8 +129,8 @@ namespace :import do
         ],
         merged_domains: Category.where(name: row[7].strip.titleize,
                          type: "SocioCulturalDomain") +
-                    Category.where(name: row[8] && row[8].split(",").map(&:titleize),
-                                   type: "OtherDomain")
+                        Category.where(name: row[8] && row[8].split(",").map(&:titleize),
+                          type: "OtherDomain")
       )
     end
     puts "#{ActorMicro.all.count} actors in the database"
@@ -163,7 +163,7 @@ namespace :import do
                 else
                   []
                 end
-      Actor.create(
+      Actor.create!(
         user_id: user.id,
         active: true,
         type: "Actor"+row[11].titleize,
@@ -175,13 +175,13 @@ namespace :import do
         comments: comment,
         merged_domains: Category.where(name: row[12].titleize,
                          type: "SocioCulturalDomain") +
-                    Category.where(name: row[12].titleize,
-                                   type: 'SocioCulturalDomain') +
-                    Category.where(name: row[13] && row[13].titleize,
-                                   type: 'OtherDomain') +
-                    Category.where(name: row[9],
-                                   type: 'OrganizationType') +
-                    Category.where(name: row[8].titleize,
+                        Category.where(name: row[12].titleize,
+                                       type: 'SocioCulturalDomain') +
+                        Category.where(name: row[13] && row[13].titleize,
+                                       type: 'OtherDomain'),
+        organization_types: Category.where(name: row[9],
+                                   type: 'OrganizationType'),
+        operational_fields: Category.where(name: row[8].titleize,
                                    type: 'OperationalField')
       )
     end
@@ -279,6 +279,7 @@ namespace :import do
       row[3].split(",").each do |types|
         type = RelationType.where("LOWER(title) = LOWER(?)", types.strip).first
         actor = Actor.where("UPPER(name) =  UPPER(?)", row[2].strip).first
+        next unless actor
         if row[4] == 'Action'
           action = Act.where("UPPER(name) = UPPER(?)", row[5].strip).first
           ActActorRelation.create(

@@ -4,19 +4,19 @@
       .map-preview
   .row
     .column.medium-4
-      = f.label :main, t('localizations.main'), class: 'right inline'
+      = f.label :main, t('localizations.main'), class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :main, as: :boolean, input_html: { class: 'localization_main' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :start_date, class: 'right inline'
+      = f.label :start_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,
                                   class: 'js-datepicker location_start_date', disabled: common_form?
   .row
     .column.medium-4
-      = f.label :end_date, class: 'right inline'
+      = f.label :end_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                 'data-max-date': Date.today,
@@ -25,37 +25,37 @@
 
   .row
     .column.medium-4
-      = f.label :name, class: 'right inline'
+      = f.label :name, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :name, input_html: { class: 'localization_name' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :country, class: 'right inline'
+      = f.label :country, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :country, input_html: { class: 'localization_country' }, prompt: t('localizations.select_country'), label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :city, class: 'right inline'
+      = f.label :city, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :city, input_html: { class: 'localization_city' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :zip_code, class: 'right inline'
+      = f.label :zip_code, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :zip_code, input_html: { class: 'localization_zip_code' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :lat, class: 'right inline'
+      = f.label :lat, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :lat, input_html: { class: 'localization_lat' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :long, class: 'right inline'
+      = f.label :long, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :long, input_html: { class: 'localization_long' }, label: false, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :web_url, class: 'right inline'
+      = f.label :web_url, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :web_url, input_html: { class: 'localization_web_url' }, label: false, disabled: common_form?
 
