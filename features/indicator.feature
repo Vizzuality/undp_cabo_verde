@@ -20,9 +20,9 @@ I want to manage an indicator
     And I fill in "indicator_alternative_name" with "It's name for indicator"
     And I press "Update"
     Then I should be on the indicator page for "New Indicator"
-    And the field "Name" should contain "New Indicator"
-    And the field "Alternative name" should contain "It's name for indicator"
-    And the field "Description" should contain "It's description for indicator"
+    And the disabled field "Name" should contain "New Indicator"
+    And the disabled field "Alternative name" should contain "It's name for indicator"
+    And the disabled field "Description" should contain "It's description for indicator"
 
   Scenario: Adminuser can edit not owned indicator
     Given user
@@ -33,7 +33,7 @@ I want to manage an indicator
     When I fill in "indicator_name" with "New Indicator"
     And I press "Update"
     Then I should be on the indicator page for "New Indicator"
-    And the field "Name" should contain "New Indicator"
+    And the disabled field "Name" should contain "New Indicator"
 
   Scenario: User can create indicator
     Given I am authenticated adminuser

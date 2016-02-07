@@ -32,6 +32,8 @@ module NavigationHelpers
       user_actors_path(User.find_by_email($1))
     when /the actor page for "(.*)"$/
       actor_path(Actor.find_by_name($1))
+    when /the actor macro page for "(.*)"$/
+      actor_macro_path(Actor.find_by_name($1))
     when /the edit actor page for "(.*)"$/
       edit_actor_path(Actor.find_by_name($1))
     when /the edit micro member actor page for "(.*)"$/

@@ -1,0 +1,12 @@
+.currency-label {
+  position: absolute;
+  top: 9px;
+  left: 18px;
+  @include font(helvetica, small, light, 1);
+}
+
+.currency-input {
+  > input {
+    padding-left: 24px;
+  }
+}

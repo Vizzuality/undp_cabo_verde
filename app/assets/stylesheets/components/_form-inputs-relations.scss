@@ -1,0 +1,26 @@
+.form-inputs-relations {
+    > .row:nth-of-type(1) {
+      padding-top: 10px;
+    }
+
+    // > .row:last-of-type {
+    //   padding-bottom: 20px;
+    // }
+
+    .measurement-heading {
+      text-align: left;
+      @include font('helvetica', null, light, null);
+      font-size: 22px;
+      margin-top: 20px;
+    }
+
+    //border for the expanded version, but only as wide as the .column.medium-8
+    // &:before {
+    //     content: " ";
+    //     position: absolute;
+    //     border-top: 1px solid $color-13;
+    //     width: 508px;
+    //     right: 15px;
+    //     margin-top: -1px;}
+
+}

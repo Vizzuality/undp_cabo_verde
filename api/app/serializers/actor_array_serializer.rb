@@ -4,6 +4,9 @@ class ActorArraySerializer < BaseSerializer
 
   attributes :id, :name, :level, :locations
 
+  has_many :socio_cultural_domains
+  has_many :other_domains
+
   def level
     case object.type
     when 'ActorMacro' then 'macro'

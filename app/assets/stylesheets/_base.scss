@@ -24,6 +24,11 @@ h2 {
   margin: 0;
   padding: 0;
   padding-top: 11px;
+
+  .form-actions & {
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
 }
 
 select {
@@ -65,7 +70,6 @@ textarea:focus {
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
-  margin-bottom: 16px;
   line-height: 32px;
   @include font(helvetica, null, light, null);
 
@@ -82,7 +86,9 @@ input[type="email"],
 input[type="url"],
 input[type="password"],
 .current-actor,
-.current-actor-edit {
+.current-actor-edit,
+.current-action,
+.current-action-edit {
   border-bottom: 1px solid $color-13;
 
   &:disabled, &.-disabled {
@@ -98,6 +104,12 @@ textarea:focus {
 
   &:disabled {
     background-image: none;
+  }
+}
+
+label {
+  &.disabled, &:disabled {
+    cursor: default;
   }
 }
 
@@ -129,36 +141,10 @@ a {
     color: $color-10;
   }
 
-  &.remove_fields {
+  &.remove_fields,
+  &.remove_fields_preview {
     color: $color-6;
   }
 }
 
-.hidden {
-  visibility: hidden;
-}
 
-.mini-text {
-  font-size: 0px;
-  position: absolute;
-}
-
-.form-actions  {
-  h2 {
-    margin-bottom: 20px;
-    margin-top: 40px;
-  }
-}
-
-.form-inputs .row {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-#add-relations {
-  float: left;
-}
-
-.localization_main {
-  float: left;
-}

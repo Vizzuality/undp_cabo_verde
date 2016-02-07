@@ -60,6 +60,22 @@ html lang="en"
               svg.icon.-large.-monochrome
                 use xlink:href="#actionToActionIcon" x="0" y="4"
               = t('front.action_to_action')
+        #map-slider
+          a.slider-controls.js-play-button
+            .left
+            .right
+            .triangle1
+            .triangle2
+          .slider
+            .slider-tooltip.-hidden.js-timeline-tooltip
+              | -
+            svg
+              g transform="translate(12 11)"
+                / Firefox needs the height and width being specified
+                rect.timeline.js-timeline x="0" y="0" height="3" width="260"
+                g.handle-container
+                  circle.handle r="7.5" cx="0" cy="1.5"
+
         #map-buttons
           .checkbox.-reversed.-negative
             input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
@@ -171,4 +187,5 @@ html lang="en"
           | About content
 
     script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    = Gon::Base.render_data
     = javascript_include_tag "prototype"
