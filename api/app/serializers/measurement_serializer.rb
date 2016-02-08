@@ -12,8 +12,8 @@ class MeasurementSerializer < BaseSerializer
 
   def unit
     data = {}
-    data['name']   = object.unit.name
-    data['symbol'] = object.unit.symbol
+    data['name']   = object.unit.name   if object.unit
+    data['symbol'] = object.unit.symbol if object.unit
     data
   end
 
