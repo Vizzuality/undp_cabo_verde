@@ -31,7 +31,7 @@
   .column.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('indicators.link_to_actions')
+        h2.form-title= t('relations.relations')
     .row
       = form.fields_for :act_indicator_relations do |rel_form|
         = render 'action_relation_form', f: rel_form

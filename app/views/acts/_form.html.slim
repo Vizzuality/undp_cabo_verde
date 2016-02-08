@@ -78,7 +78,7 @@
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('localizations.localizations')
+        h2.form-title= t('localizations.localizations')
 
     = form.fields_for :localizations do |localizat_form|
       = render 'localizations/form', f: localizat_form
@@ -94,7 +94,7 @@
   .columns.medium-8.medium-offset-1.actor_relations
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('relations.relations')
+        h2.form-title= t('relations.relations')
     .row
       .columns.medium-8.medium-offset-4
         ul.tabs.small-block-grid-3 data-tab="true" data-options="deep_linking: true; scroll_to_content: false;"
