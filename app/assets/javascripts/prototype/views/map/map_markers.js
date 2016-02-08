@@ -99,6 +99,44 @@
       this.trigger('click:marker', e.target);
     },
 
+    onMarkerHover: function(e) {
+      /* This method is called twice because Leaflet bings the mouseover event
+       * to the marker container and and the marker's HTML defined for the icon.
+       * We then broadcast the event only when the mouseover concerns the SVG
+       * icon. */
+      if(!e.originalEvent.relatedTarget) return;
+      if(root.app.Helper.utils.matches(e.originalEvent.relatedTarget, 'svg')) {
+        this.trigger('hover:marker', e.target);
+      }
+    },
+
+    onMarkerBlur: function(e) {
+      /* We close the popup only when the cursor leaves the marker and
+       * doesn't enter the popup */
+      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
+        '.leaflet-marker-icon') &&
+        !root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
+        '.leaflet-popup')) {
+        e.target.closePopup();
+      }
+    },
+
+    onMarkerOpen: function(marker) {
+      this.trigger('open:marker', marker);
+    },
+
+    onMarkerClose: function(marker) {
+      marker.closePopup();
+    },
+
+    onPopupBlur: function(e, marker) {
+      /* We close the popup when leaving it and not entering a marker */
+      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.toElement,
+        '.leaflet-marker-icon')) {
+        marker.closePopup();
+      }
+    },
+
     /* Only add the markers of the collections that haven't been filtered out */
     addFilteredMarkers: function() {
       var queryParams = this.router.getQueryParams();
@@ -122,7 +160,6 @@
           ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
           ' data-id="' + id + '" data-location="' + locationId + '">' +
           '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
-          '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
           '</svg>',
         className: type === 'actors' ? 'actor' : 'action',
         iconSize: L.point(22, 22),
@@ -163,6 +200,8 @@
           marker.bindPopup(popup);
 
           marker.on('click', this.onMarkerClick.bind(this));
+          marker.on('mouseover', this.onMarkerHover.bind(this));
+          marker.on('mouseout', this.onMarkerBlur.bind(this));
         }, this);
       }, this);
     },
@@ -201,19 +240,19 @@
       switch(true) {
         case mapZoom <= 9:
           spiralGap             = 1;
-          spiralInitialDistance = 0;
+          spiralInitialDistance = 5;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         case mapZoom <= 11:
           spiralGap             = 2;
-          spiralInitialDistance = 2;
+          spiralInitialDistance = 10;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         default:
           spiralGap             = 5;
-          spiralInitialDistance = 5;
+          spiralInitialDistance = 20;
           spiralAngleFactor     = Math.PI / 3;
           break;
       }
@@ -335,7 +374,7 @@
       this.$el.find('.js-actor-marker, .js-action-marker').css('transform',
         'scale(' + scale + ')');
 
-      /* We also udate the size of the position markers but as the CSS transform
+      /* We also update the size of the position markers but as the CSS transform
        * property already has a value, we add the scale to it */
       var positionMarkers = this.$el.find('.js-position-marker'),
           transform;
@@ -422,12 +461,17 @@
         this.actionModel;
 
       popup.setContent(this.popupTemplate(model.toJSON()));
-      this.$el.find('.leaflet-popup .js-more').on('click', function() {
-        this.trigger('open:marker', marker);
-      }.bind(this));
-      this.$el.find('.leaflet-popup .js-close').on('click', function() {
-        this.map.closePopup();
-      }.bind(this));
+
+      var $popup = this.$el.find('.leaflet-popup');
+
+      $popup.find('.js-more').on('click', function() {
+        this.onMarkerOpen(marker); }.bind(this));
+
+      $popup.find('.js-close').on('click', function() {
+        this.onMarkerClose(marker); }.bind(this));
+
+      $popup.on('mouseleave', function(e) {
+        this.onPopupBlur(e, marker); }.bind(this));
     },
 
     /* Remove a special class from the markers which were related (linked) to

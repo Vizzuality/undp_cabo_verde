@@ -450,3 +450,5 @@ en:
     uncheck_all: Uncheck all
     cant_apply_search_0_check: You can not apply the search if a filter hasn't any selected option
     loading: Loading
+    to_actors: "To Actors:"
+    to_actions: "To Actions:"

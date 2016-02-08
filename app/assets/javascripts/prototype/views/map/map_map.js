@@ -47,6 +47,17 @@
           console.error('Unable to render the map: ' + error);
         });
     },
+
+    /* Zoom to fit the passed markers */
+    zoomToFit: function(markers) {
+      var latLngs = _.map(markers, function(m) {
+        return m.options.originalLatLng || m.getLatLng();
+      });
+      /* We don't zoom if the markers have the same position */
+      if(_.uniq(latLngs).length > 1) {
+        this.map.fitBounds(latLngs, { padding: L.point(30, 30) });
+      }
+    }
   });
 
 })(this);

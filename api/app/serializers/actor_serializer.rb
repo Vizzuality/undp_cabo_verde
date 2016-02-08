@@ -1,6 +1,6 @@
 class ActorSerializer < BaseSerializer
   cached
-  self.version = 12
+  self.version = 8
 
   attributes :id, :level, :name, :observation, :locations
 

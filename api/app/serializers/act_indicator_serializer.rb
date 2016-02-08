@@ -1,6 +1,6 @@
 class ActIndicatorSerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :target_value, :unit
 
@@ -17,8 +17,8 @@ class ActIndicatorSerializer < BaseSerializer
 
   def unit
     data = {}
-    data['name']   = object.unit.name
-    data['symbol'] = object.unit.symbol
+    data['name']   = object.unit.name   if object.unit
+    data['symbol'] = object.unit.symbol if object.unit
     data
   end
 

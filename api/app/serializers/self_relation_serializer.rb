@@ -1,6 +1,6 @@
 class SelfRelationSerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :parent_id, :child_id
 

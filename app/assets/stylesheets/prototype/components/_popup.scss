@@ -8,8 +8,9 @@
     & > .leaflet-popup-content { margin-bottom: 5px; }
   }
 
-  .leaflet-popup-tip {
-    box-shadow: none;
+  .leaflet-popup-tip-container {
+    height: 11px;
+    & > .leaflet-popup-tip { box-shadow: none; }
   }
 
   .delimiter {
@@ -44,16 +45,16 @@
   &.-actors {
     & > .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background-color: $color-7;
+      background-color: $color-6;
     }
-    .more-button { color: $color-7; }
+    .more-button { color: $color-6; }
   }
 
   &.-actions {
     & > .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background-color: $color-6;
+      background-color: $color-7;
     }
-    .more-button { color: $color-6; }
+    .more-button { color: $color-7; }
   }
 }
