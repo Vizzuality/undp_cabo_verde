@@ -239,19 +239,19 @@
       switch(true) {
         case mapZoom <= 9:
           spiralGap             = 1;
-          spiralInitialDistance = 0;
+          spiralInitialDistance = 5;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         case mapZoom <= 11:
           spiralGap             = 2;
-          spiralInitialDistance = 2;
+          spiralInitialDistance = 10;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         default:
           spiralGap             = 5;
-          spiralInitialDistance = 10;
+          spiralInitialDistance = 20;
           spiralAngleFactor     = Math.PI / 3;
           break;
       }

@@ -95,8 +95,8 @@
         position: relative;
         top: 1px;
 
-        &.-actor  > use { fill: $color-6; }
-        &.-action > use { fill: $color-7; }
+        &.-actor  > use { color: $color-6; }
+        &.-action > use { color: $color-7; }
       }
     }
   }
