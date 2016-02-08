@@ -10,7 +10,7 @@
   transform-origin: center center;
   transition: transform .3s;
 
-  & > use { stroke-opacity: 0; }
+  & > use { stroke-opacity: 0; fill: transparent; }
 
   &.-actor  > use { color: $color-6; }
   &.-action > use { color: $color-7; }
@@ -21,5 +21,5 @@
     cursor: default;
   }
 
-  &.-active > use { stroke-opacity: 1; stroke-width: 2px; }
+  &.-active > use { stroke-opacity: 1; stroke-width: 2px; fill: $color-18; }
 }
