@@ -104,6 +104,7 @@
        * to the marker container and and the marker's HTML defined for the icon.
        * We then broadcast the event only when the mouseover concerns the SVG
        * icon. */
+      if(!e.originalEvent.relatedTarget) return;
       if(root.app.Helper.utils.matches(e.originalEvent.relatedTarget, 'svg')) {
         this.trigger('hover:marker', e.target);
       }
