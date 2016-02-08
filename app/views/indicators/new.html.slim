@@ -3,8 +3,8 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('indicators.create_indicator')
+          h2.form-title= t('shared.general_info')
+          
   = simple_form_for @indicator do |f|
     = render partial: f
 

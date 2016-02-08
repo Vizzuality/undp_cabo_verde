@@ -3,8 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('relations.create_relation_type')
+          h2.form-title= t('relations.create_relation_type')
   = simple_form_for @relation_type do |f|
     = render partial: f
 
