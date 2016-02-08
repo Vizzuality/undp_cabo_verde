@@ -120,10 +120,35 @@ var PolylineTextPath = {
           textNode.setAttribute('dx', ((pathLength / 2) - (textLength / 2)));
         }
 
-        /* NOT PART OF THE ORIGINAL LIBRARY */
+        /* ******************************** *
+         * NOT PART OF THE ORIGINAL LIBRARY *
+         * ******************************** */
         if(options.class) {
           textPath.setAttribute('class', options.class);
         }
+
+        /* If the second point of the line is inside the left half of the unit
+         * circle, then we rotate by 180° the text so it's still legible */
+        var point1 = this._map.latLngToLayerPoint(this.getLatLngs()[0]),
+            point2 = this._map.latLngToLayerPoint(this.getLatLngs()[1]),
+            rotatecenterX = (textNode.getBBox().x + textNode.getBBox().width / 2),
+          	rotatecenterY = (textNode.getBBox().y + textNode.getBBox().height / 2),
+            rotated = false;
+
+        if(point2.x <= point1.x) {
+          rotated = true;
+          textNode.setAttribute('transform',
+            'rotate(180 '  + rotatecenterX + ' ' + rotatecenterY + ')');
+        }
+
+        /* We add an arrow on the line to indicate the direction */
+        if(options.arrow) {
+          var textAndArrow = rotated ? '◄ ' + text : text + ' ►';
+          textPath.removeChild(textPath.firstChild);
+          textPath.appendChild(document.createTextNode(textAndArrow));
+        }
+
+        /* ******************************** */
 
         /* Initialize mouse events for the additional nodes */
         if (this.options.clickable) {
