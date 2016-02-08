@@ -37,17 +37,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 35,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 18,\n          \"lat\": \"20.215563081495134\",\n          \"long\": \"179.50216569500344\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 34,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 17,\n          \"lat\": \"-24.315892174083288\",\n          \"long\": \"34.84349354548348\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:05.199Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 9,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 9,\n          \"lat\": \"-9.048996082470453\",\n          \"long\": \"-14.271078571318327\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 8,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 8,\n          \"lat\": \"-27.769925181401057\",\n          \"long\": \"-92.39158437886906\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:01.723Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"a7414509107edcadaba179960ca4364a\"",
+        "ETag": "W/\"56cff5eb240410a6a042f57d27b09157\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "cc1f4bae-8f88-442e-af9e-27d98c0f3872",
-        "X-Runtime": "0.039158",
-        "Content-Length": "369"
+        "X-Request-Id": "ff241f50-cb95-4cfe-b56e-a2aac8614b8d",
+        "X-Runtime": "0.060897",
+        "Content-Length": "367"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?levels[]=micro&levels[]=meso\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
