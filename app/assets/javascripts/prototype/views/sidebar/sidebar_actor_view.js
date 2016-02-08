@@ -101,8 +101,15 @@
     },
 
     render: function() {
-      this.$el.html(this.template(_.extend(this.model.toJSON(),
-        this.status.toJSON())));
+      var relations = {
+        actors: _.union(this.model.get('actors').parents,
+          this.model.get('actors').children),
+        actions: _.union(this.model.get('actions').parents,
+          this.model.get('actions').children)
+      };
+
+      this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
+        this.status.toJSON()), { relations: relations })));
       /* We need to set again the listeners because some of them depends on the
        * elements that have just been rendered */
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');

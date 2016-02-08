@@ -1,6 +1,6 @@
 class ActActorRelationArraySerializer < BaseSerializer
   cached
-  self.version = 11
+  self.version = 8
 
   attributes :id, :name, :level, :locations, :info
 

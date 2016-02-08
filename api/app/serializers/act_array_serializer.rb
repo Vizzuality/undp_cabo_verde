@@ -1,6 +1,6 @@
 class ActArraySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :id, :name, :level
 

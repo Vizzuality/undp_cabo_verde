@@ -23,6 +23,15 @@
       this.actionModel = options.actionModel;
     },
 
+    onRelationHover: function(relation, title) {
+      relation.setText(title, { center: true, offset: -10,
+        class: 'map-text', arrow: true });
+    },
+
+    onRelationBlur: function(relation) {
+      relation.setText(null);
+    },
+
     /* Remove all the relations from the map */
     removeRelations: function() {
       if(this.map.hasLayer(this.relationsLayer)) {
@@ -30,6 +39,41 @@
       }
       this.markerWithRelations = null;
       this.relatedMarkers = null;
+    },
+
+    /* Return the relations of the passed model */
+    extractRelations: function(model) {
+      var collections = [
+        {
+          relations: model.get('actors').parents,
+          type:       'actors',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actors').children,
+          type:       'actors',
+          hierarchy:  'children'
+        },
+        {
+          relations: model.get('actions').parents,
+          type:       'actions',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actions').children,
+          type:       'actions',
+          hierarchy:  'children'
+        }
+      ];
+
+      return _.reduce(_.map(collections, function(collection) {
+        return _.each(_.clone(collection.relations), function(relation) {
+          relation.type = collection.type;
+          relation.hierarchy = collection.hierarchy;
+        });
+      }), function(memo, collection) {
+        return _.union(memo, collection);
+      }, []);
     },
 
     /* Render the relations of the marker passed as arguments with the other
@@ -40,9 +84,18 @@
       this.markerWithRelations = marker;
       this.relatedMarkers = relatedMarkers;
 
-      var options = { className: 'map-line js-line' };
-      this.relationsLayer = L.layerGroup(_.compact(_.map(relatedMarkers,
+      var line, hiddenLine;
+
+      /* We compute the relations */
+      var model = marker.options.type === 'actors' ? this.actorModel :
+        this.actionModel;
+      var relations = this.extractRelations(model);
+
+      var relation;
+      this.relationsLayer = L.layerGroup(_.compact(_.flatten(_.map(relatedMarkers,
         function(relatedMarker) {
+
+        var options = { className: 'map-line js-line' };
 
         if(relatedMarker.options.type !== marker.options.type) {
           options.dashArray = '3, 6';
@@ -52,8 +105,38 @@
           options.className += ' -hidden';
         }
 
-        return L.polyline([ markerLatLng, relatedMarker.getLatLng() ], options);
-      }, this)));
+        line = L.polyline([ markerLatLng, relatedMarker.getLatLng() ], options);
+
+        /* hiddenLine is an hidden line on top of the other, transparent, which
+         * is used to trigger the pointer events on a wider zone (its stroke is
+         * bigger and not dashed) */
+        options.className += ' -sensitive';
+        delete options.dashArray;
+        hiddenLine = L.polyline([ markerLatLng, relatedMarker.getLatLng() ],
+          options);
+
+        relation = _.findWhere(relations, {
+          type: relatedMarker.options.type,
+          id:   relatedMarker.options.id
+        });
+
+        if(relation && relation.info) {
+          hiddenLine.on('mouseover', (function(line, relation) {
+            return function() {
+              var title = relation.info[relation.hierarchy === 'parents' ?
+                'title_reverse' : 'title'];
+              this.onRelationHover(line, title);
+            };
+          })(line, relation).bind(this));
+          hiddenLine.on('mouseout', (function(line) {
+            return function() {
+              this.onRelationBlur(line);
+            };
+          })(line).bind(this));
+        }
+
+        return [ line, hiddenLine ];
+      }, this))));
 
       /* We finally add the relations to the map */
       this.relationsLayer.addTo(this.map);

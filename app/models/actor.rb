@@ -21,8 +21,8 @@ class Actor < ActiveRecord::Base
   # Categories
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
-  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
-  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
+  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category', limit: 3
+  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category', limit: 3
   has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
   # For merged domains
   has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
@@ -31,7 +31,7 @@ class Actor < ActiveRecord::Base
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
-  accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid, limit: 3
+  accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid
 
   after_create  :set_main_location,       if: 'localizations.any?'
   after_update  :set_main_location,       if: 'localizations.any?'
