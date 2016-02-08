@@ -41,6 +41,41 @@
       this.relatedMarkers = null;
     },
 
+    /* Return the relations of the passed model */
+    extractRelations: function(model) {
+      var collections = [
+        {
+          relations: model.get('actors').parents,
+          type:       'actors',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actors').children,
+          type:       'actors',
+          hierarchy:  'children'
+        },
+        {
+          relations: model.get('actions').parents,
+          type:       'actions',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actions').children,
+          type:       'actions',
+          hierarchy:  'children'
+        }
+      ];
+
+      return _.reduce(_.map(collections, function(collection) {
+        return _.each(_.clone(collection.relations), function(relation) {
+          relation.type = collection.type;
+          relation.hierarchy = collection.hierarchy;
+        });
+      }), function(memo, collection) {
+        return _.union(memo, collection);
+      }, []);
+    },
+
     /* Render the relations of the marker passed as arguments with the other
      * ones (also passed as argument) */
     renderRelations: function(marker, relatedMarkers) {
@@ -54,15 +89,7 @@
       /* We compute the relations */
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
-      var relations = _.each(_.union(model.get('actors').parents,
-        model.get('actors').children), function(relation) {
-          relation.type = 'actors';
-        });
-      relations.push(_.each(_.union(model.get('actions').parents,
-        model.get('actions').children), function(relation) {
-          relation.type = 'actions';
-        }));
-      relations = _.flatten(relations);
+      var relations = this.extractRelations(model);
 
       var relation;
       this.relationsLayer = L.layerGroup(_.compact(_.flatten(_.map(relatedMarkers,
@@ -96,7 +123,9 @@
         if(relation && relation.info) {
           hiddenLine.on('mouseover', (function(line, relation) {
             return function() {
-              this.onRelationHover(line, relation.info.title);
+              var title = relation.info[relation.hierarchy === 'parents' ?
+                'title_reverse' : 'title'];
+              this.onRelationHover(line, title);
             };
           })(line, relation).bind(this));
           hiddenLine.on('mouseout', (function(line) {
