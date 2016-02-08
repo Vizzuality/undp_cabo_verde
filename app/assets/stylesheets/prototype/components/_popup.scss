@@ -8,8 +8,9 @@
     & > .leaflet-popup-content { margin-bottom: 5px; }
   }
 
-  .leaflet-popup-tip {
-    box-shadow: none;
+  .leaflet-popup-tip-container {
+    height: 11px;
+    & > .leaflet-popup-tip { box-shadow: none; }
   }
 
   .delimiter {
