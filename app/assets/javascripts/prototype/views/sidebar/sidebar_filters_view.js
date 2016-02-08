@@ -471,16 +471,25 @@
     isApplyButtonDisabled: function() {
       var hiddenInputs = this.getAllHiddenInputs();
 
+      /* For the 3x5 and 3xX fields, the validation rule is that at least one
+       * of the set of checkboxes is checked (one of 3x5 or one of 3xX) */
+      var domainsCheckboxesCount = 0;
+
       var filterRootElem, checkedCheckboxesCount;
       for(var i = 0, j = hiddenInputs.length; i < j; i++) {
         filterRootElem = this.getFilterRootElem(hiddenInputs[i]);
         checkedCheckboxesCount =
           this.getFilterCheckedCheckboxes(filterRootElem).length;
 
-        if(checkedCheckboxesCount === 0) return true;
+        if(hiddenInputs[i].name === '3x5_ids' ||
+          hiddenInputs[i].name === '3xX_ids') {
+          domainsCheckboxesCount += checkedCheckboxesCount;
+        } else {
+          if(checkedCheckboxesCount === 0) return true;
+        }
       }
 
-      return false;
+      return domainsCheckboxesCount === 0;
     },
 
     /* Disable or enable the apply button depending if there's a filter with all
