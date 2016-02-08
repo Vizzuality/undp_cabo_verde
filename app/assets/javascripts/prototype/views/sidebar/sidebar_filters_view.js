@@ -333,9 +333,11 @@
        * account the specificity of the 3x5 and 3xX fields merged into one param
        * domains_ids in the URL */
       queryParams = _.clone(queryParams);
-      queryParams['3x5_ids'] = queryParams.domains_ids;
-      queryParams['3xX_ids'] = queryParams.domains_ids;
-      delete queryParams.domains_ids;
+      if(queryParams.domains_ids) {
+        queryParams['3x5_ids'] = queryParams.domains_ids;
+        queryParams['3xX_ids'] = queryParams.domains_ids;
+        delete queryParams.domains_ids;
+      }
 
       var input;
       _.each(queryParams, function(value, key) {
