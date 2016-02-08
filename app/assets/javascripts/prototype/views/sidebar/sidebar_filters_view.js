@@ -328,6 +328,15 @@
      * inputs */
     syncInputsWithQueryParams: function() {
       var queryParams = this.router.getQueryParams();
+
+      /* We apply some transformations to the queryParams in order to take into
+       * account the specificity of the 3x5 and 3xX fields merged into one param
+       * domains_ids in the URL */
+      queryParams = _.clone(queryParams);
+      queryParams['3x5_ids'] = queryParams.domains_ids;
+      queryParams['3xX_ids'] = queryParams.domains_ids;
+      delete queryParams.domains_ids;
+
       var input;
       _.each(queryParams, function(value, key) {
         input = this.getInputByName(key);
@@ -351,7 +360,8 @@
                 value[i] + '"]');
               if(option) {
                 option.selected = true;
-              } else if(value[i] !== '[]') {
+              } else if(value[i] !== '[]' && key !== '3x5_ids' &&
+                key !== '3xX_ids') {
                 console.warn('Unable to find the option "' + value[i] +
                   '" in the input "' + key + '"');
               }
@@ -424,12 +434,11 @@
     },
 
     /* Save the form state into the status model
-     * TODO: remove the console.warn once the form features are all implemented
      */
     applyFilters: function() {
       var inputs = this.getAllInputs();
 
-      var field, value, summary = {};
+      var field, value, summary = {}, domains_ids = [];
       for(var i = 0, j = inputs.length; i < j; i++) {
         field = inputs[i];
 
@@ -437,14 +446,24 @@
          * selected option */
         if(root.app.Helper.utils.matches(field, 'select')) {
           var selectedOptions = field.selectedOptions;
-          summary[field.name] = [];
-          for(var k = 0, l = selectedOptions.length; k < l; k++) {
-             summary[field.name].push(field.options[selectedOptions[k].index].value);
+
+          if(field.name === '3x5_ids' || field.name === '3xX_ids') {
+            for(var k = 0, l = selectedOptions.length; k < l; k++) {
+               domains_ids.push(field.options[selectedOptions[k].index].value);
+            }
+          } else {
+            summary[field.name] = [];
+            for(var k = 0, l = selectedOptions.length; k < l; k++) {
+               summary[field.name].push(field.options[selectedOptions[k].index].value);
+            }
           }
         } else {
           summary[field.name] = field.value;
         }
       }
+
+      if(domains_ids.length > 0) summary.domains_ids = domains_ids;
+
       this.router.setQueryParams(summary);
     },
 

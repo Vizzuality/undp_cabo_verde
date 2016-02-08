@@ -2,7 +2,8 @@ class PrototypeController < ApplicationController
   layout 'prototype'
 
   def index
-    @domains    = Category.where(type: ['SocioCulturalDomain', 'OtherDomain']).order(:name)
+    @socio_cultural_domains = Category.where(type: ['SocioCulturalDomain']).order(:name)
+    @other_domains = Category.where(type: ['OtherDomain']).order(:name)
     @start_date = min_start_date
     @end_date   = max_end_date
     gon.min_date = @start_date
