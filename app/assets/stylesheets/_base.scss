@@ -59,8 +59,6 @@ input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="password"],
-.current-actor,
-.current-actor-edit,
 textarea,
 textarea:focus {
   border: none;
@@ -84,11 +82,7 @@ textarea { min-height: 150px; }
 input[type="text"],
 input[type="email"],
 input[type="url"],
-input[type="password"],
-.current-actor,
-.current-actor-edit,
-.current-action,
-.current-action-edit {
+input[type="password"] {
   border-bottom: 1px solid $color-13;
 
   &:disabled, &.-disabled {
@@ -113,7 +107,12 @@ label {
   }
 }
 
-.current-actor, .current-actor-edit, .current-action, .current-action-edit {
+.current-actor,
+.current-actor-edit,
+.current-action,
+.current-action-edit,
+.current-indicator,
+.current-indicator-edit {
   padding-left: 8px;
   border: none;
   box-shadow: none;
@@ -130,8 +129,8 @@ label {
   &.-disabled {
     color: $color-16;
     background-color: $color-1;
+    border: none;
   }
-
 }
 
 a {
