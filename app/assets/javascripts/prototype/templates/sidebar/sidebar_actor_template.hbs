@@ -40,7 +40,17 @@
     <ul class="visual-list -standard">
       {{#each relations.actors}}
         <li class="item">
-          <svg class="icon -actor"><use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use></svg>
+          <svg class="icon -actor">
+            {{#compare level  "===" "macro"}}
+              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
+            {{else}}
+              {{#compare level  "===" "meso"}}
+                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+              {{else}}
+                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+              {{/compare}}
+            {{/compare}}
+          </svg>
           {{name}}
         </li>
       {{/each}}
@@ -54,7 +64,17 @@
     <ul class="visual-list -standard">
       {{#each relations.actions}}
         <li class="item">
-          <svg class="icon -action"><use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use></svg>
+          <svg class="icon -action">
+            {{#compare level  "===" "macro"}}
+              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
+            {{else}}
+              {{#compare level  "===" "meso"}}
+                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+              {{else}}
+                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+              {{/compare}}
+            {{/compare}}
+          </svg>
           {{name}}
         </li>
       {{/each}}

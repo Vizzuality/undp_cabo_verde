@@ -104,6 +104,7 @@
        * to the marker container and and the marker's HTML defined for the icon.
        * We then broadcast the event only when the mouseover concerns the SVG
        * icon. */
+      if(!e.originalEvent.relatedTarget) return;
       if(root.app.Helper.utils.matches(e.originalEvent.relatedTarget, 'svg')) {
         this.trigger('hover:marker', e.target);
       }
@@ -159,7 +160,6 @@
           ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
           ' data-id="' + id + '" data-location="' + locationId + '">' +
           '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
-          '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
           '</svg>',
         className: type === 'actors' ? 'actor' : 'action',
         iconSize: L.point(22, 22),
@@ -240,19 +240,19 @@
       switch(true) {
         case mapZoom <= 9:
           spiralGap             = 1;
-          spiralInitialDistance = 0;
+          spiralInitialDistance = 5;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         case mapZoom <= 11:
           spiralGap             = 2;
-          spiralInitialDistance = 2;
+          spiralInitialDistance = 10;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         default:
           spiralGap             = 5;
-          spiralInitialDistance = 10;
+          spiralInitialDistance = 20;
           spiralAngleFactor     = Math.PI / 3;
           break;
       }
