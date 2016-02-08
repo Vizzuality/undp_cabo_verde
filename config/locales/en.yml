@@ -406,6 +406,8 @@ en:
     current_indicator: 'Current indicator'
     remove_action: 'Remove action'
     remove_indicator: 'Remove indicator'
+    link_to_actions: 'Link to Actions'
+    act: 'Action'
 
     units:
       units: 'Units'
