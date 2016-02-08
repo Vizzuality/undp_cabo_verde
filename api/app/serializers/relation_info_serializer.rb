@@ -1,6 +1,6 @@
 class RelationInfoSerializer < BaseSerializer
   cached
-  self.version = 12
+  self.version = 8
 
   attributes :start_date, :end_date
 

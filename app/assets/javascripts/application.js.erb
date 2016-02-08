@@ -4,6 +4,7 @@
 //= require chosen-jquery
 //= require leaflet
 //= require forms
+//= require foundation
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
@@ -101,8 +102,21 @@ var createPreviewMap = function(container) {
 
 /* Add a marker to a map at the given coordinates and return it */
 var dropMarkerOn = function(map, lat, lng) {
-  var marker = L.marker(L.latLng(lat, lng));
-  marker.addTo(map);
+  var LeafletIcon = L.Icon.extend({
+    options: {
+      iconUrl: "<%= image_path('marker-icon.png') %>",
+      iconRetinaUrl: "<%= image_path('marker-icon-2x.png') %>",
+      iconSize: [25, 41],
+      iconAnchor: [14, 40],
+      shadowUrl: "<%= image_path('marker-shadow.png') %>",
+      shadowSize: [41, 41],
+      shadowAnchor: [14, 40]
+    }
+  });
+
+  var leafletIcon = new LeafletIcon();
+
+  var marker = L.marker(L.latLng(lat, lng), {icon: leafletIcon}).addTo(map);
   return marker;
 };
 
@@ -286,4 +300,5 @@ function onReady() {
   }
 }
 
+$(document).foundation();
 document.addEventListener('DOMContentLoaded', onReady);

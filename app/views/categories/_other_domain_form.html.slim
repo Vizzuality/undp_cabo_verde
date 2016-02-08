@@ -1,7 +1,7 @@
 .form-inputs.form-inputs-other-domains
   .row
     .column.medium-4
-      = f.label :name, t('categories.name') + '*', class: 'right inline'
+      = f.label :name, t('categories.name') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :name, label: false, input_html: { class: 'name' }, disabled: common_form?
   - unless common_form?

@@ -43,7 +43,7 @@ class ActorsController < ApplicationController
   def create
     @actor = @user.actors.build(actor_params)
     if @actor.save
-      redirect_to @actor
+      redirect_to actor_path(@actor)
     else
       render :new
     end
@@ -120,11 +120,9 @@ class ActorsController < ApplicationController
       # @socio_cultural_domains = SocioCulturalDomain.order(:name)
       # @other_domains          = OtherDomain.order(:name)
       @merged_domains         = Category.domain_categories.order(:name)
-
       @operational_fields     = OperationalField.order(:name)
       @parents_to_select      = Actor.order(:name).filter_actives
       @actions_to_select      = Act.order(:name).filter_actives
-      @actor_relation_children_types = RelationType.order(:title).includes_actor_relations.collect { |rt| [ rt.title_reverse, rt.id ] }
     end
 
     def set_micro_selection

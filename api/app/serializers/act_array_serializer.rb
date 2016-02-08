@@ -1,10 +1,13 @@
 class ActArraySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :id, :name, :level
 
   has_many :localizations, key: :locations
+
+  has_many :socio_cultural_domains
+  has_many :other_domains
 
   def level
     case object.type

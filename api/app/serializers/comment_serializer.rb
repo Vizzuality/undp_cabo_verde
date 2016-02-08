@@ -1,6 +1,6 @@
 class CommentSerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :body, :date, :commentable_type, :commentable_id
 

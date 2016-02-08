@@ -1,6 +1,6 @@
 class UserSerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :firstname, :lastname, :institution
 

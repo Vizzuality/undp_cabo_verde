@@ -7,11 +7,11 @@ Then /^I should have one actor$/ do
 end
 
 Then /^I should have one actor meso$/ do
-  ActorMeso.all.size.should >= 1
+  expect(ActorMeso.all.size).to be >= 1
 end
 
 Then /^I should have two actors$/ do
-  Actor.all.size.should >= 2
+  expect(Actor.all.size).to be >= 2
 end
 
 Given /^actor$/ do
@@ -31,7 +31,7 @@ end
 Given /^actor with action relations$/ do
   @user = FactoryGirl.create(:user)
   @act  = FactoryGirl.create(:act_macro, user_id: @user.id)
-  FactoryGirl.create(:actor_micro, name: 'Person one with relation', user: @user, acts: [@act])
+  FactoryGirl.create(:actor_meso, name: 'Person one with relation', user: @user, acts: [@act])
 end
 
 Given /^department$/ do

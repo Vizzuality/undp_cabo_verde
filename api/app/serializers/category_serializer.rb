@@ -1,6 +1,6 @@
 class CategorySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 8
 
   attributes :id, :name, :type, :icon_identifier
 

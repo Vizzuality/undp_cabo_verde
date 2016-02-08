@@ -1,8 +1,11 @@
 class ActorArraySerializer < BaseSerializer
   cached
-  self.version = 11
+  self.version = 8
 
   attributes :id, :name, :level, :locations
+
+  has_many :socio_cultural_domains
+  has_many :other_domains
 
   def level
     case object.type
@@ -22,6 +25,11 @@ class ActorArraySerializer < BaseSerializer
         LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     end
+  end
+
+  def include_associations!
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
   end
 
   def cache_key

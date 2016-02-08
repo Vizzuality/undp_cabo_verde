@@ -41,7 +41,7 @@ class ActsController < ApplicationController
   def create
     @act = @user.acts.build(act_params)
     if @act.save
-      redirect_to @act
+      redirect_to act_path(@act)
     else
       render :new
     end
@@ -116,7 +116,6 @@ class ActsController < ApplicationController
       # @socio_cultural_domains = SocioCulturalDomain.order(:name)
       # @other_domains          = OtherDomain.order(:name)
       @merged_domains         = Category.domain_categories.order(:name)
-
       @parents_to_select      = Act.order(:name).filter_actives
       @actors_to_select       = Actor.order(:name).filter_actives
       @indicators_to_select   = Indicator.order(:name).filter_actives
