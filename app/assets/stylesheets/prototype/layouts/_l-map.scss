@@ -56,8 +56,8 @@
             margin-right: 10px;
           }
 
-          &.-actor  > use { fill: $color-7; }
-          &.-action > use { fill: $color-6; }
+          &.-actor  > use { color: $color-6; }
+          &.-action > use { color: $color-7; }
           &.-monochrome > use { fill: $color-15; }
         }
 

@@ -10,10 +10,10 @@
   transform-origin: center center;
   transition: transform .3s;
 
-  &.-actor  > use:first-of-type { fill: $color-7; }
-  &.-actor  > use:last-of-type { fill: transparent; }
-  &.-action > use:first-of-type { fill: $color-6; }
-  &.-action > use:last-of-type { fill: transparent; }
+  & > use { stroke-opacity: 0; }
+
+  &.-actor  > use { color: $color-6; }
+  &.-action > use { color: $color-7; }
 
   &.-secondary {
     background-color: $color-1;
@@ -21,5 +21,5 @@
     cursor: default;
   }
 
-  &.-active > use:last-of-type { stroke: $color-1; stroke-width: 2px; }
+  &.-active > use { stroke-opacity: 1; stroke-width: 2px; }
 }

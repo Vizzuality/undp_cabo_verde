@@ -159,7 +159,6 @@
           ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
           ' data-id="' + id + '" data-location="' + locationId + '">' +
           '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
-          '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
           '</svg>',
         className: type === 'actors' ? 'actor' : 'action',
         iconSize: L.point(22, 22),
