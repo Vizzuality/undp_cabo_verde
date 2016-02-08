@@ -23,6 +23,19 @@ jQuery ->
     event.preventDefault()
     showDatepicker()
 
+  $(document).on 'click', '.add_act_relation_fields', (event) ->
+    time = new Date().getTime()
+    regexp = new RegExp($(this).data('id'), 'g')
+    $(this).before($(this).data('fields').replace(regexp, time))
+    event.preventDefault()
+    current_indicator = $('.current-indicator-wrapper .current-indicator')
+    value = $('#indicator_name').val()
+    current_indicator.text value
+    $('#indicator_name').on 'keyup', (e)->
+      current_indicator.text e.currentTarget.value
+      return
+    showDatepicker()
+
   $(document).on 'click', '.add_location', (event) ->
     $siblings = $(event.currentTarget).siblings('.form-inputs')
     map = $($siblings[$siblings.length - 1]).find('.map-preview')[0]

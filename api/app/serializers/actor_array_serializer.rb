@@ -27,6 +27,11 @@ class ActorArraySerializer < BaseSerializer
     end
   end
 
+  def include_associations!
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
+  end
+
   def cache_key
     cache_params = @options[:search_filter] if @options[:search_filter].present?
     self.class.cache_key << [object, object.updated_at, cache_params]
