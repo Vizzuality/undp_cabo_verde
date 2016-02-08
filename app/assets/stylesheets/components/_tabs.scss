@@ -65,4 +65,10 @@
     height: 48px;
     border-bottom: 1px solid $color-13;
   }
+
+  &.-singular {
+    &:after {
+      border: none;
+    }
+  }
 }
