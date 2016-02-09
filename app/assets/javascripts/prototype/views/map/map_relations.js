@@ -4,6 +4,7 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.Helper = root.app.Helper || {};
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
@@ -120,7 +121,36 @@
           id:   relatedMarker.options.id
         });
 
-        if(relation && relation.info) {
+        if(!relation) {
+          console.warn('Unable to find the information about the relations of' +
+            ' /'+ relatedMarker.options.type + '/' + relatedMarker.options.id);
+          return false;
+        }
+
+        /* In case the user filtered the dates in the search form, we make sure
+         * to display only the relations that exist in the range */
+        var queryParams = this.router.getQueryParams();
+        if(relation.info && (queryParams.start_date || queryParams.end_date)) {
+          if(relation.info.start_date &&
+            !root.app.Helper.utils.isDateBetween(relation.info.start_date, queryParams.start_date, queryParams.end_date) ||
+            relation.info.end_date &&
+            !root.app.Helper.utils.isDateBetween(relation.info.end_date, queryParams.start_date, queryParams.end_date)) {
+            return false;
+          }
+        }
+
+        /* In case we're filtering a specific date with the timeline, we want
+         * to check if the relation can be displayed */
+        if(this.lastFilterDate && relation.info) {
+          if(relation.info.start_date &&
+            this.lastFilterDate < (new Date(relation.info.start_date)).getTime() ||
+            relation.info.end_date &&
+            this.lastFilterDate > (new Date(relation.info.end_date)).getTime()) {
+            return false;
+          }
+        }
+
+        if(relation.info) {
           hiddenLine.on('mouseover', (function(line, relation) {
             return function() {
               var title = relation.info[relation.hierarchy === 'parents' ?
@@ -151,6 +181,15 @@
         this.renderRelations(this.markerWithRelations, this.relatedMarkers);
       }
     },
+
+    /* Save the filtering options passed as paramters */
+    setFiltering: function(options) {
+      if(_.isEmpty(options)) {
+        this.lastFilterDate = null;
+      } else if(options.date) {
+        this.lastFilterDate = options.date;
+      }
+    }
 
   });
 
