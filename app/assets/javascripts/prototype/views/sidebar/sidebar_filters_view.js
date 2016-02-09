@@ -6,6 +6,7 @@
   root.app.View = root.app.View || {};
   root.app.Mixin = root.app.Mixin || {};
   root.app.Helper = root.app.Helper || {};
+  root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
     defaults: { isHidden: false }
@@ -21,7 +22,11 @@
       'change .toggle-button': 'onExpandFilter',
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
       'click .js-uncheck-all': 'onClickUncheckAll',
-      'click .js-check-all': 'onClickCheckAll'
+      'click .js-check-all': 'onClickCheckAll',
+      'mouseenter .js-3x5': 'on3x5Hover',
+      'mouseleave .js-3x5': 'on3x5Blur',
+      'mouseenter .js-3xX': 'on3xXHover',
+      'mouseleave .js-3xX': 'on3xXBlur'
     },
 
     initialize: function(options) {
@@ -225,6 +230,28 @@
 
     onClickGoBack: function() {
       this.show();
+    },
+
+    on3x5Hover: function(e) {
+      root.app.pubsub.trigger('filter:sidebarFilters', {
+        category: 'socio_cultural_domains',
+        categoryId: parseInt(e.currentTarget.getAttribute('data-id'))
+      });
+    },
+
+    on3x5Blur: function() {
+      root.app.pubsub.trigger('filter:sidebarFilters', { category: null });
+    },
+
+    on3xXHover: function(e) {
+      root.app.pubsub.trigger('filter:sidebarFilters', {
+        category: 'other_domains',
+        categoryId: parseInt(e.currentTarget.getAttribute('data-id'))
+      });
+    },
+
+    on3xXBlur: function() {
+      this.on3x5Blur();
     },
 
     /* LOGIC */

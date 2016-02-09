@@ -79,6 +79,8 @@
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
         this.onSidebarVisibilityChange);
       this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
+      this.listenTo(root.app.pubsub, 'filter:sidebarFilters',
+        this.onSidebarFiltersChange);
     },
 
     onMapRender: function(map) {
@@ -294,6 +296,10 @@
 
       this.mapMarkersView.filterMarkers(options);
       this.mapRelationsView.setFiltering(options);
+    },
+
+    onSidebarFiltersChange: function(options) {
+      this.mapMarkersView.filterMarkers(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a
