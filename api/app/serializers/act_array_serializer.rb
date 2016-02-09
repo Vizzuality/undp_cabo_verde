@@ -25,7 +25,9 @@ class ActArraySerializer < BaseSerializer
   end
 
   def include_associations!
-    include! :localizations, serializer: LocalizationArraySerializer
+    include! :localizations,          serializer: LocalizationArraySerializer
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
   end
 
   def cache_key
