@@ -59,6 +59,7 @@
       this.listenTo(this.mapMapView, 'click:map', this.onMapClick);
       this.listenTo(this.mapMapView, 'zoom:map', this.onMapZoom);
 
+      this.listenTo(this.mapMarkersView, 'hover:marker', this.onMarkerHover);
       this.listenTo(this.mapMarkersView, 'click:marker', this.onMarkerClick);
       this.listenTo(this.mapMarkersView, 'open:marker', this.onMarkerOpen);
 
@@ -90,7 +91,7 @@
         .then(function() {
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
-          this.restoreOpenedMarkerState();
+          this.restoreOpenedMarkerState({ zoomToFit: true });
         }.bind(this));
     },
 
@@ -108,7 +109,6 @@
     },
 
     onMapZoom: function() {
-      this.map.closePopup();
       this.mapMarkersView.updateMarkersSize();
       this.mapMarkersView.computeMarkersOptimalPosition();
       this.mapRelationsView.removeRelations();
@@ -168,28 +168,45 @@
 
       this.mapLegendView.updateLegendRelations(marker);
 
+      marker.closePopup();
+
       this.fetchModel(marker.options.type, marker.options.id)
         .then(function() {
-          this.mapMarkersView.renderPopup(marker);
+          this.router.navigate([
+            '/' + marker.options.type,
+            marker.options.id,
+            marker.options.locationId
+          ].join('/'), { trigger: true });
+
+          root.app.pubsub.trigger('show:' + marker.options.type.slice(0, -1), {
+            id: marker.options.id,
+            locationId: marker.options.locationId
+          });
+
           var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(marker);
           this.mapMarkersView.highlightRelatedMarkers(relatedMarkers);
           this.mapRelationsView.renderRelations(marker, relatedMarkers);
+          /* We zoom to fit the all the concerned markers */
+          var markersToFit = relatedMarkers;
+          if(markersToFit.length > 0) {
+            markersToFit = relatedMarkers.slice(0);
+            markersToFit.push(marker);
+          }
+          this.mapMapView.zoomToFit(markersToFit);
+        }.bind(this));
+    },
+
+    onMarkerHover: function(marker) {
+      marker.openPopup();
+
+      this.fetchModel(marker.options.type, marker.options.id)
+        .then(function() {
+          this.mapMarkersView.renderPopup(marker);
         }.bind(this));
     },
 
     onMarkerOpen: function(marker) {
-      this.router.navigate([
-        '/' + marker.options.type,
-        marker.options.id,
-        marker.options.locationId
-      ].join('/'), { trigger: true });
-
-      root.app.pubsub.trigger('show:' + marker.options.type.slice(0, -1), {
-        id: marker.options.id,
-        locationId: marker.options.locationId
-      });
-
-      this.map.closePopup(marker.getPopup());
+      this.onMarkerClick(marker);
     },
 
     /* Trigger an event through the pubsub object to inform about the new state
@@ -290,7 +307,8 @@
         queryParams.levels && queryParams.levels.length === 0 ||
         queryParams.domains_ids && queryParams.domains_ids.length === 0) {
         console.error('A required parameter hasn\'t been provided');
-        return;
+        var deferred = $.Deferred();
+        return deferred.reject();
       }
 
       var params = {};
@@ -372,8 +390,11 @@
 
     /* If the information of a marker is available in the sidebar, highlight
      * its markers, its related markers and display the relations betweeen them
+     * The following options can be passed to the method:
+     *  * zoomToFit: fit the related markers inside the view
      */
-    restoreOpenedMarkerState: function() {
+    restoreOpenedMarkerState: function(options) {
+      options = options || {};
       var route = this.router.getCurrentRoute();
 
       if(route.name === 'actions' || route.name === 'actors') {
@@ -397,6 +418,16 @@
                 this.mapMarkersView.highlightRelatedMarkers(relatedMarkers);
                 this.mapRelationsView.renderRelations(openedMarker,
                   relatedMarkers);
+
+                if(options.zoomToFit) {
+                  /* We zoom to fit the all the concerned markers */
+                  var markersToFit = relatedMarkers;
+                  if(markersToFit.length > 0) {
+                    markersToFit = relatedMarkers.slice(0);
+                    markersToFit.push(openedMarker);
+                  }
+                  this.mapMapView.zoomToFit(markersToFit);
+                }
               } else {
                 console.warn('Unable to find the Leaflet marker corresponding' +
                   ' to the URL');

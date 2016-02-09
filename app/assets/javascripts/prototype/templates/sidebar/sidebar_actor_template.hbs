@@ -1,7 +1,7 @@
 <div class="content">
   <h1 class="title">{{name}}</h1>
-  <h2 class="title -secondary">{{{t 'front.socio_cultural_domains'}}}</h2>
   {{#if socio_cultural_domains}}
+    <h2 class="title -secondary">{{{t 'front.3x5'}}}</h2>
     <ul class="visual-list">
       {{#each socio_cultural_domains}}
         <li class="item" title="{{name}}">
@@ -17,8 +17,8 @@
       {{/each}}
     </ul>
   {{/if}}
-  <h2 class="title -secondary">{{{t 'front.other_domains'}}}</h2>
   {{#if other_domains}}
+    <h2 class="title -secondary">{{{t 'front.3xX'}}}</h2>
     <ul class="visual-list">
       {{#each other_domains}}
         <li class="item" title="{{name}}">
@@ -35,6 +35,52 @@
     </ul>
   {{/if}}
   <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
+  {{#if relations.actors}}
+    {{{t 'front.to_actors'}}}
+    <ul class="visual-list -standard">
+      {{#each relations.actors}}
+        <li class="item">
+          <svg class="icon -actor">
+            {{#compare level  "===" "macro"}}
+              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
+            {{else}}
+              {{#compare level  "===" "meso"}}
+                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+              {{else}}
+                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+              {{/compare}}
+            {{/compare}}
+          </svg>
+          {{name}}
+        </li>
+      {{/each}}
+    </ul>
+    {{#if relations.actions}}
+    <br/>
+    {{/if}}
+  {{/if}}
+  {{#if relations.actions}}
+    {{{t 'front.to_actions'}}}
+    <ul class="visual-list -standard">
+      {{#each relations.actions}}
+        <li class="item">
+          <svg class="icon -action">
+            {{#compare level  "===" "macro"}}
+              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
+            {{else}}
+              {{#compare level  "===" "meso"}}
+                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+              {{else}}
+                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+              {{/compare}}
+            {{/compare}}
+          </svg>
+          {{name}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <br/>
   <div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" {{#if toggleRelationshipsActive}}checked="checked"{{/if}} /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
 </div>
 <div class="content -secondary">

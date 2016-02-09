@@ -19,14 +19,40 @@
       var res = null;
       var currentElement = el;
       while(currentElement !== document) {
-        currentElement = currentElement.parentNode;
         if(this.matches(currentElement, selector)) {
           res = currentElement;
           break;
         }
+        currentElement = currentElement.parentNode;
       }
       return res;
-    }
+    },
+
+    /* Return true if the cursor hovers the element passed as argument
+     * NOTE: take into account the cursor's position and not if the element is
+     * actually hovering the element (the element could be hidden by another
+     * one) */
+    cursorHovers: (function() {
+      /* Internal variable to save the cursor position */
+      var cursorPosition = { x: null, y: null };
+
+      document.body.addEventListener('mousemove', function(e) {
+        cursorPosition = {
+          x: e.clientX,
+          y: e.clientY
+        };
+      });
+
+      return function(el) {
+        var cursorX = cursorPosition.x,
+            cursorY = cursorPosition.y,
+            elInfo  = el.getBoundingClientRect();
+
+        return cursorX >= elInfo.left &&
+          cursorX <= elInfo.left + elInfo.width && cursorY >= elInfo.top &&
+          cursorY <= elInfo.top + elInfo.height;
+      };
+    })()
 
   };
 
