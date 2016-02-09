@@ -41,9 +41,11 @@ class Actor < ActiveRecord::Base
 
   validates :type, presence: true
   validates :name, presence: true
-  validates :socio_cultural_domain_ids, presence: true
+  validates :socio_cultural_domain_ids, presence: true, unless: -> (actor) { actor.other_domain_ids.present?          }
+  validates :other_domain_ids,          presence: true, unless: -> (actor) { actor.socio_cultural_domain_ids.present? }
 
-  validates_length_of :socio_cultural_domains, minimum: 1, maximum: 3
+  validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
+  validates_length_of :other_domains,          minimum: 0, maximum: 3
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').

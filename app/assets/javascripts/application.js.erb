@@ -88,16 +88,21 @@ var showMultiselect = function() {
 
   multiselects.chosen();
 
-  if (scDomainsValuesLength == 2) {
+  if (scDomainsValuesLength == 3) {
+    multiselects_o_domains.attr('disabled', true);
+    multiselects_o_domains.chosen({});
+  } else if (scDomainsValuesLength == 2) {
     multiselects_o_domains.chosen({ max_selected_options: 1 });
   } else if (scDomainsValuesLength == 1) {
     multiselects_o_domains.chosen({ max_selected_options: 2 });
   } else {
-    multiselects_o_domains.attr('disabled', true);
-    multiselects_o_domains.chosen({});
+    multiselects_o_domains.chosen({ max_selected_options: 3 });
   }
 
-  if (odDomainsValuesLength == 2) {
+  if (odDomainsValuesLength == 3) {
+    multiselects_sc_domains.attr('disabled', true);
+    multiselects_sc_domains.chosen({});
+  } else if (odDomainsValuesLength == 2) {
     multiselects_sc_domains.chosen({ max_selected_options: 1 });
   } else if (odDomainsValuesLength == 1) {
     multiselects_sc_domains.chosen({ max_selected_options: 2 });
@@ -354,19 +359,26 @@ var showHideDomainLink = function() {
       } else if (targetVal && targetVal.length == 1) {
         multiselects_o_domains.attr('disabled', false);
         multiselects_o_domains.chosen('destroy').chosen({ max_selected_options: 2 });
-      } else if (targetVal && targetVal.length == 0) {
-        multiselects_o_domains.attr('disabled', true);
-        multiselects_o_domains.chosen('destroy').chosen({})
       } else if (targetVal && targetVal.length == 3) {
         multiselects_o_domains.attr('disabled', true);
         multiselects_o_domains.chosen('destroy').chosen({})
+      } else {
+        multiselects_o_domains.attr('disabled', false);
+        multiselects_o_domains.chosen('destroy').chosen({ max_selected_options: 3 });
       }
+
     } else if ($(event.currentTarget).hasClass('o-domains-chose')) {
       if (targetVal && targetVal.length == 2) {
+        multiselects_sc_domains.attr('disabled', false);
         multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 1 });
       } else if (targetVal && targetVal.length == 1) {
+        multiselects_sc_domains.attr('disabled', false);
         multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 2 });
+      } else if (targetVal && targetVal.length == 3) {
+        multiselects_sc_domains.attr('disabled', true);
+        multiselects_sc_domains.chosen('destroy').chosen({})
       } else {
+        multiselects_sc_domains.attr('disabled', false);
         multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 3 });
       }
     }

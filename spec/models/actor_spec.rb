@@ -62,7 +62,7 @@ RSpec.describe Actor, type: :model do
       @person_reject = build(:actor_micro, socio_cultural_domains: [], user_id: @user.id)
 
       @person_reject.valid?
-      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank, Socio cultural domains is too short (minimum is 1 character)")
+      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank, Other domain ids can't be blank")
     end
 
     it 'actor domain validation max 3 domains' do
