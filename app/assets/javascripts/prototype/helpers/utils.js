@@ -18,7 +18,7 @@
     getClosestParent: function(el, selector) {
       var res = null;
       var currentElement = el;
-      while(currentElement !== document) {
+      while(currentElement !== document && currentElement !== null) {
         if(this.matches(currentElement, selector)) {
           res = currentElement;
           break;

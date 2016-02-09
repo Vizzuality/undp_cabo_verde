@@ -131,7 +131,7 @@
 
     onPopupBlur: function(e, marker) {
       /* We close the popup when leaving it and not entering a marker */
-      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.toElement,
+      if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
         '.leaflet-marker-icon')) {
         marker.closePopup();
       }
