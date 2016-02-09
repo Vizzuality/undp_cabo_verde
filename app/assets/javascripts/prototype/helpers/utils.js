@@ -18,7 +18,7 @@
     getClosestParent: function(el, selector) {
       var res = null;
       var currentElement = el;
-      while(currentElement !== document) {
+      while(currentElement !== document && currentElement !== null) {
         if(this.matches(currentElement, selector)) {
           res = currentElement;
           break;
@@ -52,7 +52,37 @@
           cursorX <= elInfo.left + elInfo.width && cursorY >= elInfo.top &&
           cursorY <= elInfo.top + elInfo.height;
       };
-    })()
+    })(),
+
+    /* Return true if the date is between startDate and endDate. In case
+     * startDate is omitted, return true if date is before endDate. In case
+     * endDate is omitted, return true if date is after startDate.
+     * The params must be a string parseable by the Date object, a Date object
+     * or a timestamp. */
+    isDateBetween: function(date, startDate, endDate) {
+      /* We parse the date param */
+      if(typeof date === 'string') {
+        date = (new Date(date)).getTime();
+      } else if(_.isDate(date)) {
+        date = date.getTime();
+      }
+      /* We parse the startDate param */
+      if(typeof startDate === 'string') {
+        startDate = (new Date(startDate)).getTime();
+      } else if(_.isDate(startDate)) {
+        startDate = startDate.getTime();
+      }
+      /* We parse the endDate param */
+      if(typeof endDate === 'string') {
+        endDate = (new Date(endDate)).getTime();
+      } else if(_.isDate(endDate)) {
+        endDate = endDate.getTime();
+      }
+
+      return startDate && endDate && date >= startDate && date <= endDate ||
+        startDate && !endDate && date >= startDate ||
+        !startDate && endDate && date <= endDate;
+    }
 
   };
 

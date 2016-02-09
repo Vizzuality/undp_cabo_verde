@@ -131,7 +131,7 @@
 
     onPopupBlur: function(e, marker) {
       /* We close the popup when leaving it and not entering a marker */
-      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.toElement,
+      if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
         '.leaflet-marker-icon')) {
         marker.closePopup();
       }
@@ -173,17 +173,45 @@
      * "actions")
      * NOTE: it shouldn't be called outside of addMarkers */
     _addEntityMarkers: function(collection, type) {
-      var marker, popup;
+      var marker, markerOptions, popup;
       _.each(collection, function(entity) {
         _.each(entity.locations, function(location) {
 
-          marker = L.marker([location.lat, location.long], {
+          markerOptions = {
             icon: this._generateMarkerIcon(type, entity.level, entity.id,
               location.id),
             type: type,
             id: entity.id,
             locationId: location.id
-          });
+          };
+
+          /* We add to each marker their start and end dates */
+          if(location.start_date) {
+            markerOptions.startDate = location.start_date;
+          }
+          if(location.end_date) {
+            markerOptions.endDate = location.end_date;
+          }
+
+          /* For actions, we can have global start and end dates defined, we
+           * then make sure to use them when the specific location don't provide
+           * them or when the global date range isn't repected */
+          if(type === 'actions' && entity.start_date) {
+            if(!location.start_date ||
+              (new Date(location.start_date)).getTime() < (new Date(entity.start_date)).getTime()) {
+              markerOptions.startDate = entity.start_date;
+            }
+          }
+          if(type === 'actions' && entity.end_date) {
+            if(!location.end_date ||
+              (new Date(location.end_date)).getTime() > (new Date(entity.end_date)).getTime()) {
+              markerOptions.endDate = entity.end_date;
+            }
+          }
+
+
+
+          marker = L.marker([location.lat, location.long], markerOptions);
 
           this.markersLayer.addLayer(marker);
 
@@ -412,11 +440,51 @@
       }
     },
 
+    /* Return the relations of the passed model */
+    extractRelations: function(model) {
+      var collections = [
+        {
+          relations: model.get('actors').parents,
+          type:       'actors',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actors').children,
+          type:       'actors',
+          hierarchy:  'children'
+        },
+        {
+          relations: model.get('actions').parents,
+          type:       'actions',
+          hierarchy:  'parents'
+        },
+        {
+          relations: model.get('actions').children,
+          type:       'actions',
+          hierarchy:  'children'
+        }
+      ];
+
+      return _.reduce(_.map(collections, function(collection) {
+        return _.each(_.clone(collection.relations), function(relation) {
+          relation.type = collection.type;
+          relation.hierarchy = collection.hierarchy;
+        });
+      }), function(memo, collection) {
+        return _.union(memo, collection);
+      }, []);
+    },
+
     /* Highlight the leaflet markers passed as arguments and add to them a
      * special class so we know they're highlighted because they're linked with
      * the current clicked marker */
-    highlightRelatedMarkers: function(relatedMarkers) {
-      var domMarker;
+    highlightRelatedMarkers: function(marker, relatedMarkers) {
+      /* We compute the relations */
+      var model = marker.options.type === 'actors' ? this.actorModel :
+        this.actionModel;
+      var relations = this.extractRelations(model);
+
+      var domMarker, relation;
       _.each(relatedMarkers, function(relatedMarker) {
         domMarker = this.getMarkers(relatedMarker.options.type,
           relatedMarker.options.id, relatedMarker.options.locationId);
@@ -426,10 +494,48 @@
             relatedMarker.options.locationId ].join('/') +
             ' on the map');
         } else {
-          if(this.status.get('relationshipsVisible')) {
-            domMarker.classList.add('-active');
+          relation = _.findWhere(relations, {
+            type: relatedMarker.options.type,
+            id:   relatedMarker.options.id
+          });
+
+          if(!relation) {
+            console.warn('Unable to find the information about the relations ' +
+              'of /'+ relatedMarker.options.type + '/' +
+              relatedMarker.options.id);
+          } else {
+            var canHighlight = true;
+
+            /* In case the user filtered the dates in the search form, we make sure
+             * to display only the relations that exist in the range */
+            var queryParams = this.router.getQueryParams();
+            if(relation.info && (queryParams.start_date || queryParams.end_date)) {
+              if(relation.info.start_date &&
+                !root.app.Helper.utils.isDateBetween(relation.info.start_date, queryParams.start_date, queryParams.end_date) ||
+                relation.info.end_date &&
+                !root.app.Helper.utils.isDateBetween(relation.info.end_date, queryParams.start_date, queryParams.end_date)) {
+                canHighlight = false;
+              }
+            }
+
+            /* In case we're filtering a specific date with the timeline, we want
+             * to check if the relation can be displayed */
+            if(this.lastFilterDate && relation.info) {
+              if(relation.info.start_date &&
+                this.lastFilterDate < (new Date(relation.info.start_date)).getTime() ||
+                relation.info.end_date &&
+                this.lastFilterDate > (new Date(relation.info.end_date)).getTime()) {
+                canHighlight = false;
+              }
+            }
+
+            if(canHighlight) {
+              if(this.status.get('relationshipsVisible')) {
+                domMarker.classList.add('-active');
+              }
+              domMarker.classList.add('js-related-marker');
+            }
           }
-          domMarker.classList.add('js-related-marker');
         }
       }, this);
     },
@@ -521,9 +627,16 @@
         this.markers = this.unfilteredMarkers;
         this.lastFilterDate = null;
       } else {
+        options.date = options.date.getTime();
         this.markers = _.filter(this.unfilteredMarkers,
           function(m) {
-          return Math.random() < 0.5;
+          var startDate = m.options.startDate && new Date(m.options.startDate),
+              endDate   = m.options.endDate   && new Date(m.options.endDate);
+          return !startDate && !endDate ||
+            startDate && !endDate && options.date >= startDate.getTime() ||
+            !startDate && endDate && options.date <= endDate.getTime() ||
+            startDate && endDate && options.date >= startDate.getTime() &&
+            options.date <= endDate.getTime();
         });
       }
 
