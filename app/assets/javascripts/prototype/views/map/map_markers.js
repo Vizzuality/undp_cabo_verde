@@ -185,12 +185,31 @@
             locationId: location.id
           };
 
+          /* We add to each marker their start and end dates */
           if(location.start_date) {
             markerOptions.startDate = location.start_date;
           }
           if(location.end_date) {
             markerOptions.endDate = location.end_date;
           }
+
+          /* For actions, we can have global start and end dates defined, we
+           * then make sure to use them when the specific location don't provide
+           * them or when the global date range isn't repected */
+          if(type === 'actions' && entity.start_date) {
+            if(!location.start_date ||
+              (new Date(location.start_date)).getTime() < (new Date(entity.start_date)).getTime()) {
+              markerOptions.startDate = entity.start_date;
+            }
+          }
+          if(type === 'actions' && entity.end_date) {
+            if(!location.end_date ||
+              (new Date(location.end_date)).getTime() > (new Date(entity.end_date)).getTime()) {
+              markerOptions.endDate = entity.end_date;
+            }
+          }
+
+
 
           marker = L.marker([location.lat, location.long], markerOptions);
 
