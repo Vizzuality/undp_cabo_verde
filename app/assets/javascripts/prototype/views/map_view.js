@@ -293,6 +293,7 @@
       root.app.pubsub.trigger('click:goBack');
 
       this.mapMarkersView.filterMarkers(options);
+      this.mapRelationsView.setFiltering(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a
