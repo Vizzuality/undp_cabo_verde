@@ -173,17 +173,26 @@
      * "actions")
      * NOTE: it shouldn't be called outside of addMarkers */
     _addEntityMarkers: function(collection, type) {
-      var marker, popup;
+      var marker, markerOptions, popup;
       _.each(collection, function(entity) {
         _.each(entity.locations, function(location) {
 
-          marker = L.marker([location.lat, location.long], {
+          markerOptions = {
             icon: this._generateMarkerIcon(type, entity.level, entity.id,
               location.id),
             type: type,
             id: entity.id,
             locationId: location.id
-          });
+          };
+
+          if(location.start_date) {
+            markerOptions.startDate = location.start_date;
+          }
+          if(location.end_date) {
+            markerOptions.endDate = location.end_date;
+          }
+
+          marker = L.marker([location.lat, location.long], markerOptions);
 
           this.markersLayer.addLayer(marker);
 
@@ -521,9 +530,16 @@
         this.markers = this.unfilteredMarkers;
         this.lastFilterDate = null;
       } else {
+        options.date = options.date.getTime();
         this.markers = _.filter(this.unfilteredMarkers,
           function(m) {
-          return Math.random() < 0.5;
+          var startDate = m.options.startDate && new Date(m.options.startDate),
+              endDate   = m.options.endDate   && new Date(m.options.endDate);
+          return !startDate && !endDate ||
+            startDate && !endDate && options.date >= startDate.getTime() ||
+            !startDate && endDate && options.date <= endDate.getTime() ||
+            startDate && endDate && options.date >= startDate.getTime() &&
+            options.date <= endDate.getTime();
         });
       }
 
