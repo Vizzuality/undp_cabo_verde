@@ -61,6 +61,16 @@ class Actor < ActiveRecord::Base
   # Used in serach
   scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
   scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
+
+  # Actors selection
+  scope :exclude_self_for_select,     -> (actor)  { where.not(id: actor.id).order(:name).filter_actives }
+  scope :exclude_parents_for_select,  -> (actor)  { where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  scope :exclude_children_for_select, -> (actor)  { where('id NOT IN (SELECT child_id FROM actor_relations WHERE parent_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  # For actions
+  scope :exclude_related_actors,      -> (action) { where('id NOT IN (SELECT actor_id FROM act_actor_relations WHERE act_id=?)', action.id).
+                                                    order(:name).filter_actives }
   # End scopes
 
   def self.types

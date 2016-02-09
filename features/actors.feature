@@ -210,6 +210,18 @@ I want to manage an actor
     And I should see "Contains"
 
   @javascript
+  Scenario: User can not add actor parent relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with relations
+    And person
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    When I click on overlapping ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Person one"
+    Then I should not be able to select from the following field ".relation_parent_id" with "Department one"
+
+  @javascript
   Scenario: User can remove actor relation from actor
     Given actor with relations
     And I am authenticated adminuser
@@ -240,6 +252,18 @@ I want to manage an actor
      Then I should see tab "#action_relation_form" within ".tabs-content"
      Then I should see "First one" within ".relationtitle"
      And I should see "Implements" within ".relationtype"
+
+  @javascript
+  Scenario: User can not add action relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with action relations
+    And act
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".action_relations"
+    Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Person one with relation" within ".current-actor-wrapper"
+    And I select from the following field ".relation_action_id" with "Third one"
+    Then I should not be able to select from the following field ".relation_action_id" with "First one"
 
    @javascript
    Scenario: User can remove action relation from actor

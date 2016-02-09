@@ -59,6 +59,19 @@ class Act < ActiveRecord::Base
 
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
+
+  # Actions selection
+  scope :exclude_self_for_select,     -> (action) { where.not(id: action.id).order(:name).filter_actives }
+  scope :exclude_parents_for_select,  -> (action) { where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', action.id).
+                                                   order(:name).filter_actives }
+  scope :exclude_children_for_select, -> (action) { where('id NOT IN (SELECT child_id FROM act_relations WHERE parent_id=?)', action.id).
+                                                   order(:name).filter_actives }
+  # For actors
+  scope :exclude_related_actions,     -> (actor)  { where('id NOT IN (SELECT act_id FROM act_actor_relations WHERE actor_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  # For indicators
+  scope :exclude_related_actions_for_indicator, -> (indicator) { where('id NOT IN (SELECT act_id FROM act_indicator_relations WHERE indicator_id=?)', indicator.id).
+                                                                 order(:name).filter_actives }
   # End scopes
 
   def self.types

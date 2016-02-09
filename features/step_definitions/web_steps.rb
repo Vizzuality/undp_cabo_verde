@@ -94,6 +94,14 @@ When /^I select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]
   end
 end
 
+When /^I should not be able to select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    options_text = find("#{div}")
+    RSpec::Expectations.configuration.warn_about_potential_false_positives = false
+    expect { options_text.has_selector?('option') && options_text.find(:xpath, XPath::HTML.option(value)) }.to raise_error
+  end
+end
+
 # Use this to fill in an entire form with data from a table. Example:
 #
 #   When I fill in the following:

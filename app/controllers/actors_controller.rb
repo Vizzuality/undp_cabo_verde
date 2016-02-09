@@ -43,7 +43,7 @@ class ActorsController < ApplicationController
   def create
     @actor = @user.actors.build(actor_params)
     if @actor.save
-      redirect_to actor_path(@actor)
+      update_actor_flow
     else
       render :new
     end
@@ -121,8 +121,9 @@ class ActorsController < ApplicationController
       @other_domains          = Category.od_categories
       @merged_domains         = Category.domain_categories
       @operational_fields     = Category.of_categories
-      @parents_to_select      = Actor.order(:name).filter_actives
-      @actions_to_select      = Act.order(:name).filter_actives
+      @parents_to_select      = Actor.exclude_self_for_select(@actor).exclude_parents_for_select(@actor)
+      @children_to_select     = Actor.exclude_self_for_select(@actor).exclude_children_for_select(@actor)
+      @actions_to_select      = Act.exclude_related_actions(@actor)
     end
 
     def set_micro_selection
