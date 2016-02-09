@@ -49,10 +49,10 @@ RSpec.describe Act, type: :model do
 
   context "act domain validation" do
     it 'act domain validation min 1 domain' do
-      @act_reject = build(:act_micro, merged_domains: [], user_id: @user.id)
+      @act_reject = build(:act_micro, socio_cultural_domains: [], user_id: @user.id)
 
       @act_reject.valid?
-      expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domain ids can't be blank, Merged domains is too short (minimum is 1 character)")
+      expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank, Socio cultural domains is too short (minimum is 1 character)")
     end
 
     it 'act domain validation max 3 domains' do
@@ -60,10 +60,10 @@ RSpec.describe Act, type: :model do
       @cat_2 = create(:operational_field, name: 'Cat 2')
       @cat_3 = create(:operational_field, name: 'Cat 3')
       @cat_4 = create(:operational_field, name: 'Cat 4')
-      @act_reject = build(:act_micro, merged_domains: [@cat_1, @cat_2, @cat_3, @cat_4], user_id: @user.id)
+      @act_reject = build(:act_micro, socio_cultural_domains: [@cat_1, @cat_2, @cat_3, @cat_4], user_id: @user.id)
 
       @act_reject.valid?
-      expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domains is too long (maximum is 3 characters)")
+      expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domains is too long (maximum is 3 characters)")
     end
   end
 

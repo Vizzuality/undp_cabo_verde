@@ -42,6 +42,13 @@ class Act < ActiveRecord::Base
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true
+
+  validates_length_of :socio_cultural_domains, minimum: 1, maximum: 3
+
+  # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
@@ -52,12 +59,7 @@ class Act < ActiveRecord::Base
 
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
-
-  validates :type,              presence: true
-  validates :name,              presence: true
-  validates :merged_domain_ids, presence: true
-
-  validates_length_of :merged_domains, minimum: 1, maximum: 3
+  # End scopes
 
   def self.types
     %w(ActMacro ActMeso ActMicro)

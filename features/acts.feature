@@ -69,7 +69,7 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
-    And I check "Faith" within ".act_merged_domain_ids"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should be on the act page for "Act by admin"
     And I should have one act

@@ -112,10 +112,10 @@ class ActsController < ApplicationController
       @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
       @macros     = ActMacro.order(:name).filter_actives
       @mesos      = ActMeso.order(:name).filter_actives
-      @organization_types     = OrganizationType.order(:name)
-      # @socio_cultural_domains = SocioCulturalDomain.order(:name)
-      # @other_domains          = OtherDomain.order(:name)
-      @merged_domains         = Category.domain_categories.order(:name)
+      @organization_types     = Category.ot_categories
+      @socio_cultural_domains = Category.scd_categories
+      @other_domains          = Category.od_categories
+      @merged_domains         = Category.domain_categories
       @parents_to_select      = Act.order(:name).filter_actives
       @actors_to_select       = Actor.order(:name).filter_actives
       @indicators_to_select   = Indicator.order(:name).filter_actives

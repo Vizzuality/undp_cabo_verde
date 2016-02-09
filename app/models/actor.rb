@@ -39,11 +39,11 @@ class Actor < ActiveRecord::Base
 
   after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
 
-  validates :type,              presence: true
-  validates :name,              presence: true
-  validates :merged_domain_ids, presence: true
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true
 
-  validates_length_of :merged_domains, minimum: 1, maximum: 3
+  validates_length_of :socio_cultural_domains, minimum: 1, maximum: 3
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').

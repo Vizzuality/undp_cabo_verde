@@ -55,11 +55,18 @@
         .column.medium-8
           = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}, disabled: common_form?
       / Categories
-      .row#domains-chose
+      / SCD's
+      .row
         .column.medium-4
-          = form.label :merged_domain_ids, class: 'right inline', disabled: common_form?
+          = form.label :socio_cultural_domain_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
-          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((Category.scd_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.scd_categories.count > 4) ? "domains-chose sc-domains-chose" : "") }, disabled: common_form?
+      / OD's
+      .row
+        .column.medium-4
+          = form.label :other_domain_ids, class: 'right inline', disabled: common_form?
+        .column.medium-8
+          = form.input :other_domain_ids, collection: @other_domains, as: ((Category.od_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.od_categories.count > 4) ? "domains-chose o-domains-chose" : "") }, disabled: common_form?
       - unless common_form?
         .row
           .column

@@ -75,7 +75,7 @@ I want to manage an actor
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
-    And I check "Faith" within ".actor_merged_domain_ids"
+    And I check "Faith" within ".actor_socio_cultural_domain_ids"
     And I select "International" from "actor_operational_field"
     And I press "Create"
     Then I should have one actor
