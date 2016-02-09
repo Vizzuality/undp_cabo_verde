@@ -1,7 +1,7 @@
 <div class="content">
   <h1 class="title">{{name}}</h1>
-  <h2 class="title -secondary">{{{t 'front.socio_cultural_domains'}}}</h2>
   {{#if socio_cultural_domains}}
+    <h2 class="title -secondary">{{{t 'front.3x5'}}}</h2>
     <ul class="visual-list">
       {{#each socio_cultural_domains}}
         <li class="item" title="{{name}}">
@@ -17,8 +17,8 @@
       {{/each}}
     </ul>
   {{/if}}
-  <h2 class="title -secondary">{{{t 'front.other_domains'}}}</h2>
   {{#if other_domains}}
+    <h2 class="title -secondary">{{{t 'front.3xX'}}}</h2>
     <ul class="visual-list">
       {{#each other_domains}}
         <li class="item" title="{{name}}">

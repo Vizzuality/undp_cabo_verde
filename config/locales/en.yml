@@ -439,7 +439,8 @@ en:
     only_actors: Only actors
     only_actions: Only actions
     levels: Levels
-    categories: Categories
+    3x5: 3x5
+    3xX: 3xX
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
@@ -448,7 +449,7 @@ en:
     all: All
     check_all: Check all
     uncheck_all: Uncheck all
-    cant_apply_search_0_check: You can not apply the search if a filter hasn't any selected option
+    cant_apply_search_0_check: To perform a search, you must check at least one checkbox for each filter, except for 3x5 and 3xX where you can leave one of them with 0 check 
     loading: Loading
     to_actors: "To Actors:"
     to_actions: "To Actions:"

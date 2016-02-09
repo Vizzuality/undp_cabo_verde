@@ -307,7 +307,8 @@
         queryParams.levels && queryParams.levels.length === 0 ||
         queryParams.domains_ids && queryParams.domains_ids.length === 0) {
         console.error('A required parameter hasn\'t been provided');
-        return;
+        var deferred = $.Deferred();
+        return deferred.reject();
       }
 
       var params = {};
