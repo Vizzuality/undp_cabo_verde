@@ -334,8 +334,8 @@ en:
     parent: 'Main category'
     child: 'Subcategory'
     children: 'Subcategories'
-    socio_cultural_domains: 'Socio cultural domains'
-    other_domains: 'Other domains'
+    socio_cultural_domains: '3x5'
+    other_domains: '3xX'
     organization_types: 'Organization types'
     name: 'Name'
     remove_domain: 'Remove domain'
@@ -400,8 +400,8 @@ en:
     indicators: 'Indicators'
     create_inicator: 'Create Indicator'
     edit_indicator: 'Edit indicator'
-    socio_cultural_domains: 'Socio cultural domains'
-    other_domains: 'Other domains'
+    socio_cultural_domains: '3x5'
+    other_domains: '3xX'
     organization_types: 'Organization types'
     current_indicator: 'Current indicator'
     remove_action: 'Remove action'
@@ -422,11 +422,11 @@ en:
     apply: Apply
     save: Save
     comments: Comments
-    other_domains: Other Domains
+    other_domains: '3xX'
     overall: Overall
     relationships: Relationships
     show_relationships_on_map: Show relationships on map
-    socio_cultural_domains: Social Cultural Domains
+    socio_cultural_domains: '3x5'
     actor: Actor
     actors: Actors
     action: Action
