@@ -103,12 +103,10 @@
     },
 
     render: function() {
-      var relations = {
-        actors: _.union(this.model.get('actors').parents,
-          this.model.get('actors').children),
-        actions: _.union(this.model.get('actions').parents,
-          this.model.get('actions').children)
-      };
+      var visibleRelations = this.model.getVisibleRelations();
+      var relations = _.groupBy(visibleRelations, function(relation) {
+        return relation.type;
+      });
 
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
         this.status.toJSON()), { relations: relations })));
