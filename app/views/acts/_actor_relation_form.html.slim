@@ -11,7 +11,7 @@
             class: "view-relation", 'data-relation-type': "action-actor-relation"
           - unless common_form?
             = link_to t('relations.remove_relation'), "#", class: "remove_fields_preview", 'data-delete-pair': "delete-#{f.object.id}"
-.form-inputs.form-inputs-actor.form-inputs-relations.action-actor-relation class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
+.form-inputs.form-inputs-actor.form-inputs-relations.action-actor-relation class=[('hide' if preview), ('-first-form' if relation_index < 1)] id=("expanded-actors-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
       = f.label t('acts.current_action'), class: 'right inline', disabled: common_form?
