@@ -122,7 +122,7 @@ resource 'Acts' do
 
     context 'Act details with actions, actors, locations' do
       let(:action_with_relations) do
-        @location_3 = FactoryGirl.create(:localization, user: @user)
+        @location_3 = FactoryGirl.create(:localization, user: @user, start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
         @location_4 = FactoryGirl.create(:localization, user: @user)
 
         relation_type       = create(:acts_relation_type)
@@ -202,6 +202,33 @@ resource 'Acts' do
 
           expect(action['actors']['parents'][0]['info']['title']).to         eq('implements')
           expect(action['actors']['parents'][0]['info']['title_reverse']).to eq('implemented by')
+        end
+      end
+
+      context 'Filtering by date' do
+        before :each do
+          # Time.local(2015, 9, 1, 12, 0, 0, 0)
+          actions[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actions[1].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actions[2].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+        end
+
+        get "/api/actions/:id" do
+          parameter :start_date, 'Filter actors by start-date (2014-01-31)'
+          parameter :end_date, 'Filter actors by end-date (2015-01-31)'
+
+          example 'Getting a specific action with measurements', document: false do
+            do_request(id: action_with_relations.id, start_date: '2012-01-31', end_date: '2013-09-30')
+            action = JSON.parse(response_body)['action']
+
+            expect(status).to eq(200)
+            expect(action['id']).to    eq(action_with_relations.id)
+
+            expect(action['actions']['parents'].size).to  eq(1)
+            expect(action['actions']['children'].size).to eq(0)
+            expect(action['actors']['parents'].size).to   eq(1)
+            expect(action['actors']['parents'][0]['locations'].size).to eq(1)
+          end
         end
       end
     end

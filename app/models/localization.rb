@@ -3,7 +3,7 @@ class Localization < ActiveRecord::Base
 
   include Activable
 
-  belongs_to :user,       foreign_key: :user_id, touch: true
+  belongs_to :user,        foreign_key: :user_id, touch: true
   belongs_to :localizable, polymorphic: true,     touch: true
 
   after_save   :fix_web
@@ -14,30 +14,6 @@ class Localization < ActiveRecord::Base
 
   scope :main_locations, -> { where( main: true ) }
   scope :by_date,        -> (start_date, end_date) { filter_localizations(start_date, end_date) }
-
-  def actor_macros
-    actors.where(type: 'ActorMacro')
-  end
-
-  def actor_mesos
-    actors.where(type: 'ActorMeso')
-  end
-
-  def actor_micros
-    actors.where(type: 'ActorMicro')
-  end
-
-  def act_macros
-    acts.where(type: 'ActMacro')
-  end
-
-  def act_mesos
-    acts.where(type: 'ActMeso')
-  end
-
-  def act_micros
-    acts.where(type: 'ActMicro')
-  end
 
   def self.filter_localizations(start_date, end_date)
     if start_date || end_date
