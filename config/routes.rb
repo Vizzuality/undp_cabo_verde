@@ -24,10 +24,11 @@ Rails.application.routes.draw do
 
   scope :manage do
     resources :users, except: [:destroy, :new, :create] do
-      patch 'deactivate', on: :member
-      patch 'activate',   on: :member
-      patch 'make_admin', on: :member
-      patch 'make_user',  on: :member
+      patch 'deactivate',   on: :member
+      patch 'activate',     on: :member
+      patch 'make_admin',   on: :member
+      patch 'make_manager', on: :member
+      patch 'make_user',    on: :member
 
       resources :actors,     controller: 'users/actors',     only: :index
       resources :acts,       controller: 'users/acts',       only: :index

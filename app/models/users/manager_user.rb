@@ -1,4 +1,4 @@
-class AdminUser < ActiveRecord::Base
+class ManagerUser < ActiveRecord::Base
   belongs_to :user, foreign_key: :user_id, touch: true
 
   delegate :firstname, :lastname, :name, :email, :institution, :active, :actors, :acts, :indicators, :measurements, :units, :comments, to: :user

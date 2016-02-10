@@ -254,6 +254,10 @@ en:
     created: 'Created'
     can_not_be_deleted: 'Can not be deleted!'
     add_other_domain: 'Add another domain'
+    role: 'Role'
+    admin: 'Admin'
+    manager: 'Manager'
+    user: 'Public'
 
   actors:
     actor: 'Actor'

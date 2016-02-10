@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126110245) do
+ActiveRecord::Schema.define(version: 20160210125555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,6 +213,12 @@ ActiveRecord::Schema.define(version: 20160126110245) do
   add_index "locations", ["localizable_id", "localizable_type"], name: "index_locations_on_localizable_id_and_localizable_type", using: :btree
   add_index "locations", ["user_id"], name: "index_locations_on_user_id", using: :btree
 
+  create_table "manager_users", force: :cascade do |t|
+    t.integer "user_id"
+  end
+
+  add_index "manager_users", ["user_id"], name: "index_manager_users_on_user_id", using: :btree
+
   create_table "measurements", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "act_indicator_relation_id"
@@ -283,6 +289,7 @@ ActiveRecord::Schema.define(version: 20160126110245) do
   add_foreign_key "comments", "users"
   add_foreign_key "indicators", "users"
   add_foreign_key "locations", "users"
+  add_foreign_key "manager_users", "users"
   add_foreign_key "measurements", "act_indicator_relations"
   add_foreign_key "measurements", "users"
   add_foreign_key "units", "users"

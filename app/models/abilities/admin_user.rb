@@ -16,7 +16,7 @@ module Abilities
       can :manage, ::ActMacro
       can :manage, ::ActRelation
       can :manage, ::Localization
-      can :manage, ::Category 
+      can :manage, ::Category
       can :manage, ::Comment
       can :manage, ::RelationType
       can :manage, ::Unit
@@ -28,6 +28,7 @@ module Abilities
       can [:activate, :deactivate], ::Comment
 
       cannot :make_user,               ::User, id: user.id
+      cannot :make_manager,            ::User, id: user.id
       cannot [:activate, :deactivate], ::User, id: user.id
     end
   end

@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   sequence(:id)       { |n| "#{n+2}" }
+  sequence(:user_id)  { |n| "#{n+2}" }
   sequence(:email)    { |n| "person-#{n}@example.com" }
   sequence(:name)     { Faker::Name.name }
   sequence(:country)  { 'CV' }
@@ -16,6 +17,15 @@ FactoryGirl.define do
   sequence(:operational_field) { create(:operational_field).id }
 
   # Users #
+  factory :random_public_user, class: User do
+    id
+    email
+    firstname 'Random Guest'
+    lastname 'User'
+    password  'password'
+    password_confirmation {|u| u.password}
+  end
+
   factory :random_user, class: User do
     id
     email
@@ -23,6 +33,9 @@ FactoryGirl.define do
     lastname 'User'
     password  'password'
     password_confirmation {|u| u.password}
+    after(:create) do |random_user|
+      FactoryGirl.create(:manager_user, user: random_user)
+    end
   end
 
   factory :user, class: User do
@@ -32,6 +45,13 @@ FactoryGirl.define do
     email     'pepe-moreno@sample.com'
     password  'password'
     password_confirmation { |u| u.password }
+    after(:create) do |user|
+      FactoryGirl.create(:manager_user, user: user)
+    end
+  end
+
+  factory :manager_user do
+    user_id
   end
 
   # Admin users

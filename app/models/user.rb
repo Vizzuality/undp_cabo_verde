@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
 
   before_save :check_authentication_token
 
-  has_one  :admin_user
   # Actors
   has_many :actors
   has_many :actor_micros

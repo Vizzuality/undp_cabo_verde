@@ -54,6 +54,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def make_manager
+    if @user.try(:make_manager)
+      redirect_to users_path
+    end
+  end
+
   def make_user
     if @user.try(:make_user)
       redirect_to users_path
