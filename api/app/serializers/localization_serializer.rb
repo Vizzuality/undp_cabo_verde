@@ -1,6 +1,6 @@
 class LocalizationSerializer < BaseSerializer
   cached
-  self.version = 8
+  self.version = 9
 
   attributes :id, :name, :iso, :country, :city, :zip_code, :state,
              :district, :street, :web_url, :lat, :long, :main
@@ -16,8 +16,8 @@ class LocalizationSerializer < BaseSerializer
 
   def attributes
     data = super
-    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
-    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
+    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date.present?
+    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date.present?
     data
   end
 

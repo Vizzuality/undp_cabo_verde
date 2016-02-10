@@ -1,6 +1,6 @@
 class ActActorRelationArraySerializer < BaseSerializer
   cached
-  self.version = 8
+  self.version = 9
 
   attributes :id, :name, :level, :locations, :info
 
@@ -16,8 +16,8 @@ class ActActorRelationArraySerializer < BaseSerializer
   def attributes
     data = super
     if !object.is_actor?
-      data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
-      data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
+      data['start_date'] = object.start_date.to_date.iso8601 if object.start_date.present?
+      data['end_date']   = object.end_date.to_date.iso8601   if object.end_date.present?
     end
     data
   end
