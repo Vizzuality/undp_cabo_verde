@@ -1,8 +1,9 @@
 - preview = !f.object.new_record?
+- relation_index = f.options[:child_index]
 - if preview
   .row
     .column.medium-8.medium-offset-4
-      .relation-preview
+      .relation-preview class=('-first-preview' if relation_index < 1)
         p.relationtype= f.object.relation_type.try(:title)
         p.relationtitle= link_to f.object.actor.name, f.object.actor
         p.relationbuttons
