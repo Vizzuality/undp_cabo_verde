@@ -209,7 +209,11 @@
             }
           }
 
-
+          /* We add the categories attached to the marker */
+          markerOptions.socioCulturalDomains = _.map(entity.socio_cultural_domains,
+            function(c) { return c.id; });
+          markerOptions.otherDomains = _.map(entity.other_domains,
+            function(c) { return c.id; });
 
           marker = L.marker([location.lat, location.long], markerOptions);
 
@@ -605,28 +609,37 @@
       this.map.removeLayer(this.optimalPositioningLayer);
     },
 
-    /* Filter the markers depending on if they exist at the passed date.
+    /* Filter the markers depending on if they exist at the passed date or if
+     * they belong to the passed category.
      * If not, they're hidden.
      * NOTE: this function MUST BE optimized as much as possible because it's
      * called in a requestAnimationFrame (its duration should be less than 10
      * ms) */
     filterMarkers: function(options) {
-      /* If we're asked to filter the markers for the same date, we don't do
-       * anything (important for rendering improvements when seing a big range)
-       */
-      if(this.lastFilterDate && this.lastFilterDate === options.date) {
-        return;
-      } else {
-        this.lastFilterDate = options.date;
+      if(options.hasOwnProperty('date')) {
+        /* If we're asked to filter the markers for the same date, we don't do
+         * anything (important for rendering improvements when seing a big range)
+         */
+        if(this.lastFilterDate && this.lastFilterDate === options.date) {
+          return;
+        } else {
+          this.lastFilterDate = options.date;
+        }
+      }
+
+      /* If we don't want to filter by a category anymore, we just re-set the
+       * last date used to filter */
+      if(options.hasOwnProperty('category') && !options.category) {
+        options.date = this.lastFilterDate;
       }
 
       this.map.removeLayer(this.markersLayer);
 
       /* In case there's no date, we reset the markers */
-      if(!options.date) {
+      if(options.hasOwnProperty('date') && !options.date) {
         this.markers = this.unfilteredMarkers;
         this.lastFilterDate = null;
-      } else {
+      } else if(options.hasOwnProperty('date') && options.date) {
         options.date = options.date.getTime();
         this.markers = _.filter(this.unfilteredMarkers,
           function(m) {
@@ -637,6 +650,16 @@
             !startDate && endDate && options.date <= endDate.getTime() ||
             startDate && endDate && options.date >= startDate.getTime() &&
             options.date <= endDate.getTime();
+        });
+      } else if(options.hasOwnProperty('category') && options.category) {
+        /* We actually filter the markers which were already present on the map
+         */
+        this.markers = _.filter(this.markersLayer.getLayers(), function(m) {
+          if(options.category === 'socio_cultural_domains') {
+            return ~m.options.socioCulturalDomains.indexOf(options.categoryId);
+          } else {
+            return ~m.options.otherDomains.indexOf(options.categoryId);
+          }
         });
       }
 
