@@ -3,8 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('shared.general_info')
+          h2.form-title= t('shared.general_info')
 
   = simple_form_for @actor do |f|
     .row
@@ -16,7 +15,7 @@
           .column.medium-4
             = f.label :type, class: 'right inline'
           .column.medium-8
-            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
+            = f.input :type, label: false, collection: @types, as: :collection_select
         .row
           .column.medium-4
             = f.label :name, class: 'right inline'
