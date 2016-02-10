@@ -69,7 +69,7 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
-    And I check "Faith" within ".act_merged_domain_ids"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should be on the act page for "Act by admin"
     And I should have one act
@@ -186,6 +186,18 @@ I want to manage an act
     Then I should see "Second one"
 
   @javascript
+  Scenario: User can not add action parent relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with relations
+    And third act
+    When I go to the edit act page for "Action one"
+    And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Action one" within ".current-action-wrapper"
+    When I click on ".switch_parent_form"
+    Then I select from the following field ".relation_parent_id" with "Third one"
+    And I should not be able to select from the following field ".relation_parent_id" with "Second one"
+
+  @javascript
   Scenario: User can remove action relation from action
     Given action with relations
     And I am authenticated adminuser
@@ -216,6 +228,16 @@ I want to manage an act
     And I press "Update"
     And I go to the act page for "First one"
     Then I should see "Person one"
+
+  @javascript
+  Scenario: User can not add actor relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with actor relations
+    And person
+    When I go to the edit act page for "Action one with relation"
+    And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
+    And I select from the following field ".relation_actor_id" with "Person one"
+    Then I should not be able to select from the following field ".relation_actor_id" with "Organization one"
 
   @javascript
   Scenario: User can remove actor relation from action
@@ -253,6 +275,16 @@ I want to manage an act
     And the disabled field "End date" should contain "2010-03-10" within ".form-inputs-indicator"
     And the disabled field "Deadline" should contain "2015-03-10" within ".form-inputs-indicator"
     And the disabled field "Target value" should contain "100.01" within ".form-inputs-indicator"
+
+  @javascript
+  Scenario: User can not add indicator relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with indicator relations
+    And indicator
+    When I go to the edit act page for "Action with indicator"
+    And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
+    And I select from the following field ".relation_indicator_id" with "Indicator one"
+    Then I should not be able to select from the following field ".relation_indicator_id" with "Indicator one with relation"
 
   @javascript
   Scenario: User can add measurement for indicator relation on action

@@ -64,21 +64,21 @@ FactoryGirl.define do
     name 'Person two'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_micro, class: ActorMicro do
     name 'Person one'
     type 'ActorMicro'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_meso, class: ActorMeso do
     name 'Department one'
     type 'ActorMeso'
     observation 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :actor_macro, class: ActorMacro do
@@ -86,7 +86,7 @@ FactoryGirl.define do
     type 'ActorMacro'
     observation 'Lorem ipsum...'
     after(:build) { |macro| macro.update!(operational_field: create(:operational_field, name: "Global, #{ Faker::Commerce.department(5, true) }").id) }
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Fishery, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Fishery, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   # Acts
@@ -94,21 +94,21 @@ FactoryGirl.define do
     name 'Third one'
     type 'ActMicro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Family, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :act_meso, class: ActMeso do
     name 'Second one'
     type 'ActMeso'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Education, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   factory :act_macro, class: ActMacro do
     name 'First one'
     type 'ActMacro'
     description 'Lorem ipsum...'
-    merged_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
+    socio_cultural_domains { [FactoryGirl.create(:socio_cultural_domain, name: "Economy, #{ Faker::Commerce.department(5, true) }")] }
   end
 
   # Localizations

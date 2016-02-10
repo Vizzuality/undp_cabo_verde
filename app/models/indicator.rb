@@ -23,6 +23,9 @@ class Indicator < ActiveRecord::Base
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
 
+  scope :exclude_related_indicators, -> (action) { where('id NOT IN (SELECT indicator_id FROM act_indicator_relations WHERE act_id=?)', action.id).
+                                                   order(:name).filter_actives }
+
   def self.filter_indicators(filters)
     actives   = filters[:active]['true']  if filters[:active].present?
     inactives = filters[:active]['false'] if filters[:active].present?

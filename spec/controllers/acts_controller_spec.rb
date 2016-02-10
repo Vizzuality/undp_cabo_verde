@@ -89,7 +89,7 @@ RSpec.describe ActsController, type: :controller do
       expect(@user.acts.count).to eq(3)
       post :create, act: { name: 'New first', user_id: @user.id,
                            type: 'ActMacro',
-                           merged_domain_ids: [@socio_cultural_domain.id] }
+                           socio_cultural_domain_ids: [@socio_cultural_domain.id] }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@user.acts.count).to eq(4)
@@ -107,11 +107,11 @@ RSpec.describe ActsController, type: :controller do
                             parent: @category, acts: [@micro, @meso])
       end
 
-      let!(:attri_macro_micro_with_cat) do 
+      let!(:attri_macro_micro_with_cat) do
         {
           name: 'New first',
           active: true,
-          merged_domain_ids: [@child_cat]
+          socio_cultural_domain_ids: [@child_cat]
         }
       end
 
@@ -122,13 +122,13 @@ RSpec.describe ActsController, type: :controller do
         expect(@macro.categories.count).to eq(1)
       end
     end
-    
+
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:act_macro, user_id: @user.id)
-        @meso_linked  = create(:act_meso,  user_id: @user.id, 
+        @meso_linked  = create(:act_meso,  user_id: @user.id,
                                parents: [@macro_active])
-        @micro_linked = create(:act_micro, user_id: @user.id, 
+        @micro_linked = create(:act_micro, user_id: @user.id,
                                parents: [@macro_active, @meso_linked])
         FactoryGirl.create(:act_macro, user_id: @user.id)
         FactoryGirl.create(:act_meso, user_id: @user.id)

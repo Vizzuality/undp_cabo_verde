@@ -15,7 +15,7 @@
     .column.medium-4
       = f.label :child_id, t('acts.act') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
-      = f.input :child_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_child_id' }, disabled: common_form?
+      = f.input :child_id, collection: @children_to_select, as: :collection_select, label: false, input_html: { class: 'relation_child_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline', disabled: common_form?
