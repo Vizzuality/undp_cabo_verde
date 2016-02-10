@@ -20,7 +20,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/actions?domains_ids[]=1",
+      "request_path": "/api/actions?domains_ids[]=217",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -30,26 +30,26 @@
       },
       "request_query_parameters": {
         "domains_ids": [
-          "1"
+          "217"
         ]
       },
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 2,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 2,\n          \"lat\": \"-16.42165225557737\",\n          \"long\": \"149.52885417104073\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 1,\n          \"lat\": \"84.07832963562075\",\n          \"long\": \"147.19103290880668\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:01.118Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 32,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 92,\n          \"lat\": \"67.2781899598422\",\n          \"long\": \"-6.682692845100036\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 218,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 220,\n          \"name\": \"Education, Computers, Grocery, Toys, Games & Jewelery\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 217,\n          \"name\": \"Category OD\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    },\n    {\n      \"id\": 31,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 91,\n          \"lat\": \"44.53111572255446\",\n          \"long\": \"-19.094748217091393\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 218,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 219,\n          \"name\": \"Economy, Games, Clothing, Grocery, Shoes & Jewelery\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 217,\n          \"name\": \"Category OD\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:15.295Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"eea159576fa9facb6ca1f163c432747a\"",
+        "ETag": "W/\"ddf9c1a1386b9cbb29b88cd16f649786\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "7bcdb3d7-3d5e-45e6-a501-535da1cfd1c1",
-        "X-Runtime": "0.155684",
-        "Content-Length": "366"
+        "X-Request-Id": "09c55717-6d25-4d32-ace2-0921d132ba56",
+        "X-Runtime": "0.071130",
+        "Content-Length": "1053"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?domains_ids[]=1\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?domains_ids[]=217\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

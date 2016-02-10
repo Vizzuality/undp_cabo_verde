@@ -42,6 +42,15 @@ class Act < ActiveRecord::Base
   after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true, unless: -> (act) { act.other_domain_ids.present?          }
+  validates :other_domain_ids,          presence: true, unless: -> (act) { act.socio_cultural_domain_ids.present? }
+
+  validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
+  validates_length_of :other_domains,          minimum: 0, maximum: 3
+
+  # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
                                           child.id) }
@@ -53,11 +62,19 @@ class Act < ActiveRecord::Base
   scope :last_max_update,    -> { maximum(:updated_at)     }
   scope :recent,             -> { order('updated_at DESC') }
 
-  validates :type,              presence: true
-  validates :name,              presence: true
-  validates :merged_domain_ids, presence: true
-
-  validates_length_of :merged_domains, minimum: 1, maximum: 3
+  # Actions selection
+  scope :exclude_self_for_select,     -> (action) { where.not(id: action.id).order(:name).filter_actives }
+  scope :exclude_parents_for_select,  -> (action) { where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)', action.id).
+                                                   order(:name).filter_actives }
+  scope :exclude_children_for_select, -> (action) { where('id NOT IN (SELECT child_id FROM act_relations WHERE parent_id=?)', action.id).
+                                                   order(:name).filter_actives }
+  # For actors
+  scope :exclude_related_actions,     -> (actor)  { where('id NOT IN (SELECT act_id FROM act_actor_relations WHERE actor_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  # For indicators
+  scope :exclude_related_actions_for_indicator, -> (indicator) { where('id NOT IN (SELECT act_id FROM act_indicator_relations WHERE indicator_id=?)', indicator.id).
+                                                                 order(:name).filter_actives }
+  # End scopes
 
   def self.types
     %w(ActMacro ActMeso ActMicro)

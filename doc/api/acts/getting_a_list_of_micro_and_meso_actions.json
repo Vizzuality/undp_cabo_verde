@@ -37,17 +37,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 9,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 9,\n          \"lat\": \"-9.048996082470453\",\n          \"long\": \"-14.271078571318327\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 8,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 8,\n          \"lat\": \"-27.769925181401057\",\n          \"long\": \"-92.39158437886906\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:01.723Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 36,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 96,\n          \"lat\": \"-7.40296328934464\",\n          \"long\": \"153.8380878892272\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 223,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 226,\n          \"name\": \"Family, Outdoors, Shoes, Kids, Toys & Jewelery\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    },\n    {\n      \"id\": 35,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 95,\n          \"lat\": \"37.88441185779605\",\n          \"long\": \"-129.50202421239132\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 223,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 225,\n          \"name\": \"Education, Toys, Sports, Automotive, Clothing & Outdoors\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 222,\n          \"name\": \"Category OD\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:15.812Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"56cff5eb240410a6a042f57d27b09157\"",
+        "ETag": "W/\"2413b6afd5fcb7b11ab5417a263446b8\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "ff241f50-cb95-4cfe-b56e-a2aac8614b8d",
-        "X-Runtime": "0.060897",
-        "Content-Length": "367"
+        "X-Request-Id": "5105cdb1-2c56-40dd-9537-43c1a6afadf6",
+        "X-Runtime": "0.102555",
+        "Content-Length": "972"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?levels[]=micro&levels[]=meso\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
