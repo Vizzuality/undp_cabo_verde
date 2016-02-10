@@ -25,7 +25,9 @@
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
-      this.model = new root.app.Model.actionModel();
+      this.model = new root.app.Model.actionModel(null, {
+        router: this.router
+      });
       /* The DOM element to receive the Handlbars template */
       this.setListeners();
 
