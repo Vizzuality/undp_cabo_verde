@@ -52,6 +52,13 @@
             {{/compare}}
           </svg>
           {{name}}
+          {{#if this.info}}
+            {{#compare this.hierarchy "===" "parents"}}
+              <span class="_greyed">- {{this.info.title}}</span>
+            {{else}}
+              <span class="_greyed">- {{this.info.title_reverse}}</span>
+            {{/compare}}
+          {{/if}}
         </li>
       {{/each}}
     </ul>
@@ -76,6 +83,13 @@
             {{/compare}}
           </svg>
           {{name}}
+          {{#if this.info}}
+            {{#compare this.hierarchy "===" "parents"}}
+              <span class="_greyed">- {{this.info.title}}</span>
+            {{else}}
+              <span class="_greyed">- {{this.info.title_reverse}}</span>
+            {{/compare}}
+          {{/if}}
         </li>
       {{/each}}
     </ul>
