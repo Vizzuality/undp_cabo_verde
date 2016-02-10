@@ -34,9 +34,14 @@ class Search::Actors
         @query = @query.joins(:categories).where({ categories: { id: @domains }})
       end
 
+      if @start_date || @end_date
+        @first_date  = (Time.zone.now - 50.years).beginning_of_day
+        @second_date = (Time.zone.now + 50.years).end_of_day
+      end
+
       if @start_date && !@end_date
-        where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') >= ? OR
-                       COALESCE(locations.end_date, '#{@start_date.to_time.end_of_day}') >= ?",
+        where_query = "COALESCE(locations.start_date, '#{@first_date}') >= ? OR
+                       COALESCE(locations.end_date, '#{@second_date}') >= ?",
                        @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day
 
         a = @query.joins(:location).where(where_query)
@@ -51,8 +56,8 @@ class Search::Actors
       end
 
       if @end_date && !@start_date
-        where_query = "COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') <= ? OR
-                       COALESCE(locations.start_date, '#{@end_date.to_time.beginning_of_day}') <= ?",
+        where_query = "COALESCE(locations.end_date, '#{@second_date}') <= ? OR
+                       COALESCE(locations.start_date, '#{@first_date}') <= ?",
                        @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day
 
         a = @query.joins(:location).where(where_query)
@@ -67,9 +72,9 @@ class Search::Actors
       end
 
       if @start_date && @end_date
-        where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') BETWEEN ? AND ? OR
-                       COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') BETWEEN ? AND ? AND
-                       ? BETWEEN COALESCE(locations.start_date, '#{@start_date.to_time.beginning_of_day}') AND COALESCE(locations.end_date, '#{@end_date.to_time.end_of_day}')",
+        where_query = "COALESCE(locations.start_date, '#{@first_date}') BETWEEN ? AND ? OR
+                       COALESCE(locations.end_date, '#{@second_date}') BETWEEN ? AND ? AND
+                       ? BETWEEN COALESCE(locations.start_date, '#{@first_date}') AND COALESCE(locations.end_date, '#{@second_date}')",
                        @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                        @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                        @start_date.to_time.beginning_of_day

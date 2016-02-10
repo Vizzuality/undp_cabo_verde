@@ -34,17 +34,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 20,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"start_date\": \"2015-09-01\",\n      \"end_date\": \"2016-09-01\",\n      \"locations\": [\n        {\n          \"id\": 20,\n          \"lat\": \"0.7388642857267058\",\n          \"long\": \"-2.9573796343935044\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:02.899Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 26,\n      \"name\": \"Indicator of Education\",\n      \"level\": \"meso\",\n      \"start_date\": \"2015-09-01\",\n      \"end_date\": \"2016-09-01\",\n      \"locations\": [\n        {\n          \"id\": 86,\n          \"lat\": \"67.39946577039998\",\n          \"long\": \"-15.082664070044757\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 208,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 210,\n          \"name\": \"Education, Kids, Electronics, Toys, Outdoors & Tools\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 207,\n          \"name\": \"Category OD\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:14.707Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"c343aa34e6dc3fc78b86e194c27a418d\"",
+        "ETag": "W/\"395142a34844b475b88728c8d9f843bd\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "fb28308e-086e-401b-9eb0-5ad830439d91",
-        "X-Runtime": "0.027423",
-        "Content-Length": "270"
+        "X-Request-Id": "efc70b2b-3d77-4373-8709-e7e4a4f180ce",
+        "X-Runtime": "0.073706",
+        "Content-Length": "611"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?start_date=2016-01-31\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

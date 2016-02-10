@@ -34,17 +34,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 15,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"start_date\": \"2014-09-01\",\n      \"end_date\": \"2015-09-01\",\n      \"locations\": [\n        {\n          \"id\": 15,\n          \"lat\": \"-87.99702274223249\",\n          \"long\": \"143.30222927062408\",\n          \"main\": true\n        }\n      ]\n    },\n    {\n      \"id\": 13,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"start_date\": \"2012-09-01\",\n      \"end_date\": \"2013-09-01\",\n      \"locations\": [\n        {\n          \"id\": 13,\n          \"lat\": \"-78.69368853006605\",\n          \"long\": \"20.638042981413548\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:02.253Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 24,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"start_date\": \"2014-09-01\",\n      \"end_date\": \"2015-09-01\",\n      \"locations\": [\n        {\n          \"id\": 84,\n          \"lat\": \"-23.492572935225326\",\n          \"long\": \"125.10215331375315\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 203,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 206,\n          \"name\": \"Family, Computers, Shoes, Tools, Music & Grocery\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    },\n    {\n      \"id\": 22,\n      \"name\": \"Indicator of Organization\",\n      \"level\": \"macro\",\n      \"start_date\": \"2012-09-01\",\n      \"end_date\": \"2013-09-01\",\n      \"locations\": [\n        {\n          \"id\": 82,\n          \"lat\": \"64.64628991780256\",\n          \"long\": \"73.26227017487872\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 203,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 204,\n          \"name\": \"Economy, Toys, Garden, Electronics, Grocery & Automotive\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 202,\n          \"name\": \"Category OD\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:14.400Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"51e4bfad834f19bbcfd9769deacab7c2\"",
+        "ETag": "W/\"f2e5f143a56f21d12eafb0c8a29a9360\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "7b7a908d-2c67-40d8-a12f-f8020a739120",
-        "X-Runtime": "0.043436",
-        "Content-Length": "473"
+        "X-Request-Id": "e0da9dc9-4c31-4ce2-beea-c4876463b0ed",
+        "X-Runtime": "0.089302",
+        "Content-Length": "1079"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?end_date=2015-01-31\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

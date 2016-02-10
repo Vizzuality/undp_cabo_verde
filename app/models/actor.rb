@@ -39,11 +39,13 @@ class Actor < ActiveRecord::Base
 
   after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
 
-  validates :type,              presence: true
-  validates :name,              presence: true
-  validates :merged_domain_ids, presence: true
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true, unless: -> (actor) { actor.other_domain_ids.present?          }
+  validates :other_domain_ids,          presence: true, unless: -> (actor) { actor.socio_cultural_domain_ids.present? }
 
-  validates_length_of :merged_domains, minimum: 1, maximum: 3
+  validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
+  validates_length_of :other_domains,          minimum: 0, maximum: 3
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
@@ -61,6 +63,16 @@ class Actor < ActiveRecord::Base
   # Used in serach
   scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
   scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
+
+  # Actors selection
+  scope :exclude_self_for_select,     -> (actor)  { where.not(id: actor.id).order(:name).filter_actives }
+  scope :exclude_parents_for_select,  -> (actor)  { where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  scope :exclude_children_for_select, -> (actor)  { where('id NOT IN (SELECT child_id FROM actor_relations WHERE parent_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  # For actions
+  scope :exclude_related_actors,      -> (action) { where('id NOT IN (SELECT actor_id FROM act_actor_relations WHERE act_id=?)', action.id).
+                                                    order(:name).filter_actives }
   # End scopes
 
   def self.types

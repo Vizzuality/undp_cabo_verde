@@ -176,6 +176,8 @@
       if(this.animationRemainingFrames === 0) {
         this.pause();
         this.resetTimelineState();
+        /* We reset the map */
+        root.app.pubsub.trigger('change:timeline', {});
         return;
       }
 

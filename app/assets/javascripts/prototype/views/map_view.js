@@ -137,7 +137,7 @@
           relatedMarkers);
 
         /* We highlight once again the right markers */
-        this.mapMarkersView.highlightRelatedMarkers(relatedMarkers);
+        this.mapMarkersView.highlightRelatedMarkers(marker, relatedMarkers);
         this.mapMarkersView.highlightMarkers(marker.options.type,
           marker.options.id);
       }
@@ -184,7 +184,7 @@
           });
 
           var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(marker);
-          this.mapMarkersView.highlightRelatedMarkers(relatedMarkers);
+          this.mapMarkersView.highlightRelatedMarkers(marker, relatedMarkers);
           this.mapRelationsView.renderRelations(marker, relatedMarkers);
           /* We zoom to fit the all the concerned markers */
           var markersToFit = relatedMarkers;
@@ -293,6 +293,7 @@
       root.app.pubsub.trigger('click:goBack');
 
       this.mapMarkersView.filterMarkers(options);
+      this.mapRelationsView.setFiltering(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a
@@ -307,7 +308,8 @@
         queryParams.levels && queryParams.levels.length === 0 ||
         queryParams.domains_ids && queryParams.domains_ids.length === 0) {
         console.error('A required parameter hasn\'t been provided');
-        return;
+        var deferred = $.Deferred();
+        return deferred.reject();
       }
 
       var params = {};
@@ -414,7 +416,8 @@
               if(openedMarker.length === 1) {
                 openedMarker = openedMarker[0];
                 var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedMarker);
-                this.mapMarkersView.highlightRelatedMarkers(relatedMarkers);
+                this.mapMarkersView.highlightRelatedMarkers(openedMarker,
+                  relatedMarkers);
                 this.mapRelationsView.renderRelations(openedMarker,
                   relatedMarkers);
 

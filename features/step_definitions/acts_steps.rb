@@ -32,7 +32,7 @@ end
 
 Given /^action with relations$/ do
   @user = FactoryGirl.create(:user)
-  @meso = FactoryGirl.create(:act_meso, user_id: @user.id)
+  @meso = FactoryGirl.create(:act_meso, user_id: @user.id, name: 'Second one')
   FactoryGirl.create(:act_micro, name: 'Action one', user_id: User.last.id, parents: [@meso])
 end
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Localization, type: :model do
   before :each do
     @user  = create(:user)
-    @localization = create(:localization, name: 'First Localization', user: @user)
+    @localization = create(:localization, name: 'First Localization', user: @user, main: true)
     @macro = create(:actor_macro, user_id: @user.id, localizations: [@localization])
   end
 
@@ -24,13 +24,12 @@ RSpec.describe Localization, type: :model do
   context 'For main localizations' do
     before :each do
       expect(@macro.localizations.count).to eq(1)
-      @localization_new = create(:localization, name: 'Main Localization', user: @user)
+      @localization_new = create(:localization, name: 'Main Localization', user: @user, localizable: @macro)
     end
 
     it 'Set other location for actor macro as main location' do
-      @macro.update_attributes(localizations: [@localization, @localization_new])
+      @localization_new.update_attributes(main: true)
       expect(@macro.localizations.count).to eq(2)
-      @localization_new.update!(main: true)
       expect(@macro.main_location_name).to eq('Main Localization')
     end
   end

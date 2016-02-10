@@ -1,6 +1,6 @@
 class ActSerializer < BaseSerializer
   cached
-  self.version = 8
+  self.version = 9
 
   attributes :id, :level, :name, :alternative_name, :short_name, :description
 
@@ -29,8 +29,8 @@ class ActSerializer < BaseSerializer
     data = super
     data['human_or_natural']  = object.human? ? 'human' : 'natural'
     data['event_or_activity'] = object.event? ? 'event' : 'activity'
-    data['start_date']        = object.start_date.to_date.iso8601 if object.start_date
-    data['end_date']          = object.end_date.to_date.iso8601   if object.end_date
+    data['start_date']        = object.start_date.to_date.iso8601 if object.start_date.present?
+    data['end_date']          = object.end_date.to_date.iso8601   if object.end_date.present?
     data['budget']            = budget
     data['actions']           = actions
     data['actors']            = actors
