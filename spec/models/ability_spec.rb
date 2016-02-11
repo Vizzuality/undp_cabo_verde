@@ -69,17 +69,13 @@ RSpec.describe Ability, type: :model do
       end
       Abilities::User.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @user.id)
       Abilities::User.any_instance.should_receive(:can).with(:dashboard, User)
-      Abilities::User.any_instance.should_receive(:can).with(:read, :all)
-      Abilities::User.any_instance.should_receive(:cannot).with(:read, RelationType)
+      Abilities::User.any_instance.should_receive(:can).with(:read, User, id: @user.id)
       Abilities::User.new @user
     end
   end
 
   context 'guest' do
     it 'can read objects' do
-      Abilities::Guest.any_instance.should_receive(:can).with(:read, :all)
-      Abilities::Guest.any_instance.should_receive(:cannot).with(:read, RelationType)
-      Abilities::Guest.any_instance.should_receive(:cannot).with(:read, Unit)
       Abilities::Guest.new @user
     end
   end
