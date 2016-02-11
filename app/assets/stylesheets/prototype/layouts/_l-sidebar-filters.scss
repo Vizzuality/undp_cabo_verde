@@ -32,19 +32,24 @@
   .content > .searches {
     padding-top: 30px;
     padding-bottom: 20px;
-    text-align: center; /* Centers the button */
 
     & > p {
       color: $color-4;
       font-size: 14px;
       font-weight: 400;
       text-align: center;
+
+      & > span { color: $color-2; }
     }
 
     & > hr {
       border: 1px solid $color-4;
       border-bottom: none;
       margin: 30px 0 25px 0;
+    }
+
+    & > button {
+      width: 100%;
     }
 
     .highlight {

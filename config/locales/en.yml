@@ -436,7 +436,7 @@ en:
     categories: Categories
     start_date: Start date
     end_date: End date
-    want_save_search: Do you want to save this search?
+    log_in_to_save_search_html: <span>Login</span> to save this search
     searches: Searches
     more_info: More info
     all: All
