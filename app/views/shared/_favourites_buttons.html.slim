@@ -1,0 +1,4 @@
+- if object.is_favourite?(current_user)
+  = link_to 'Remove from favourites', "/manage/#{object.model_name.route_key}/#{object.id}/destroy_favourite", method: :delete, remote: true, class: 'favourite_destroy'
+- else
+  = link_to 'Add to favourites', "/manage/#{object.model_name.route_key}/#{object.id}/create_favourite", method: :post, remote: true, class: 'favourite_generator'

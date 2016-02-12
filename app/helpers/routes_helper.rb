@@ -113,4 +113,19 @@ module RoutesHelper
     end
     link_to(name, '', class: class_name, data: { id: id, fields: fields.gsub("\n", '')})
   end
+
+  def path_to(object)
+    controller_name = if object.class.name.include?('Actor')
+                        ("Actor").classify.constantize.to_s.underscore.pluralize
+                      elsif object.class.name.include?('Act')
+                        ("Act").classify.constantize.to_s.underscore.pluralize
+                      else
+                        object.class.to_s.underscore.pluralize
+                      end
+
+    url_for( controller: controller_name,
+             action: :show,
+             id: object.to_param,
+             only_path: true )
+  end
 end

@@ -399,6 +399,7 @@ en:
     forgot_pw: 'Forgot your Password?'
     send_instructions: 'Send me reset password instructions'
     login_action: 'Log in'
+    my_favourites: 'My favourites'
 
   indicators:
     indicators: 'Indicators'

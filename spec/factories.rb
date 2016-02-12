@@ -13,6 +13,7 @@ FactoryGirl.define do
   sequence(:web_url)  { Faker::Internet.url }
   sequence(:lat)      { Faker::Address.latitude }
   sequence(:long)     { Faker::Address.longitude }
+  sequence(:uri)      { Faker::Internet.url }
 
   sequence(:operational_field) { create(:operational_field).id }
 
@@ -218,5 +219,10 @@ FactoryGirl.define do
     title         'contains'
     title_reverse 'belongs to'
     relation_category 5
+  end
+
+  factory :favourite do
+    name
+    uri
   end
 end

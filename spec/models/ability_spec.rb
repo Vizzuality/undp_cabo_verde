@@ -26,8 +26,12 @@ RSpec.describe Ability, type: :model do
        Indicator, ActActorRelation, ActIndicatorRelation, Measurement].each do |model|
         Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, model)
       end
+      Abilities::AdminUser.any_instance.should_receive(:can).with(:manage, Favourite, user_id: @adminuser.id)
       Abilities::AdminUser.any_instance.should_receive(:can).with([:activate, :deactivate], Localization)
       Abilities::AdminUser.any_instance.should_receive(:can).with([:activate, :deactivate], Comment)
+      [Actor, ActorMacro, ActorMeso, ActorMicro].each do |model|
+        Abilities::AdminUser.any_instance.should_receive(:can).with([:create_favourite, :destroy_favourite], model)
+      end
       Abilities::AdminUser.any_instance.should_receive(:cannot).with(:make_manager, User, id: @adminuser.id)
       Abilities::AdminUser.any_instance.should_receive(:cannot).with(:make_user, User, id: @adminuser.id)
       Abilities::AdminUser.any_instance.should_receive(:cannot).with([:activate, :deactivate], User, id: @adminuser.id)
@@ -44,12 +48,15 @@ RSpec.describe Ability, type: :model do
       end
       [Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro,
        ActMeso, ActMacro, ActRelation, Localization, Comment,
-       Indicator, ActActorRelation, ActIndicatorRelation, Measurement, Unit].each do |model|
+       Indicator, ActActorRelation, ActIndicatorRelation, Measurement, Unit, Favourite].each do |model|
         Abilities::ManagerUser.any_instance.should_receive(:can).with(:manage, model, user_id: @manageruser.id)
       end
       Abilities::ManagerUser.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @manageruser.id)
       Abilities::ManagerUser.any_instance.should_receive(:can).with(:dashboard, User)
       Abilities::ManagerUser.any_instance.should_receive(:can).with(:create, OtherDomain)
+      [Actor, ActorMacro, ActorMeso, ActorMicro].each do |model|
+        Abilities::ManagerUser.any_instance.should_receive(:can).with([:create_favourite, :destroy_favourite], model)
+      end
       Abilities::ManagerUser.any_instance.should_receive(:cannot).with([:activate, :deactivate], Localization)
 
       Abilities::ManagerUser.any_instance.should_receive(:can).with(:read, :all)
@@ -64,8 +71,11 @@ RSpec.describe Ability, type: :model do
       [User].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:update, model, id: @user.id)
       end
-      [Comment].each do |model|
+      [Comment, Favourite].each do |model|
         Abilities::User.any_instance.should_receive(:can).with(:manage, model, user_id: @user.id)
+      end
+      [Actor, ActorMacro, ActorMeso, ActorMicro].each do |model|
+        Abilities::User.any_instance.should_receive(:can).with([:create_favourite, :destroy_favourite], model)
       end
       Abilities::User.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @user.id)
       Abilities::User.any_instance.should_receive(:can).with(:dashboard, User)

@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   has_many :act_indicator_relations
   has_many :measurements
   has_many :units
+  has_many :favourites, -> { order(position: :asc) }, dependent: :destroy
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

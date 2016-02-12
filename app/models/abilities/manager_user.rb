@@ -25,8 +25,14 @@ module Abilities
         can :manage, ::ActIndicatorRelation, user_id: user.id
         can :manage, ::Measurement,          user_id: user.id
         can :manage, ::ActActorRelation,     user_id: user.id
+        can :manage, ::Favourite,            user_id: user.id
 
         can [:activate, :deactivate], ::Comment, user_id: user.id
+
+        can [:create_favourite, :destroy_favourite], ::Actor
+        can [:create_favourite, :destroy_favourite], ::ActorMicro
+        can [:create_favourite, :destroy_favourite], ::ActorMeso
+        can [:create_favourite, :destroy_favourite], ::ActorMacro
 
         can :create, ::OtherDomain
       end

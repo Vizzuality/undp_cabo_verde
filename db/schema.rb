@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210125555) do
+ActiveRecord::Schema.define(version: 20160211090709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,20 @@ ActiveRecord::Schema.define(version: 20160210125555) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "favourites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "favorable_id"
+    t.string   "favorable_type"
+    t.string   "uri",                        null: false
+    t.string   "name"
+    t.integer  "position",       default: 0
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "favourites", ["user_id", "favorable_id", "favorable_type"], name: "index_favourites_on_user_id_and_favorable_id_and_favorable_type", unique: true, using: :btree
+  add_index "favourites", ["user_id"], name: "index_favourites_on_user_id", using: :btree
+
   create_table "indicators", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name",                            null: false
@@ -287,6 +301,7 @@ ActiveRecord::Schema.define(version: 20160210125555) do
   add_foreign_key "acts", "users"
   add_foreign_key "admin_users", "users"
   add_foreign_key "comments", "users"
+  add_foreign_key "favourites", "users"
   add_foreign_key "indicators", "users"
   add_foreign_key "locations", "users"
   add_foreign_key "manager_users", "users"
