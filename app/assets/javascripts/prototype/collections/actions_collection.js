@@ -7,7 +7,7 @@
 
   root.app.Collection.actionsCollection = Backbone.Collection.extend({
 
-    initialize: function(options) {
+    initialize: function() {
       /* The first argument of a collection is a list of models */
       this.router = arguments.length > 1 && arguments[1].router;
     },

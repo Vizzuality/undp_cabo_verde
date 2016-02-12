@@ -209,7 +209,11 @@
             }
           }
 
-
+          /* We add the categories attached to the marker */
+          markerOptions.socioCulturalDomains = _.map(entity.socio_cultural_domains,
+            function(c) { return c.id; });
+          markerOptions.otherDomains = _.map(entity.other_domains,
+            function(c) { return c.id; });
 
           marker = L.marker([location.lat, location.long], markerOptions);
 
@@ -440,41 +444,6 @@
       }
     },
 
-    /* Return the relations of the passed model */
-    extractRelations: function(model) {
-      var collections = [
-        {
-          relations: model.get('actors').parents,
-          type:       'actors',
-          hierarchy:  'parents'
-        },
-        {
-          relations: model.get('actors').children,
-          type:       'actors',
-          hierarchy:  'children'
-        },
-        {
-          relations: model.get('actions').parents,
-          type:       'actions',
-          hierarchy:  'parents'
-        },
-        {
-          relations: model.get('actions').children,
-          type:       'actions',
-          hierarchy:  'children'
-        }
-      ];
-
-      return _.reduce(_.map(collections, function(collection) {
-        return _.each(_.clone(collection.relations), function(relation) {
-          relation.type = collection.type;
-          relation.hierarchy = collection.hierarchy;
-        });
-      }), function(memo, collection) {
-        return _.union(memo, collection);
-      }, []);
-    },
-
     /* Highlight the leaflet markers passed as arguments and add to them a
      * special class so we know they're highlighted because they're linked with
      * the current clicked marker */
@@ -482,7 +451,7 @@
       /* We compute the relations */
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
-      var relations = this.extractRelations(model);
+      var visibleRelations = model.getVisibleRelations();
 
       var domMarker, relation;
       _.each(relatedMarkers, function(relatedMarker) {
@@ -494,47 +463,17 @@
             relatedMarker.options.locationId ].join('/') +
             ' on the map');
         } else {
-          relation = _.findWhere(relations, {
+          relation = _.findWhere(visibleRelations, {
             type: relatedMarker.options.type,
             id:   relatedMarker.options.id
           });
 
-          if(!relation) {
-            console.warn('Unable to find the information about the relations ' +
-              'of /'+ relatedMarker.options.type + '/' +
-              relatedMarker.options.id);
-          } else {
-            var canHighlight = true;
-
-            /* In case the user filtered the dates in the search form, we make sure
-             * to display only the relations that exist in the range */
-            var queryParams = this.router.getQueryParams();
-            if(relation.info && (queryParams.start_date || queryParams.end_date)) {
-              if(relation.info.start_date &&
-                !root.app.Helper.utils.isDateBetween(relation.info.start_date, queryParams.start_date, queryParams.end_date) ||
-                relation.info.end_date &&
-                !root.app.Helper.utils.isDateBetween(relation.info.end_date, queryParams.start_date, queryParams.end_date)) {
-                canHighlight = false;
-              }
+          /* We only highlight the marker if the relation is visible */
+          if(relation) {
+            if(this.status.get('relationshipsVisible')) {
+              domMarker.classList.add('-active');
             }
-
-            /* In case we're filtering a specific date with the timeline, we want
-             * to check if the relation can be displayed */
-            if(this.lastFilterDate && relation.info) {
-              if(relation.info.start_date &&
-                this.lastFilterDate < (new Date(relation.info.start_date)).getTime() ||
-                relation.info.end_date &&
-                this.lastFilterDate > (new Date(relation.info.end_date)).getTime()) {
-                canHighlight = false;
-              }
-            }
-
-            if(canHighlight) {
-              if(this.status.get('relationshipsVisible')) {
-                domMarker.classList.add('-active');
-              }
-              domMarker.classList.add('js-related-marker');
-            }
+            domMarker.classList.add('js-related-marker');
           }
         }
       }, this);
@@ -605,28 +544,37 @@
       this.map.removeLayer(this.optimalPositioningLayer);
     },
 
-    /* Filter the markers depending on if they exist at the passed date.
+    /* Filter the markers depending on if they exist at the passed date or if
+     * they belong to the passed category.
      * If not, they're hidden.
      * NOTE: this function MUST BE optimized as much as possible because it's
      * called in a requestAnimationFrame (its duration should be less than 10
      * ms) */
     filterMarkers: function(options) {
-      /* If we're asked to filter the markers for the same date, we don't do
-       * anything (important for rendering improvements when seing a big range)
-       */
-      if(this.lastFilterDate && this.lastFilterDate === options.date) {
-        return;
-      } else {
-        this.lastFilterDate = options.date;
+      if(options.hasOwnProperty('date')) {
+        /* If we're asked to filter the markers for the same date, we don't do
+         * anything (important for rendering improvements when seing a big range)
+         */
+        if(this.lastFilterDate && this.lastFilterDate === options.date) {
+          return;
+        } else {
+          this.lastFilterDate = options.date;
+        }
+      }
+
+      /* If we don't want to filter by a category anymore, we just re-set the
+       * last date used to filter */
+      if(options.hasOwnProperty('category') && !options.category) {
+        options.date = this.lastFilterDate;
       }
 
       this.map.removeLayer(this.markersLayer);
 
       /* In case there's no date, we reset the markers */
-      if(!options.date) {
+      if(options.hasOwnProperty('date') && !options.date) {
         this.markers = this.unfilteredMarkers;
         this.lastFilterDate = null;
-      } else {
+      } else if(options.hasOwnProperty('date') && options.date) {
         options.date = options.date.getTime();
         this.markers = _.filter(this.unfilteredMarkers,
           function(m) {
@@ -637,6 +585,16 @@
             !startDate && endDate && options.date <= endDate.getTime() ||
             startDate && endDate && options.date >= startDate.getTime() &&
             options.date <= endDate.getTime();
+        });
+      } else if(options.hasOwnProperty('category') && options.category) {
+        /* We actually filter the markers which were already present on the map
+         */
+        this.markers = _.filter(this.markersLayer.getLayers(), function(m) {
+          if(options.category === 'socio_cultural_domains') {
+            return ~m.options.socioCulturalDomains.indexOf(options.categoryId);
+          } else {
+            return ~m.options.otherDomains.indexOf(options.categoryId);
+          }
         });
       }
 

@@ -253,11 +253,11 @@ en:
     updated: 'Updated'
     created: 'Created'
     can_not_be_deleted: 'Can not be deleted!'
-    add_other_domain: 'Add another domain'
     role: 'Role'
     admin: 'Admin'
     manager: 'Manager'
     user: 'Public'
+    add_other_domain: 'Add domain'
 
   actors:
     actor: 'Actor'
@@ -379,15 +379,18 @@ en:
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
     actors_relations: 'Connections with Actors'
-    actions_relations: 'Connections with Actions'
+    actions_relations: 'Relations with Actions'
+    indicators_relations: 'Connect with Indicators'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
+    remove: 'Remove'
+    view_relation: 'View relation'
+    view: 'View'
     add_new_relation: 'Add new relation'
     actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
-    indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
-    delete: 'Delete'
+
 
   users:
     my_actors: 'My actors'
