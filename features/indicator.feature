@@ -42,8 +42,8 @@ I want to manage an indicator
     And I fill in "indicator_description" with "It's description for indicator"
     And I fill in "indicator_alternative_name" with "It's name for indicator"
     And I press "Create"
-    Then I should be on the indicators page
-    And I should see "New Indicator"
+    Then I should have one indicator
+    And I should be on the indicator page for "New Indicator"
 
   Scenario: User can not edit not owned indicator
     Given I am authenticated user

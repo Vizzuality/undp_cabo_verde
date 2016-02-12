@@ -2,6 +2,7 @@ class Actor < ActiveRecord::Base
   include Activable
   include Localizable
   include Filterable
+  include Commentable
 
   belongs_to :user, foreign_key: :user_id
   belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
@@ -15,9 +16,6 @@ class Actor < ActiveRecord::Base
   has_many :act_actor_relations, foreign_key: :actor_id
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
-  has_many :comments,      as: :commentable, dependent: :destroy
-  has_many :localizations, as: :localizable, dependent: :destroy
-
   # Categories
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
@@ -27,14 +25,11 @@ class Actor < ActiveRecord::Base
   # For merged domains
   has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
 
-  accepts_nested_attributes_for :localizations,             allow_destroy: true
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
   accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid
 
-  after_create  :set_main_location,       if: 'localizations.any?'
-  after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
@@ -59,10 +54,6 @@ class Actor < ActiveRecord::Base
   scope :recent,          -> { order('updated_at DESC')                 }
   scope :meso_and_macro,  -> { where(type: ['ActorMeso', 'ActorMacro']) }
   scope :only_micro,      -> { where(type: 'ActorMicro')                }
-  scope :with_locations,  -> { joins(:localizations)                    }
-  # Used in serach
-  scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
-  scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
 
   # Actors selection
   scope :exclude_self_for_select,     -> (actor)  { where.not(id: actor.id).order(:name).filter_actives }
@@ -197,16 +188,8 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMeso') || type.include?('ActorMacro')
   end
 
-  def locations?
-    localizations.any?
-  end
-
   def categories?
     categories.any?
-  end
-
-  def comments?
-    comments.any?
   end
 
   def underscore
@@ -215,10 +198,6 @@ class Actor < ActiveRecord::Base
 
   def updated
     updated_at.to_s
-  end
-
-  def main_locations
-    localizations.main_locations
   end
 
   def parents_locations
@@ -284,12 +263,6 @@ class Actor < ActiveRecord::Base
       @end_date   = options['end_date']    if options['end_date'].present?
       @levels     = options['levels']      if options['level'].present?
       @domains    = options['domains_ids'] if options['domains_ids'].present?
-    end
-
-    def set_main_location
-      if localizations.main_locations.empty?
-        localizations.order(:created_at).first.update( main: true )
-      end
     end
 
     def set_parent_location

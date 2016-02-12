@@ -5,8 +5,7 @@
       .column.medium-8.medium-offset-1
         .row
           .column.medium-8.medium-offset-4
-            h2
-              = t('users.forgot_pw')
+            h2.form-title= t('users.forgot_pw')
 
     = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post}) do |f|
       = f.error_notification
