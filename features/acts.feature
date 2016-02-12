@@ -22,7 +22,8 @@ I want to manage an act
     When I fill in "act_micro_end_date" with "2010-03-10"
     And I press "Update"
     Then I should be on the act page for "New Third"
-    And the field "Name" should contain "New Third"
+    And I should see "General Info"
+    And the disabled field "Name" should contain "New Third" within ".form-actions"
 
   Scenario: User can edit owned act meso
     Given I am authenticated user
@@ -36,7 +37,7 @@ I want to manage an act
     And I fill in "act_meso_description" with "Lorem ipsum..."
     And I press "Update"
     Then I should be on the act page for "New Second"
-    And the field "Name" should contain "New Second"
+    And the disabled field "Name" should contain "New Second"
 
   @javascript
   Scenario: User can edit owned act macro and add custom domain
@@ -51,7 +52,7 @@ I want to manage an act
     And I fill in the following field ".name" with "Custom domain" within ".form-inputs-other-domains"
     And I press "Update"
     Then I should be on the act page for "New First"
-    And the field "Name" should contain "New First"
+    And the disabled field "Name" should contain "New First"
     And I should have six domains
 
   Scenario: Adminuser can edit not owned act
@@ -68,7 +69,7 @@ I want to manage an act
     When I go to the new act page
     And I select "Macro" from "act_type"
     And I fill in "act_name" with "Act by admin"
-    And I check "Faith" within ".act_merged_domain_ids"
+    And I check "Faith" within ".act_socio_cultural_domain_ids"
     And I press "Create"
     Then I should be on the act page for "Act by admin"
     And I should have one act
@@ -154,7 +155,7 @@ I want to manage an act
     And second act
     And act_relation_types
     When I go to the edit act page for "Third one"
-    And I click on ".add_child_action" within ".add-relations"
+    And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Third one" within ".current-action-wrapper"
     When I select from the following field ".relation_child_id" with "Second one"
     And I select from the following field ".relation_type_id" with "belongs to"
@@ -162,10 +163,8 @@ I want to manage an act
     And I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the act page for "Third one"
-    Then the select field "Action" should contain "Second one"
-    And the select field "Relation title" should contain "belongs to"
-    And the field "Start date" should contain "1990-03-10" within ".form-inputs-child"
-    And the field "End date" should contain "2010-03-10" within ".form-inputs-child"
+    When I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Second one"
 
   @javascript
   Scenario: User can add action parent relation to action
@@ -174,7 +173,7 @@ I want to manage an act
     And second act
     And act_relation_types
     When I go to the edit act page for "Third one"
-    And I click on ".add_child_action" within ".add-relations"
+    And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Third one" within ".current-action-wrapper"
     When I click on ".switch_parent_form"
     And I select from the following field ".relation_parent_id" with "Second one"
@@ -183,22 +182,36 @@ I want to manage an act
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     Then I should be on the act page for "Third one"
-    And the select field "Action" should contain "Second one" within ".form-inputs-parent"
-    And the select field "Relation title" should contain "belongs to" within ".form-inputs-parent"
-    And the field "Start date" should contain "1990-03-10" within ".form-inputs-parent"
-    And the field "End date" should contain "2010-03-10" within ".form-inputs-parent"
+    And I click on hidden ".action_relations" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Second one"
+
+  @javascript
+  Scenario: User can not add action parent relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with relations
+    And third act
+    When I go to the edit act page for "Action one"
+    And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Action one" within ".current-action-wrapper"
+    When I click on ".switch_parent_form"
+    Then I select from the following field ".relation_parent_id" with "Third one"
+    And I should not be able to select from the following field ".relation_parent_id" with "Second one"
 
   @javascript
   Scenario: User can remove action relation from action
     Given action with relations
     And I am authenticated adminuser
     When I go to the act page for "Action one"
-    And the select field "Action" should contain "Second one"
+    And I click on overlapping ".action_relations"
+    And I click on hidden ".action_relations" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Second one"
     When I follow "Edit"
-    And I click on ".remove_fields"
+    And I click on overlapping ".action_relations"
+    And I click on hidden ".remove_fields" on "#action_relation_form" within ".tabs-content"
     And I press "Update"
     And I go to the act page for "Action one"
-    Then I should not see "Department one"
+    When I click on overlapping ".action_relations"
+    Then I should not see "Second one"
 
   @javascript
   Scenario: User can add actor relation to action
@@ -207,29 +220,36 @@ I want to manage an act
     And first act
     And act_actor_relation_types
     When I go to the edit act page for "First one"
-    And I click on ".add_actor"
+    And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
     And I select from the following field ".relation_actor_id" with "Person one"
     And I select from the following field ".relation_type_id" with "implements"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the act page for "First one"
-    Then the select field "Actor" should contain "Person one"
-    Then the select field "Current action" should contain "implements"
-    And the field "Start date" should contain "1990-03-10" within ".form-inputs-actor"
-    And the field "End date" should contain "2010-03-10" within ".form-inputs-actor"
+    Then I should see "Person one"
+
+  @javascript
+  Scenario: User can not add actor relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with actor relations
+    And person
+    When I go to the edit act page for "Action one with relation"
+    And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
+    And I select from the following field ".relation_actor_id" with "Person one"
+    Then I should not be able to select from the following field ".relation_actor_id" with "Organization one"
 
   @javascript
   Scenario: User can remove actor relation from action
     Given action with actor relations
     And I am authenticated adminuser
     When I go to the act page for "Action one with relation"
-    Then the select field "Actor" should contain "Person one"
+    Then I should see "Organization one" within ".relationtitle"
     When I follow "Edit"
-    And I click on ".remove_fields"
+    And I click on ".remove_fields_preview"
     And I press "Update"
     And I go to the act page for "Action one with relation"
-    Then I should not see "First one"
+    Then I should not see "Organization one"
 
   @javascript
   Scenario: User can add indicator relation to action
@@ -239,7 +259,8 @@ I want to manage an act
     And unit
     And act_indicator_relation_types
     When I go to the edit act page for "First one"
-    And I click on ".add_indicator"
+    And I click on overlapping ".indicator_relations"
+    And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
     And I select from the following field ".relation_indicator_id" with "Indicator one"
     And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
@@ -249,25 +270,21 @@ I want to manage an act
     And I fill in the following field ".relation_target_value" with "100.01"
     And I press "Update"
     And I go to the act page for "First one"
-    Then the select field "Indicator" should contain "Indicator one"
-    Then the select field "Current action" should contain "contains"
-    And the field "Start date" should contain "1990-03-10" within ".form-inputs-indicator"
-    And the field "End date" should contain "2010-03-10" within ".form-inputs-indicator"
-    And the field "Deadline" should contain "2015-03-10" within ".form-inputs-indicator"
-    And the select field "Unit" should contain "Euro" within ".form-inputs-indicator"
-    And the field "Target value" should contain "100.01" within ".form-inputs-indicator"
+    Then I click on hidden ".view-relation" on "#indicator_relation_form" within ".tabs-content"
+    And the disabled field "Start date" should contain "1990-03-10" within ".form-inputs-indicator"
+    And the disabled field "End date" should contain "2010-03-10" within ".form-inputs-indicator"
+    And the disabled field "Deadline" should contain "2015-03-10" within ".form-inputs-indicator"
+    And the disabled field "Target value" should contain "100.01" within ".form-inputs-indicator"
 
   @javascript
-  Scenario: User can remove indicator relation from action
-    Given action with indicator relations
-    And I am authenticated adminuser
-    When I go to the act page for "Action with indicator"
-    Then the select field "Indicator" should contain "Indicator one"
-    When I follow "Edit"
-    And I click on ".remove_indicator"
-    And I press "Update"
-    And I go to the act page for "Action with indicator"
-    Then I should not have indicators
+  Scenario: User can not add indicator relation to action if relation exists
+    Given I am authenticated adminuser
+    And action with indicator relations
+    And indicator
+    When I go to the edit act page for "Action with indicator"
+    And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
+    And I select from the following field ".relation_indicator_id" with "Indicator one"
+    Then I should not be able to select from the following field ".relation_indicator_id" with "Indicator one with relation"
 
   @javascript
   Scenario: User can add measurement for indicator relation on action
@@ -275,21 +292,32 @@ I want to manage an act
     And unit
     And I am authenticated adminuser
     When I go to the edit act page for "Action with indicator"
-    And I click on ".add_measurement"
+    And I click on overlapping ".indicator_relations"
+    Then I click on hidden ".view-relation" on "#indicator_relation_form" within ".tabs-content"
+    And I click on hidden ".add_measurement" on "#indicator_relation_form" within ".tabs-content"
     And I fill in the following field ".measurement_date" with "2015-03-10"
     And I fill in the following field ".measurement_value" with "200"
     And I fill in the following field ".measurement_details" with "Measurement for indicator"
     And I select from the following field ".measurement_unit" with "Euro"
     And I press "Update"
     Then I should be on the act page for "Action with indicator"
+    And I click on overlapping ".indicator_relations"
+    Then I should see tab "#indicator_relation_form" within ".tabs-content"
+    Then I should see "Indicator one with relation" within ".relationtitle"
 
   @javascript
   Scenario: User can remove indicator relation from action
     Given action with indicator relations and measurement
     And I am authenticated adminuser
     When I go to the act page for "Action with indicator and measurement"
-    Then the select field "Indicator" should contain "Indicator one"
+    And I click on overlapping ".indicator_relations"
+    Then I should see tab "#indicator_relation_form" within ".tabs-content"
+    Then I should see "Indicator one" within ".relationtitle"
     When I follow "Edit"
-    And I click on ".remove_measurement"
+    And I click on overlapping ".indicator_relations"
+    Then I click on hidden ".remove_fields" on "#indicator_relation_form" within ".tabs-content"
     And I press "Update"
-    Then I should be on the act page for "Action with indicator and measurement"
+    And I go to the act page for "Action with indicator and measurement"
+    And I click on overlapping ".indicator_relations"
+    Then I should see tab "#indicator_relation_form" within ".tabs-content"
+    Then I should not see "Indicator one"

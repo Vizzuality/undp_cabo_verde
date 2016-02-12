@@ -13,7 +13,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/artifacts/18",
+      "request_path": "/api/artifacts/1",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -26,20 +26,20 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"artifact\": {\n    \"id\": 18,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Conrad Miller\",\n    \"actions\": [\n      {\n        \"id\": 46,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 30,\n            \"lat\": \"1.574726734138423\",\n            \"long\": \"-95.74192786239944\",\n            \"main\": true\n          }\n        ]\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
+      "response_body": "{\n  \"artifact\": {\n    \"id\": 1,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Jaime Dibbert\",\n    \"actions\": [\n      {\n        \"id\": 2,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 78,\n            \"lat\": \"49.381252236608844\",\n            \"long\": \"-120.29993984898013\",\n            \"main\": true\n          }\n        ],\n        \"socio_cultural_domains\": [\n          {\n            \"id\": 155,\n            \"name\": \"Category SCD\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          },\n          {\n            \"id\": 156,\n            \"name\": \"Economy, Computers, Movies, Sports, Tools & Clothing\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          }\n        ],\n        \"other_domains\": [\n          {\n            \"id\": 154,\n            \"name\": \"Category OD\",\n            \"type\": \"Other domains\",\n            \"icon_identifier\": null\n          }\n        ]\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"881d740de565437c0210accb18706cda\"",
+        "ETag": "W/\"3fe90a1863ced8cd96c05da04bc3b198\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "c91ed46c-4b1d-4766-9185-41aac6768771",
-        "X-Runtime": "0.042654",
-        "Content-Length": "266"
+        "X-Request-Id": "e4743c4c-8bd9-4eb4-819f-8b8b7486078b",
+        "X-Runtime": "0.137961",
+        "Content-Length": "608"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/18\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/1\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

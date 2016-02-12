@@ -36,17 +36,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 69,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 95,\n          \"lat\": \"-61.537858294348396\",\n          \"long\": \"-146.16070227518327\",\n          \"main\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:12.916Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 41,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 52,\n          \"lat\": \"-25.605533460686317\",\n          \"long\": \"12.18948964130135\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 95,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 103,\n          \"name\": \"Education, Clothing, Books, Home, Tools & Kids\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:05.989Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"10ad121bc82aa5baae23951ef2b9fd6b\"",
+        "ETag": "W/\"0602a4bf85a6a6dbab340dd35c752c75\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "30f12f82-e4fe-48f1-bd91-9ac1ff559d61",
-        "X-Runtime": "0.041846",
-        "Content-Length": "221"
+        "X-Request-Id": "60440b31-129c-4308-a6ad-e19c98c33816",
+        "X-Runtime": "0.054547",
+        "Content-Length": "477"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

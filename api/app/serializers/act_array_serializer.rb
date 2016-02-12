@@ -1,10 +1,13 @@
 class ActArraySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 9
 
   attributes :id, :name, :level
 
   has_many :localizations, key: :locations
+
+  has_many :socio_cultural_domains
+  has_many :other_domains
 
   def level
     case object.type
@@ -16,13 +19,15 @@ class ActArraySerializer < BaseSerializer
 
   def attributes
     data = super
-    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
-    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
+    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date.present?
+    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date.present?
     data
   end
 
   def include_associations!
-    include! :localizations, serializer: LocalizationArraySerializer
+    include! :localizations,          serializer: LocalizationArraySerializer
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
   end
 
   def cache_key

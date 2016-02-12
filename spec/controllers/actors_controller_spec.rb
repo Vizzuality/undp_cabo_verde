@@ -128,7 +128,8 @@ RSpec.describe ActorsController, type: :controller do
     it 'User should be able to create a new actor' do
       expect(@user.actors.count).to eq(3)
       post :create, actor: { name: 'New first', user_id: @user.id, type: 'ActorMacro',
-                             merged_domain_ids: [@socio_cultural_domain.id] }
+                             socio_cultural_domain_ids: [@socio_cultural_domain.id],
+                             operational_field: @field.id }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@user.actors.count).to eq(4)
@@ -149,7 +150,7 @@ RSpec.describe ActorsController, type: :controller do
       let!(:attri_macro_micro_with_cat) do
         { name: 'New first', observation: 'Lorem ipsum dolor...',
           active: true, title: 'Test', operational_field: @field.id,
-          merged_domain_ids: [@child_cat]
+          socio_cultural_domain_ids: [@child_cat]
         }
       end
 

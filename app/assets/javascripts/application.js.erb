@@ -4,6 +4,7 @@
 //= require chosen-jquery
 //= require leaflet
 //= require forms
+//= require foundation
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
@@ -60,21 +61,54 @@ var showDatepicker = function() {
 };
 
 var showMultiselect = function() {
-  var multiselects = $('.js-mselect');
-  var multiselects_domains = $('.domains-chose')
+  var multiselects            = $('.js-mselect');
+  var multiselects_o_domains  = $('.o-domains-chose')
+  var multiselects_sc_domains = $('.sc-domains-chose')
+
+  var scDomainsValues = $('.sc-domains-chose').val();
+  var odDomainsValues = $('.o-domains-chose').val();
+
+  var scDomainsValuesLength = scDomainsValues ? scDomainsValues.length : 0;
+  var odDomainsValuesLength = odDomainsValues ? odDomainsValues.length : 0;
 
   for(var i = 0; i < multiselects.length; i++) {
     multiselects[i].classList.add('chosen');
     multiselects[i].classList.add('chosen-select');
   }
 
-  for(var i = 0; i < multiselects_domains.length; i++) {
-    multiselects_domains[i].classList.add('chosen');
-    multiselects_domains[i].classList.add('chosen-select');
+  for(var i = 0; i < multiselects_o_domains.length; i++) {
+    multiselects_o_domains[i].classList.add('chosen');
+    multiselects_o_domains[i].classList.add('chosen-select');
+  }
+
+  for(var i = 0; i < multiselects_sc_domains.length; i++) {
+    multiselects_sc_domains[i].classList.add('chosen');
+    multiselects_sc_domains[i].classList.add('chosen-select');
   }
 
   multiselects.chosen();
-  multiselects_domains.chosen({ max_selected_options: 3 });
+
+  if (scDomainsValuesLength == 3) {
+    multiselects_o_domains.attr('disabled', true);
+    multiselects_o_domains.chosen({});
+  } else if (scDomainsValuesLength == 2) {
+    multiselects_o_domains.chosen({ max_selected_options: 1 });
+  } else if (scDomainsValuesLength == 1) {
+    multiselects_o_domains.chosen({ max_selected_options: 2 });
+  } else {
+    multiselects_o_domains.chosen({ max_selected_options: 3 });
+  }
+
+  if (odDomainsValuesLength == 3) {
+    multiselects_sc_domains.attr('disabled', true);
+    multiselects_sc_domains.chosen({});
+  } else if (odDomainsValuesLength == 2) {
+    multiselects_sc_domains.chosen({ max_selected_options: 1 });
+  } else if (odDomainsValuesLength == 1) {
+    multiselects_sc_domains.chosen({ max_selected_options: 2 });
+  } else {
+    multiselects_sc_domains.chosen({ max_selected_options: 3 });
+  }
 };
 
 /* Display a mini map into the container and return it */
@@ -101,8 +135,21 @@ var createPreviewMap = function(container) {
 
 /* Add a marker to a map at the given coordinates and return it */
 var dropMarkerOn = function(map, lat, lng) {
-  var marker = L.marker(L.latLng(lat, lng));
-  marker.addTo(map);
+  var LeafletIcon = L.Icon.extend({
+    options: {
+      iconUrl: "<%= image_path('marker-icon.png') %>",
+      iconRetinaUrl: "<%= image_path('marker-icon-2x.png') %>",
+      iconSize: [25, 41],
+      iconAnchor: [14, 40],
+      shadowUrl: "<%= image_path('marker-shadow.png') %>",
+      shadowSize: [41, 41],
+      shadowAnchor: [14, 40]
+    }
+  });
+
+  var leafletIcon = new LeafletIcon();
+
+  var marker = L.marker(L.latLng(lat, lng), {icon: leafletIcon}).addTo(map);
   return marker;
 };
 
@@ -236,38 +283,109 @@ var getClosestParent = function(element, selector) {
 };
 
 var showHideDomainLink = function() {
-  var domainsValues = $('.domains-chose').val();
+  var scDomainsValues = $('.sc-domains-chose').val();
+  var odDomainsValues = $('.o-domains-chose').val();
 
-  if (domainsValues && domainsValues.length < 3 && domainsValues.length > 0) {
+  var scDomainsValuesLength = scDomainsValues ? scDomainsValues.length : 0;
+  var odDomainsValuesLength = odDomainsValues ? odDomainsValues.length : 0;
+
+  var domainsValues   = scDomainsValuesLength + odDomainsValuesLength;
+
+  if (domainsValues && domainsValues < 3 && domainsValues > 0) {
     $('.add_other_domain').show();
   } else {
     $('.add_other_domain').hide();
-  }
-
-  var toggleDomainLink;
-
-  toggleDomainLink = function(event) {
-    var targetVal = $(event.currentTarget).val();
-
-    if (targetVal && targetVal.length > 2) {
-      $('.add_other_domain').hide();
-      $('.form-inputs-other-domains').remove();
-    } else if (targetVal && targetVal.length > 0) {
-      if (targetVal.length == 2 && $('.form-inputs-other-domains:visible').length == 2) {
-        $('.add_other_domain').hide();
-        $('.form-inputs-other-domains:visible:last').remove();
-      } else if (targetVal.length > 1 && $('.form-inputs-other-domains:visible').length > 0) {
-        $('.add_other_domain').hide();
-      } else if (targetVal.length > 0) {
-        $('.add_other_domain').show();
-      }
-    } else {
-      $('.add_other_domain').hide();
-      $('.form-inputs-other-domains').remove();
-    }
   };
 
-  $('.domains-chose').on('change', toggleDomainLink);
+  var toggleDomainLink;
+  var changeMultiselect;
+
+  toggleDomainLink = function(event) {
+    var scDomainsValues = $('.sc-domains-chose').val();
+    var odDomainsValues = $('.o-domains-chose').val();
+    var scDomainsValuesLength = scDomainsValues ? scDomainsValues.length : 0;
+    var odDomainsValuesLength = odDomainsValues ? odDomainsValues.length : 0;
+
+    var domainsValues = scDomainsValuesLength + odDomainsValuesLength;
+    var targetVal     = $(event.currentTarget).val();
+
+    if ($(event.currentTarget).hasClass('sc-domains-chose')) {
+      if (targetVal && (targetVal.length + odDomainsValuesLength) > 2) {
+        $('.add_other_domain').hide();
+        $('.form-inputs-other-domains').remove();
+      } else if (targetVal && (targetVal.length + odDomainsValuesLength) > 0) {
+        if ((targetVal.length + odDomainsValuesLength) == 2 && $('.form-inputs-other-domains:visible').length > 1) {
+          $('.add_other_domain').hide();
+          $('.form-inputs-other-domains:visible:last').remove();
+        } else if ((targetVal.length + odDomainsValuesLength) > 1 && $('.form-inputs-other-domains:visible').length > 0) {
+          $('.add_other_domain').hide();
+        } else if ((targetVal.length + odDomainsValuesLength) > 0) {
+          $('.add_other_domain').show();
+        }
+      } else {
+        $('.add_other_domain').hide();
+        $('.form-inputs-other-domains').remove();
+      }
+    } else if ($(event.currentTarget).hasClass('o-domains-chose')) {
+      if (targetVal && (targetVal.length + scDomainsValuesLength) > 2) {
+        $('.add_other_domain').hide();
+        $('.form-inputs-other-domains').remove();
+      } else if (targetVal && (targetVal.length + scDomainsValuesLength) > 0) {
+        if ((targetVal.length + scDomainsValuesLength) == 2 && $('.form-inputs-other-domains:visible').length == 2) {
+          $('.add_other_domain').hide();
+          $('.form-inputs-other-domains:visible:last').remove();
+        } else if ((targetVal.length + scDomainsValuesLength) > 1 && $('.form-inputs-other-domains:visible').length > 0) {
+          $('.add_other_domain').hide();
+        } else if ((targetVal.length + scDomainsValuesLength) > 0) {
+          $('.add_other_domain').show();
+        }
+      } else {
+        $('.add_other_domain').show();
+      }
+    }
+  }
+
+  // multiselects
+  changeMultiselect = function(event) {
+    var multiselects_o_domains  = $('.o-domains-chose')
+    var multiselects_sc_domains = $('.sc-domains-chose')
+
+    var targetVal = $(event.currentTarget).val();
+
+    if ($(event.currentTarget).hasClass('sc-domains-chose')) {
+      if (targetVal && targetVal.length == 2) {
+        multiselects_o_domains.attr('disabled', false);
+        multiselects_o_domains.chosen('destroy').chosen({ max_selected_options: 1 });
+      } else if (targetVal && targetVal.length == 1) {
+        multiselects_o_domains.attr('disabled', false);
+        multiselects_o_domains.chosen('destroy').chosen({ max_selected_options: 2 });
+      } else if (targetVal && targetVal.length == 3) {
+        multiselects_o_domains.attr('disabled', true);
+        multiselects_o_domains.chosen('destroy').chosen({})
+      } else {
+        multiselects_o_domains.attr('disabled', false);
+        multiselects_o_domains.chosen('destroy').chosen({ max_selected_options: 3 });
+      }
+
+    } else if ($(event.currentTarget).hasClass('o-domains-chose')) {
+      if (targetVal && targetVal.length == 2) {
+        multiselects_sc_domains.attr('disabled', false);
+        multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 1 });
+      } else if (targetVal && targetVal.length == 1) {
+        multiselects_sc_domains.attr('disabled', false);
+        multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 2 });
+      } else if (targetVal && targetVal.length == 3) {
+        multiselects_sc_domains.attr('disabled', true);
+        multiselects_sc_domains.chosen('destroy').chosen({})
+      } else {
+        multiselects_sc_domains.attr('disabled', false);
+        multiselects_sc_domains.chosen('destroy').chosen({ max_selected_options: 3 });
+      }
+    }
+  }
+
+  $('.sc-domains-chose, .o-domains-chose').on('change', toggleDomainLink);
+  $('.sc-domains-chose, .o-domains-chose').on('change', changeMultiselect);
 };
 
 function onReady() {
@@ -286,4 +404,5 @@ function onReady() {
   }
 }
 
+$(document).foundation();
 document.addEventListener('DOMContentLoaded', onReady);

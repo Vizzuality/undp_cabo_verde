@@ -14,17 +14,4 @@ module LocalizationsHelper
       act_localizations_path(act_id: owner.id)
     end
   end
-
-  def cape_verde
-    country = ISO3166::Country['CV']
-    country.translations[I18n.locale.to_s] || country.name
-  end
-
-  def relation_location_class
-    if request.path.include?('/actors/')
-      :actor_localizations
-    else
-      :act_localizations
-    end
-  end
 end

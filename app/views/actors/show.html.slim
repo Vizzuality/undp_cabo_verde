@@ -1,4 +1,4 @@
-.form-actions
+.form-actors
   .row
     .column.medium-8.medium-offset-1
       .row
@@ -14,54 +14,62 @@
             = f.error_notification
         .row
           .column.medium-4
-            = f.label :type, class: 'right inline'
+            = f.label :type, class: 'right inline', disabled: true
           .column.medium-8
-            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
+            = f.input :type, label: false, collection: @types,
+              as: :collection_select, disabled: true
         .row
           .column.medium-4
             = f.label :name, class: 'right inline'
           .column.medium-8
-            = f.input :name, label: false, disabled: common_form?
+            = f.input :name, label: false
         -if @actor.micro?
           .row
             .column.medium-4
-              = f.label :title, class: 'right inline'
+              = f.label :title, class: 'right inline', disabled: true
             .column.medium-8
-              = f.input :title, collection: @actor.title_select, as: :collection_select, label: false, disabled: true
+              = f.input :title, collection: @actor.title_select,
+                as: :collection_select, label: false, disabled: true
           .row
             .column.medium-4
-              = f.label :gender, class: 'right inline'
+              = f.label :gender, class: 'right inline', disabled: true
             .column.medium-8
-              = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false, disabled: true
+              = f.input :gender, collection: @actor.gender_select,
+                as: :collection_select, label: false, disabled: true
 
         - if @actor.macro?
           .row
             .column.medium-4
-              = f.label :operational_field, class: 'right inline'
+              = f.label :operational_field, class: 'right inline', disabled: true
             .column.medium-8
-              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, disabled: true
+              = f.input :operational_field, collection: @operational_fields,
+                as: :collection_select, label: false, disabled: true
 
         - if @actor.meso_or_macro?
           .row
             .column.medium-4
-              = f.label :short_name, class: 'right inline'
+              = f.label :short_name, class: 'right inline', disabled: true
             .column.medium-8
               = f.input :short_name, label: false, disabled: true
           .row
             .column.medium-4
-              = f.label :legal_status, class: 'right inline'
+              = f.label :legal_status, class: 'right inline', disabled: true
             .column.medium-8
               = f.input :legal_status, label: false, disabled: true
           .row
             .column.medium-4
-              = f.label :other_names, class: 'right inline'
+              = f.label :other_names, class: 'right inline', disabled: true
             .column.medium-8
               = f.input :other_names, label: false, disabled: true
           .row
             .column.medium-4
-              = f.label :organization_type_ids, class: 'right inline'
+              = f.label :organization_type_ids, class: 'right inline', disabled: true
             .column.medium-8
-              = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+              = f.input :organization_type_ids, collection: @organization_types,
+                as: ((OrganizationType.count > 4) ? :select : :check_boxes),
+                label: false, input_html: { multiple: true,
+                class: ((OrganizationType.count > 4) ? "js-mselect" : "") },
+                disabled: true
 
     = render partial: f
 
@@ -77,7 +85,7 @@
           = render partial: 'comments/comments', locals: { commentable: @actor }
         - if (can? :create, Comment)
           = render partial: 'comments/form',   locals: { commentable: @actor }
-  
+
   - if (can? :manage, @actor)
     .row.footer-helper
 

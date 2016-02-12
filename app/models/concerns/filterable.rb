@@ -37,10 +37,15 @@ module Filterable
           @query = @query.joins(:categories).where({ categories: { id: @domains }})
         end
 
+        if @start_date || @end_date
+          @first_date  = (Time.zone.now - 50.years).beginning_of_day
+          @second_date = (Time.zone.now + 50.years).end_of_day
+        end
+
         if @model_name.name.include?('Actor')
           if @start_date && !@end_date
-            where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') >= ? OR
-                           COALESCE(locations.end_date, '#{@start_date.to_time.end_of_day}') >= ?",
+            where_query = "COALESCE(locations.start_date, '#{@first_date}') >= ? OR
+                           COALESCE(locations.end_date, '#{@second_date}') >= ?",
                            @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day
 
             a = @query.joins(:location).where(where_query)
@@ -55,8 +60,8 @@ module Filterable
           end
 
           if @end_date && !@start_date
-            where_query = "COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') <= ? OR
-                           COALESCE(locations.start_date, '#{@end_date.to_time.beginning_of_day}') <= ?",
+            where_query = "COALESCE(locations.end_date, '#{@second_date}') <= ? OR
+                           COALESCE(locations.start_date, '#{@first_date}') <= ?",
                            @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day
 
             a = @query.joins(:location).where(where_query)
@@ -71,9 +76,9 @@ module Filterable
           end
 
           if @start_date && @end_date
-            where_query = "COALESCE(locations.start_date, '#{@start_date.to_time.end_of_day}') BETWEEN ? AND ? OR
-                           COALESCE(locations.end_date, '#{@end_date.to_time.beginning_of_day}') BETWEEN ? AND ? AND
-                           ? BETWEEN COALESCE(locations.start_date, '#{@start_date.to_time.beginning_of_day}') AND COALESCE(locations.end_date, '#{@end_date.to_time.end_of_day}')",
+            where_query = "COALESCE(locations.start_date, '#{@first_date}') BETWEEN ? AND ? OR
+                           COALESCE(locations.end_date, '#{@second_date}') BETWEEN ? AND ? AND
+                           ? BETWEEN COALESCE(locations.start_date, '#{@first_date}') AND COALESCE(locations.end_date, '#{@second_date}')",
                            @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                            @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
                            @start_date.to_time.beginning_of_day
@@ -90,20 +95,24 @@ module Filterable
           end
         else
           if @start_date && !@end_date
-            @query = @query.where("#{@model_name.to_s.tableize}.start_date >= ? OR #{@model_name.to_s.tableize}.end_date >= ?",
+            @query = @query.where("COALESCE(#{@model_name.to_s.tableize}.start_date, '#{@first_date}') >= ? OR
+                                   COALESCE(#{@model_name.to_s.tableize}.end_date, '#{@second_date}') >= ?",
                                    @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
           end
 
           if @end_date && !@start_date
-            @query = @query.where("#{@model_name.to_s.tableize}.end_date <= ? OR #{@model_name.to_s.tableize}.start_date <= ?",
+            @query = @query.where("COALESCE(#{@model_name.to_s.tableize}.end_date, '#{@second_date}') <= ? OR
+                                   COALESCE(#{@model_name.to_s.tableize}.start_date, '#{@first_date}') <= ?",
                                    @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
           end
 
           if @start_date && @end_date
-            @query = @query.where("#{@model_name.to_s.tableize}.start_date BETWEEN ? AND ? OR
-                                   #{@model_name.to_s.tableize}.end_date BETWEEN ? AND ? OR
-                                   ? BETWEEN #{@model_name.to_s.tableize}.start_date AND #{@model_name.to_s.tableize}.end_date",
-                                   @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
+            @query = @query.where("COALESCE(#{@model_name.to_s.tableize}.start_date, '#{@first_date}') BETWEEN ? AND ? OR
+                                   COALESCE(#{@model_name.to_s.tableize}.end_date, '#{@second_date}') BETWEEN ? AND ? AND
+                                   ? BETWEEN COALESCE(#{@model_name.to_s.tableize}.start_date, '#{@first_date}') AND COALESCE(#{@model_name.to_s.tableize}.end_date, '#{@second_date}')",
+                                   @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                                   @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                                   @start_date.to_time.beginning_of_day)
           end
         end
 

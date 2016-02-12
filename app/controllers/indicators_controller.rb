@@ -77,7 +77,9 @@ class IndicatorsController < ApplicationController
 
     def set_selection
       @indicator_relation_types = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ] }
-      @categories               = SocioCulturalDomain.order(:name)
+      @categories = SocioCulturalDomain.order(:name)
+      @units = Unit.order(:name)
+      @acts_to_select = Act.exclude_related_actions_for_indicator(@indicator)
     end
 
     def set_memberships

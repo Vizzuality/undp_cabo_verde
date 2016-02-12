@@ -1,13 +1,13 @@
 Category.seed(:id,
-  {id: 18, type: 'SocioCulturalDomain', name: 'Economy'},
-  {id: 19, type: 'SocioCulturalDomain', name: 'Education'},
-  {id: 20, type: 'SocioCulturalDomain', name: 'Faith'},
-  {id: 21, type: 'SocioCulturalDomain', name: 'Family'},
-  {id: 22, type: 'SocioCulturalDomain', name: 'Politics'},
-  {id: 23, type: 'OtherDomain', name: 'Agriculture'},
-  {id: 24, type: 'OtherDomain', name: 'Fishery'},
-  {id: 25, type: 'OtherDomain', name: 'Health'},
-  {id: 26, type: 'OtherDomain', name: 'Transport'}
+  {id: 25, type: 'SocioCulturalDomain', name: 'Economy'},
+  {id: 26, type: 'SocioCulturalDomain', name: 'Education'},
+  {id: 27, type: 'SocioCulturalDomain', name: 'Faith'},
+  {id: 28, type: 'SocioCulturalDomain', name: 'Family'},
+  {id: 29, type: 'SocioCulturalDomain', name: 'Politics'},
+  {id: 30, type: 'OtherDomain', name: 'Agriculture'},
+  {id: 31, type: 'OtherDomain', name: 'Fishery'},
+  {id: 32, type: 'OtherDomain', name: 'Health'},
+  {id: 33, type: 'OtherDomain', name: 'Transport'}
 )
 
 puts ''

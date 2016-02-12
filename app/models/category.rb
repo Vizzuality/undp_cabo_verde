@@ -14,7 +14,11 @@ class Category < ActiveRecord::Base
   validates :name, uniqueness: true
 
   scope :with_children,     -> { includes(:children) }
-  scope :domain_categories, -> { where(type: ['SocioCulturalDomain', 'OtherDomain']) }
+  scope :domain_categories, -> { where(type: ['SocioCulturalDomain', 'OtherDomain']).order(:name) }
+  scope :scd_categories,    -> { where(type: 'SocioCulturalDomain').order(:name)                  }
+  scope :od_categories,     -> { where(type: 'OtherDomain').order(:name)                          }
+  scope :of_categories,     -> { where(type: 'OperationalField').order(:name)                     }
+  scope :ot_categories,     -> { where(type: 'OrganizationType').order(:name)                     }
 
   def parent_name
     parent.try(:name)

@@ -47,17 +47,18 @@ I want to manage an actor
     Then I should be on the actor page for "New Organization"
     And the field "Name" should contain "New Organization"
 
-  Scenario: User can change actor type from macro to meso
-    Given I am authenticated user
-    And organization
-    When I go to the edit actor page for "Organization one"
-    And I select "Meso" from "actor_macro_type"
-    And I fill in "actor_macro_name" with "New Department"
-    And I fill in "actor_macro_observation" with "It's description for department"
-    And I press "Update"
-    Then I should be on the actor page for "New Department"
-    And I should have one actor meso
-    And the field "Name" should contain "New Department"
+  # The field level is disabled on edit form!
+  # Scenario: User can change actor type from macro to meso
+  #   Given I am authenticated user
+  #   And organization
+  #   When I go to the edit actor page for "Organization one"
+  #   And I select "Meso" from "actor_macro_type"
+  #   And I fill in "actor_macro_name" with "New Department"
+  #   And I fill in "actor_macro_observation" with "It's description for department"
+  #   And I press "Update"
+  #   Then I should be on the actor page for "New Department"
+  #   And I should have one actor meso
+  #   And the field "Name" should contain "New Department"
 
   Scenario: Adminuser can edit not owned actor
     Given user
@@ -69,11 +70,13 @@ I want to manage an actor
   Scenario: User can create actor
     Given user
     And socio_cultural_domain_2
+    And operational field
     And I am authenticated adminuser
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
-    And I check "Faith" within ".actor_merged_domain_ids"
+    And I check "Faith" within ".actor_socio_cultural_domain_ids"
+    And I select "International" from "actor_operational_field"
     And I press "Create"
     Then I should have one actor
     And I should be on the actor page for "Orga by admin"
@@ -175,18 +178,16 @@ I want to manage an actor
     And department
     And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on overlapping ".add_child_actor" within ".add-relations"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     And I select from the following field ".relation_child_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "belongs to"
+    And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then the select field "Actor" should contain "New Organization"
-    Then the select field "Relation title" should contain "belongs to"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
+    Then I should see "Belongs To" within "#actor_relation_form"
+    And I should see "Organization one" within "#actor_relation_form"
 
   @javascript
   Scenario: User can add actor parent relation to actor
@@ -196,59 +197,88 @@ I want to manage an actor
     And department
     And relation_types
     When I go to the edit actor page for "Person one"
-    And I click on overlapping ".add_child_actor" within ".add-relations"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     When I click on overlapping ".switch_parent_form"
     And I select from the following field ".relation_parent_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "belongs to"
+    And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then the select field "Actor" should contain "New Organization"
-    And the select field "Relation title" should contain "belongs to"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
+    Then I should see "Organization one"
+    And I should see "Contains"
+
+  @javascript
+  Scenario: User can not add actor parent relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with relations
+    And person
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    When I click on overlapping ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Person one"
+    Then I should not be able to select from the following field ".relation_parent_id" with "Department one"
 
   @javascript
   Scenario: User can remove actor relation from actor
     Given actor with relations
     And I am authenticated adminuser
     When I go to the actor page for "Person one with relation"
-    And the select field "Actor" should contain "Department one"
+    And I should see "Department one"
     When I follow "Edit"
-    And I click on ".remove_fields"
+    And I click on overlapping ".remove_fields_preview"
     And I press "Update"
     And I go to the actor page for "Person one with relation"
     Then I should not see "Department one"
 
-  @javascript
-  Scenario: User can add action relation to actor
-    Given I am authenticated user
-    And person
-    And first act
-    And act_actor_relation_types
-    When I go to the edit actor page for "Person one"
-    And I click on ".add_action"
-    And I select from the following field ".relation_action_id" with "First one"
-    And I select from the following field ".relation_type_id" with "implements"
-    When I fill in the following field ".relation_start_date" with "1990-03-10"
-    When I fill in the following field ".relation_end_date" with "2010-03-10"
-    And I press "Update"
-    And I go to the actor page for "Person one"
-    Then the select field "Action" should contain "First one"
-    Then the select field "Relation title" should contain "implements" within ".actor-connection-action"
-    And the field "Start date" should contain "1990-03-10"
-    And the field "End date" should contain "2010-03-10"
+   @javascript
+   Scenario: User can add action relation to actor
+     Given I am authenticated user
+     And person
+     And first act
+     And act_actor_relation_types
+     When I go to the edit actor page for "Person one"
+     And I click on overlapping ".action_relations"
+     Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
+     And I select from the following field ".relation_action_id" with "First one"
+     And I select from the following field ".relation_type_id" with "implements"
+     When I fill in the following field ".relation_start_date" with "1990-03-10"
+     When I fill in the following field ".relation_end_date" with "2010-03-10"
+     And I press "Update"
+     And I go to the actor page for "Person one"
+     And I click on overlapping ".action_relations"
+     Then I should see tab "#action_relation_form" within ".tabs-content"
+     Then I should see "First one" within ".relationtitle"
+     And I should see "Implements" within ".relationtype"
 
   @javascript
-  Scenario: User can remove action relation from actor
-    Given actor with action relations
-    And I am authenticated adminuser
-    When I go to the actor page for "Person one with relation"
-    Then the select field "Action" should contain "First one"
-    When I follow "Edit"
-    And I click on ".remove_fields"
-    And I press "Update"
-    And I go to the actor page for "Person one with relation"
-    Then I should not see "First one"
+  Scenario: User can not add action relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with action relations
+    And act
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".action_relations"
+    Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Person one with relation" within ".current-actor-wrapper"
+    And I select from the following field ".relation_action_id" with "Third one"
+    Then I should not be able to select from the following field ".relation_action_id" with "First one"
+
+   @javascript
+   Scenario: User can remove action relation from actor
+     Given actor with action relations
+     And I am authenticated adminuser
+     When I go to the actor page for "Person one with relation"
+     Then I should see "GENERAL INFO"
+     And I click on overlapping ".action_relations"
+     Then I should see tab "#action_relation_form" within ".tabs-content"
+     Then I should see "First one" within ".relationtitle"
+     When I follow "Edit"
+     And I click on overlapping ".action_relations"
+     Then I click on hidden ".remove_fields" on "#action_relation_form" within ".tabs-content"
+     And I press "Update"
+     And I go to the actor page for "Person one with relation"
+     And I click on overlapping ".action_relations"
+     Then I should see tab "#action_relation_form" within ".tabs-content"
+     Then I should not see "First one"
