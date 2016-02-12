@@ -67,9 +67,9 @@
       this.actionView = new root.app.View.sidebarActionView({
         router: this.router
       });
-      // this.searchesView = new root.app.View.sidebarSearchesView({
-      //   router: this.router
-      // });
+      this.searchesView = new root.app.View.sidebarSearchesView({
+        router: this.router
+      });
 
       this.setListeners();
     },

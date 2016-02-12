@@ -234,21 +234,8 @@
     },
 
     onClickSaveSearch: function() {
-      var query = this.router.getQueryParams();
-      var object = {
-        name: "name",
-        query: query
-      };
-
-      var searches = localStorage.getItem('searches');
-      searches = JSON.parse(searches);
-
-      if (searches == null) {
-        searches = [];
-      }
-
-      searches.push(object);
-      localStorage.setItem('searches', JSON.stringify(searches));
+      /* TODO */
+      console.warn('The feature hasn\'t been implemented yet');
     },
 
     on3x5Hover: function(e) {

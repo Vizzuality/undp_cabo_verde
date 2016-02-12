@@ -28,24 +28,16 @@
 
     setListeners: function() {
       this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
-      this.listenTo(root.app.pubsub, 'show:searches', this.render);
+      this.listenTo(root.app.pubsub, 'show:searches', this.fetchDataAndRender);
     },
 
-    getSavedSearches: function() {
-      var searches = JSON.parse(localStorage.getItem('searches'));
-      return searches;
+    fetchDataAndRender: function() {
+      this.render();
     },
 
     render: function() {
-      //get data from localStorage
-      var array = this.getSavedSearches();
-
-      var array2 = [
-        {name: "Andrew"},
-        {name: "Michael", age: 22}
-      ];
-
-      this.$el.html(this.template(array));
+      this.$el.html(this.template());
+      
       /* We finally slide the pane to display the information */
       this.show();
     }

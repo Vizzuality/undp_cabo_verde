@@ -13,7 +13,8 @@
 
     events: {
       'click .js-back': 'goBack',
-      'click .js-account': 'onAccountClick'
+      'click .js-account': 'onAccountClick',
+      'click .js-searches': 'onSearchesClick'
     },
 
     initialize: function(options) {
@@ -27,7 +28,7 @@
     setListeners: function() {
       this.listenTo(root.app.pubsub, 'show:actor', this.showGoBackButton);
       this.listenTo(root.app.pubsub, 'show:action', this.showGoBackButton);
-      // this.listenTo(root.app.pubsub, 'show:searches', this.showGoBackButton);
+      this.listenTo(root.app.pubsub, 'show:searches', this.showGoBackButton);
       this.listenTo(root.app.pubsub, 'click:goBack', this.hideGoBackButton);
       this.listenTo(root.app.pubsub, 'click:document', this.hideAccountPopover);
     },
@@ -40,6 +41,14 @@
       if(root.app.Helper.utils.matches(e.target, '.js-account')) {
         this.toggleAccountPopover();
       }
+    },
+
+    onSearchesClick: function() {
+      this.hideAccountPopover();
+      this.goBack();
+      root.app.pubsub.trigger('show:searches');
+      /* TODO */
+      console.warn('This feature hasn\'t been fully implemented yet');
     },
 
     /* Set the initial visibility of the go back button */

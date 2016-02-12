@@ -30,10 +30,11 @@
   }
 
   .content > .searches {
-    padding-top: 30px;
     padding-bottom: 20px;
 
     & > p {
+      padding-top: 5px;
+      margin-bottom: 0;
       color: $color-4;
       font-size: 14px;
       font-weight: 400;
@@ -49,6 +50,7 @@
     }
 
     & > button {
+      margin-top: 15px;
       width: 100%;
     }
 
