@@ -2,6 +2,7 @@ class Act < ActiveRecord::Base
   include Activable
   include Localizable
   include Filterable
+  include Commentable
 
   monetize :budget_cents, allow_nil: true
 
@@ -19,9 +20,6 @@ class Act < ActiveRecord::Base
   has_many :act_indicator_relations, foreign_key: :act_id
   has_many :indicators, through: :act_indicator_relations, dependent: :destroy
 
-  has_many :comments,      as: :commentable, dependent: :destroy
-  has_many :localizations, as: :localizable, dependent: :destroy
-
   # Categories
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
@@ -31,15 +29,12 @@ class Act < ActiveRecord::Base
   # For merged domains
   has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
 
-  accepts_nested_attributes_for :localizations,           allow_destroy: true
   accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,     allow_destroy: true, reject_if: :actor_invalid
   accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :indicator_invalid
   accepts_nested_attributes_for :other_domains,                                reject_if: :other_domain_invalid
 
-  after_create  :set_main_location,       if: 'localizations.any?'
-  after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   validates :type, presence: true
@@ -192,16 +187,8 @@ class Act < ActiveRecord::Base
     type.include?('ActMicro') || type.include?('ActMeso')
   end
 
-  def locations?
-    localizations.any?
-  end
-
   def categories?
     categories.any?
-  end
-
-  def comments?
-    comments.any?
   end
 
   def startdate
@@ -214,10 +201,6 @@ class Act < ActiveRecord::Base
 
   def underscore
     to_s.underscore
-  end
-
-  def main_locations
-    localizations.main_locations
   end
 
   def is_actor?
@@ -271,11 +254,5 @@ class Act < ActiveRecord::Base
       @end_date   = options['end_date']    if options['end_date'].present?
       @levels     = options['levels']      if options['level'].present?
       @domains    = options['domains_ids'] if options['domains_ids'].present?
-    end
-
-    def set_main_location
-      if localizations.main_locations.empty?
-        localizations.order(:created_at).first.update( main: true )
-      end
     end
 end

@@ -22,8 +22,12 @@
       /* actorModel and actionModel are used to store the information about the
        * maker whose popup is open. Their data can be fetched by this view, or
        * synced by another one using the pubsub object. */
-      this.actorModel = new root.app.Model.actorModel();
-      this.actionModel = new root.app.Model.actionModel();
+      this.actorModel = new root.app.Model.actorModel(null, {
+        router: this.router
+      });
+      this.actionModel = new root.app.Model.actionModel(null, {
+        router: this.router
+      });
 
       this.mapMapView = new root.app.View.mapMapView({ router: this.router });
       this.mapMarkersView = new root.app.View.mapMarkersView({
@@ -79,6 +83,8 @@
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
         this.onSidebarVisibilityChange);
       this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
+      this.listenTo(root.app.pubsub, 'filter:sidebarFilters',
+        this.onSidebarFiltersChange);
     },
 
     onMapRender: function(map) {
@@ -294,6 +300,10 @@
 
       this.mapMarkersView.filterMarkers(options);
       this.mapRelationsView.setFiltering(options);
+    },
+
+    onSidebarFiltersChange: function(options) {
+      this.mapMarkersView.filterMarkers(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a

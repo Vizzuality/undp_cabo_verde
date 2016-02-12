@@ -38,7 +38,7 @@ class IndicatorsController < ApplicationController
   def create
     @indicator = @user.indicators.build(indicator_params)
     if @indicator.save
-      redirect_to indicators_path
+      update_indicator_flow
     else
       render :new
     end
@@ -80,6 +80,7 @@ class IndicatorsController < ApplicationController
       @categories = SocioCulturalDomain.order(:name)
       @units = Unit.order(:name)
       @acts_to_select = Act.exclude_related_actions_for_indicator(@indicator)
+      @all_acts_to_select = Act.order(:name).filter_actives
     end
 
     def set_memberships

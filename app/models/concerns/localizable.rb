@@ -2,8 +2,28 @@ module Localizable
   extend ActiveSupport::Concern
 
   included do
+    has_many :localizations, as: :localizable, dependent: :destroy
+
+    accepts_nested_attributes_for :localizations, allow_destroy: true
+
+    after_create  :set_main_location, if: 'localizations.any?'
+    after_update  :set_main_location, if: 'localizations.any?'
+
+    scope :with_locations,  -> { joins(:localizations)                    }
+    # Used in serach
+    scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
+    scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
+
     def main_location
       main_locations.first if main_locations.any?
+    end
+
+    def locations?
+      localizations.any?
+    end
+
+    def main_locations
+      localizations.main_locations
     end
 
     def main_street
@@ -60,6 +80,13 @@ module Localizable
     def main_address
       [main_street, main_city, main_country].compact.join(', ')
     end
+
+    private
+      def set_main_location
+        if localizations.main_locations.empty?
+          localizations.order(:created_at).first.update( main: true )
+        end
+      end
   end
 
   class_methods do

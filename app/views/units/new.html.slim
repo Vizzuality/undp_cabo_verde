@@ -3,8 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('units.create_unit')
+          h2.form-title= t('units.create_unit')
 
   = simple_form_for @unit do |f|
     = render partial: f

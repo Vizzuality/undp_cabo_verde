@@ -1,12 +1,11 @@
 class Indicator < ActiveRecord::Base
   include Activable
+  include Commentable
 
   belongs_to :user, foreign_key: :user_id
 
   has_many :act_indicator_relations, foreign_key: :indicator_id
   has_many :acts, through: :act_indicator_relations, dependent: :destroy
-
-  has_many :comments, as: :commentable
 
   # Categories
   has_and_belongs_to_many :categories
@@ -46,10 +45,6 @@ class Indicator < ActiveRecord::Base
 
   def actions?
     acts.any?
-  end
-
-  def comments?
-    comments.any?
   end
 
   private

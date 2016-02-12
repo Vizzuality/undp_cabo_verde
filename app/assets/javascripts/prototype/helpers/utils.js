@@ -57,8 +57,8 @@
     /* Return true if the date is between startDate and endDate. In case
      * startDate is omitted, return true if date is before endDate. In case
      * endDate is omitted, return true if date is after startDate.
-     * The params must be a string parseable by the Date object, a Date object
-     * or a timestamp. */
+     * The params must be strings parseable by the Date object, Date objects or
+     * timestamps. */
     isDateBetween: function(date, startDate, endDate) {
       /* We parse the date param */
       if(typeof date === 'string') {
