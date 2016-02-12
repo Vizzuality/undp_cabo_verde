@@ -29,7 +29,7 @@
     .column.medium-4
       = f.label :actor_id, t('actors.actor') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
-      = f.input :actor_id, collection: @actors_to_select, as: :collection_select, label: false, input_html: { class: 'relation_actor_id' }, disabled: common_form?
+      = f.input :actor_id, collection: preview ? @all_actors_to_select : @actors_to_select, as: :collection_select, label: false, input_html: { class: 'relation_actor_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :start_date, class: 'right inline', disabled: common_form?

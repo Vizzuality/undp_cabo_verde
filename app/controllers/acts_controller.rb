@@ -116,10 +116,17 @@ class ActsController < ApplicationController
       @socio_cultural_domains = Category.scd_categories
       @other_domains          = Category.od_categories
       @merged_domains         = Category.domain_categories
+
       @parents_to_select      = Act.exclude_self_for_select(@act).exclude_parents_for_select(@act)
       @children_to_select     = Act.exclude_self_for_select(@act).exclude_children_for_select(@act)
       @actors_to_select       = Actor.exclude_related_actors(@act)
       @indicators_to_select   = Indicator.exclude_related_indicators(@act)
+
+      @all_parents_to_select  = Act.order(:name).filter_actives
+      @all_children_to_select = Act.order(:name).filter_actives
+      @all_actors_to_select   = Actor.order(:name).filter_actives
+      @all_indicators_to_select = Indicator.order(:name).filter_actives
+
       @units                  = Unit.order(:name)
       @actor_relation_types           = RelationType.order(:title).includes_actor_act_relations.collect     { |rt| [ rt.title, rt.id ]         }
       @action_relation_types          = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title, rt.id ]         }

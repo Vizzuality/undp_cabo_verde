@@ -80,6 +80,7 @@ class IndicatorsController < ApplicationController
       @categories = SocioCulturalDomain.order(:name)
       @units = Unit.order(:name)
       @acts_to_select = Act.exclude_related_actions_for_indicator(@indicator)
+      @all_acts_to_select = Act.order(:name).filter_actives
     end
 
     def set_memberships
