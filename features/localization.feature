@@ -8,7 +8,7 @@ I want to manage a actor and act localization
     Given I am authenticated user
     And person
     When I go to the edit actor page for "Person one"
-    And I click on ".add_location"
+    And I click on overlapping ".add_location"
     And I fill in the following field ".localization_name" with "Test location" within ".actor_micro_localizations_name"
     And I fill in the following field ".localization_lat" with "22.22222" within ".actor_micro_localizations_lat"
     And I fill in the following field ".localization_long" with "11.11111" within ".actor_micro_localizations_long"

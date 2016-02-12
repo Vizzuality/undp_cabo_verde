@@ -84,7 +84,7 @@ module RoutesHelper
   end
 
   def add_act_indicator_relation_path(name, f, association, class_name=nil)
-    form_name = 'act_relation_form'
+    form_name = 'action_relation_form'
     common_nested_path(form_name, name, f, association, class_name)
   end
 
