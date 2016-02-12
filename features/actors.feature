@@ -186,7 +186,7 @@ I want to manage an actor
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then I should see "Belongs To" within "#actor_relation_form"
+    Then I should see "Contains" within "#actor_relation_form"
     And I should see "Organization one" within "#actor_relation_form"
 
   @javascript
@@ -207,7 +207,7 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then I should see "Organization one"
-    And I should see "Contains"
+    And I should see "Belongs To"
 
   @javascript
   Scenario: User can not add actor parent relation to actor if relation exists
