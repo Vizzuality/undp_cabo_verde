@@ -5,8 +5,7 @@
       .column.medium-8.medium-offset-1
         .row
           .column.medium-8.medium-offset-4
-            h2
-              = t('user.edit_user')
+            h2.form-title= t('user.edit_user')
 
     = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
       = f.error_notification

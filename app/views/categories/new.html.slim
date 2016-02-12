@@ -3,8 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('categories.create_category')
+          h2.form-title= t('categories.create_category')
 
   = simple_form_for @category do |f|
     .row

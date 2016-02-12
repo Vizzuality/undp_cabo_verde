@@ -38,7 +38,7 @@ class IndicatorsController < ApplicationController
   def create
     @indicator = @user.indicators.build(indicator_params)
     if @indicator.save
-      redirect_to indicators_path
+      update_indicator_flow
     else
       render :new
     end
