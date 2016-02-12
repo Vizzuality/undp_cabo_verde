@@ -25,7 +25,9 @@
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
-      this.model = new root.app.Model.actionModel();
+      this.model = new root.app.Model.actionModel(null, {
+        router: this.router
+      });
       /* The DOM element to receive the Handlbars template */
       this.setListeners();
 
@@ -101,12 +103,10 @@
     },
 
     render: function() {
-      var relations = {
-        actors: _.union(this.model.get('actors').parents,
-          this.model.get('actors').children),
-        actions: _.union(this.model.get('actions').parents,
-          this.model.get('actions').children)
-      };
+      var visibleRelations = this.model.getVisibleRelations();
+      var relations = _.groupBy(visibleRelations, function(relation) {
+        return relation.type;
+      });
 
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
         this.status.toJSON()), { relations: relations })));
