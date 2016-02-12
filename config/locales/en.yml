@@ -436,8 +436,13 @@ en:
     categories: Categories
     start_date: Start date
     end_date: End date
-    log_in_to_save_search_html: <span>Login</span> to save this search
+    connect_to_save_search_html: <span>Log in</span> or <span>sign in</span> to save this search
+    log_in: Log In
+    sign_in: Sign In
+    log_out: Log Out
+    settings: Settings
     searches: Searches
+    account: Account
     more_info: More info
     all: All
     check_all: Check all

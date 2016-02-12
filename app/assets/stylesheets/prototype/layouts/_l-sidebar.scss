@@ -67,6 +67,8 @@
     align-items: center;
     padding-left: 25px;
     background-color: $color-1;
+
+    .popover-menu > .item { min-width: 100px; }
   }
 
   #overall-tab,

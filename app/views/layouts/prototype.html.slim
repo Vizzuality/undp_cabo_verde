@@ -99,10 +99,25 @@ html lang="en"
                 use xlink:href="#backArrowIcon" x="0" y="0"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
-            .button.-textual.js-searches
-              = t('front.searches')
+            .button.-textual.js-account
+              = t('front.account')
+              ul.popover-menu.js-account-popover._hidden
+                li.item
+                  a.link = t('front.log_in')
+                li.item
+                  a.link = t('front.sign_in')
+              / | Account's name
+              / ul.popover-menu.js-account-popover._hidden
+              /   li.item
+              /     a.link = t('front.searches')
+              /   li.item
+              /     a.link = t('front.settings')
+              /   li.item
+              /     a.link = t('front.log_out')
+                
+              / = t('front.log_in')
               svg.icon.-marginleft width="24" height="24"
-                use xlink:href="#searchesIcon" x="0" y="0"
+                use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form.content
@@ -179,7 +194,7 @@ html lang="en"
 
               .content.-secondary
                 .searches
-                  p = t('front.log_in_to_save_search_html')
+                  p = t('front.connect_to_save_search_html')
                   button.button.-secondary = t('front.save')
                   / button.button = t('front.save')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
