@@ -111,7 +111,8 @@ html lang="en"
                 li.item
                   a.link.js-searches = t('front.searches')
                 li.item
-                  a.link = t('front.settings')
+                  = link_to t('front.edit_account'), edit_user_registration_path(current_user),
+                    class: "link"
                 li.item
                   = link_to destroy_user_session_path, class: "link", method: 'delete' do
                     = t('front.logout')
