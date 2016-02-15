@@ -20,6 +20,7 @@
     events: {
       'click .js-apply': 'onApply',
       'blur .js-edit': 'onEdit',
+      'keypress .js-edit': 'onEditing',
       'click .js-delete': 'onDelete'
     },
 
@@ -42,27 +43,17 @@
       this.applySearch(searchId);
     },
 
+    onEditing: function(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault();
+        e.currentTarget.blur(); /* Will save the change */
+      }
+    },
+
     onEdit: function(e) {
       var el = e.currentTarget;
       var searchId = el.getAttribute('data-id');
-
-      /* We retrieve the model to update it */
-      var model = this.collection.where({ id: parseInt(searchId) });
-      if(model.length) {
-        model = model[0];
-        model.set('name', el.textContent.trim());
-        model.save(null, {
-            url: root.app.Helper.globals.apiUrl + 'favourites/' +
-              model.get('id') + '?token=' + gon.userToken
-          })
-          .fail(function() {
-            console.warn('Unable to change the name of the search ' + searchId);
-          });
-      } else {
-        console.warn('Unable to edit the search\'s name ' + searchId +
-          'because the model associated to it couldn\'t be found in the ' +
-          'collection');
-      }
+      this.updateSearch(searchId, el);
     },
 
     onDelete: function(e) {
@@ -137,6 +128,28 @@
       } else {
         console.warn('Unable to delete the search ' + searchId + 'because it ' +
           'couldn\'t be found in the collection');
+      }
+    },
+
+    /* Update the name of search whose id and DOM element are passed as
+     * arguments */
+    updateSearch: function(searchId, el) {
+      /* We retrieve the model to update it */
+      var model = this.collection.where({ id: parseInt(searchId) });
+      if(model.length) {
+        model = model[0];
+        model.set('name', el.textContent.trim());
+        model.save(null, {
+            url: root.app.Helper.globals.apiUrl + 'favourites/' +
+              model.get('id') + '?token=' + gon.userToken
+          })
+          .fail(function() {
+            console.warn('Unable to change the name of the search ' + searchId);
+          });
+      } else {
+        console.warn('Unable to edit the search\'s name ' + searchId +
+          'because the model associated to it couldn\'t be found in the ' +
+          'collection');
       }
     }
 
