@@ -22,6 +22,7 @@ jQuery ->
     $(this).before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
     showDatepicker()
+    addChosen()
 
   $(document).on 'click', '.add_act_relation_fields', (event) ->
     time = new Date().getTime()
@@ -35,6 +36,7 @@ jQuery ->
       current_indicator.text e.currentTarget.value
       return
     showDatepicker()
+    addChosen()
 
   $(document).on 'click', '.add_location', (event) ->
     $siblings = $(event.currentTarget).siblings('.form-inputs')
@@ -57,6 +59,7 @@ jQuery ->
       current_actor_action.text e.currentTarget.value
       return
     showDatepicker()
+    addChosen()
 
   $(document).on 'click', '.switch_parent_form', (event) ->
     time       = new Date().getTime()
@@ -72,6 +75,7 @@ jQuery ->
       current_actor_action.text e.currentTarget.value
       return
     showDatepicker()
+    addChosen()
 
   $(document).on 'click', '.switch_child_form', (event) ->
     time       = new Date().getTime()
@@ -87,6 +91,7 @@ jQuery ->
       current_actor_action.text e.currentTarget.value
       return
     showDatepicker()
+    addChosen()
 
   relations = $('.relation_child_id, .relation_parent_id')
   relations.each ->
@@ -118,4 +123,10 @@ jQuery ->
 
   $(document).on 'change', 'input.localization_main', (event) ->
     $('input.localization_main').not(this).prop('checked', false)
+
+  addChosen = ->
+    # enable chosen js
+    $('.chosen-select').chosen
+      allow_single_deselect: true
+      no_results_text: 'No results matched'
 
