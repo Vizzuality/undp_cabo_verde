@@ -1,6 +1,6 @@
 class ActIndicatorSerializer < BaseSerializer
   cached
-  self.version = 8
+  self.version = 9
 
   attributes :target_value, :unit
 
@@ -9,9 +9,9 @@ class ActIndicatorSerializer < BaseSerializer
 
   def attributes
     data = super
-    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date
-    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date
-    data['deadline']   = object.deadline.to_date.iso8601   if object.deadline
+    data['start_date'] = object.start_date.to_date.iso8601 if object.start_date.present?
+    data['end_date']   = object.end_date.to_date.iso8601   if object.end_date.present?
+    data['deadline']   = object.deadline.to_date.iso8601   if object.deadline.present?
     data
   end
 

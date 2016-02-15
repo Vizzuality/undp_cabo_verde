@@ -75,7 +75,7 @@ I want to manage an actor
     When I go to the new actor page
     And I select "Macro" from "actor_type"
     And I fill in "actor_name" with "Orga by admin"
-    And I check "Faith" within ".actor_merged_domain_ids"
+    And I check "Faith" within ".actor_socio_cultural_domain_ids"
     And I select "International" from "actor_operational_field"
     And I press "Create"
     Then I should have one actor
@@ -186,7 +186,7 @@ I want to manage an actor
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
     And I go to the actor page for "Person one"
-    Then I should see "Belongs To" within "#actor_relation_form"
+    Then I should see "Contains" within "#actor_relation_form"
     And I should see "Organization one" within "#actor_relation_form"
 
   @javascript
@@ -207,7 +207,19 @@ I want to manage an actor
     And I press "Update"
     And I go to the actor page for "Person one"
     Then I should see "Organization one"
-    And I should see "Contains"
+    And I should see "Belongs To"
+
+  @javascript
+  Scenario: User can not add actor parent relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with relations
+    And person
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".add_child_actor" within "#actor_relation_form"
+    Then I should see "Person one" within ".current-actor-wrapper"
+    When I click on overlapping ".switch_parent_form"
+    And I select from the following field ".relation_parent_id" with "Person one"
+    Then I should not be able to select from the following field ".relation_parent_id" with "Department one"
 
   @javascript
   Scenario: User can remove actor relation from actor
@@ -240,6 +252,18 @@ I want to manage an actor
      Then I should see tab "#action_relation_form" within ".tabs-content"
      Then I should see "First one" within ".relationtitle"
      And I should see "Implements" within ".relationtype"
+
+  @javascript
+  Scenario: User can not add action relation to actor if relation exists
+    Given I am authenticated adminuser
+    And actor with action relations
+    And act
+    When I go to the edit actor page for "Person one with relation"
+    And I click on overlapping ".action_relations"
+    Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
+    Then I should see "Person one with relation" within ".current-actor-wrapper"
+    And I select from the following field ".relation_action_id" with "Third one"
+    Then I should not be able to select from the following field ".relation_action_id" with "First one"
 
    @javascript
    Scenario: User can remove action relation from actor

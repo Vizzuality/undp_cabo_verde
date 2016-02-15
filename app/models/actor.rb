@@ -2,6 +2,8 @@ class Actor < ActiveRecord::Base
   include Activable
   include Localizable
   include Filterable
+  include Commentable
+  include Favorable
 
   belongs_to :user, foreign_key: :user_id
   belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
@@ -15,9 +17,6 @@ class Actor < ActiveRecord::Base
   has_many :act_actor_relations, foreign_key: :actor_id
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
-  has_many :comments,      as: :commentable, dependent: :destroy
-  has_many :localizations, as: :localizable, dependent: :destroy
-
   # Categories
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
@@ -27,23 +26,22 @@ class Actor < ActiveRecord::Base
   # For merged domains
   has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
 
-  accepts_nested_attributes_for :localizations,             allow_destroy: true
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
   accepts_nested_attributes_for :act_actor_relations,       allow_destroy: true, reject_if: :action_invalid
   accepts_nested_attributes_for :other_domains,                                  reject_if: :other_domain_invalid
 
-  after_create  :set_main_location,       if: 'localizations.any?'
-  after_update  :set_main_location,       if: 'localizations.any?'
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
   after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
 
-  validates :type,              presence: true
-  validates :name,              presence: true
-  validates :merged_domain_ids, presence: true
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :socio_cultural_domain_ids, presence: true, unless: -> (actor) { actor.other_domain_ids.present?          }
+  validates :other_domain_ids,          presence: true, unless: -> (actor) { actor.socio_cultural_domain_ids.present? }
 
-  validates_length_of :merged_domains, minimum: 1, maximum: 3
+  validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
+  validates_length_of :other_domains,          minimum: 0, maximum: 3
 
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActorMacro').
@@ -57,10 +55,16 @@ class Actor < ActiveRecord::Base
   scope :recent,          -> { order('updated_at DESC')                 }
   scope :meso_and_macro,  -> { where(type: ['ActorMeso', 'ActorMacro']) }
   scope :only_micro,      -> { where(type: 'ActorMicro')                }
-  scope :with_locations,  -> { joins(:localizations)                    }
-  # Used in serach
-  scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
-  scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
+
+  # Actors selection
+  scope :exclude_self_for_select,     -> (actor)  { where.not(id: actor.id).order(:name).filter_actives }
+  scope :exclude_parents_for_select,  -> (actor)  { where('id NOT IN (SELECT parent_id FROM actor_relations WHERE child_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  scope :exclude_children_for_select, -> (actor)  { where('id NOT IN (SELECT child_id FROM actor_relations WHERE parent_id=?)', actor.id).
+                                                    order(:name).filter_actives }
+  # For actions
+  scope :exclude_related_actors,      -> (action) { where('id NOT IN (SELECT actor_id FROM act_actor_relations WHERE act_id=?)', action.id).
+                                                    order(:name).filter_actives }
   # End scopes
 
   def self.types
@@ -185,16 +189,8 @@ class Actor < ActiveRecord::Base
     type.include?('ActorMeso') || type.include?('ActorMacro')
   end
 
-  def locations?
-    localizations.any?
-  end
-
   def categories?
     categories.any?
-  end
-
-  def comments?
-    comments.any?
   end
 
   def underscore
@@ -203,10 +199,6 @@ class Actor < ActiveRecord::Base
 
   def updated
     updated_at.to_s
-  end
-
-  def main_locations
-    localizations.main_locations
   end
 
   def parents_locations
@@ -240,19 +232,19 @@ class Actor < ActiveRecord::Base
     end
 
     def parent_invalid(attributes)
-      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['parent_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def child_invalid(attributes)
-      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['child_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def action_invalid(attributes)
-      attributes['act_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['act_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def other_domain_invalid(attributes)
-      attributes['name'].empty?
+      attributes['name'].blank?
     end
 
     def includes_actor_relations_belongs(child)
@@ -272,12 +264,6 @@ class Actor < ActiveRecord::Base
       @end_date   = options['end_date']    if options['end_date'].present?
       @levels     = options['levels']      if options['level'].present?
       @domains    = options['domains_ids'] if options['domains_ids'].present?
-    end
-
-    def set_main_location
-      if localizations.main_locations.empty?
-        localizations.order(:created_at).first.update( main: true )
-      end
     end
 
     def set_parent_location

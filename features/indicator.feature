@@ -42,8 +42,8 @@ I want to manage an indicator
     And I fill in "indicator_description" with "It's description for indicator"
     And I fill in "indicator_alternative_name" with "It's name for indicator"
     And I press "Create"
-    Then I should be on the indicators page
-    And I should see "New Indicator"
+    Then I should have one indicator
+    And I should be on the indicator page for "New Indicator"
 
   Scenario: User can not edit not owned indicator
     Given I am authenticated user
@@ -109,5 +109,15 @@ I want to manage an indicator
      And I go to the indicator page for "Indicator one"
      Then I should see "First act by admin" within ".relationtitle"
      And I should see "Belongs To" within ".relationtype"
+
+  @javascript
+  Scenario: User can not add action relation to indicator if relation exists
+    Given I am authenticated adminuser
+    And action with indicator relations
+    And act
+    When I go to the edit indicator page for "Indicator one with relation"
+    And I click on overlapping ".add_action"
+    And I select from the following field ".relation_act_id" with "Third one" within ".indicator_act_indicator_relations_act_id"
+    Then I should not be able to select from the following field ".relation_act_id" with "Action with indicator"
 
   # For locations see location.feature

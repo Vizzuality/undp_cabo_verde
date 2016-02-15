@@ -8,8 +8,9 @@
     & > .leaflet-popup-content { padding: 0px 20px 15px; }
   }
 
-  .leaflet-popup-tip {
-    box-shadow: none;
+  .leaflet-popup-tip-container {
+    height: 11px;
+    & > .leaflet-popup-tip { box-shadow: none; }
   }
 
   .delimiter {
@@ -42,14 +43,14 @@
   }
 
   &.-actors {
-    & > .leaflet-popup-content-wrapper { background-color: $color-7; }
-    .leaflet-popup-tip { border-top: 10px solid $color-7; }
-    .more-button { color: $color-7; }
-  }
-
-  &.-actions {
     & > .leaflet-popup-content-wrapper { background-color: $color-6; }
     .leaflet-popup-tip { border-top: 10px solid $color-6; }
     .more-button { color: $color-6; }
+  }
+
+  &.-actions {
+    & > .leaflet-popup-content-wrapper { background-color: $color-7; }
+    .leaflet-popup-tip { border-top: 10px solid $color-7; }
+    .more-button { color: $color-7; }
   }
 }

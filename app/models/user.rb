@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
 
   before_save :check_authentication_token
 
-  has_one  :admin_user
   # Actors
   has_many :actors
   has_many :actor_micros
@@ -31,6 +30,7 @@ class User < ActiveRecord::Base
   has_many :act_indicator_relations
   has_many :measurements
   has_many :units
+  has_many :favourites, -> { order(position: :asc) }, dependent: :destroy
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

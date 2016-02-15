@@ -1,0 +1,2 @@
+|
+  $("##{@object.id}-favourites-buttons").html("#{escape_javascript( render(partial: 'shared/favourites_buttons', locals: { object: @object }) )}")

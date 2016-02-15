@@ -5,4 +5,5 @@
 
   &.-secondary { stroke-opacity: .2; cursor: default; }
   &.-hidden { display: none; }
+  &.-sensitive { stroke-width: 10px; stroke-opacity: 0; }
 }

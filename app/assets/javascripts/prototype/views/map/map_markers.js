@@ -99,6 +99,44 @@
       this.trigger('click:marker', e.target);
     },
 
+    onMarkerHover: function(e) {
+      /* This method is called twice because Leaflet bings the mouseover event
+       * to the marker container and and the marker's HTML defined for the icon.
+       * We then broadcast the event only when the mouseover concerns the SVG
+       * icon. */
+      if(!e.originalEvent.relatedTarget) return;
+      if(root.app.Helper.utils.matches(e.originalEvent.relatedTarget, 'svg')) {
+        this.trigger('hover:marker', e.target);
+      }
+    },
+
+    onMarkerBlur: function(e) {
+      /* We close the popup only when the cursor leaves the marker and
+       * doesn't enter the popup */
+      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
+        '.leaflet-marker-icon') &&
+        !root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
+        '.leaflet-popup')) {
+        e.target.closePopup();
+      }
+    },
+
+    onMarkerOpen: function(marker) {
+      this.trigger('open:marker', marker);
+    },
+
+    onMarkerClose: function(marker) {
+      marker.closePopup();
+    },
+
+    onPopupBlur: function(e, marker) {
+      /* We close the popup when leaving it and not entering a marker */
+      if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
+        '.leaflet-marker-icon')) {
+        marker.closePopup();
+      }
+    },
+
     /* Only add the markers of the collections that haven't been filtered out */
     addFilteredMarkers: function() {
       var queryParams = this.router.getQueryParams();
@@ -122,7 +160,6 @@
           ((type === 'actors') ? '-actor js-actor-marker"' : '-action js-action-marker"') +
           ' data-id="' + id + '" data-location="' + locationId + '">' +
           '<use xlink:href="#' + level + 'MarkerIcon" x="0" y="0" />' +
-          '<use xlink:href="#' + level + 'OutlineMarkerIcon" x="0" y="0" />' +
           '</svg>',
         className: type === 'actors' ? 'actor' : 'action',
         iconSize: L.point(22, 22),
@@ -136,17 +173,49 @@
      * "actions")
      * NOTE: it shouldn't be called outside of addMarkers */
     _addEntityMarkers: function(collection, type) {
-      var marker, popup;
+      var marker, markerOptions, popup;
       _.each(collection, function(entity) {
         _.each(entity.locations, function(location) {
 
-          marker = L.marker([location.lat, location.long], {
+          markerOptions = {
             icon: this._generateMarkerIcon(type, entity.level, entity.id,
               location.id),
             type: type,
             id: entity.id,
             locationId: location.id
-          });
+          };
+
+          /* We add to each marker their start and end dates */
+          if(location.start_date) {
+            markerOptions.startDate = location.start_date;
+          }
+          if(location.end_date) {
+            markerOptions.endDate = location.end_date;
+          }
+
+          /* For actions, we can have global start and end dates defined, we
+           * then make sure to use them when the specific location don't provide
+           * them or when the global date range isn't repected */
+          if(type === 'actions' && entity.start_date) {
+            if(!location.start_date ||
+              (new Date(location.start_date)).getTime() < (new Date(entity.start_date)).getTime()) {
+              markerOptions.startDate = entity.start_date;
+            }
+          }
+          if(type === 'actions' && entity.end_date) {
+            if(!location.end_date ||
+              (new Date(location.end_date)).getTime() > (new Date(entity.end_date)).getTime()) {
+              markerOptions.endDate = entity.end_date;
+            }
+          }
+
+          /* We add the categories attached to the marker */
+          markerOptions.socioCulturalDomains = _.map(entity.socio_cultural_domains,
+            function(c) { return c.id; });
+          markerOptions.otherDomains = _.map(entity.other_domains,
+            function(c) { return c.id; });
+
+          marker = L.marker([location.lat, location.long], markerOptions);
 
           this.markersLayer.addLayer(marker);
 
@@ -163,6 +232,8 @@
           marker.bindPopup(popup);
 
           marker.on('click', this.onMarkerClick.bind(this));
+          marker.on('mouseover', this.onMarkerHover.bind(this));
+          marker.on('mouseout', this.onMarkerBlur.bind(this));
         }, this);
       }, this);
     },
@@ -201,19 +272,19 @@
       switch(true) {
         case mapZoom <= 9:
           spiralGap             = 1;
-          spiralInitialDistance = 0;
+          spiralInitialDistance = 5;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         case mapZoom <= 11:
           spiralGap             = 2;
-          spiralInitialDistance = 2;
+          spiralInitialDistance = 10;
           spiralAngleFactor     = Math.PI / 3;
           break;
 
         default:
           spiralGap             = 5;
-          spiralInitialDistance = 5;
+          spiralInitialDistance = 20;
           spiralAngleFactor     = Math.PI / 3;
           break;
       }
@@ -335,7 +406,7 @@
       this.$el.find('.js-actor-marker, .js-action-marker').css('transform',
         'scale(' + scale + ')');
 
-      /* We also udate the size of the position markers but as the CSS transform
+      /* We also update the size of the position markers but as the CSS transform
        * property already has a value, we add the scale to it */
       var positionMarkers = this.$el.find('.js-position-marker'),
           transform;
@@ -376,8 +447,13 @@
     /* Highlight the leaflet markers passed as arguments and add to them a
      * special class so we know they're highlighted because they're linked with
      * the current clicked marker */
-    highlightRelatedMarkers: function(relatedMarkers) {
-      var domMarker;
+    highlightRelatedMarkers: function(marker, relatedMarkers) {
+      /* We compute the relations */
+      var model = marker.options.type === 'actors' ? this.actorModel :
+        this.actionModel;
+      var visibleRelations = model.getVisibleRelations();
+
+      var domMarker, relation;
       _.each(relatedMarkers, function(relatedMarker) {
         domMarker = this.getMarkers(relatedMarker.options.type,
           relatedMarker.options.id, relatedMarker.options.locationId);
@@ -387,10 +463,18 @@
             relatedMarker.options.locationId ].join('/') +
             ' on the map');
         } else {
-          if(this.status.get('relationshipsVisible')) {
-            domMarker.classList.add('-active');
+          relation = _.findWhere(visibleRelations, {
+            type: relatedMarker.options.type,
+            id:   relatedMarker.options.id
+          });
+
+          /* We only highlight the marker if the relation is visible */
+          if(relation) {
+            if(this.status.get('relationshipsVisible')) {
+              domMarker.classList.add('-active');
+            }
+            domMarker.classList.add('js-related-marker');
           }
-          domMarker.classList.add('js-related-marker');
         }
       }, this);
     },
@@ -422,12 +506,17 @@
         this.actionModel;
 
       popup.setContent(this.popupTemplate(model.toJSON()));
-      this.$el.find('.leaflet-popup .js-more').on('click', function() {
-        this.trigger('open:marker', marker);
-      }.bind(this));
-      this.$el.find('.leaflet-popup .js-close').on('click', function() {
-        this.map.closePopup();
-      }.bind(this));
+
+      var $popup = this.$el.find('.leaflet-popup');
+
+      $popup.find('.js-more').on('click', function() {
+        this.onMarkerOpen(marker); }.bind(this));
+
+      $popup.find('.js-close').on('click', function() {
+        this.onMarkerClose(marker); }.bind(this));
+
+      $popup.on('mouseleave', function(e) {
+        this.onPopupBlur(e, marker); }.bind(this));
     },
 
     /* Remove a special class from the markers which were related (linked) to
@@ -455,31 +544,57 @@
       this.map.removeLayer(this.optimalPositioningLayer);
     },
 
-    /* Filter the markers depending on if they exist at the passed date.
+    /* Filter the markers depending on if they exist at the passed date or if
+     * they belong to the passed category.
      * If not, they're hidden.
      * NOTE: this function MUST BE optimized as much as possible because it's
      * called in a requestAnimationFrame (its duration should be less than 10
      * ms) */
     filterMarkers: function(options) {
-      /* If we're asked to filter the markers for the same date, we don't do
-       * anything (important for rendering improvements when seing a big range)
-       */
-      if(this.lastFilterDate && this.lastFilterDate === options.date) {
-        return;
-      } else {
-        this.lastFilterDate = options.date;
+      if(options.hasOwnProperty('date')) {
+        /* If we're asked to filter the markers for the same date, we don't do
+         * anything (important for rendering improvements when seing a big range)
+         */
+        if(this.lastFilterDate && this.lastFilterDate === options.date) {
+          return;
+        } else {
+          this.lastFilterDate = options.date;
+        }
+      }
+
+      /* If we don't want to filter by a category anymore, we just re-set the
+       * last date used to filter */
+      if(options.hasOwnProperty('category') && !options.category) {
+        options.date = this.lastFilterDate;
       }
 
       this.map.removeLayer(this.markersLayer);
 
       /* In case there's no date, we reset the markers */
-      if(!options.date) {
+      if(options.hasOwnProperty('date') && !options.date) {
         this.markers = this.unfilteredMarkers;
         this.lastFilterDate = null;
-      } else {
+      } else if(options.hasOwnProperty('date') && options.date) {
+        options.date = options.date.getTime();
         this.markers = _.filter(this.unfilteredMarkers,
           function(m) {
-          return Math.random() < 0.5;
+          var startDate = m.options.startDate && new Date(m.options.startDate),
+              endDate   = m.options.endDate   && new Date(m.options.endDate);
+          return !startDate && !endDate ||
+            startDate && !endDate && options.date >= startDate.getTime() ||
+            !startDate && endDate && options.date <= endDate.getTime() ||
+            startDate && endDate && options.date >= startDate.getTime() &&
+            options.date <= endDate.getTime();
+        });
+      } else if(options.hasOwnProperty('category') && options.category) {
+        /* We actually filter the markers which were already present on the map
+         */
+        this.markers = _.filter(this.markersLayer.getLayers(), function(m) {
+          if(options.category === 'socio_cultural_domains') {
+            return ~m.options.socioCulturalDomains.indexOf(options.categoryId);
+          } else {
+            return ~m.options.otherDomains.indexOf(options.categoryId);
+          }
         });
       }
 

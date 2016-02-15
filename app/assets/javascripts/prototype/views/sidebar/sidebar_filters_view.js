@@ -6,6 +6,7 @@
   root.app.View = root.app.View || {};
   root.app.Mixin = root.app.Mixin || {};
   root.app.Helper = root.app.Helper || {};
+  root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
     defaults: { isHidden: false }
@@ -21,7 +22,11 @@
       'change .toggle-button': 'onExpandFilter',
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
       'click .js-uncheck-all': 'onClickUncheckAll',
-      'click .js-check-all': 'onClickCheckAll'
+      'click .js-check-all': 'onClickCheckAll',
+      'mouseenter .js-3x5': 'on3x5Hover',
+      'mouseleave .js-3x5': 'on3x5Blur',
+      'mouseenter .js-3xX': 'on3xXHover',
+      'mouseleave .js-3xX': 'on3xXBlur'
     },
 
     initialize: function(options) {
@@ -227,6 +232,28 @@
       this.show();
     },
 
+    on3x5Hover: function(e) {
+      root.app.pubsub.trigger('filter:sidebarFilters', {
+        category: 'socio_cultural_domains',
+        categoryId: parseInt(e.currentTarget.getAttribute('data-id'))
+      });
+    },
+
+    on3x5Blur: function() {
+      root.app.pubsub.trigger('filter:sidebarFilters', { category: null });
+    },
+
+    on3xXHover: function(e) {
+      root.app.pubsub.trigger('filter:sidebarFilters', {
+        category: 'other_domains',
+        categoryId: parseInt(e.currentTarget.getAttribute('data-id'))
+      });
+    },
+
+    on3xXBlur: function() {
+      this.on3x5Blur();
+    },
+
     /* LOGIC */
 
     /* Expand or contract a filter depending of its current state */
@@ -328,6 +355,17 @@
      * inputs */
     syncInputsWithQueryParams: function() {
       var queryParams = this.router.getQueryParams();
+
+      /* We apply some transformations to the queryParams in order to take into
+       * account the specificity of the 3x5 and 3xX fields merged into one param
+       * domains_ids in the URL */
+      queryParams = _.clone(queryParams);
+      if(queryParams.domains_ids) {
+        queryParams['3x5_ids'] = queryParams.domains_ids;
+        queryParams['3xX_ids'] = queryParams.domains_ids;
+        delete queryParams.domains_ids;
+      }
+
       var input;
       _.each(queryParams, function(value, key) {
         input = this.getInputByName(key);
@@ -351,7 +389,8 @@
                 value[i] + '"]');
               if(option) {
                 option.selected = true;
-              } else if(value[i] !== '[]') {
+              } else if(value[i] !== '[]' && key !== '3x5_ids' &&
+                key !== '3xX_ids') {
                 console.warn('Unable to find the option "' + value[i] +
                   '" in the input "' + key + '"');
               }
@@ -424,12 +463,11 @@
     },
 
     /* Save the form state into the status model
-     * TODO: remove the console.warn once the form features are all implemented
      */
     applyFilters: function() {
       var inputs = this.getAllInputs();
 
-      var field, value, summary = {};
+      var field, value, summary = {}, domains_ids = [];
       for(var i = 0, j = inputs.length; i < j; i++) {
         field = inputs[i];
 
@@ -437,14 +475,24 @@
          * selected option */
         if(root.app.Helper.utils.matches(field, 'select')) {
           var selectedOptions = field.selectedOptions;
-          summary[field.name] = [];
-          for(var k = 0, l = selectedOptions.length; k < l; k++) {
-             summary[field.name].push(field.options[selectedOptions[k].index].value);
+
+          if(field.name === '3x5_ids' || field.name === '3xX_ids') {
+            for(var k = 0, l = selectedOptions.length; k < l; k++) {
+               domains_ids.push(field.options[selectedOptions[k].index].value);
+            }
+          } else {
+            summary[field.name] = [];
+            for(var k = 0, l = selectedOptions.length; k < l; k++) {
+               summary[field.name].push(field.options[selectedOptions[k].index].value);
+            }
           }
         } else {
           summary[field.name] = field.value;
         }
       }
+
+      if(domains_ids.length > 0) summary.domains_ids = domains_ids;
+
       this.router.setQueryParams(summary);
     },
 
@@ -452,16 +500,25 @@
     isApplyButtonDisabled: function() {
       var hiddenInputs = this.getAllHiddenInputs();
 
+      /* For the 3x5 and 3xX fields, the validation rule is that at least one
+       * of the set of checkboxes is checked (one of 3x5 or one of 3xX) */
+      var domainsCheckboxesCount = 0;
+
       var filterRootElem, checkedCheckboxesCount;
       for(var i = 0, j = hiddenInputs.length; i < j; i++) {
         filterRootElem = this.getFilterRootElem(hiddenInputs[i]);
         checkedCheckboxesCount =
           this.getFilterCheckedCheckboxes(filterRootElem).length;
 
-        if(checkedCheckboxesCount === 0) return true;
+        if(hiddenInputs[i].name === '3x5_ids' ||
+          hiddenInputs[i].name === '3xX_ids') {
+          domainsCheckboxesCount += checkedCheckboxesCount;
+        } else {
+          if(checkedCheckboxesCount === 0) return true;
+        }
       }
 
-      return false;
+      return domainsCheckboxesCount === 0;
     },
 
     /* Disable or enable the apply button depending if there's a filter with all

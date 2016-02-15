@@ -6,6 +6,7 @@
   line-height: 17px;
 
   &.-error {
+    color: $color-1;
     padding: 12px 12px 12px 37px;
     background: url(asset_path("message_alert.png")) top 10px left 10px / 17px no-repeat $color-17;
   }
