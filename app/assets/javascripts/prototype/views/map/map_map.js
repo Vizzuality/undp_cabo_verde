@@ -28,7 +28,7 @@
     render: function() {
       L.mapbox.accessToken = root.app.Helper.globals.mapToken;
 
-      this.map = L.mapbox.map('map', 'undp-caboverde.48351cad', {
+      this.map = L.mapbox.map('map', 'undp-caboverde.b3dd420c', {
         center: [14.91, -23.51],
         zoom: 13
       });
