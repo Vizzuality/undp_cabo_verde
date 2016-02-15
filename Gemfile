@@ -33,6 +33,7 @@ gem 'country_select'
 gem 'kaminari'
 
 gem 'acts_as_tree'
+gem 'acts-as-taggable-on'
 
 # User management
 gem 'devise'

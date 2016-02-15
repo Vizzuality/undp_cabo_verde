@@ -2,6 +2,8 @@ class Indicator < ActiveRecord::Base
   include Activable
   include Commentable
 
+  acts_as_taggable
+
   belongs_to :user, foreign_key: :user_id
 
   has_many :act_indicator_relations, foreign_key: :indicator_id

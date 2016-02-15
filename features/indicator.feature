@@ -120,4 +120,14 @@ I want to manage an indicator
     And I select from the following hidden field ".relation_act_id" with "Third one" within ".indicator_act_indicator_relations_act_id"
     Then I should not be able to select from the following field ".relation_act_id" with "Action with indicator"
 
+  Scenario: User can add tags indicator
+    Given I am authenticated adminuser
+    And action with indicator relations
+    And act
+    When I go to the edit indicator page for "Indicator one with relation"
+    And I fill in "indicator_tag_list" with "Tag one, Tag two"
+    And I press "Update"
+    Then I should be on the indicator page for "Indicator one with relation"
+    And the disabled field "Tag list" should contain "Tag two Tag one"
+
   # For locations see location.feature
