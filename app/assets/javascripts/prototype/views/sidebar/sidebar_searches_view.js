@@ -101,7 +101,7 @@
       var model = this.collection.where({ id: parseInt(searchId) });
       if(model.length) {
         model = model[0];
-        var queryParams = model.get('queryParams');
+        var queryParams = model.get('uri');
         root.app.pubsub.trigger('apply:sidebarSearches',
           { queryParams: queryParams });
         /* Now we need to close the pane, for that we could use this.hide(), but
