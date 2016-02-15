@@ -131,6 +131,10 @@ class ActorsController < ApplicationController
       @parents_to_select      = Actor.exclude_self_for_select(@actor).exclude_parents_for_select(@actor)
       @children_to_select     = Actor.exclude_self_for_select(@actor).exclude_children_for_select(@actor)
       @actions_to_select      = Act.exclude_related_actions(@actor)
+
+      @all_parents_to_select  = Actor.order(:name).filter_actives
+      @all_children_to_select = Actor.order(:name).filter_actives
+      @all_actions_to_select  = Act.order(:name).filter_actives
     end
 
     def set_micro_selection
