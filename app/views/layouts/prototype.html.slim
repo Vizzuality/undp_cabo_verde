@@ -113,7 +113,8 @@ html lang="en"
                 li.item
                   a.link = t('front.settings')
                 li.item
-                  a.link = t('front.log_out')
+                  = link_to destroy_user_session_path, class: "link", method: 'delete' do
+                    = t('front.logout')
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
