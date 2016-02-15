@@ -34,6 +34,7 @@ gem 'kaminari'
 
 gem 'acts_as_tree'
 gem 'acts-as-taggable-on'
+gem 'select2-rails'
 
 # User management
 gem 'devise'

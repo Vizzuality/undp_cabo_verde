@@ -130,3 +130,6 @@ jQuery ->
       allow_single_deselect: true
       no_results_text: 'No results matched'
 
+  $('.tags-select').select2
+    tags: true
+    tokenSeparators: [',']

@@ -411,6 +411,8 @@ en:
     remove_indicator: 'Remove indicator'
     link_to_actions: 'Link to Actions'
     act: 'Action'
+    actions_associated: 'Actions'
+    tags: 'Tags'
 
     units:
       units: 'Units'
