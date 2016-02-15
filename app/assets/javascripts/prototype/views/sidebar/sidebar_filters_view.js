@@ -50,6 +50,7 @@
       this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
       this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
       this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
+      this.listenTo(root.app.pubsub, 'apply:searches', this.onSetSearch);
       this.listenTo(this.status, 'change', this.applySearch);
     },
 
@@ -258,6 +259,12 @@
 
     on3xXBlur: function() {
       this.on3x5Blur();
+    },
+
+    onSetSearch: function(options) {
+      this.router.setRawQueryParams('?' + options.queryParams);
+      this.syncInputsWithQueryParams();
+      this.syncCheckboxesWithHiddenInputs();
     },
 
     /* LOGIC */

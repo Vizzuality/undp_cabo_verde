@@ -100,22 +100,20 @@ html lang="en"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
             .button.-textual.js-account
-              = t('front.account')
-              ul.popover-menu.js-account-popover._hidden
-                li.item
-                  a.link = t('front.log_in')
-                li.item
-                  a.link = t('front.sign_in')
-              / | Account's name
+              / = t('front.account')
               / ul.popover-menu.js-account-popover._hidden
               /   li.item
-              /     a.link.js-searches = t('front.searches')
+              /     a.link = t('front.log_in')
               /   li.item
-              /     a.link = t('front.settings')
-              /   li.item
-              /     a.link = t('front.log_out')
-                
-              / = t('front.log_in')
+              /     a.link = t('front.sign_in')
+              | Account's name
+              ul.popover-menu.js-account-popover._hidden
+                li.item
+                  a.link.js-searches = t('front.searches')
+                li.item
+                  a.link = t('front.settings')
+                li.item
+                  a.link = t('front.log_out')
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection

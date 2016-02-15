@@ -459,3 +459,6 @@ en:
     to_actors: "To Actors:"
     to_actions: "To Actions:"
     your_searches: Your Searches
+    edit: Edit
+    delete: Delete
+    no_saved_search: There isn't any saved search
