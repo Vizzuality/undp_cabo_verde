@@ -94,6 +94,13 @@ When /^I select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]
   end
 end
 
+When /^I select from the following hidden field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{div}').show()")
+    find("#{div}").select("#{value}")
+  end
+end
+
 When /^I should not be able to select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
   with_scope(selector) do
     options_text = find("#{div}")
