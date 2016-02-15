@@ -24,7 +24,7 @@
     .column.medium-4
       = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline', disabled: common_form?
     .column.medium-8
-      = f.input :relation_type_id, collection: @action_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
+      = f.input :relation_type_id, collection: @action_relation_types, as: :collection_select, label: false, input_html: { class: 'chosen-select relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
       = f.label :act_id, t('acts.act') + '*', class: 'right inline', disabled: common_form?
