@@ -218,10 +218,10 @@ html lang="en"
               .content.-secondary
                 .searches
                   - if current_user
-                    button.button.js-save-search = t('front.save')
+                    button.button.js-save-search.save-button data-success="#{ t('front.successfully_saved') }" = t('front.save_search')
                   - else
                     p = t('front.connect_to_save_search_html')
-                    button.button.-secondary = t('front.save')
+                    button.button.-secondary = t('front.save_search')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
             #sidebar-searches-view.pane.-hidden.l-sidebar-searches aria-label="sidebar searches" aria-hidden="true"

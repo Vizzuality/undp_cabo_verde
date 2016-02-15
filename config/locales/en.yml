@@ -428,7 +428,8 @@ en:
     back: Back
     reset: Reset
     apply: Apply
-    save: Save
+    save_search: Save this search
+    successfully_saved: Saved!
     comments: Comments
     other_domains: '3xX'
     overall: Overall

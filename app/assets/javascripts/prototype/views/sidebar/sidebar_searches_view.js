@@ -34,6 +34,7 @@
     setListeners: function() {
       this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
       this.listenTo(root.app.pubsub, 'show:searches', this.fetchDataAndRender);
+      this.listenTo(root.app.subpub, 'save:sidebarFilters', this.fetchData);
     },
 
     onApply: function(e) {
@@ -69,13 +70,23 @@
       this.deleteSearch(searchId);
     },
 
+    /* Retrieve the list of searches, return a deferred object */
+    fetchData: function() {
+      var deferred = $.Deferred();
+
+      this.collection.fetch()
+        .done(deferred.resolve)
+        .error(function() {
+          deferred.reject();
+          console.warn('Unable to retrieved the saved searches');
+        });
+
+      return deferred;
+    },
+
     fetchDataAndRender: function() {
       if(!this.collection.length) {
-        this.collection.fetch()
-          .done(this.render.bind(this))
-          .error(function() {
-            console.warn('Unable to retrieved the saved searches');
-          });
+        this.fetchData().done(this.render.bind(this));
       } else {
         this.render();
       }
@@ -100,7 +111,8 @@
       if(model.length) {
         model = model[0];
         var queryParams = model.get('queryParams');
-        root.app.pubsub.trigger('apply:searches', { queryParams: queryParams });
+        root.app.pubsub.trigger('apply:sidebarSearches',
+          { queryParams: queryParams });
         /* Now we need to close the pane, for that we could use this.hide(), but
          * the go back button would stay present in the action toolbar. We then
          * use an event to do so. */

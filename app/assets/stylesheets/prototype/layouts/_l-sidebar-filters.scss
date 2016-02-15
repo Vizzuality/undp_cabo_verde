@@ -69,6 +69,31 @@
 
   .content .message { clear: both; }
 
+  .content .save-button {
+    display: relative;
+
+    &:before {
+      content: attr(data-success);
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      color: $color-1;
+      opacity: 0;
+      transition: all .3s;
+    }
+
+    &.success {
+      color: transparent;
+
+      &:before {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
   #ui-datepicker-div {
     font-size: 11px;
     color: $color-10;
