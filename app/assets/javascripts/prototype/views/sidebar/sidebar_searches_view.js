@@ -50,7 +50,10 @@
       if(model.length) {
         model = model[0];
         model.set('name', el.textContent.trim());
-        model.save()
+        model.save(null, {
+            url: root.app.Helper.globals.apiUrl + 'favourites/' +
+              model.get('id') + '?token=' + gon.userToken
+          })
           .fail(function() {
             console.warn('Unable to change the name of the search ' + searchId);
           });
@@ -67,36 +70,15 @@
     },
 
     fetchDataAndRender: function() {
-      /* TODO: use the collection to retrieve the saved searches */
-
-      // this.collection.fetch()
-      //   .done(this.render.bind(this))
-      //   .error(function() {
-      //     console.warn('Unable to retrieved the saved searches');
-      //   });
-
-      this.collection.add([
-        {
-          id: 1,
-          name: 'My first search',
-          date: '14 / 03 / 2013 13:04 PM',
-          queryParams: 'types[]=actors&levels[]=macro&domains_ids[]=18,19,20,21,22,23,27,28,29,24,25,30,31,32,33,34,26,35,36,37,38'
-        },
-        {
-          id: 2,
-          name: 'My second search',
-          date: '14 / 03 / 2013 13:14 PM',
-          queryParams: 'types[]=actors,actions&levels[]=macro&domains_ids[]=18,19,20,23,27,28,29,24,25,30,31,32,33,34,26,35,36,37,38'
-        },
-        {
-          id: 3,
-          name: 'My third search',
-          date: '15 / 03 / 2013 11:05 AM',
-          queryParams: 'types[]=actors,actions&levels[]=micro&domains_ids[]=18,19,20,23,27,29,24,25,31,33,34,26,35,36,37,38'
-        }
-      ]);
-
-      this.render();
+      if(!this.collection.length) {
+        this.collection.fetch()
+          .done(this.render.bind(this))
+          .error(function() {
+            console.warn('Unable to retrieved the saved searches');
+          });
+      } else {
+        this.render();
+      }
     },
 
     render: function() {
@@ -131,14 +113,14 @@
 
     /* Delete a saved search and renders the view again */
     deleteSearch: function(searchId) {
-      /* TODO: take a look at how the model could be effectively deleted from
-       * the server. By adding a URL to the model? */
-
       var model = this.collection.where({ id: parseInt(searchId) });
       if(model.length) {
         model = model[0];
         var queryParams = model.get('queryParams');
-        model.destroy();
+        model.destroy({
+          url: root.app.Helper.globals.apiUrl + 'favourites/' +
+            model.get('id') + '?token=' + gon.userToken
+        });
         this.render();
       } else {
         console.warn('Unable to delete the search ' + searchId + 'because it ' +
