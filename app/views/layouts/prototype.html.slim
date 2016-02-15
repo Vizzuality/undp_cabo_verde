@@ -100,20 +100,22 @@ html lang="en"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
             .button.-textual.js-account
-              / = t('front.account')
-              / ul.popover-menu.js-account-popover._hidden
-              /   li.item
-              /     a.link = t('front.log_in')
-              /   li.item
-              /     a.link = t('front.sign_in')
-              | Account's name
-              ul.popover-menu.js-account-popover._hidden
-                li.item
-                  a.link.js-searches = t('front.searches')
-                li.item
-                  a.link = t('front.settings')
-                li.item
-                  a.link = t('front.log_out')
+              - if current_user
+                = [current_user.firstname, current_user.lastname].join(' ')
+                ul.popover-menu.js-account-popover._hidden
+                  li.item
+                    a.link.js-searches = t('front.searches')
+                  li.item
+                    a.link = t('front.settings')
+                  li.item
+                    a.link = t('front.log_out')
+              - else
+                = t('front.account')
+                ul.popover-menu.js-account-popover._hidden
+                  li.item
+                    a.link = t('front.log_in')
+                  li.item
+                    a.link = t('front.sign_in')
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
@@ -213,9 +215,11 @@ html lang="en"
 
               .content.-secondary
                 .searches
-                  p = t('front.connect_to_save_search_html')
-                  button.button.-secondary = t('front.save')
-                  / button.button.js-save-search = t('front.save')
+                  - if current_user
+                    button.button.js-save-search = t('front.save')
+                  - else
+                    p = t('front.connect_to_save_search_html')
+                    button.button.-secondary = t('front.save')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
             #sidebar-searches-view.pane.-hidden.l-sidebar-searches aria-label="sidebar searches" aria-hidden="true"

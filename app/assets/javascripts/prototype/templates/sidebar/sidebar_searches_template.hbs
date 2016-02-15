@@ -4,15 +4,10 @@
     <div class="search">
       <div class="info">
         <div class="date">{{date}}</div>
-        <div class="name">{{name}}</div>
+        <div class="name js-edit" data-id="{{id}}" contenteditable="true">{{name}}</div>
       </div>
       <ul class="actions">
         <li><div class="button -textual js-apply" data-id="{{id}}">Apply</div></li>
-        <li>
-          <svg class="icon js-edit" title="{{{t 'front.edit'}}}" data-id="{{id}}">
-            <use xlink:href="#editIcon" x="1" y="0">
-          </svg>
-        </li>
         <li>
           <svg class="icon js-delete" title="{{{t 'front.delete'}}}" data-id="{{id}}">
             <use xlink:href="#deleteIcon" x="0" y="3">

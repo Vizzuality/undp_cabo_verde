@@ -19,7 +19,7 @@
 
     events: {
       'click .js-apply': 'onApply',
-      'click .js-edit': 'onEdit',
+      'blur .js-edit': 'onEdit',
       'click .js-delete': 'onDelete'
     },
 
@@ -43,28 +43,17 @@
 
     onEdit: function(e) {
       var el = e.currentTarget;
-      var parent = root.app.Helper.utils.getClosestParent(el, '.search');
-      var nameEl = parent.querySelector('.name');
-
-      /* We retieve the model to update it on blur of the text node */
       var searchId = el.getAttribute('data-id');
+
+      /* We retrieve the model to update it */
       var model = this.collection.where({ id: parseInt(searchId) });
       if(model.length) {
         model = model[0];
-
-        /* We make the name editable and attach the event handler to save its
-         * change */
-        nameEl.setAttribute('contentEditable', 'true');
-        $(nameEl).on('blur', function() {
-          nameEl.setAttribute('contentEditable', 'false');
-          model.set('name', nameEl.textContent.trim());
-          model.save()
-            .fail(function() {
-              console.warn('Unable to change the name of the search ' +
-              searchId);
-            });
-        });
-
+        model.set('name', el.textContent.trim());
+        model.save()
+          .fail(function() {
+            console.warn('Unable to change the name of the search ' + searchId);
+          });
       } else {
         console.warn('Unable to edit the search\'s name ' + searchId +
           'because the model associated to it couldn\'t be found in the ' +

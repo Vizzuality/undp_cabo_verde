@@ -28,8 +28,12 @@
       }
 
       & > .name {
+        display: inline-block;
         font-size: 13px;
         color: $color-3;
+        cursor: pointer;
+        padding-right: 25px;
+        background: url(asset_path("edit.png")) no-repeat bottom 3px right / 21px;
       }
     }
 
