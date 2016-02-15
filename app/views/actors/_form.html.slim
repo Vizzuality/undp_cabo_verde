@@ -29,12 +29,11 @@
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('localizations.localizations')
+        h2.form-title= t('localizations.localizations')
     - unless @actor.new_record? || @actor.meso_or_macro?
       .row
         .column.medium-8.medium-offset-4
-          h6
-            = t('localizations.select_parent_location')
+          p= t('localizations.select_parent_location')
       .row
         .column.medium-8.medium-offset-4
           = form.input :parent_location_id, collection: @parent_locations, as: :select, label: false, input_html: { class: 'parent-location' }, disabled: common_form?
@@ -54,7 +53,7 @@
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('relations.relations')
+        h2.form-title= t('relations.relations')
     .row
       .columns.medium-8.medium-offset-4
         ul.tabs.small-block-grid-2 data-tab="true" data-options="deep_linking: true; scroll_to_content: false;"
@@ -63,22 +62,23 @@
           li.tab-title.action_relations
             = link_to t('acts.acts'), "#action_relation_form", class: 'action_relation_form'
     .row
-      div.tabs-content
-        div#actor_relation_form.content.active
-          = form.fields_for :actor_relations_as_child do |actor_parents_form|
-            = render 'actor_relation_form', f: actor_parents_form
-          = form.fields_for :actor_relations_as_parent do |actor_children_form|
-            = render 'actor_relation_children_form', f: actor_children_form
-          - unless common_form?
-              p.text-right.add-button
-                = add_actor_relation_path t('relations.add_relation'), form, :actor_relations_as_child, 'add_parent_actor _hidden mini-text add_actors_fields'
-                / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
-                = add_actor_relation_children_path t('relations.add_relation'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
+      .columns.medium-12
+        div.tabs-content
+          div#actor_relation_form.content.active
+            = form.fields_for :actor_relations_as_child do |actor_parents_form|
+              = render 'actor_relation_form', f: actor_parents_form
+            = form.fields_for :actor_relations_as_parent do |actor_children_form|
+              = render 'actor_relation_children_form', f: actor_children_form
+            - unless common_form?
+                p.text-right.add-button
+                  = add_actor_relation_path t('relations.add_relation'), form, :actor_relations_as_child, 'add_parent_actor _hidden mini-text add_actors_fields'
+                  / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
+                  = add_actor_relation_children_path t('relations.add_relation'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
 
-        div#action_relation_form.content
-          = form.fields_for :act_actor_relations do |actions_form|
-            = render 'action_relation_form', f: actions_form
-          - unless common_form?
-            p.text-right.add-button
-                / Add more css classes to 'add_action', sample 'add_action your_class_name'
-                = add_action_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_actions_fields add_action'
+          div#action_relation_form.content
+            = form.fields_for :act_actor_relations do |actions_form|
+              = render 'action_relation_form', f: actions_form
+            - unless common_form?
+              p.text-right.add-button
+                  / Add more css classes to 'add_action', sample 'add_action your_class_name'
+                  = add_action_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_actions_fields add_action'

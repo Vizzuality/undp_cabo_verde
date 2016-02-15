@@ -84,7 +84,7 @@ module RoutesHelper
   end
 
   def add_act_indicator_relation_path(name, f, association, class_name=nil)
-    form_name = 'act_relation_form'
+    form_name = 'action_relation_form'
     common_nested_path(form_name, name, f, association, class_name)
   end
 
@@ -112,5 +112,20 @@ module RoutesHelper
       render(form_name, f: actions_form)
     end
     link_to(name, '', class: class_name, data: { id: id, fields: fields.gsub("\n", '')})
+  end
+
+  def path_to(object)
+    controller_name = if object.class.name.include?('Actor')
+                        ("Actor").classify.constantize.to_s.underscore.pluralize
+                      elsif object.class.name.include?('Act')
+                        ("Act").classify.constantize.to_s.underscore.pluralize
+                      else
+                        object.class.to_s.underscore.pluralize
+                      end
+
+    url_for( controller: controller_name,
+             action: :show,
+             id: object.to_param,
+             only_path: true )
   end
 end

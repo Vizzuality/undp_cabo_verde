@@ -3,6 +3,7 @@ class Actor < ActiveRecord::Base
   include Localizable
   include Filterable
   include Commentable
+  include Favorable
 
   belongs_to :user, foreign_key: :user_id
   belongs_to :location, class_name: 'Localization', foreign_key: :parent_location_id
@@ -231,19 +232,19 @@ class Actor < ActiveRecord::Base
     end
 
     def parent_invalid(attributes)
-      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['parent_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def child_invalid(attributes)
-      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['child_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def action_invalid(attributes)
-      attributes['act_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['act_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def other_domain_invalid(attributes)
-      attributes['name'].empty?
+      attributes['name'].blank?
     end
 
     def includes_actor_relations_belongs(child)

@@ -4,6 +4,7 @@ RSpec.describe UsersController, type: :controller do
   before :each do
     @user   = create(:random_user)
     @user_2 = create(:user, active: false)
+    @user_3 = create(:random_public_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
   end
@@ -122,7 +123,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  context 'AdminUser should be able to set up admin rights for user' do
+  context 'AdminUser should be able to set up roles for user' do
     before :each do
       @adminuser_2 = create(:random_adminuser)
       FactoryGirl.create(:admin_2)
@@ -133,12 +134,30 @@ RSpec.describe UsersController, type: :controller do
       patch :make_admin, id: @user_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@user_2.admin?).to eq(true)
     end
 
-    it 'Deactivate user' do
+    it 'Make user manager' do
+      patch :make_manager, id: @user_3.id
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@user_2.manager?).to eq(true)
+    end
+
+    it 'Revoke admin role for user' do
+      expect(@adminuser_2.admin?).to eq(true)
       patch :make_user, id: @adminuser_2.id
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
+      expect(@adminuser_2.reload.admin?).to eq(false)
+    end
+
+    it 'Revoke manager role for user' do
+      expect(@user_2.manager?).to eq(true)
+      patch :make_user, id: @user_2.id
+      expect(response).to be_redirect
+      expect(response).to have_http_status(302)
+      expect(@user_2.reload.manager?).to eq(false)
     end
   end
 end

@@ -43,6 +43,22 @@ I want to edit, view, activate, deactivate and make a user admin
     Then I should be on the users page
     And I should have one adminuser
 
+  Scenario: Adminuser can make user manager
+    Given guest user
+    And I am authenticated adminuser
+    When I go to the edit user page for "pepe-moreno@sample.com"
+    And I follow "Make manager"
+    Then I should have one manageruser
+
+  Scenario: Adminuser can remove manager rights from user
+    Given user
+    And I am authenticated adminuser
+    Then I should have one manageruser
+    When I go to the edit user page for "pepe-moreno@sample.com"
+    And I follow "Make user"
+    Then I should be on the users page
+    And I should have zero managerusers
+
   Scenario: Adminuser can deactivate and activate user
     Given user
     And I am authenticated adminuser

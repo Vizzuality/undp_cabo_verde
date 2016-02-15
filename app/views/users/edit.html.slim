@@ -3,7 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
+          h2.form-title
             | Edit
             '
             = @user.name || 'User'
@@ -19,10 +19,12 @@
     .row.fixed-row
       .button-collection.-formcollection
 
-        - if (can? :make_user, @user) && @user.admin?
+        - if (can? :make_user, @user) && (@user.admin? || @user.manager?)
           = link_to 'Make user', make_user_user_path(@user), method: :patch, class: 'button -type-a'
         - if (can? :make_admin, @user) && !@user.admin?
           = link_to 'Make admin', make_admin_user_path(@user), method: :patch, class: 'button -type-a'
+        - if (can? :make_manager, @user) && !@user.manager?
+          = link_to 'Make manager', make_manager_user_path(@user), method: :patch, class: 'button -type-a'
 
         - if current_user.admin?
           = render 'shared/deactivatable_links', location: @actor

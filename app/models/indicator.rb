@@ -58,7 +58,7 @@ class Indicator < ActiveRecord::Base
     end
 
     def act_invalid(attributes)
-      attributes['act_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['act_id'].blank? || attributes['relation_type_id'].blank?
     end
 
 end

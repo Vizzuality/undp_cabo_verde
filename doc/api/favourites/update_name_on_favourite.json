@@ -1,0 +1,62 @@
+{
+  "resource": "Favourites",
+  "http_method": "PUT",
+  "route": "/api/favourites/:id?name=:new_name&token=:auth_token",
+  "description": "Update name on favourite",
+  "explanation": null,
+  "parameters": [
+    {
+      "name": "token",
+      "description": "User auth token"
+    },
+    {
+      "name": "uri",
+      "description": "http://test-url.org"
+    },
+    {
+      "name": "name",
+      "description": "Favourite title"
+    },
+    {
+      "name": "id",
+      "description": "Favourite ID"
+    }
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "PUT",
+      "request_path": "/api/favourites/3?name=Favourite new name&token=7Nw1A13xrHrZDHj631MA",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+        "name": "Favourite new name",
+        "token": "7Nw1A13xrHrZDHj631MA"
+      },
+      "request_content_type": "application/json",
+      "response_status": 201,
+      "response_status_text": "Created",
+      "response_body": "{\n  \"favourite\": {\n    \"id\": 3,\n    \"user_id\": 7,\n    \"name\": \"Favourite new name\",\n    \"uri\": \"http://moorewalter.net/georgianna\",\n    \"favorable_type\": \"Search\",\n    \"favorable_id\": 3,\n    \"date\": \"2015-09-01T12:00:01+02:00\",\n    \"position\": 1\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"c8f441af268d1811bc359f5144914467\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "397e87f8-7879-494c-99fb-174227e70160",
+        "X-Runtime": "0.058542",
+        "Content-Length": "195"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/favourites/3?name=Favourite new name&token=7Nw1A13xrHrZDHj631MA\" -d '' -X PUT \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

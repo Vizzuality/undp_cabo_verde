@@ -13,9 +13,9 @@
           span.data.-primary
             = link_to indicator.name, indicator_path(indicator)
           span.data
-            = "#{t('shared.created')}: #{indicator.created_at.to_formatted_s(:short).to_s} / "
+            = "#{t('shared.created')}: #{indicator.created_at.to_formatted_s(:create_update_date).to_s} / "
           span.data
-            = "#{t('shared.updated')}: #{indicator.updated_at.to_formatted_s(:short).to_s}"
+            = "#{t('shared.updated')}: #{indicator.updated_at.to_formatted_s(:create_update_date).to_s}"
 
         .data-secondary
           span.data._hidden
