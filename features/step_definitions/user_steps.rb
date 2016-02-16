@@ -14,6 +14,14 @@ Then /^I should have two adminusers$/ do
   AdminUser.all.size.should == 2
 end
 
+Then /^I should have one manageruser$/ do
+  ManagerUser.all.size.should == 1
+end
+
+Then /^I should have zero managerusers$/ do
+  ManagerUser.all.size.should == 0
+end
+
 Given /^I am authenticated user$/ do
   @user = FactoryGirl.create(:user)
   email = @user.email
@@ -41,6 +49,10 @@ end
 
 Given /^user$/ do
   FactoryGirl.create(:user)
+end
+
+Given /^guest user$/ do
+  FactoryGirl.create(:random_public_user, email: 'pepe-moreno@sample.com')
 end
 
 Given /^adminuser$/ do

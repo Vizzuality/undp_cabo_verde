@@ -1,0 +1,22 @@
+<div class="content">
+  <h1 class="title">{{t 'front.your_searches'}}</h1>
+  {{#each searches}}
+    <div class="search">
+      <div class="info">
+        <div class="date">{{date "long" date}}</div>
+        <div class="name js-edit" data-id="{{id}}" contenteditable="true">{{name}}</div>
+      </div>
+      <ul class="actions">
+        <li><div class="button -textual js-apply" data-id="{{id}}">Apply</div></li>
+        <li>
+          <svg class="icon js-delete" title="{{{t 'front.delete'}}}" data-id="{{id}}">
+            <use xlink:href="#deleteIcon" x="0" y="3">
+          </svg>
+        </li>
+      </ul>
+    </div>
+  {{/each}}
+  {{#compare searches.length "===" 0}}
+    <div class="message">{{t 'front.no_saved_search'}}</div>
+  {{/compare}}
+</div>

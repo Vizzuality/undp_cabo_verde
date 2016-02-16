@@ -213,6 +213,32 @@
           "method": "get"
         }
       ]
+    },
+    {
+      "name": "Favourites",
+      "examples": [
+        {
+          "description": "Create a search favourite",
+          "link": "favourites/create_a_search_favourite.json",
+          "groups": "all",
+          "route": "/api/favourites?name=:name&uri=:uri&token=:auth_token",
+          "method": "post"
+        },
+        {
+          "description": "Delete favourite",
+          "link": "favourites/delete_favourite.json",
+          "groups": "all",
+          "route": "/api/favourites/:id?token=:auth_token",
+          "method": "delete"
+        },
+        {
+          "description": "Update name on favourite",
+          "link": "favourites/update_name_on_favourite.json",
+          "groups": "all",
+          "route": "/api/favourites/:id?name=:new_name&token=:auth_token",
+          "method": "put"
+        }
+      ]
     }
   ]
 }

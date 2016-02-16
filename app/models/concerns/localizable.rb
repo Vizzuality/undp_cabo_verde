@@ -81,7 +81,8 @@ module Localizable
       [main_street, main_city, main_country].compact.join(', ')
     end
 
-    private
+    protected
+
       def set_main_location
         if localizations.main_locations.empty?
           localizations.order(:created_at).first.update( main: true )

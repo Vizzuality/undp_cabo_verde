@@ -230,23 +230,23 @@ class Act < ActiveRecord::Base
     end
 
     def parent_invalid(attributes)
-      attributes['parent_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['parent_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def child_invalid(attributes)
-      attributes['child_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['child_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def actor_invalid(attributes)
-      attributes['actor_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['actor_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def indicator_invalid(attributes)
-      attributes['indicator_id'].empty? || attributes['relation_type_id'].empty?
+      attributes['indicator_id'].blank? || attributes['relation_type_id'].blank?
     end
 
     def other_domain_invalid(attributes)
-      attributes['name'].empty?
+      attributes['name'].blank?
     end
 
     def filter_params(options)

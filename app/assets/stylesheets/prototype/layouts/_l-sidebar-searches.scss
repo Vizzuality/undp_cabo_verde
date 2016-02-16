@@ -1,0 +1,63 @@
+.l-sidebar-searches {
+
+  /* We remove the top margin/padding of the first element inside the sidebar's
+   * content because the action toolbar already have a bottom padding */
+  & > .content {
+    height: 100%;
+
+    & > .title:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  .search {
+    padding: 10px 0;
+    border-bottom: 1px solid $color-16;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > .info {
+      line-height: 16px;
+
+      & > .date {
+        font-size: 11px;
+        color: $color-4;
+        font-size: 500;
+      }
+
+      & > .name {
+        display: inline-block;
+        font-size: 13px;
+        color: $color-3;
+        cursor: pointer;
+        padding-right: 25px;
+        background: url(asset_path("edit.png")) no-repeat bottom 3px right / 21px;
+      }
+    }
+
+    & > .actions {
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+      list-style-type: 0;
+
+      > li {
+        margin: 0;
+        margin-left: 9px;
+        padding: 0;
+        display: inline-block;
+      }
+
+      .button { font-size: 12px; }
+
+      .icon {
+        width: 12px;
+        height: 14px;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+    }
+  }
+}

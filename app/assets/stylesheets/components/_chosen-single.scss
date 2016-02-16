@@ -1,0 +1,102 @@
+.chosen-container-single {
+  width: 100% !important;
+  text-align: left !important;
+
+  .chosen-search {
+    background-color: $color-7 !important;
+
+    input[type="text"] {
+      background-position-x: 439px !important;
+      padding-right: 50px !important;
+    }
+  }
+
+  .chosen-drop .chosen-results {
+    color: $color-11 !important;
+    font-family: map-get($m-font-family, helvetica), sans-serif !important;
+    font-size: map-get($m-font-size, xsmall) !important;
+    font-weight: map-get($m-font-weight, light) !important;
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0px 0px 4px 0px !important;
+
+    .li {
+      padding: 5px 8px !important;
+    }
+
+    .result-selected {
+      color: #ccc;
+      cursor: default;
+
+      &.highlighted {
+        color: #ccc !important;
+        background-color: $color-7 !important;
+      }
+    }
+  }
+
+  &.chosen-with-drop {
+    .chosen-single span:before {
+      top: 55%;
+      transform: translateY(-50%) rotate(135deg);
+    }
+  }
+}
+
+.chosen-single {
+  color: $color-11 !important;
+  font-family: map-get($m-font-family, helvetica), sans-serif !important;
+  font-size: map-get($m-font-size, small) !important;
+  font-weight: map-get($m-font-weight, light) !important;
+  border-radius: 0px !important;
+  height: 37px !important;
+  background: $color-7 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 0 0 6px;
+
+  span {
+    margin: 0 !important;
+    padding: 7px 50px 5px 0px !important;
+
+    &:before {
+      content: " ";
+      position: absolute;
+      right: 20px;
+      top: 45%;
+      height: 9px;
+      width: 9px;
+      border-left: 1px solid $color-13;
+      border-bottom: 1px solid $color-13;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+
+  div b {
+    background: none !important;
+  }
+
+  .search-choice-close {
+    display: none !important;
+  }
+}
+
+
+
+.chosen-disabled {
+
+  opacity: 1 !important;
+  &.chosen-container { opacity: 1 !important;}
+
+  .chosen-single {
+    background: $color-1 !important;
+    color: $color-16 !important;
+
+    span:before {
+      display: none !important;
+    }
+  }
+}
+
+
+

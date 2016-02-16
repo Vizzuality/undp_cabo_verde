@@ -24,14 +24,16 @@ Rails.application.routes.draw do
 
   scope :manage do
     resources :users, except: [:destroy, :new, :create] do
-      patch 'deactivate', on: :member
-      patch 'activate',   on: :member
-      patch 'make_admin', on: :member
-      patch 'make_user',  on: :member
+      patch 'deactivate',   on: :member
+      patch 'activate',     on: :member
+      patch 'make_admin',   on: :member
+      patch 'make_manager', on: :member
+      patch 'make_user',    on: :member
 
       resources :actors,     controller: 'users/actors',     only: :index
       resources :acts,       controller: 'users/acts',       only: :index
       resources :indicators, controller: 'users/indicators', only: :index
+      resources :favourites, controller: 'users/favourites', only: [:index, :destroy]
     end
 
     # Actors
@@ -49,23 +51,32 @@ Rails.application.routes.draw do
       patch 'link_actor',   on: :member
       patch 'unlink_actor', on: :member
 
-      get   'membership', on: :member
-      get   'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
+      post   'create_favourite',  on: :member
+      delete 'destroy_favourite', on: :member
+
+      get 'membership', on: :member
+      get 'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
     end
 
     resources :actor_micros, controller: 'actors', type: 'ActorMicro' do
-      patch 'activate',   on: :member
-      patch 'deactivate', on: :member
+      patch  'activate',   on: :member
+      patch  'deactivate', on: :member
+      post   'create_favourite',  on: :member
+      delete 'destroy_favourite', on: :member
     end
 
     resources :actor_mesos, controller: 'actors', type: 'ActorMeso' do
       patch 'activate',   on: :member
       patch 'deactivate', on: :member
+      post   'create_favourite',  on: :member
+      delete 'destroy_favourite', on: :member
     end
 
     resources :actor_macros, controller: 'actors', type: 'ActorMacro' do
       patch 'activate',   on: :member
       patch 'deactivate', on: :member
+      post   'create_favourite',  on: :member
+      delete 'destroy_favourite', on: :member
     end
 
     with_options only: :update do |is_only|

@@ -29,26 +29,10 @@
 
       border-radius: 0px;
       background-color: $color-7;
-    }
 
-    input[type="checkbox"]:checked {
-      background-color: $color-13;
-    }
-
-    input[type="checkbox"]:disabled:checked {
-      background-color: $color-17;
-    }
-
-    input[type="checkbox"]:checked:before {
-      position: absolute;
-      content: "";
-      top: 1px;
-      left: 5px;
-      width: 6px;
-      height: 11px;
-      border-bottom: 2px solid $color-1;
-      border-right: 2px solid $color-1;
-      transform: rotate(45deg);
+      &:disabled {
+        cursor: default;
+      }
     }
   }
 }
@@ -79,21 +63,29 @@ input[type="checkbox"] {
   &.localization_main {
     margin-top: 7px;
   }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 input[type="checkbox"]:checked {
-  background-color: $color-13;
-}
+  &:before {
+    background-color: transparent;
+    position: absolute;
+    content: "";
+    top: 1px;
+    left: 5px;
+    width: 6px;
+    height: 11px;
+    border-bottom: 2px solid $color-13;
+    border-right: 2px solid $color-13;
+    transform: rotate(45deg);
+  }
 
-input[type="checkbox"]:checked:before {
-  position: absolute;
-  content: "";
-  top: 1px;
-  left: 5px;
-  width: 6px;
-  height: 11px;
-  border-bottom: 2px solid $color-1;
-  border-right: 2px solid $color-1;
-  transform: rotate(45deg);
+  &:disabled:before {
+    border-bottom: 2px solid $color-17;
+    border-right: 2px solid $color-17;
+  }
 }
 

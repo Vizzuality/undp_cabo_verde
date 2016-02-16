@@ -8,6 +8,7 @@ class PrototypeController < ApplicationController
     @end_date   = max_end_date
     gon.min_date = @start_date
     gon.max_date = @end_date
+    gon.userToken = current_user.try(:authentication_token)
   end
 
   private

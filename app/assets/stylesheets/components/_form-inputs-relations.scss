@@ -16,16 +16,17 @@
     }
 
     // border for the expanded version, but only as wide as the .column.medium-8
-    &:before {
-      content: " ";
-      position: absolute;
-      border-top: 1px solid $color-13;
-      width: 508px;
-      right: 8px;
-    }
 
-    &.-first-form:before {
-      border: none;
-    }
+    // &:before {
+    //   content: " ";
+    //   position: absolute;
+    //   border-top: 1px solid $color-13;
+    //   width: 508px;
+    //   right: 8px;
+    // }
+
+    // &.-first-form:before {
+    //   border: none;
+    // }
 
 }

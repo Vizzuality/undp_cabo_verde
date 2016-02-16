@@ -157,8 +157,8 @@ I want to manage an act
     When I go to the edit act page for "Third one"
     And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Third one" within ".current-action-wrapper"
-    When I select from the following field ".relation_child_id" with "Second one"
-    And I select from the following field ".relation_type_id" with "contains"
+    When I select from the following hidden field ".relation_child_id" with "Second one"
+    And I select from the following hidden field ".relation_type_id" with "contains"
     And I fill in the following field ".relation_start_date" with "1990-03-10"
     And I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -176,8 +176,8 @@ I want to manage an act
     And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Third one" within ".current-action-wrapper"
     When I click on ".switch_parent_form"
-    And I select from the following field ".relation_parent_id" with "Second one"
-    And I select from the following field ".relation_type_id" with "contains"
+    And I select from the following hidden field ".relation_parent_id" with "Second one"
+    And I select from the following hidden field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -194,7 +194,7 @@ I want to manage an act
     And I click on hidden ".add_child_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Action one" within ".current-action-wrapper"
     When I click on ".switch_parent_form"
-    Then I select from the following field ".relation_parent_id" with "Third one"
+    Then I select from the following hidden field ".relation_parent_id" with "Third one"
     And I should not be able to select from the following field ".relation_parent_id" with "Second one"
 
   @javascript
@@ -221,8 +221,8 @@ I want to manage an act
     And act_actor_relation_types
     When I go to the edit act page for "First one"
     And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
-    And I select from the following field ".relation_actor_id" with "Person one"
-    And I select from the following field ".relation_type_id" with "implements"
+    And I select from the following hidden field ".relation_actor_id" with "Person one"
+    And I select from the following hidden field ".relation_type_id" with "implements"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -236,7 +236,7 @@ I want to manage an act
     And person
     When I go to the edit act page for "Action one with relation"
     And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
-    And I select from the following field ".relation_actor_id" with "Person one"
+    And I select from the following hidden field ".relation_actor_id" with "Person one"
     Then I should not be able to select from the following field ".relation_actor_id" with "Organization one"
 
   @javascript
@@ -261,7 +261,7 @@ I want to manage an act
     When I go to the edit act page for "First one"
     And I click on overlapping ".indicator_relations"
     And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
-    And I select from the following field ".relation_indicator_id" with "Indicator one"
+    And I select from the following hidden field ".relation_indicator_id" with "Indicator one"
     And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     And I fill in the following field ".relation_end_date" with "2010-03-10"
@@ -283,7 +283,7 @@ I want to manage an act
     And indicator
     When I go to the edit act page for "Action with indicator"
     And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
-    And I select from the following field ".relation_indicator_id" with "Indicator one"
+    And I select from the following hidden field ".relation_indicator_id" with "Indicator one"
     Then I should not be able to select from the following field ".relation_indicator_id" with "Indicator one with relation"
 
   @javascript
@@ -321,3 +321,15 @@ I want to manage an act
     And I click on overlapping ".indicator_relations"
     Then I should see tab "#indicator_relation_form" within ".tabs-content"
     Then I should not see "Indicator one"
+
+  Scenario: Search for acts
+    Given I am authenticated user
+    And third act
+    And first act by admin
+    When I go to the acts page
+    Then I should be on the acts page
+    And I should see "First act by admin"
+    When I fill in "search_term" with "one"
+    And I press "Search"
+    Then I should not see "First act by admin"
+    And I should see "Third one"

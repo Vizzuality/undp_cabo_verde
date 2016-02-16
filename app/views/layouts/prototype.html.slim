@@ -6,7 +6,7 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) : "UNDP"
     = stylesheet_link_tag    "prototype"
-    link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
+    link href="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css" rel="stylesheet"
     = csrf_meta_tags
   body
     = render partial: 'shared/svg_declarations'
@@ -99,10 +99,27 @@ html lang="en"
                 use xlink:href="#backArrowIcon" x="0" y="0"
               = t('front.back')
             /! TODO: aria tags (aria-controls)
-            .button.-textual.js-searches
-              = t('front.searches')
+            .button.-textual.js-account
+              - if current_user
+                = [current_user.firstname, current_user.lastname].join(' ')
+                ul.popover-menu.js-account-popover._hidden
+                  li.item
+                    a.link.js-searches = t('front.searches')
+                  li.item
+                    = link_to t('front.edit_account'), edit_user_registration_path(current_user),
+                      class: "link"
+                  li.item
+                    = button_to destroy_user_session_path, class: "link", method: 'delete' do
+                      = t('front.log_out')
+              - else
+                = t('front.account')
+                ul.popover-menu.js-account-popover._hidden
+                  li.item
+                    = link_to t('front.log_in'), new_user_session_path
+                  li.item
+                    = link_to t('front.sign_in'), new_user_registration_path
               svg.icon.-marginleft width="24" height="24"
-                use xlink:href="#searchesIcon" x="0" y="0"
+                use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
             #sidebar-filters-view.l-sidebar-filters.pane.-fixed aria-label="sidebar filters" aria-hidden="false"
               form.content
@@ -200,13 +217,17 @@ html lang="en"
 
               .content.-secondary
                 .searches
-                  p = t('front.want_save_search')
-                  button.button = t('front.save')
+                  - if current_user
+                    button.button.js-save-search.save-button data-success="#{ t('front.successfully_saved') }" = t('front.save_search')
+                  - else
+                    p = t('front.connect_to_save_search_html')
+                    button.button.-secondary = t('front.save_search')
             #sidebar-actor-view.pane.-hidden.l-sidebar-actor aria-label="sidebar actor detail" aria-hidden="true"
             #sidebar-action-view.pane.-hidden.l-sidebar-action aria-label="sidebar action detail" aria-hidden="true"
+            #sidebar-searches-view.pane.-hidden.l-sidebar-searches aria-label="sidebar searches" aria-hidden="true"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
 
-    script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    script src="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js"
     = Gon::Base.render_data
     = javascript_include_tag "prototype"
