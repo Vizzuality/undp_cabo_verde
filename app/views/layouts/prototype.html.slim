@@ -109,15 +109,15 @@ html lang="en"
                     = link_to t('front.edit_account'), edit_user_registration_path(current_user),
                       class: "link"
                   li.item
-                    = link_to destroy_user_session_path, class: "link", method: 'delete' do
-                      = t('front.logout')
+                    = button_to destroy_user_session_path, class: "link", method: 'delete' do
+                      = t('front.log_out')
               - else
                 = t('front.account')
                 ul.popover-menu.js-account-popover._hidden
                   li.item
-                    a.link = t('front.log_in')
+                    = link_to t('front.log_in'), new_user_session_path
                   li.item
-                    a.link = t('front.sign_in')
+                    = link_to t('front.sign_in'), new_user_registration_path
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
