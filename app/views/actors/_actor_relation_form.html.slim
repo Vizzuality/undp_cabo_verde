@@ -1,37 +1,49 @@
-.form-inputs.form-inputs-parent
+- preview = !f.object.new_record?
+- if preview
+  .row
+    .column.medium-8.medium-offset-4
+      .relation-preview
+        p.relationtype= f.object.relation_type.try(:title_reverse)
+        p.relationtitle= link_to f.object.parent.name, actor_path(f.object.parent)
+        p.relationbuttons
+          = link_to t('relations.view'), "#", id: "actors-relation-#{f.object.id}",
+            class: "view-relation", 'data-relation-type': "actor-actor-relation"
+          - unless common_form?
+            = link_to t('relations.delete'), '#', class: "remove_fields_preview", 'data-delete-pair': "delete-#{f.object.id}"
+.form-inputs.form-inputs-parent.form-inputs-relations.actor-actor-relation class=('hide' if preview) id=("expanded-actors-relation-#{f.object.id}" if preview)
   .row
     .column.medium-4
-      = f.label t('actors.current_actor'), class: 'right inline'
+      = f.label :parent_id, t('actors.actor') + '*', class: 'right inline', disabled: common_form?
+    .column.medium-8
+      = f.input :parent_id, collection: preview ? @all_parents_to_select : @parents_to_select, as: :collection_select, label: false, input_html: { multiple: false, class: 'chosen-select relation_parent_id collection_select' }, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline', disabled: common_form?
+    .column.medium-8
+      = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'chosen-select relation_type_id' }, disabled: common_form?
+  .row
+    .column.medium-4
+      = f.label t('actors.current_actor'), class: 'right inline', disabled: common_form?
     .column.medium-8.text-left.current-actor-wrapper
-      - if request.path.include?('/actors/new')
+      - if @actor.new_record?
         p.current-actor.-disabled
       - else
         p.current-actor-edit.-disabled
-          = @actor.name unless request.path.include?('/actors/new')
-  .row
-    .column.medium-4
-      = f.label :relation_type_id, t('actors.relation_name') + '*', class: 'right inline'
-    .column.medium-8
-      = f.input :relation_type_id, collection: @actor_relation_children_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
-  .row
-    .column.medium-4
-      = f.label :parent_id, t('actors.actor') + '*', class: 'right inline'
-    .column.medium-8
-      = f.input :parent_id, collection: @parents_to_select, as: :collection_select, label: false, input_html: { class: 'relation_parent_id' }, disabled: common_form?
+          = @actor.name
   - unless common_form?
     .row
       .column.medium-8.medium-offset-4
         = link_to t('relations.switch'), '#', class: 'switch_child_form switch-link'
   .row
     .column.medium-4
-      = f.label :start_date, class: 'right inline'
+      = f.label :start_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :start_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                     'data-max-date': Date.today,
                                     class: 'js-datepicker relation_start_date', disabled: common_form?
   .row
     .column.medium-4
-      = f.label :end_date, class: 'right inline'
+      = f.label :end_date, class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.text_field :end_date, 'data-min-date': Date.new(Date.today.year - 90).at_end_of_year,
                                   'data-max-date': Date.today,
@@ -45,4 +57,4 @@
           / Do not move this fields!
           = f.hidden_field :user_id, value: current_user.id
           = f.hidden_field :_destroy
-          = link_to t('actors.remove_actor'), '#', class: 'remove_fields'
+          = link_to t('relations.remove_relation'), '#', id: "delete-#{f.object.id}", class: 'remove_fields'

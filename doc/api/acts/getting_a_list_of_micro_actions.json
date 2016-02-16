@@ -36,17 +36,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 15,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 28,\n          \"lat\": \"10.85601833087297\",\n          \"long\": \"125.40950403656899\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:28.645Z\"\n  }\n}",
+      "response_body": "{\n  \"actions\": [\n    {\n      \"id\": 38,\n      \"name\": \"Indicator of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 100,\n          \"lat\": \"-47.49649019537452\",\n          \"long\": \"28.130642937714185\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 227,\n          \"name\": \"Category SCD\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 230,\n          \"name\": \"Family, Garden, Health, Movies, Industrial & Automotive\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:12.030Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"065720869baf6c146448b2a458df8775\"",
+        "ETag": "W/\"af1eb6928db132b1187f5f8fed9d060e\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "bdfbc80d-c4b0-4297-8455-88cd47330645",
-        "X-Runtime": "0.100626",
-        "Content-Length": "208"
+        "X-Request-Id": "934cbb3e-cc41-4ff3-a657-ed8a873a71c4",
+        "X-Runtime": "0.031765",
+        "Content-Length": "490"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actions?levels[]=micro\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

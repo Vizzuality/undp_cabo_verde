@@ -10,20 +10,20 @@ RSpec.describe LocalizationsController, type: :controller do
       @micro = create(:actor_micro, user_id: @user.id)
       @macro = create(:actor_macro, user_id: @user.id)
       @meso  = create(:actor_meso,  user_id: @user.id)
-      @localization   = create(:localization, name: 'First Localization', 
-                               actors: [@micro, @macro, @meso], user_id: @user.id)
-      @localization_2 = create(:localization, name: 'First Localization', 
-                               actors: [@meso], user_id: @user.id, active: false)
+      @localization   = create(:localization, name: 'First Localization',
+                               localizable: @micro, user_id: @user.id)
+      @localization_2 = create(:localization, name: 'First Localization',
+                               localizable: @macro, user_id: @user.id, active: false)
     end
-    
-    let!(:attri) do 
-      { name: 'New addr', lat: Faker::Address.latitude, 
+
+    let!(:attri) do
+      { name: 'New addr', lat: Faker::Address.latitude,
         long: Faker::Address.longitude, country: Faker::Address.country
       }
     end
 
-    let!(:attri_fail) do 
-      { name: 'New addr', lat: Faker::Address.latitude, 
+    let!(:attri_fail) do
+      { name: 'New addr', lat: Faker::Address.latitude,
         long: '', country: Faker::Address.country
       }
     end
@@ -34,13 +34,13 @@ RSpec.describe LocalizationsController, type: :controller do
       end
 
       it 'GET edit returns http success' do
-        get :edit, id: @localization.id, actor_id: @meso.id
+        get :edit, id: @localization.id, actor_id: @micro.id
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
       it 'Update localization and redirect to actor edit page' do
-        put :update, id: @localization.id, actor_id: @macro.id, localization: attri
+        put :update, id: @localization_2.id, actor_id: @macro.id, localization: attri
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(edit_actor_path(@macro))
@@ -72,26 +72,26 @@ RSpec.describe LocalizationsController, type: :controller do
       context 'AdminUser should be able to activate, deactivate and update localizations' do
         before :each do
           sign_in @adminuser
-          expect(@meso.localizations.size).to eq(2)
+          expect(@macro.localizations.size).to eq(1)
         end
 
         it 'Activate localization' do
-          patch :activate, id: @localization_2.id, actor_id: @meso.id
+          patch :activate, id: @localization_2.id, actor_id: @macro.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
-          expect(@meso.localizations.filter_actives.size).to eq(2)
+          expect(@macro.localizations.filter_actives.size).to eq(1)
         end
 
         it 'Deactivate localization' do
-          patch :deactivate, id: @localization.id, actor_id: @meso.id
+          patch :deactivate, id: @localization.id, actor_id: @micro.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
-          expect(@meso.localizations.filter_actives.size).to eq(0)
-          expect(@meso.localizations.filter_inactives.size).to eq(2)
+          expect(@micro.localizations.filter_actives.size).to eq(0)
+          expect(@micro.localizations.filter_inactives.size).to eq(1)
         end
 
         it 'Update localization and redirect to actor edit page' do
-          put :update, id: @localization.id, actor_id: @macro.id, localization: attri
+          put :update, id: @localization_2.id, actor_id: @macro.id, localization: attri
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
           expect(response).to redirect_to(edit_actor_path(@macro))
@@ -101,9 +101,9 @@ RSpec.describe LocalizationsController, type: :controller do
 
       context 'Validation' do
         render_views
-        
+
         it 'User should not be able to update localization without longtitude' do
-          put :update, id: @localization.id, actor_id: @macro.id, localization: attri_fail
+          put :update, id: @localization_2.id, actor_id: @macro.id, localization: attri_fail
           expect(response.body).to match('can&#39;t be blank')
         end
 
@@ -125,21 +125,21 @@ RSpec.describe LocalizationsController, type: :controller do
       @micro = create(:act_micro, user_id: @user.id)
       @macro = create(:act_macro, user_id: @user.id)
       @meso  = create(:act_meso,  user_id: @user.id)
-      @localization   = create(:localization, name: 'First Localization', 
-                               acts: [@micro, @macro, @meso], user_id: @user.id)
-      @localization_2 = create(:localization, name: 'First Localization', 
-                               acts: [@meso], user_id: @user.id, active: false)
+      @localization   = create(:localization, name: 'First Localization',
+                               localizable: @macro, user_id: @user.id)
+      @localization_2 = create(:localization, name: 'First Localization',
+                               localizable: @meso, user_id: @user.id, active: false)
     end
-    
-    let!(:attri) do 
-      { name: 'New addr', lat: Faker::Address.latitude, 
-        long: Faker::Address.longitude, country: Faker::Address.country 
+
+    let!(:attri) do
+      { name: 'New addr', lat: Faker::Address.latitude,
+        long: Faker::Address.longitude, country: Faker::Address.country
       }
     end
 
-    let!(:attri_fail) do 
-      { name: 'New addr', lat: Faker::Address.latitude, 
-        long: '', country: Faker::Address.country 
+    let!(:attri_fail) do
+      { name: 'New addr', lat: Faker::Address.latitude,
+        long: '', country: Faker::Address.country
       }
     end
 
@@ -149,7 +149,7 @@ RSpec.describe LocalizationsController, type: :controller do
       end
 
       it 'GET edit returns http success' do
-        get :edit, id: @localization.id, act_id: @meso.id
+        get :edit, id: @localization_2.id, act_id: @meso.id
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
@@ -173,38 +173,37 @@ RSpec.describe LocalizationsController, type: :controller do
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(edit_act_path(@micro))
-        expect(@micro.localizations.size).to eq(2)
-        expect(@micro.localizations.first.name).to eq('First Localization')
-        expect(@micro.localizations.last.name).to eq('New addr')
+        expect(@micro.localizations.size).to eq(1)
+        expect(@micro.localizations.first.name).to eq('New addr')
       end
 
       it 'Delete localization' do
-        delete :destroy, id: @localization.id, act_id: @micro.id
+        delete :destroy, id: @localization.id, act_id: @macro.id
         expect(response).to be_redirect
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(edit_act_path(@micro))
-        expect(@micro.localizations.size).to eq(0)
+        expect(response).to redirect_to(edit_act_path(@macro))
+        expect(@macro.localizations.size).to eq(0)
       end
 
       context 'AdminUser should be able to activate, deactivate and update localizations' do
         before :each do
           sign_in @adminuser
-          expect(@meso.localizations.size).to eq(2)
+          expect(@meso.localizations.size).to eq(1)
         end
 
         it 'Activate localization' do
           patch :activate, id: @localization_2.id, act_id: @meso.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
-          expect(@meso.localizations.filter_actives.size).to eq(2)
+          expect(@meso.localizations.filter_actives.size).to eq(1)
         end
 
         it 'Deactivate localization' do
-          patch :deactivate, id: @localization.id, act_id: @meso.id
+          patch :deactivate, id: @localization.id, act_id: @macro.id
           expect(response).to be_redirect
           expect(response).to have_http_status(302)
-          expect(@meso.localizations.filter_actives.size).to eq(0)
-          expect(@meso.localizations.filter_inactives.size).to eq(2)
+          expect(@macro.localizations.filter_actives.size).to eq(0)
+          expect(@macro.localizations.filter_inactives.size).to eq(1)
         end
 
         it 'Update localization and redirect to act edit page' do
@@ -218,7 +217,7 @@ RSpec.describe LocalizationsController, type: :controller do
 
       context 'Validation' do
         render_views
-        
+
         it 'User should not be able to update localization without longtitude' do
           put :update, id: @localization.id, act_id: @macro.id, localization: attri_fail
           expect(response.body).to match('can&#39;t be blank')

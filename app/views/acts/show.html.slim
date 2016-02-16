@@ -3,8 +3,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4
-          h2
-            = t('shared.general_info')
+          h2.form-title= t('shared.general_info')
 
   = simple_form_for @act do |f|
     .row
@@ -12,7 +11,12 @@
         .form-inputs
           .row
             .column.medium-4
-              = f.label :name, class: 'right inline'
+              = f.label :type, class: 'right inline'
+            .column.medium-8
+              = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
+          .row
+            .column.medium-4
+              = f.label :name, class: 'right inline', disabled: common_form?
             .column.medium-8
               = f.input :name, label: false, disabled: common_form?
 
@@ -22,8 +26,7 @@
     .column.medium-8.medium-offset-1
       .row
         .column.medium-8.medium-offset-4.comment-heading
-          h2
-            = t('comments.comments')
+          h2.form-title= t('comments.comments')
 
       #comments
         - if @act.comments?

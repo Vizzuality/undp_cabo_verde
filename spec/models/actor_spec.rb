@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Actor, type: :model do
   before :each do
-    @user  = create(:user)
-    @field = create(:operational_field, name: 'Global')
-    @macro = create(:actor_macro, user_id: @user.id, operational_field: @field.id)
-    @meso  = create(:actor_meso, user_id: @user.id, parents: [@macro])
-    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2)
+    @user     = create(:user)
+    @field    = create(:operational_field, name: 'Global')
+    @domain   = create(:category, name: 'Category one', type: 'SocioCulturalDomain')
+    @macro    = create(:actor_macro, user_id: @user.id, operational_field: @field.id)
+    @localization = create(:localization, name: 'First Localization', user: @user, main: true, localizable: @macro)
+    @meso     = create(:actor_meso, user_id: @user.id, parents: [@macro])
+    @micro    = create(:actor_micro, user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2)
     @relation = ActorRelation.find_by(parent_id: @meso.id, child_id: @micro.id)
   end
 
@@ -16,6 +18,8 @@ RSpec.describe Actor, type: :model do
     expect(@macro.micros.first.name).to eq('Person one')
     expect(@macro.macro?).to eq(true)
     expect(@macro.operational_field_txt).to match('Global')
+    expect(@macro.localizations.count).to eq(1)
+    expect(@macro.main_country).to eq('Cape Verde')
   end
 
   it 'Create ActorMeso' do
@@ -26,12 +30,16 @@ RSpec.describe Actor, type: :model do
   end
 
   it 'Create ActorMicro' do
-    expect(@micro.name).to eq('Person one')
-    expect(@micro.macros_parents.first.name).to eq('Organization one')
-    expect(@micro.mesos_parents.first.name).to eq('Department one')
-    expect(@micro.micro?).to eq(true)
-    expect(@micro.gender_txt).to eq('Male')
-    expect(@micro.title_txt).to eq('Ms.')
+    actor = ActorMicro.create(name: 'Test', socio_cultural_domains: [@domain], user_id: @user.id, parents: [@macro, @meso], gender: 2, title: 2)
+    actor.save!
+    expect(actor.name).to eq('Test')
+    expect(actor.macros_parents.first.name).to eq('Organization one')
+    expect(actor.mesos_parents.first.name).to eq('Department one')
+    expect(actor.micro?).to eq(true)
+    expect(actor.gender_txt).to eq('Male')
+    expect(actor.title_txt).to eq('Ms.')
+    # after_commit rspec broken on rails 4
+    # expect(actor.parent_location_id).to eq(@localization.id)
   end
 
   it 'order actor by name' do
@@ -51,10 +59,10 @@ RSpec.describe Actor, type: :model do
 
   context "actor domain validation" do
     it 'actor domain validation min 1 domain' do
-      @person_reject = build(:actor_micro, merged_domains: [], user_id: @user.id)
+      @person_reject = build(:actor_micro, socio_cultural_domains: [], user_id: @user.id)
 
       @person_reject.valid?
-      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domain ids can't be blank, Merged domains is too short (minimum is 1 character)")
+      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domain ids can't be blank, Other domain ids can't be blank")
     end
 
     it 'actor domain validation max 3 domains' do
@@ -62,10 +70,10 @@ RSpec.describe Actor, type: :model do
       @cat_2 = create(:operational_field, name: 'Cat 2')
       @cat_3 = create(:operational_field, name: 'Cat 3')
       @cat_4 = create(:operational_field, name: 'Cat 4')
-      @person_reject = build(:actor_micro, merged_domains: [@cat_1, @cat_2, @cat_3, @cat_4], user_id: @user.id)
+      @person_reject = build(:actor_micro, socio_cultural_domains: [@cat_1, @cat_2, @cat_3, @cat_4], user_id: @user.id)
 
       @person_reject.valid?
-      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merged domains is too long (maximum is 3 characters)")
+      expect {@person_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domains is too long (maximum is 3 characters)")
     end
   end
 

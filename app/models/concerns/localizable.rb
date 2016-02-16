@@ -2,8 +2,28 @@ module Localizable
   extend ActiveSupport::Concern
 
   included do
+    has_many :localizations, as: :localizable, dependent: :destroy
+
+    accepts_nested_attributes_for :localizations, allow_destroy: true
+
+    after_create  :set_main_location, if: 'localizations.any?'
+    after_update  :set_main_location, if: 'localizations.any?'
+
+    scope :with_locations,  -> { joins(:localizations)                    }
+    # Used in serach
+    scope :only_meso_and_macro_locations, -> { where(type: ['ActorMeso', 'ActorMacro']).joins(:localizations) }
+    scope :only_micro_locations,          -> { where(type: 'ActorMicro').joins(:location)                     }
+
     def main_location
-      main_locations.first.localization if main_locations.any?
+      main_locations.first if main_locations.any?
+    end
+
+    def locations?
+      localizations.any?
+    end
+
+    def main_locations
+      localizations.main_locations
     end
 
     def main_street
@@ -18,7 +38,7 @@ module Localizable
       country_code = main_location.try(:country)
 
       country = ISO3166::Country[country_code]
-      country.translations[I18n.locale.to_s] || country.name
+      country.translations[I18n.locale.to_s] || country.name if country
     end
 
     def main_city
@@ -49,9 +69,25 @@ module Localizable
       main_location.try(:name)
     end
 
+    def main_location_id
+      main_location.try(:id)
+    end
+
     def main_url
       main_location.try(:web_url)
     end
+
+    def main_address
+      [main_street, main_city, main_country].compact.join(', ')
+    end
+
+    protected
+
+      def set_main_location
+        if localizations.main_locations.empty?
+          localizations.order(:created_at).first.update( main: true )
+        end
+      end
   end
 
   class_methods do

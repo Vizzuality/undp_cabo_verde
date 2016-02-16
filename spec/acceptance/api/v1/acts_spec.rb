@@ -10,6 +10,8 @@ resource 'Acts' do
     @user       = FactoryGirl.create(:random_user)
     @unit       = FactoryGirl.create(:unit, user: @user)
     @location   = FactoryGirl.create(:localization, user: @user)
+    @location_1 = FactoryGirl.create(:localization, user: @user)
+    @location_2 = FactoryGirl.create(:localization, user: @user)
     @category_1 = FactoryGirl.create(:category, name: 'Category OD')
     @category_2 = FactoryGirl.create(:category, name: 'Category SCD', type: 'SocioCulturalDomain')
   end
@@ -22,10 +24,10 @@ resource 'Acts' do
                         description: Faker::Lorem.paragraph(2, true, 4),
                         short_name: Faker::Name.name, budget: '2000',
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location],
+      actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location_1],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location],
+      actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location_2],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
 
       actions.each do |a|
@@ -120,16 +122,19 @@ resource 'Acts' do
 
     context 'Act details with actions, actors, locations' do
       let(:action_with_relations) do
+        @location_3 = FactoryGirl.create(:localization, user: @user, start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+        @location_4 = FactoryGirl.create(:localization, user: @user)
+
         relation_type       = create(:acts_relation_type)
         relation_type_actor = create(:act_actor_relation_type)
         actor = create(:actor_micro, name: 'Director of Department',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), gender: 2,
-                        title: 2, categories: [@category_2], localizations: [@location])
+                        title: 2, categories: [@category_2], localizations: [@location_3])
 
         action_with_relations = create(:act_macro, name: 'Indicator of Organization', user: @user,
                                         description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                                         alternative_name: Faker::Name.name, budget: '2000',
-                                        categories: [@category_1, @category_2], localizations: [@location])
+                                        categories: [@category_1, @category_2], localizations: [@location_4])
 
         action_with_relations.act_relations_as_child  << ActRelation.create(parent: actions.first,  start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
         action_with_relations.act_relations_as_parent << ActRelation.create(child:  actions.second, start_date: Time.zone.now - 20.days, end_date: Time.zone.now, relation_type: relation_type)
@@ -163,14 +168,12 @@ resource 'Acts' do
           expect(action['actions']['parents'][0]['level']).to     eq('macro')
 
           expect(action['actions']['parents'][0]['locations'].size).to eq(1)
+          expect(action['actions']['parents'][0]['info']['start_date']).not_to be_nil
+          expect(action['actions']['parents'][0]['info']['end_date']).not_to   be_nil
 
-          expect(action['actions']['parents_info'][0]['parent_id']).not_to  be_nil
-          expect(action['actions']['parents_info'][0]['child_id']).to       eq(action_with_relations.id)
-          expect(action['actions']['parents_info'][0]['start_date']).not_to be_nil
-          expect(action['actions']['parents_info'][0]['end_date']).not_to   be_nil
+          expect(action['actions']['parents'][0]['info']['title']).to         eq('contains')
+          expect(action['actions']['parents'][0]['info']['title_reverse']).to eq('belongs to')
 
-          expect(action['actions']['parents_info'][0]['relation_type']['title']).to         eq('contains')
-          expect(action['actions']['parents_info'][0]['relation_type']['title_reverse']).to eq('belongs to')
           # Relations object details for children
           expect(action['actions']['children'][0]['id']).not_to    be_nil
           expect(action['actions']['children'][0]['name']).to      eq('Indicator of Education')
@@ -180,14 +183,11 @@ resource 'Acts' do
 
           expect(action['actions']['children'][1]['locations'].size).to eq(1)
           expect(action['actions']['children'][0]['locations'].size).to eq(1)
+          expect(action['actions']['children'][0]['info']['start_date']).not_to be_nil
+          expect(action['actions']['children'][0]['info']['end_date']).not_to   be_nil
 
-          expect(action['actions']['children_info'][0]['parent_id']).to      eq(action_with_relations.id)
-          expect(action['actions']['children_info'][0]['child_id']).not_to   be_nil
-          expect(action['actions']['children_info'][0]['start_date']).not_to be_nil
-          expect(action['actions']['children_info'][0]['end_date']).not_to   be_nil
-
-          expect(action['actions']['children_info'][0]['relation_type']['title']).to         eq('contains')
-          expect(action['actions']['children_info'][0]['relation_type']['title_reverse']).to eq('belongs to')
+          expect(action['actions']['children'][0]['info']['title']).to         eq('contains')
+          expect(action['actions']['children'][0]['info']['title_reverse']).to eq('belongs to')
 
           # Actor Relations size
           expect(action['actors']['parents'].size).to  eq(1)
@@ -197,14 +197,38 @@ resource 'Acts' do
           expect(action['actors']['parents'][0]['level']).to     eq('micro')
 
           expect(action['actors']['parents'][0]['locations'].size).to eq(1)
+          expect(action['actors']['parents'][0]['info']['start_date']).not_to be_nil
+          expect(action['actors']['parents'][0]['info']['end_date']).not_to   be_nil
 
-          expect(action['actors']['parents_info'][0]['actor_id']).to   eq(Actor.last.id)
-          expect(action['actors']['parents_info'][0]['act_id']).to     eq(action_with_relations.id)
-          expect(action['actors']['parents_info'][0]['start_date']).to eq('2015-08-12')
-          expect(action['actors']['parents_info'][0]['end_date']).to   eq('2015-09-01')
+          expect(action['actors']['parents'][0]['info']['title']).to         eq('implements')
+          expect(action['actors']['parents'][0]['info']['title_reverse']).to eq('implemented by')
+        end
+      end
 
-          expect(action['actors']['parents_info'][0]['relation_type']['title']).to         eq('implements')
-          expect(action['actors']['parents_info'][0]['relation_type']['title_reverse']).to eq('implemented by')
+      context 'Filtering by date' do
+        before :each do
+          # Time.local(2015, 9, 1, 12, 0, 0, 0)
+          actions[0].update_attributes(start_date: Time.zone.now - 3.years, end_date: Time.zone.now - 2.years)
+          actions[1].update_attributes(start_date: Time.zone.now,           end_date: Time.zone.now + 1.year)
+          actions[2].update_attributes(start_date: Time.zone.now - 1.year,  end_date: Time.zone.now)
+        end
+
+        get "/api/actions/:id" do
+          parameter :start_date, 'Filter actors by start-date (2014-01-31)'
+          parameter :end_date, 'Filter actors by end-date (2015-01-31)'
+
+          example 'Getting a specific action with measurements', document: false do
+            do_request(id: action_with_relations.id, start_date: '2012-01-31', end_date: '2013-09-30')
+            action = JSON.parse(response_body)['action']
+
+            expect(status).to eq(200)
+            expect(action['id']).to    eq(action_with_relations.id)
+
+            expect(action['actions']['parents'].size).to  eq(1)
+            expect(action['actions']['children'].size).to eq(0)
+            expect(action['actors']['parents'].size).to   eq(1)
+            expect(action['actors']['parents'][0]['locations'].size).to eq(1)
+          end
         end
       end
     end

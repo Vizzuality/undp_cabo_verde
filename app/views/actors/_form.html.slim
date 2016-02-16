@@ -3,15 +3,22 @@
     .form-inputs
       .row
         .column.medium-4
-          = form.label :observation, class: 'right inline'
+          = form.label :observation, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :observation, label: false, disabled: common_form?
       / Categories
+      / SCD's
       .row
         .column.medium-4
-          = form.label :merged_domain_ids, class: 'right inline'
+          = form.label :socio_cultural_domain_ids, t('categories.socio_cultural_domains'), class: 'right inline', disabled: common_form?
         .column.medium-8
-          = form.input :merged_domain_ids, collection: @merged_domains, as: ((Category.domain_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.domain_categories.count > 4) ? "domains-chose" : "") }, disabled: common_form?
+          = form.input :socio_cultural_domain_ids, collection: @socio_cultural_domains, as: ((Category.scd_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.scd_categories.count > 4) ? "domains-chose sc-domains-chose" : "") }, disabled: common_form?
+      / OD's
+      .row
+        .column.medium-4
+          = form.label :other_domain_ids, t('categories.other_domains'), class: 'right inline', disabled: common_form?
+        .column.medium-8
+          = form.input :other_domain_ids, collection: @other_domains, as: ((Category.od_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.od_categories.count > 4) ? "domains-chose o-domains-chose" : "") }, disabled: common_form?
       - unless common_form?
         .row
           .column
@@ -22,7 +29,14 @@
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('localizations.localizations')
+        h2.form-title= t('localizations.localizations')
+    - unless @actor.new_record? || @actor.meso_or_macro?
+      .row
+        .column.medium-8.medium-offset-4
+          p= t('localizations.select_parent_location')
+      .row
+        .column.medium-8.medium-offset-4
+          = form.input :parent_location_id, collection: @parent_locations, as: :select, label: false, input_html: { class: 'parent-location' }, disabled: common_form?
 
     = form.fields_for :localizations do |localizations_form|
       = render 'localizations/form', f: localizations_form
@@ -34,44 +48,37 @@
             / Add more css classes to 'add_location', sample 'add_location your_class_name'
             = add_location_path t('shared.add_location'), form, :localizations, 'add_fields add_location'
 
-.row
-  .columns.medium-8.medium-offset-1
-    .row
-      .column.medium-8.medium-offset-4
-        h2 = t('relations.actors_relations')
-
-    = form.fields_for :actor_relations_as_child do |actor_parents_form|
-      = render 'actor_relation_form', f: actor_parents_form
-
-.row
-  .columns.medium-8.medium-offset-1
-    = form.fields_for :actor_relations_as_parent do |actor_children_form|
-      p
-        = render 'actor_relation_children_form', f: actor_children_form
-
-- unless common_form?
-  .row
-    .columns.medium-8.medium-offset-1#add-relations
-      .row.add-relations
-        .column
-          p.text-right
-            = add_actor_relation_path t('actors.add_actor'), form, :actor_relations_as_child, 'add_parent_actor hidden mini-text add_actors_fields'
-            / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
-            = add_actor_relation_children_path t('actors.add_actor'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
 
 .row.actor-connection-action
   .columns.medium-8.medium-offset-1
     .row
       .column.medium-8.medium-offset-4
-        h2 = t('relations.actions_relations')
+        h2.form-title= t('relations.relations')
+    .row
+      .columns.medium-8.medium-offset-4
+        ul.tabs.small-block-grid-2 data-tab="true" data-options="deep_linking: true; scroll_to_content: false;"
+          li.tab-title.active.actors_relations
+            = link_to t('actors.actors'), "#actor_relation_form", class: 'actor_relation_form'
+          li.tab-title.action_relations
+            = link_to t('acts.acts'), "#action_relation_form", class: 'action_relation_form'
+    .row
+      .columns.medium-12
+        div.tabs-content
+          div#actor_relation_form.content.active
+            = form.fields_for :actor_relations_as_child do |actor_parents_form|
+              = render 'actor_relation_form', f: actor_parents_form
+            = form.fields_for :actor_relations_as_parent do |actor_children_form|
+              = render 'actor_relation_children_form', f: actor_children_form
+            - unless common_form?
+                p.text-right.add-button
+                  = add_actor_relation_path t('relations.add_relation'), form, :actor_relations_as_child, 'add_parent_actor _hidden mini-text add_actors_fields'
+                  / Add more css classes to 'add_parent_actor', sample 'add_parent_actor your_class_name'
+                  = add_actor_relation_children_path t('relations.add_relation'), form, :actor_relations_as_parent, 'add_child_actor add_actors_fields'
 
-    = form.fields_for :act_actor_relations do |actions_form|
-      = render 'action_relation_form', f: actions_form
-
-    - unless common_form?
-      .row
-        .column
-          p.text-right
-            / Add more css classes to 'add_action', sample 'add_action your_class_name'
-            = add_action_relation_path t('actors.add_action'), form, :act_actor_relations, 'add_fields add_action'
-
+          div#action_relation_form.content
+            = form.fields_for :act_actor_relations do |actions_form|
+              = render 'action_relation_form', f: actions_form
+            - unless common_form?
+              p.text-right.add-button
+                  / Add more css classes to 'add_action', sample 'add_action your_class_name'
+                  = add_action_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_actions_fields add_action'

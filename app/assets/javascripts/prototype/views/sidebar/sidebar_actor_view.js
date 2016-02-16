@@ -25,7 +25,9 @@
     initialize: function(options) {
       this.router = options.router;
       this.status = new Status();
-      this.model = new root.app.Model.actorModel();
+      this.model = new root.app.Model.actorModel(null, {
+        router: this.router
+      });
       /* The DOM element to receive the Handlbars template */
       this.setListeners();
 
@@ -101,8 +103,13 @@
     },
 
     render: function() {
-      this.$el.html(this.template(_.extend(this.model.toJSON(),
-        this.status.toJSON())));
+      var visibleRelations = this.model.getVisibleRelations();
+      var relations = _.groupBy(visibleRelations, function(relation) {
+        return relation.type;
+      });
+
+      this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
+        this.status.toJSON()), { relations: relations })));
       /* We need to set again the listeners because some of them depends on the
        * elements that have just been rendered */
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');

@@ -1,0 +1,53 @@
+{
+  "resource": "Favourites",
+  "http_method": "DELETE",
+  "route": "/api/favourites/:id?token=:auth_token",
+  "description": "Delete favourite",
+  "explanation": null,
+  "parameters": [
+    {
+      "name": "token",
+      "description": "User auth token"
+    },
+    {
+      "name": "id",
+      "description": "Favourite ID"
+    }
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "DELETE",
+      "request_path": "/api/favourites/5?token=7Nw1A13xrHrZDHj631MA",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+        "token": "7Nw1A13xrHrZDHj631MA"
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"message\": \"Favourite deleted\"\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"0f24a60fec698c6b15dd48a1d5577b44\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "831c44d4-a82d-4e1d-8dba-5bb09906015b",
+        "X-Runtime": "0.008919",
+        "Content-Length": "31"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/favourites/5?token=7Nw1A13xrHrZDHj631MA\" -d '' -X DELETE \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

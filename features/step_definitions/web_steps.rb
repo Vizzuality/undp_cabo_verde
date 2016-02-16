@@ -49,6 +49,19 @@ When /^(?:|I )click on overlapping "([^"]*)"(?: within "([^"]*)")?$/ do |div, se
   end
 end
 
+When /^(?:|I )click on hidden "([^"]*)" on "([^"]*)"(?: within "([^"]*)")?$/ do |div, hidden_el, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{hidden_el}').show()")
+    page.execute_script("$('#{div}').click()")
+  end
+end
+
+Then(/^I should see tab "(.*?)" within "(.*?)"$/) do |div, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{div}').show()")
+  end
+end
+
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
     fill_in(field, :with => value)
@@ -78,6 +91,21 @@ end
 When /^I select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
   with_scope(selector) do
     find("#{div}").select("#{value}")
+  end
+end
+
+When /^I select from the following hidden field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{div}').show()")
+    find("#{div}").select("#{value}")
+  end
+end
+
+When /^I should not be able to select from the following field "(.*?)" with "([^"]*)"(?: within "([^"]*)")?$/ do |div, value, selector|
+  with_scope(selector) do
+    options_text = find("#{div}")
+    RSpec::Expectations.configuration.warn_about_potential_false_positives = false
+    expect { options_text.has_selector?('option') && options_text.find(:xpath, XPath::HTML.option(value)) }.to raise_error
   end
 end
 
@@ -140,7 +168,7 @@ Then /^(?:|I )should see JSON:$/ do |expected_json|
   require 'json'
   expected = JSON.pretty_generate(JSON.parse(expected_json))
   actual   = JSON.pretty_generate(JSON.parse(response.body))
-  expected.should == actual
+  expect(expected).to eq(actual)
 end
 
 Then /^(?:|I )should see "([^"]*)"(?: within "([^"]*)")?$/ do |text, selector|
@@ -233,11 +261,7 @@ end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
-  if current_path.respond_to? :should
-    current_path.should == path_to(page_name)
-  else
-    assert_equal path_to(page_name), current_path
-  end
+  expect(current_path).to eq(path_to(page_name))
 end
 
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
@@ -246,11 +270,7 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   expected_params = {}
   expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')}
 
-  if actual_params.respond_to? :should
-    actual_params.should == expected_params
-  else
-    assert_equal expected_params, actual_params
-  end
+ expect(actual_params).to eq(expected_params)
 end
 
 Then /^show me the page$/ do
@@ -267,12 +287,34 @@ end
 
 Then /^the field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
-    field_labeled(field, disabled: true).value.should =~ /#{value}/
+    field = field_labeled(field)
+    unless field
+      field = field_labeled(field, disabled: true)
+    end
+    expect(field.value).to match(/#{value}/)
   end
 end
 
 Then /^the select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
-    field_labeled(field, disabled: true).find('option[selected]').text =~ /#{value}/
+    field = field_labeled(field)
+    unless field
+      field = field_labeled(field, disabled: true)
+    end
+    expect(field.find('option[selected]')).to match(/#{value}/)
+  end
+end
+
+Then /^the disabled field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field = field_labeled(field, disabled: true)
+    expect(field.value).to match(/#{value}/)
+  end
+end
+
+Then /^the disabled select field "([^\"]*)" should contain "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    field = field_labeled(field, disabled: true)
+    expect(field.find('option[selected]')).to match(/#{value}/)
   end
 end

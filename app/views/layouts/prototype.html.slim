@@ -6,7 +6,7 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) : "UNDP"
     = stylesheet_link_tag    "prototype"
-    link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
+    link href="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css" rel="stylesheet"
     = csrf_meta_tags
   body
     = render partial: 'shared/svg_declarations'
@@ -24,11 +24,11 @@ html lang="en"
               | Macro
             li
               svg.icon.-actor
-                use xlink:href="#mesoMarkerIcon" x="-6" y="-6"
+                use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
               | Meso
             li
               svg.icon.-actor
-                use xlink:href="#microMarkerIcon" x="-6" y="-6"
+                use xlink:href="#microMarkerIcon" x="-5" y="-3"
               | Micro
           ul
             li.title
@@ -39,11 +39,11 @@ html lang="en"
               | Macro
             li
               svg.icon.-action
-                use xlink:href="#mesoMarkerIcon" x="-6" y="-6"
+                use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
               | Meso
             li
               svg.icon.-action
-                use xlink:href="#microMarkerIcon" x="-6" y="-6"
+                use xlink:href="#microMarkerIcon" x="-5" y="-3"
               | Micro
           ul
             li.title
@@ -60,6 +60,22 @@ html lang="en"
               svg.icon.-large.-monochrome
                 use xlink:href="#actionToActionIcon" x="0" y="4"
               = t('front.action_to_action')
+        #map-slider
+          a.slider-controls.js-play-button
+            .left
+            .right
+            .triangle1
+            .triangle2
+          .slider
+            .slider-tooltip.-hidden.js-timeline-tooltip
+              | -
+            svg
+              g transform="translate(12 11)"
+                / Firefox needs the height and width being specified
+                rect.timeline.js-timeline x="0" y="0" height="3" width="260"
+                g.handle-container
+                  circle.handle r="7.5" cx="0" cy="1.5"
+
         #map-buttons
           .checkbox.-reversed.-negative
             input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
@@ -131,17 +147,38 @@ html lang="en"
                           | Micro
                   li.section
                     input#filtersSection2.toggle-button type="checkbox" value="" style="display: none;"
-                    label#filtersTab2.title for="filtersSection2" aria-label="toggle domain filter" aria-controls="filtersPanel2"
-                      = t('front.categories')
+                    label#filtersTab2.title for="filtersSection2" aria-label="toggle 3x5 filter" aria-controls="filtersPanel2"
+                      = t('front.3x5')
                       span.notification-badge.js-badge = t('front.all')
                     #filtersPanel2.content.js-content aria-hidden="true"
-                      select.js-input name="domains_ids" disabled="disabled" multiple="multiple" style="display:none;"
-                        -@domains.each do |domain|
-                          option value="#{domain.id}" selected="selected" = domain.name
-                      -@domains.each do |domain|
+                      select.js-input name="3x5_ids" disabled="disabled" multiple="multiple" style="display:none;"
+                        -@socio_cultural_domains.each do |socio_cultural_domain|
+                          option value="#{socio_cultural_domain.id}" selected="selected" = socio_cultural_domain.name
+                      -@socio_cultural_domains.each do |socio_cultural_domain|
                         .form-input
-                          input.input.-checkbox id="domains#{domain.id}" type="checkbox" value="#{domain.id}" checked="checked"
-                          label.label for="domains#{domain.id}" = domain.name
+                          input.input.-checkbox id="domains#{socio_cultural_domain.id}" type="checkbox" value="#{socio_cultural_domain.id}" checked="checked"
+                          label.label.js-3x5 data-id="#{socio_cultural_domain.id}" for="domains#{socio_cultural_domain.id}" = socio_cultural_domain.name
+                      button.button.-outlined.-small._floatright.js-check-all type="button"
+                        svg.icon.-marginright width="10" height="10"
+                          use xlink:href="#checkIcon" x="0" y="0"
+                        span = t('front.check_all')
+                      button.button.-outlined.-small.js-uncheck-all type="button"
+                        svg.icon.-marginright width="10" height="10"
+                          use xlink:href="#uncheckIcon" x="0" y="0"
+                        span = t('front.uncheck_all')
+                  li.section
+                    input#filtersSection3.toggle-button type="checkbox" value="" style="display: none;"
+                    label#filtersTab2.title for="filtersSection3" aria-label="toggle 3xX filter" aria-controls="filtersPanel3"
+                      = t('front.3xX')
+                      span.notification-badge.js-badge = t('front.all')
+                    #filtersPanel3.content.js-content aria-hidden="true"
+                      select.js-input name="3xX_ids" disabled="disabled" multiple="multiple" style="display:none;"
+                        -@other_domains.each do |other_domain|
+                          option value="#{other_domain.id}" selected="selected" = other_domain.name
+                      -@other_domains.each do |other_domain|
+                        .form-input
+                          input.input.-checkbox id="domains#{other_domain.id}" type="checkbox" value="#{other_domain.id}" checked="checked"
+                          label.label.js-3xX data-id="#{other_domain.id}" for="domains#{other_domain.id}" = other_domain.name
                       button.button.-outlined.-small._floatright.js-check-all type="button"
                         svg.icon.-marginright width="10" height="10"
                           use xlink:href="#checkIcon" x="0" y="0"
@@ -170,5 +207,6 @@ html lang="en"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
 
-    script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    script src="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js"
+    = Gon::Base.render_data
     = javascript_include_tag "prototype"

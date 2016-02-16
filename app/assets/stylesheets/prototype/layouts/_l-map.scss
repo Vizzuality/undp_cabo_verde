@@ -56,8 +56,8 @@
             margin-right: 10px;
           }
 
-          &.-actor  > use { fill: $color-7; }
-          &.-action > use { fill: $color-6; }
+          &.-actor  > use { color: $color-6; fill: transparent; }
+          &.-action > use { color: $color-7; fill: transparent; }
           &.-monochrome > use { fill: $color-15; }
         }
 
@@ -73,6 +73,20 @@
 
     & > ul:not(ul:nth-of-type(3)) { flex-basis: 50%; }
     & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
+  }
+
+  #map-slider {
+    width: 320px;
+    height: 25px;
+    position: absolute;
+    bottom: 75px;
+    left: 210px;
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (min-width: 740px) {
+      bottom: 33px;
+    }
   }
 
   #map-buttons,
@@ -93,20 +107,24 @@
     text-align: right;
     background: none !important;
     color: $color-11 !important;
+    font-size: 11px;
     opacity: .5;
 
     & > a {
       color: $color-11 !important;
       text-decoration: underline !important;
+      &:nth-child(2) { display: none !important; }
     }
   }
 
   .leaflet-control-zoom {
     display: flex;
     box-shadow: none;
+    border: 0;
     border-radius: 0;
     left: 0;
     bottom: 0;
+    background: none;
     transform: translateY(-213px);
     transition: transform .4s;
 
@@ -119,7 +137,12 @@
       border-radius: 0 !important;
       color: $color-1;
       line-height: 24px;
+      text-indent: 0;
+      font: 700 18px 'Lucida Console', Monaco, monospace;
+      text-align: center;
       background-color: $color-12;
+      background-image: none;
+      opacity: 1;
     }
 
     & > .leaflet-disabled,
@@ -130,7 +153,7 @@
     }
   }
 
-  .cartodb-logo { display: none !important; }
+  .mapbox-logo { display: none !important; }
 
   .leaflet-popup-content > .message.-loading {
     height: 180px;

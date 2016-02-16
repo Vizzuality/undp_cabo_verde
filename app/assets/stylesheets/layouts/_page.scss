@@ -50,6 +50,7 @@
     -ms-user-select: none; /* IE10+ */
     text-transform: capitalize;
     text-align: center;
+    cursor: default;
 
     &.-with-icon {
       padding-left: 50px; // space for span.icon

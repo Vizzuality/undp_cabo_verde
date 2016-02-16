@@ -24,6 +24,11 @@ h2 {
   margin: 0;
   padding: 0;
   padding-top: 11px;
+
+  &.form-title {
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
 }
 
 select {
@@ -54,8 +59,6 @@ input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="password"],
-.current-actor,
-.current-actor-edit,
 textarea,
 textarea:focus {
   border: none;
@@ -65,7 +68,6 @@ textarea:focus {
   font-size: 18px;
   padding-top: 0;
   padding-bottom: 0;
-  margin-bottom: 16px;
   line-height: 32px;
   @include font(helvetica, null, light, null);
 
@@ -80,9 +82,7 @@ textarea { min-height: 150px; }
 input[type="text"],
 input[type="email"],
 input[type="url"],
-input[type="password"],
-.current-actor,
-.current-actor-edit {
+input[type="password"] {
   border-bottom: 1px solid $color-13;
 
   &:disabled, &.-disabled {
@@ -105,7 +105,18 @@ textarea:focus {
   }
 }
 
-.current-actor, .current-actor-edit, .current-action, .current-action-edit {
+label {
+  &.disabled, &:disabled {
+    cursor: default;
+  }
+}
+
+.current-actor,
+.current-actor-edit,
+.current-action,
+.current-action-edit,
+.current-indicator,
+.current-indicator-edit {
   padding-left: 8px;
   border: none;
   box-shadow: none;
@@ -122,8 +133,8 @@ textarea:focus {
   &.-disabled {
     color: $color-16;
     background-color: $color-1;
+    border: none;
   }
-
 }
 
 a {
@@ -133,32 +144,13 @@ a {
     color: $color-10;
   }
 
-  &.remove_fields {
+  &.remove_fields,
+  &.remove_fields_preview {
     color: $color-6;
   }
 }
 
-.hidden {
-  visibility: hidden;
+.text-right {
+  margin-bottom: 0;
 }
 
-.mini-text {
-  font-size: 0px;
-  position: absolute;
-}
-
-.form-actions  {
-  h2 {
-    margin-bottom: 20px;
-    margin-top: 40px;
-  }
-}
-
-.form-inputs .row {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-#add-relations {
-  float: left;
-}

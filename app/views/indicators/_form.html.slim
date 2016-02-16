@@ -4,22 +4,40 @@
     .form-inputs
       .row
         .column.medium-4
-          = form.label :name, class: 'right inline'
+          = form.label :name, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :name, label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :alternative_name, class: 'right inline'
+          = form.label :alternative_name, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :alternative_name, label: false, disabled: common_form?
       .row
         .column.medium-4
-          = form.label :description, class: 'right inline'
+          = form.label :description, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :description, label: false, disabled: common_form?
 
       .row
         .column.medium-4
-          = form.label :category_ids, class: 'right inline'
+          = form.label :category_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
-          = form.input :category_ids, collection: @categories, as: ((Category.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.count > 4) ? "js-mselect" : "") }, disabled: common_form?
+          = form.input :category_ids, collection: @categories,
+            as: ((Category.count > 4) ? :select : :check_boxes), label: false,
+            input_html: { multiple: true, class: ((Category.count > 4) ? "js-mselect" : "") },
+            disabled: common_form?
+
+.row
+  .column.medium-8.medium-offset-1
+    .row
+      .column.medium-8.medium-offset-4
+        h2.form-title= t('relations.actions_relations')
+
+    .row
+      .column.medium-12
+        = form.fields_for :act_indicator_relations do |rel_form|
+          = render 'action_relation_form', f: rel_form
+        - unless common_form?
+          p.text-right.add-button
+            = add_act_indicator_relation_path t('relations.add_relation'), form,
+              :act_indicator_relations, 'add_act_relation_fields add_action'

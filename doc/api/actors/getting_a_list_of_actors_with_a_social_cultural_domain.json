@@ -20,7 +20,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/actors?domains_ids[]=114",
+      "request_path": "/api/actors?domains_ids[]=104",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -30,26 +30,26 @@
       },
       "request_query_parameters": {
         "domains_ids": [
-          "114"
+          "104"
         ]
       },
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 48,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 23,\n          \"lat\": \"38.97571511121572\",\n          \"long\": \"-42.199045375377125\"\n        }\n      ]\n    },\n    {\n      \"id\": 46,\n      \"name\": \"Economy Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 24,\n          \"lat\": \"-6.914626886719006\",\n          \"long\": \"151.5911672895337\"\n        },\n        {\n          \"id\": 23,\n          \"lat\": \"38.97571511121572\",\n          \"long\": \"-42.199045375377125\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:26.516Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 44,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 56,\n          \"lat\": \"9.213632616338657\",\n          \"long\": \"-5.227511573123053\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 105,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 112,\n          \"name\": \"Economy, Beauty, Kids, Automotive, Shoes & Clothing\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 104,\n          \"name\": \"Category one\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    },\n    {\n      \"id\": 42,\n      \"name\": \"Economy Organization\",\n      \"level\": \"macro\",\n      \"locations\": [\n        {\n          \"id\": 54,\n          \"lat\": \"19.980832466327882\",\n          \"long\": \"11.755385657879117\",\n          \"main\": false\n        },\n        {\n          \"id\": 53,\n          \"lat\": \"83.22641136764648\",\n          \"long\": \"102.0432387263923\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 105,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 108,\n          \"name\": \"Fishery, Tools, Shoes, Grocery, Health & Baby\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 104,\n          \"name\": \"Category one\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:05.796Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"744fbb77a31287738e58aecdfa0fba4f\"",
+        "ETag": "W/\"f0c047b756960e15c53dcb497d2e43d2\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "0bac8055-a338-4f3a-9dc1-cb1890647667",
-        "X-Runtime": "0.177384",
-        "Content-Length": "406"
+        "X-Request-Id": "fc3f0c97-79d5-42ac-ae3f-151784ad6fe7",
+        "X-Runtime": "0.066746",
+        "Content-Length": "1119"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?domains_ids[]=114\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?domains_ids[]=104\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

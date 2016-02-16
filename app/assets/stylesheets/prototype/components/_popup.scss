@@ -5,11 +5,12 @@
     box-shadow: none;
     border-radius: 0;
 
-    & > .leaflet-popup-content { margin-bottom: 5px; }
+    & > .leaflet-popup-content { padding: 0px 20px 15px; }
   }
 
-  .leaflet-popup-tip {
-    box-shadow: none;
+  .leaflet-popup-tip-container {
+    height: 11px;
+    & > .leaflet-popup-tip { box-shadow: none; }
   }
 
   .delimiter {
@@ -27,7 +28,7 @@
   }
 
   .more-button {
-    margin: 5px auto 15px auto;
+    margin: 5px auto 0 auto;
     display: block;
   }
 
@@ -42,18 +43,14 @@
   }
 
   &.-actors {
-    & > .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip {
-      background-color: $color-7;
-    }
-    .more-button { color: $color-7; }
+    & > .leaflet-popup-content-wrapper { background-color: $color-6; }
+    .leaflet-popup-tip { border-top: 10px solid $color-6; }
+    .more-button { color: $color-6; }
   }
 
   &.-actions {
-    & > .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip {
-      background-color: $color-6;
-    }
-    .more-button { color: $color-6; }
+    & > .leaflet-popup-content-wrapper { background-color: $color-7; }
+    .leaflet-popup-tip { border-top: 10px solid $color-7; }
+    .more-button { color: $color-7; }
   }
 }

@@ -40,3 +40,8 @@ exclude_paths:
 - "db/fixtures/production/01_users.rb"
 - "db/fixtures/development/01_users.rb"
 - "db/fixtures/development/01_users.rb"
+
+# Feature not used for now!
+- "app/models/concerns/favorable.rb"
+- "app/controllers/users/favourites_controller.rb"
+- "app/controllers/concerns/favourite_actions.rb"

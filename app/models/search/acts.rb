@@ -33,21 +33,30 @@ class Search::Acts
           where({ categories: { id: @domains }})
       end
 
+      if @start_date || @end_date
+        @first_date  = (Time.zone.now - 50.years).beginning_of_day
+        @second_date = (Time.zone.now + 50.years).end_of_day
+      end
+
       if @start_date && !@end_date
-        @query = @query.where("start_date >= ? OR end_date >= ?",
+        @query = @query.where("COALESCE(start_date, '#{@first_date}') >= ? OR
+                               COALESCE(end_date, '#{@second_date}') >= ?",
                                @start_date.to_time.beginning_of_day, @start_date.to_time.beginning_of_day)
       end
 
       if @end_date && !@start_date
-        @query = @query.where("end_date <= ? OR start_date <= ?",
+        @query = @query.where("COALESCE(end_date, '#{@second_date}') <= ? OR
+                               COALESCE(start_date, '#{@first_date}') <= ?",
                                @end_date.to_time.end_of_day, @end_date.to_time.beginning_of_day)
       end
 
       if @start_date && @end_date
-        @query = @query.where("start_date BETWEEN ? AND ? OR
-                               end_date BETWEEN ? AND ? OR
-                               ? BETWEEN start_date AND end_date",
-                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day, @start_date.to_time.beginning_of_day)
+        @query = @query.where("COALESCE(start_date, '#{@first_date}') BETWEEN ? AND ? OR
+                               COALESCE(end_date, '#{@second_date}') BETWEEN ? AND ? AND
+                               ? BETWEEN COALESCE(start_date, '#{@first_date}') AND COALESCE(end_date, '#{@second_date}')",
+                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                               @start_date.to_time.beginning_of_day, @end_date.to_time.end_of_day,
+                               @start_date.to_time.beginning_of_day)
       end
 
       @query = @query.distinct

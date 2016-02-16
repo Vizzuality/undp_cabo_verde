@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe LocalizationsHelper, type: :helper do
   include ApplicationHelper
-  
+
   context 'For actors' do
     before :each do
       @user  = create(:random_user)
       @micro = create(:actor_micro, user_id: @user.id)
-      @localization   = create(:localization, name: 'First Localization', 
-                               actors: [@micro], user_id: @user.id)
+      @localization   = create(:localization, name: 'First Localization',
+                               localizable: @micro, user_id: @user.id)
     end
 
     context 'localizations for actors' do
@@ -26,8 +26,8 @@ describe LocalizationsHelper, type: :helper do
     before :each do
       @user  = create(:random_user)
       @micro = create(:act_micro, user_id: @user.id)
-      @localization   = create(:localization, name: 'First Localization', 
-                               acts: [@micro], user_id: @user.id)
+      @localization   = create(:localization, name: 'First Localization',
+                               localizable: @micro, user_id: @user.id)
     end
 
     context 'localizations for acts' do

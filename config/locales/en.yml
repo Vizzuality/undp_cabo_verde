@@ -253,7 +253,11 @@ en:
     updated: 'Updated'
     created: 'Created'
     can_not_be_deleted: 'Can not be deleted!'
-    add_other_domain: 'Add another domain'
+    role: 'Role'
+    admin: 'Admin'
+    manager: 'Manager'
+    user: 'Public'
+    add_other_domain: 'Add domain'
 
   actors:
     actor: 'Actor'
@@ -284,6 +288,7 @@ en:
     to_current_actor: 'To current actor'
     to_actor: 'To actor'
     relation_name: 'Relation title'
+    main: 'Main location'
 
   acts:
     act: 'Action'
@@ -321,9 +326,10 @@ en:
     add_indicator: 'Add indicator'
     indicators: 'Indicators'
     measurement: 'Maesurement'
-    remove_measurement: 'Remove measurement'
+    delete_measurement: 'Delete measurement'
     add_measurement: 'Add measurement'
     measurements: 'Measurements'
+    main: 'Main location'
 
   categories:
     categories: 'Categories'
@@ -332,8 +338,8 @@ en:
     parent: 'Main category'
     child: 'Subcategory'
     children: 'Subcategories'
-    socio_cultural_domains: 'Socio cultural domains'
-    other_domains: 'Other domains'
+    socio_cultural_domains: '3x5'
+    other_domains: '3xX'
     organization_types: 'Organization types'
     name: 'Name'
     remove_domain: 'Remove domain'
@@ -346,6 +352,10 @@ en:
     localizations: 'Locations'
     edit_localization: 'Edit location'
     deactivate: 'Deacticate'
+    main: 'Main location'
+    select_country: 'Select country'
+    address: 'Address'
+    select_parent_location: 'Select location from parent or add a new one.'
 
   navbar:
     dashboard: 'Dashboard'
@@ -363,18 +373,24 @@ en:
     units: 'Units'
 
   relations:
+    relations: 'Relations'
     relation_category: 'Relation category'
     relation_types: 'Relation types'
     create_relation_type: 'Create relation type'
     edit_relation_type: 'Edit relation type'
     actors_relations: 'Connections with Actors'
-    actions_relations: 'Connections with Actions'
+    actions_relations: 'Relations with Actions'
+    indicators_relations: 'Connect with Indicators'
     add_relation: 'Add relation'
     remove_relation: 'Remove relation'
+    remove: 'Remove'
+    view_relation: 'View relation'
+    view: 'View'
+    add_new_relation: 'Add new relation'
     actors_relations_as_parent: 'Connections with Actors as parent'
     switch: 'Switch'
-    indicators_relations: 'Connect with Indicators'
     new_relation_type: 'New Relation Type'
+
 
   users:
     my_actors: 'My actors'
@@ -386,16 +402,20 @@ en:
     forgot_pw: 'Forgot your Password?'
     send_instructions: 'Send me reset password instructions'
     login_action: 'Log in'
+    my_favourites: 'My favourites'
 
   indicators:
     indicators: 'Indicators'
     create_inicator: 'Create Indicator'
     edit_indicator: 'Edit indicator'
-    socio_cultural_domains: 'Socio cultural domains'
-    other_domains: 'Other domains'
+    socio_cultural_domains: '3x5'
+    other_domains: '3xX'
     organization_types: 'Organization types'
     current_indicator: 'Current indicator'
     remove_action: 'Remove action'
+    remove_indicator: 'Remove indicator'
+    link_to_actions: 'Link to Actions'
+    act: 'Action'
 
     units:
       units: 'Units'
@@ -410,11 +430,11 @@ en:
     apply: Apply
     save: Save
     comments: Comments
-    other_domains: Other Domains
+    other_domains: '3xX'
     overall: Overall
     relationships: Relationships
     show_relationships_on_map: Show relationships on map
-    socio_cultural_domains: Social Cultural Domains
+    socio_cultural_domains: '3x5'
     actor: Actor
     actors: Actors
     action: Action
@@ -427,7 +447,8 @@ en:
     only_actors: Only actors
     only_actions: Only actions
     levels: Levels
-    categories: Categories
+    3x5: 3x5
+    3xX: 3xX
     start_date: Start date
     end_date: End date
     want_save_search: Do you want to save this search?
@@ -436,5 +457,7 @@ en:
     all: All
     check_all: Check all
     uncheck_all: Uncheck all
-    cant_apply_search_0_check: You can not apply the search if a filter hasn't any selected option
+    cant_apply_search_0_check: To perform a search, you must check at least one checkbox for each filter, except for 3x5 and 3xX where you can leave one of them with 0 check 
     loading: Loading
+    to_actors: "To Actors:"
+    to_actions: "To Actions:"

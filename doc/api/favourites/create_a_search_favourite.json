@@ -1,0 +1,59 @@
+{
+  "resource": "Favourites",
+  "http_method": "POST",
+  "route": "/api/favourites?name=:name&uri=:uri&token=:auth_token",
+  "description": "Create a search favourite",
+  "explanation": null,
+  "parameters": [
+    {
+      "name": "token",
+      "description": "User auth token"
+    },
+    {
+      "name": "uri",
+      "description": "http://test-url.org"
+    },
+    {
+      "name": "name",
+      "description": "Favourite title"
+    }
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "POST",
+      "request_path": "/api/favourites?name=Favourite&uri=http://test-url.org/actors?active=true&token=7Nw1A13xrHrZDHj631MA",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+        "name": "Favourite",
+        "uri": "http://test-url.org/actors?active=true",
+        "token": "7Nw1A13xrHrZDHj631MA"
+      },
+      "request_content_type": "application/json",
+      "response_status": 201,
+      "response_status_text": "Created",
+      "response_body": "{\n  \"favourite\": {\n    \"id\": 7,\n    \"user_id\": 13,\n    \"name\": \"Favourite\",\n    \"uri\": \"http://test-url.org/actors?active=true\",\n    \"favorable_type\": \"Search\",\n    \"favorable_id\": 7,\n    \"date\": \"2015-09-01T12:00:01+02:00\",\n    \"position\": 2\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"89b09c96f8d7b99b693ab43e2d8e1885\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "8fdcb553-be92-4bd2-aa88-7bdbb72325d6",
+        "X-Runtime": "0.020451",
+        "Content-Length": "192"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/favourites?name=Favourite&uri=http://test-url.org/actors?active=true&token=7Nw1A13xrHrZDHj631MA\" -d '' -X POST \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

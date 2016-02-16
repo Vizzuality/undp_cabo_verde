@@ -1,8 +1,11 @@
 class ActorArraySerializer < BaseSerializer
   cached
-  self.version = 7
+  self.version = 9
 
   attributes :id, :name, :level, :locations
+
+  has_many :socio_cultural_domains
+  has_many :other_domains
 
   def level
     case object.type
@@ -14,14 +17,19 @@ class ActorArraySerializer < BaseSerializer
 
   def locations
     if @options[:search_filter]['start_date'].present? || @options[:search_filter]['end_date'].present?
-      object.actor_localizations_by_date(@options[:search_filter]).map do |actor_localizations|
-        ActorLocalizationSerializer.new(actor_localizations, root: false).serializable_hash
+      object.get_locations_by_date(@options[:search_filter]).map do |actor_localizations|
+        LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     else
-      object.localizations.map do |localizations|
-        LocalizationArraySerializer.new(localizations, root: false).serializable_hash
+      object.get_locations.map do |actor_localizations|
+        LocalizationArraySerializer.new(actor_localizations, root: false).serializable_hash
       end
     end
+  end
+
+  def include_associations!
+    include! :socio_cultural_domains, serializer: CategorySerializer
+    include! :other_domains,          serializer: CategorySerializer
   end
 
   def cache_key

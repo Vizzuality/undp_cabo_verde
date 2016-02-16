@@ -7,6 +7,8 @@
 //= require underscore
 //= require backbone
 //= require handlebars
+//= require d3
+//= require LeafletTextPath/leaflet.textpath
 
 //= require prototype/router
 //= require_tree ./prototype/mixins

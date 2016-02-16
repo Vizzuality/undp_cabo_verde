@@ -5,37 +5,38 @@ RSpec.describe ActorsController, type: :controller do
     @user      = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
+    # FactoryGirl.create(:manager_user, user_id: @user.id)
 
     @field = create(:operational_field)
-
-    @micro = create(:actor_micro, user_id: @user.id)
     @macro = create(:actor_macro, user_id: @user.id, active: false)
     @meso  = create(:actor_meso, user_id: @user.id)
+    @micro = create(:actor_micro, user_id: @user.id, parents: [@macro])
+    @location = create(:localization, name: 'First Localization', user: @user, main: true, localizable: @macro)
     @socio_cultural_domain = create(:socio_cultural_domain, name: 'SCD')
   end
 
-  let!(:attri) do 
+  let!(:attri) do
     { name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: '', operational_field: ''
     }
   end
 
-  let!(:attri_micro) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', 
+  let!(:attri_micro) do
+    { name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: 'Test'
     }
   end
 
   let!(:attri_macro) do
     {
-      name: 'New first', observation: 'Lorem ipsum dolor...', 
+      name: 'New first', observation: 'Lorem ipsum dolor...',
       active: true, title: 'Test', operational_field: @field.id
     }
   end
 
-  let!(:attri_meso) do 
-    { name: 'New first', observation: 'Lorem ipsum dolor...', 
-      active: true, title: 'Test', type: 'ActorMeso' 
+  let!(:attri_meso) do
+    { name: 'New first', observation: 'Lorem ipsum dolor...',
+      active: true, title: 'Test', type: 'ActorMeso'
     }
   end
 
@@ -68,6 +69,8 @@ RSpec.describe ActorsController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(@micro.micro?).to eq(true)
+      # after_commit rspec broken on rails 4
+      # expect(@micro.parent_location_id).to eq(@location.id)
     end
 
     it 'update actor micro and redirect to membership_actor_micro_path' do
@@ -126,7 +129,8 @@ RSpec.describe ActorsController, type: :controller do
     it 'User should be able to create a new actor' do
       expect(@user.actors.count).to eq(3)
       post :create, actor: { name: 'New first', user_id: @user.id, type: 'ActorMacro',
-                             merged_domain_ids: [@socio_cultural_domain.id] }
+                             socio_cultural_domain_ids: [@socio_cultural_domain.id],
+                             operational_field: @field.id }
       expect(response).to be_redirect
       expect(response).to have_http_status(302)
       expect(@user.actors.count).to eq(4)
@@ -147,7 +151,7 @@ RSpec.describe ActorsController, type: :controller do
       let!(:attri_macro_micro_with_cat) do
         { name: 'New first', observation: 'Lorem ipsum dolor...',
           active: true, title: 'Test', operational_field: @field.id,
-          merged_domain_ids: [@child_cat]
+          socio_cultural_domain_ids: [@child_cat]
         }
       end
 
@@ -163,9 +167,9 @@ RSpec.describe ActorsController, type: :controller do
     context 'Link unlink macros and mesos' do
       before :each do
         @macro_active = create(:actor_macro, user_id: @user.id)
-        @meso_linked  = create(:actor_meso,  user_id: @user.id, 
+        @meso_linked  = create(:actor_meso,  user_id: @user.id,
                                parents: [@macro_active])
-        @micro_linked = create(:actor_micro, user_id: @user.id, 
+        @micro_linked = create(:actor_micro, user_id: @user.id,
                                parents: [@macro_active, @meso_linked])
         FactoryGirl.create(:actor_macro, user_id: @user.id)
         FactoryGirl.create(:actor_meso, user_id: @user.id)

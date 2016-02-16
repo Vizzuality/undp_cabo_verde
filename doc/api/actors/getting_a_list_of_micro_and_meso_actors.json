@@ -37,17 +37,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 45,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 21,\n          \"lat\": \"37.69546271748999\",\n          \"long\": \"-94.93728500673011\"\n        }\n      ]\n    },\n    {\n      \"id\": 44,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 21,\n          \"lat\": \"37.69546271748999\",\n          \"long\": \"-94.93728500673011\"\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:26.001Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 41,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 52,\n          \"lat\": \"-22.06207816205034\",\n          \"long\": \"141.12435675719905\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 95,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 103,\n          \"name\": \"Education, Grocery, Shoes, Kids, Sports & Outdoors\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    },\n    {\n      \"id\": 40,\n      \"name\": \"Department of Education\",\n      \"level\": \"meso\",\n      \"locations\": [\n        {\n          \"id\": 51,\n          \"lat\": \"-53.69541139941788\",\n          \"long\": \"60.47972265019553\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 95,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 102,\n          \"name\": \"Economy, Computers, Jewelery, Electronics, Games & Health\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n        {\n          \"id\": 94,\n          \"name\": \"Category one\",\n          \"type\": \"Other domains\",\n          \"icon_identifier\": null\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 2,\n    \"cache_date\": \"2015-09-01T10:00:05.471Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"57473dd026d9bc95514468688e85e74f\"",
+        "ETag": "W/\"a9663a56d648c33802e68c0877cbfb3e\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "1c9cfaeb-def9-4f11-b9f0-135b8503f630",
-        "X-Runtime": "0.239494",
-        "Content-Length": "342"
+        "X-Request-Id": "49ae42f3-ca3f-4ccd-bce9-a770cb06e5e1",
+        "X-Runtime": "0.064685",
+        "Content-Length": "975"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro&levels[]=meso\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
