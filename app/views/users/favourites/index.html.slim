@@ -1,0 +1,29 @@
+.section-container#users-favourites
+  .section.title-section
+    div
+      h2.title
+        = t('users.my_favourites')
+
+  .section.table-container
+    - @favourites.each do |favourite|
+      .table-row.favourite-row
+        .data-primary
+          span.data.-primary
+            = link_to favourite.name, "#{favourite.uri}"
+          span.data
+            = "#{t('shared.created')}: #{favourite.created_at.to_formatted_s(:short).to_s} / "
+          span.data
+            = "#{t('shared.updated')}: #{favourite.updated_at.to_formatted_s(:short).to_s}"
+
+        .data-secondary
+          span.data._hidden
+          span.data
+          span.data.-linkdata.-disabled
+          span.data.-linkdata
+          span.data.-linkdata
+            = link_to user_favourite_path(@user, favourite), remote: true, method: :delete, class: 'remove-favourite' do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
+
+  = paginate @favourites

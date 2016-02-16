@@ -47,6 +47,13 @@
       this.queryParams.set(params);
     },
 
+    /* Set the string passed as argument as the query params of the URL without
+     * any transformation and retrieve the params from it right after */
+    setRawQueryParams: function(rawQueryParams) {
+      history.replaceState(null, null, rawQueryParams);
+      this.retrieveQueryParams();
+    },
+
     /* Return a JSON representation of the queryParams model */
     getQueryParams: function() {
       return this.queryParams.toJSON();

@@ -8,7 +8,7 @@ module Filterable
       initialize_query
     end
 
-    private
+    protected
 
       def initialize_params(options)
         @options = Search::ActorsParams.sanitize(options)

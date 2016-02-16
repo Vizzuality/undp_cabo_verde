@@ -15,7 +15,7 @@
           .column.medium-4
             = f.label :type, class: 'right inline'
           .column.medium-8
-            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true
+            = f.input :type, label: false, collection: @types, as: :collection_select, disabled: true, input_html: { class: 'chosen-select' }
         .row
           .column.medium-4
             = f.label :name, class: 'right inline'
@@ -26,19 +26,19 @@
             .column.medium-4
               = f.label :title, class: 'right inline'
             .column.medium-8
-              = f.input :title, collection: @actor.title_select, as: :collection_select, label: false
+              = f.input :title, collection: @actor.title_select, as: :collection_select, label: false, input_html: { class: 'chosen-select' }
           .row
             .column.medium-4
               = f.label :gender, class: 'right inline'
             .column.medium-8
-              = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false
+              = f.input :gender, collection: @actor.gender_select, as: :collection_select, label: false, input_html: { class: 'chosen-select' }
 
         - if @actor.macro?
           .row
             .column.medium-4
               = f.label :operational_field, class: 'right inline'
             .column.medium-8
-              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, input_html: { class: 'chosen-select' }
 
         - if @actor.meso_or_macro?
           .row

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126110245) do
+ActiveRecord::Schema.define(version: 20160215103633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,20 @@ ActiveRecord::Schema.define(version: 20160126110245) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "favourites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "favorable_id"
+    t.string   "favorable_type"
+    t.string   "uri",                        null: false
+    t.string   "name"
+    t.integer  "position",       default: 0
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "favourites", ["user_id", "favorable_id", "favorable_type"], name: "index_favourites_on_user_id_and_favorable_id_and_favorable_type", unique: true, using: :btree
+  add_index "favourites", ["user_id"], name: "index_favourites_on_user_id", using: :btree
+
   create_table "indicators", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name",                            null: false
@@ -213,6 +227,12 @@ ActiveRecord::Schema.define(version: 20160126110245) do
   add_index "locations", ["localizable_id", "localizable_type"], name: "index_locations_on_localizable_id_and_localizable_type", using: :btree
   add_index "locations", ["user_id"], name: "index_locations_on_user_id", using: :btree
 
+  create_table "manager_users", force: :cascade do |t|
+    t.integer "user_id"
+  end
+
+  add_index "manager_users", ["user_id"], name: "index_manager_users_on_user_id", using: :btree
+
   create_table "measurements", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "act_indicator_relation_id"
@@ -236,6 +256,26 @@ ActiveRecord::Schema.define(version: 20160126110245) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "units", force: :cascade do |t|
     t.string   "name"
@@ -281,8 +321,10 @@ ActiveRecord::Schema.define(version: 20160126110245) do
   add_foreign_key "acts", "users"
   add_foreign_key "admin_users", "users"
   add_foreign_key "comments", "users"
+  add_foreign_key "favourites", "users"
   add_foreign_key "indicators", "users"
   add_foreign_key "locations", "users"
+  add_foreign_key "manager_users", "users"
   add_foreign_key "measurements", "act_indicator_relations"
   add_foreign_key "measurements", "users"
   add_foreign_key "units", "users"

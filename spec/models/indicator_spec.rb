@@ -73,4 +73,17 @@ RSpec.describe Indicator, type: :model do
       expect(@indicator.other_domains.count).to eq(1)
     end
   end
+
+  context 'Add tags to indicator' do
+    before :each do
+      @category_1 = create(:category, type: 'SocioCulturalDomain')
+      @indicator  = create(:indicator, name: 'Indicator third', user_id: @user.id, categories: [@category_1])
+      @indicator.tag_list.add('tag one', 'tag two')
+    end
+
+    it 'Get indicators with act relations' do
+      expect(@indicator.tag_list.count).to eq(2)
+      expect(@indicator.tag_list).to eq(['tag one', 'tag two'])
+    end
+  end
 end
