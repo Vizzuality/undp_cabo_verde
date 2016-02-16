@@ -54,6 +54,8 @@
       });
 
       this.setListeners();
+
+      this.mapMapView.start();
     },
 
     setListeners: function() {
