@@ -135,3 +135,6 @@ jQuery ->
   $(document).on 'ready', () ->
     addChosen()
 
+  $('.tags-select').select2
+    tags: true
+    tokenSeparators: [',']

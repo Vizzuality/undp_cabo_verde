@@ -10,6 +10,10 @@ Then /^I should have two indicators$/ do
   Indicator.all.size.should >= 2
 end
 
+Then /^I should have two tags$/ do
+  Tag.all.size.should == 2
+end
+
 Then /^I should have indicator with measurements$/ do
   Indicator.last.act_indicator_relations.last.measurements.size.should == 0
 end

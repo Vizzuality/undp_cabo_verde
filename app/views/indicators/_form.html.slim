@@ -27,6 +27,12 @@
             input_html: { multiple: true, class: ((Category.count > 4) ? "js-mselect" : "") },
             disabled: common_form?
 
+      .row
+        .column.medium-4
+          = form.label :tag_list, class: 'right inline', disabled: common_form?
+        .column.medium-8
+          = form.input :tag_list, collection: Tag.most_used_50, value_method: :name, as: :select, input_html: { multiple: true, class: 'tags-select' }, label: false, disabled: common_form?
+
 .row
   .column.medium-8.medium-offset-1
     .row
