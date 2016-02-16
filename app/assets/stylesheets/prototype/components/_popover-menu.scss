@@ -1,0 +1,49 @@
+.popover-menu {
+  display: block;
+  position: absolute;
+  bottom: -5px;
+  right: calc(50% + 17px); /* 17px = (icon + margin) / 2 */
+  transform: translate(50%, 100%);
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  z-index: 1;
+
+  &:after { /* The tip */
+    content: '';
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-bottom-color: $color-2;
+  }
+
+  & > .item {
+    display: block;
+    margin: 0;
+    padding: 0 25px;
+    background-color: $color-2;
+    color: rgba($color-1, .8);
+    font-size: 12px;
+    line-height: 32px;
+    text-align: center;
+    box-shadow: 0 2px 4px 0 rgba($color-3, .2);
+
+    &:hover {
+      color: $color-1;
+      background-color: desaturate(lighten($color-2, 5%), 10%);
+    }
+
+    & > .link {
+      display: block;
+      width: calc(100% + 2* 25px);
+      height: 100%;
+      position: relative;
+      left: -25px;
+    }
+  }
+}

@@ -1,4 +1,7 @@
 class ActorsController < ApplicationController
+  include FavouriteActions
+  before_action :current_object,  only: [:create_favourite, :destroy_favourite]
+
   before_action :store_location
   before_action :authenticate_user!
   load_and_authorize_resource
@@ -104,6 +107,10 @@ class ActorsController < ApplicationController
 
     def set_actor
       @actor = type_class.find(params[:id])
+    end
+
+    def current_object
+      @object = Actor.find(params[:id])
     end
 
     def set_actor_preload

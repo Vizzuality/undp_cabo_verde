@@ -1,30 +1,30 @@
 nav
   ul.inline-list
-    //li = link_to t('navbar.dashboard'), root_pathb, class: "#{'is-active' if menu_highlight?(:home)}"
     - if current_user && current_user.admin?
       li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
-    li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
-    li = link_to t('navbar.acts'), acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
-    li = link_to t('navbar.indicators'), indicators_path, class: "#{'is-active' if menu_highlight?(:indicators)}"
 
-    - if user_signed_in?
+    - if user_signed_in? && !current_user.user?
+      li = link_to t('navbar.actors'), actors_path, class: "#{'is-active' if menu_highlight?(:actors)}"
+      li = link_to t('navbar.acts'), acts_path, class: "#{'is-active' if menu_highlight?(:acts)}"
+      li = link_to t('navbar.indicators'), indicators_path, class: "#{'is-active' if menu_highlight?(:indicators)}"
+
       li.dropdown-anchor
         a class='label'
           = t('navbar.settings')
-        ul class='dropdown-list' 
+        ul class='dropdown-list'
           li.arrowhelper
           - if (can? :manage, Category)
-            li 
+            li
               = link_to categories_path, class: "#{'is-active' if menu_highlight?(:categories)}" do
                 = t('navbar.categories')
                 span.link-helper
           - if (can? :manage, RelationType)
-            li 
+            li
               = link_to relation_types_path, class: "#{'is-active' if menu_highlight?(:relation_types)}" do
                 = t('navbar.relation_types')
                 span.link-helper
           - if (can? :manage, Unit)
-            li 
+            li
               = link_to units_path, class: "#{'is-active' if menu_highlight?(:units)}" do
                 = t('navbar.units')
                 span.link-helper
@@ -32,15 +32,15 @@ nav
     - if user_signed_in?
       li.dropdown-anchor
         span class='icon'
-        a class='label -with-icon'
+        a.label.-with-icon href="#{user_path(current_user)}"
           = current_user.name
         ul class='dropdown-list'
           li.arrowhelper
-          li 
+          li
             = link_to edit_user_registration_path, class: "#{'is-active' if menu_highlight?(:account)}" do
               = t('navbar.edit_account')
               span.link-helper
-          li 
+          li
             = link_to destroy_user_session_path, method: 'delete' do
               = t('navbar.logout')
               span.link-helper

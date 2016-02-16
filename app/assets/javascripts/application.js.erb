@@ -4,20 +4,21 @@
 //= require chosen-jquery
 //= require leaflet
 //= require forms
+//= require favourites
 //= require foundation
 //= require select2
 
 /* Dynamically filter the forms that are shown for the actors and actions pages
  */
 var filterForms = function() {
-  var forms = document.querySelectorAll('#form-actor, #form-action');
-  var level = document.querySelector('#actor_type, #act_type, #actor_micro_type');
+  var forms = $('#form-actor, #form-action');
+  var level = $('#actor_type, #act_type, #actor_micro_type');
 
   /* If the page doesn't have the necessary filter, we exit the function */
   if(!level) { return; }
 
   /* When level has a new value, we update the list of visible forms */
-  level.addEventListener('change', function(e) {
+  level.on('change', function(e) {
     var value = e.currentTarget.value.toLowerCase();
     value = value.replace('actor', '').replace('act', '');
 

@@ -23,7 +23,7 @@ I want to manage an actor
     And I select "Mr." from "actor_micro_title"
     And I press "Update"
     Then I should be on the actor page for "New Person"
-    And the field "Name" should contain "New Person"
+    And the disabled field "Name" should contain "New Person"
 
   Scenario: User can edit owned actor meso
     Given I am authenticated user
@@ -34,7 +34,7 @@ I want to manage an actor
     And I fill in "actor_meso_observation" with "It's description for department"
     And I press "Update"
     Then I should be on the actor page for "New Department"
-    And the field "Name" should contain "New Department"
+    And the disabled field "Name" should contain "New Department"
 
   Scenario: User can edit owned actor macro
     Given I am authenticated user
@@ -45,7 +45,7 @@ I want to manage an actor
     When I select "Global" from "actor_macro_operational_field"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
-    And the field "Name" should contain "New Organization"
+    And the disabled field "Name" should contain "New Organization"
 
   # The field level is disabled on edit form!
   # Scenario: User can change actor type from macro to meso

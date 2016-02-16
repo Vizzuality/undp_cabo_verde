@@ -2,11 +2,11 @@ class Localization < ActiveRecord::Base
   self.table_name = 'locations'
 
   include Activable
+  include Sanitizable
 
   belongs_to :user,        foreign_key: :user_id, touch: true
   belongs_to :localizable, polymorphic: true,     touch: true
 
-  after_save   :fix_web
   after_update :check_main_location, if: 'main and main_changed?'
 
   validates :long, presence: true
@@ -44,12 +44,6 @@ class Localization < ActiveRecord::Base
   end
 
   private
-
-    def fix_web
-      unless self.web_url.blank? || self.web_url.start_with?('http://') || self.web_url.start_with?('https://')
-        self.web_url = "http://#{self.web_url}"
-      end
-    end
 
     def check_main_location
       Localization.where.not(id: self.id).where( localizable_id: self.localizable_id, localizable_type: self.localizable_type ).each do |location|

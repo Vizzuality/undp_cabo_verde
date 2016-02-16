@@ -129,6 +129,11 @@ jQuery ->
     $('.chosen-select').chosen
       allow_single_deselect: true
       no_results_text: 'No results matched'
+      disable_search_threshold: 7
+      placeholder_text_single: 'Select an Option'
+
+  $(document).on 'ready', () ->
+    addChosen()
 
   $('.tags-select').select2
     tags: true
