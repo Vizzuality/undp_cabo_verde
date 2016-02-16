@@ -69,6 +69,28 @@
     background-color: $color-1;
 
     .popover-menu > .item { min-width: 100px; }
+
+    /* Fixes issues with the log out  option which is a button within a form */
+    .popover-menu form {
+      width: 100%;
+
+      & > .link {
+        display: block;
+        width: calc(100% + 2* 25px);
+        height: 100%;
+        position: relative;
+        left: -25px;
+        border: none;
+        background-color: transparent;
+        color: rgba($color-1, .8);
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 12px;
+        line-height: 32px;
+        cursor: pointer;
+        &:hover  { color: $color-1; }
+        &:active { padding: 0; }
+      }
+    }
   }
 
   #overall-tab,
