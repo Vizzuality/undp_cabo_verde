@@ -35,7 +35,7 @@
     setListeners: function() {
       this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
       this.listenTo(root.app.pubsub, 'show:searches', this.fetchDataAndRender);
-      this.listenTo(root.app.subpub, 'save:sidebarFilters', this.fetchData);
+      this.listenTo(root.app.pubsub, 'save:sidebarFilters', this.fetchData);
     },
 
     onApply: function(e) {
