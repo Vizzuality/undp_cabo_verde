@@ -1,10 +1,9 @@
 .select2-container {
-  width: 100%;
+  width: 100% !important;
 }
 
 .select2-container--default {
   .select2-selection--multiple {
-    height: 34px !important;
     border-radius: 0px !important;
     background-color: #F1F1F1 !important;
     border: none !important;
