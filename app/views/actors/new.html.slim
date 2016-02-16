@@ -15,7 +15,7 @@
           .column.medium-4
             = f.label :type, class: 'right inline'
           .column.medium-8
-            = f.input :type, label: false, collection: @types, as: :collection_select, prompt: 'Select a level'
+            = f.input :type, label: false, collection: @types, as: :collection_select, input_html: { class: 'chosen-select' }
         .row
           .column.medium-4
             = f.label :name, class: 'right inline'
@@ -26,18 +26,18 @@
             .column.medium-4
               = f.label :title, class: 'right inline'
             .column.medium-8
-              = f.input :title, collection: @title_select, as: :collection_select, label: false
+              = f.input :title, collection: @title_select, as: :collection_select, label: false, input_html: { class: 'chosen-select' }
           .row
             .column.medium-4
               = f.label :gender, class: 'right inline'
             .column.medium-8
-              = f.input :gender, collection: @gender_select, as: :collection_select, label: false
+              = f.input :gender, collection: @gender_select, as: :collection_select, label: false, input_html: { class: 'chosen-select' }
         #form-actor.macro class=('_hidden' unless ['ActorMacro', 'ActorMeso'].include?(@actor.type))
           .row
             .column.medium-4
               = f.label :operational_field, class: 'right inline', required: true
             .column.medium-8
-              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, required: true
+              = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, required: true, input_html: { class: 'chosen-select' }
         #form-actor.meso.macro._hidden
           .row
             .column.medium-4
