@@ -1,6 +1,7 @@
 class Indicator < ActiveRecord::Base
   include Activable
   include Commentable
+  include Taggable
 
   belongs_to :user, foreign_key: :user_id
 
@@ -37,6 +38,10 @@ class Indicator < ActiveRecord::Base
                    all
                  end
     indicators
+  end
+
+  def acts_size
+    acts.size
   end
 
   def categories?

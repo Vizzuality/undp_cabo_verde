@@ -71,14 +71,31 @@
       transform: translateY(-50%) rotate(-45deg);
     }
   }
+
+  div b {
+    background: none !important;
+  }
+
+  .search-choice-close {
+    display: none !important;
+  }
 }
 
-.chosen-single .search-choice-close {
-  display: none !important;
-}
 
-.chosen-single div b {
-  background: none !important;
+
+.chosen-disabled {
+
+  opacity: 1 !important;
+  &.chosen-container { opacity: 1 !important;}
+
+  .chosen-single {
+    background: $color-1 !important;
+    color: $color-16 !important;
+
+    span:before {
+      display: none !important;
+    }
+  }
 }
 
 

@@ -67,6 +67,20 @@
       this.actionView = new root.app.View.sidebarActionView({
         router: this.router
       });
+      this.searchesView = new root.app.View.sidebarSearchesView({
+        router: this.router
+      });
+
+      this.setListeners();
+    },
+
+    /* Application-wide listeners which are not binded to any UI component */
+    setListeners: function() {
+      document.addEventListener('click', this.triggerDocumentClick);
+    },
+
+    triggerDocumentClick: function() {
+      root.app.pubsub.trigger('click:document');
     }
 
   });

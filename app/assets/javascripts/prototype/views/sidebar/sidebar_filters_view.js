@@ -23,6 +23,7 @@
       'change input[type=checkbox]:not(.toggle-button)': 'onCheckboxChange',
       'click .js-uncheck-all': 'onClickUncheckAll',
       'click .js-check-all': 'onClickCheckAll',
+      'click .js-save-search': 'onClickSaveSearch',
       'mouseenter .js-3x5': 'on3x5Hover',
       'mouseleave .js-3x5': 'on3x5Blur',
       'mouseenter .js-3xX': 'on3xXHover',
@@ -37,6 +38,7 @@
       this.applyButton = this.el.querySelector('.js-apply');
       this.errorMessage = this.el.querySelector('.js-error');
       this.inputs = this.el.querySelectorAll('.js-input');
+      this.saveButton = this.el.querySelector('.js-save-search');
       this.hiddenInputs =
         this.el.querySelectorAll('.js-input[disabled="disabled"]');
       this.syncInputsWithQueryParams();
@@ -49,6 +51,7 @@
       this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
       this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
       this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
+      this.listenTo(root.app.pubsub, 'apply:sidebarSearches', this.onSetSearch);
       this.listenTo(this.status, 'change', this.applySearch);
     },
 
@@ -232,6 +235,33 @@
       this.show();
     },
 
+    onClickSaveSearch: function() {
+      this.applyFilters();
+      var queryParams = location.search.replace('?', '');
+
+      /* We create and save the model that contains the search information */
+      var model = new (Backbone.Model.extend({
+        url: root.app.Helper.globals.apiUrl + 'favourites/?token=' +
+          gon.userToken
+      }))();
+      model.set('uri', queryParams);
+      model.save()
+        .done(function() {
+          /* We send an event to tell the searches view that it needs to fetch
+           * the collection again */
+          root.app.pubsub.trigger('save:sidebarFilters');
+          /* We add an animation to tell the user that the search has been
+           * successfully saved */
+          this.saveButton.classList.add('success');
+          setTimeout(function() {
+            this.saveButton.classList.remove('success');
+          }.bind(this), 3000);
+        }.bind(this))
+        .fail(function() {
+          console.warn('Unable to save the search');
+        });
+    },
+
     on3x5Hover: function(e) {
       root.app.pubsub.trigger('filter:sidebarFilters', {
         category: 'socio_cultural_domains',
@@ -252,6 +282,12 @@
 
     on3xXBlur: function() {
       this.on3x5Blur();
+    },
+
+    onSetSearch: function(options) {
+      this.router.setRawQueryParams('?' + options.queryParams);
+      this.syncInputsWithQueryParams();
+      this.syncCheckboxesWithHiddenInputs();
     },
 
     /* LOGIC */
@@ -555,7 +591,7 @@
           var containerWidth = this.$el.width();
           var containerPadding = 25;
 
-          position.top += 180;
+          position.top = this.$dateFields.offset().top - this.$el.offset().top + 30;
           if(instance.input[0] === fromField[0]) {
             position.left = containerPadding;
           } else {

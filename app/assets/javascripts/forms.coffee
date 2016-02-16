@@ -139,3 +139,6 @@ jQuery ->
     $('#items_list .table-container').html('<h2>Loading...</h2>')
     return
 
+  $('.tags-select').select2
+    tags: true
+    tokenSeparators: [',']
