@@ -4,6 +4,7 @@
 
   root.app = root.app || {};
   root.app.View = root.app.View || {};
+  root.app.Helper = root.app.Helper || {};
 
   root.app.View.mapMapView = Backbone.View.extend({
 
@@ -25,27 +26,20 @@
     },
 
     render: function() {
-      this.map = new L.Map('map', {
+      L.mapbox.accessToken = root.app.Helper.globals.mapToken;
+
+      this.map = L.mapbox.map('map', 'undp-caboverde.b3dd420c', {
         center: [14.91, -23.51],
-        zoom: 13,
-        minZoom: 8,
-        maxBounds: [
-          L.latLng(13.637819, -28.389729),
-          L.latLng(18.228372, -19.292213)
-        ]
+        zoom: 13
       });
 
       this.map.zoomControl.setPosition('bottomleft');
       this.map.on('click',   this.onMapClick.bind(this));
       this.map.on('zoomend', this.onZoomEnd.bind(this));
 
-      cartodb.createLayer(this.map,
-        'https://simbiotica.cartodb.com/api/v2/viz/d26b8254-78d1-11e5-b910-0ecfd53eb7d3/viz.json')
-        .addTo(this.map)
-        .on('done', this.onMapRendered.bind(this))
-        .on('error', function(error) {
-          console.error('Unable to render the map: ' + error);
-        });
+      /* We make sure to trigger the event once the map_view's setListeners
+       * method is executed */
+      setTimeout(function() {this.onMapRendered();}.bind(this), 15);
     },
 
     /* Zoom to fit the passed markers */

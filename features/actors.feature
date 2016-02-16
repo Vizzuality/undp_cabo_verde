@@ -23,7 +23,7 @@ I want to manage an actor
     And I select "Mr." from "actor_micro_title"
     And I press "Update"
     Then I should be on the actor page for "New Person"
-    And the field "Name" should contain "New Person"
+    And the disabled field "Name" should contain "New Person"
 
   Scenario: User can edit owned actor meso
     Given I am authenticated user
@@ -34,7 +34,7 @@ I want to manage an actor
     And I fill in "actor_meso_observation" with "It's description for department"
     And I press "Update"
     Then I should be on the actor page for "New Department"
-    And the field "Name" should contain "New Department"
+    And the disabled field "Name" should contain "New Department"
 
   Scenario: User can edit owned actor macro
     Given I am authenticated user
@@ -45,7 +45,7 @@ I want to manage an actor
     When I select "Global" from "actor_macro_operational_field"
     And I press "Update"
     Then I should be on the actor page for "New Organization"
-    And the field "Name" should contain "New Organization"
+    And the disabled field "Name" should contain "New Organization"
 
   # The field level is disabled on edit form!
   # Scenario: User can change actor type from macro to meso
@@ -180,8 +180,8 @@ I want to manage an actor
     When I go to the edit actor page for "Person one"
     And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
-    And I select from the following field ".relation_child_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "contains"
+    And I select from the following hidden field ".relation_child_id" with "Organization one"
+    And I select from the following hidden field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -200,8 +200,8 @@ I want to manage an actor
     And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     When I click on overlapping ".switch_parent_form"
-    And I select from the following field ".relation_parent_id" with "Organization one"
-    And I select from the following field ".relation_type_id" with "contains"
+    And I select from the following hidden field ".relation_parent_id" with "Organization one"
+    And I select from the following hidden field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -218,7 +218,7 @@ I want to manage an actor
     And I click on overlapping ".add_child_actor" within "#actor_relation_form"
     Then I should see "Person one" within ".current-actor-wrapper"
     When I click on overlapping ".switch_parent_form"
-    And I select from the following field ".relation_parent_id" with "Person one"
+    And I select from the following hidden field ".relation_parent_id" with "Person one"
     Then I should not be able to select from the following field ".relation_parent_id" with "Department one"
 
   @javascript
@@ -242,8 +242,8 @@ I want to manage an actor
      When I go to the edit actor page for "Person one"
      And I click on overlapping ".action_relations"
      Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
-     And I select from the following field ".relation_action_id" with "First one"
-     And I select from the following field ".relation_type_id" with "implements"
+     And I select from the following hidden field ".relation_action_id" with "First one"
+     And I select from the following hidden field ".relation_type_id" with "implements"
      When I fill in the following field ".relation_start_date" with "1990-03-10"
      When I fill in the following field ".relation_end_date" with "2010-03-10"
      And I press "Update"
@@ -262,7 +262,7 @@ I want to manage an actor
     And I click on overlapping ".action_relations"
     Then I click on hidden ".add_action" on "#action_relation_form" within ".tabs-content"
     Then I should see "Person one with relation" within ".current-actor-wrapper"
-    And I select from the following field ".relation_action_id" with "Third one"
+    And I select from the following hidden field ".relation_action_id" with "Third one"
     Then I should not be able to select from the following field ".relation_action_id" with "First one"
 
    @javascript

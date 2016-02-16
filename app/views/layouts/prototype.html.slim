@@ -6,7 +6,7 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) : "UNDP"
     = stylesheet_link_tag    "prototype"
-    link href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"
+    link href="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css" rel="stylesheet"
     = csrf_meta_tags
   body
     = render partial: 'shared/svg_declarations'
@@ -228,6 +228,6 @@ html lang="en"
         #about-tab._hidden data-content="about" role="tabpanel" aria-labelledby="about-tab" aria-hidden="true"
           | About content
 
-    script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"
+    script src="https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js"
     = Gon::Base.render_data
     = javascript_include_tag "prototype"
