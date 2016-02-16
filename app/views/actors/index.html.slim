@@ -10,14 +10,14 @@
     = simple_form_for actors_path, method: :get, remote: true, id: 'actors_search' do |f|
       .form-inputs
         .row
-          .column.medium-3
+          .column.medium-4
             = search_field_tag :search_term, params[:search], placeholder: 'Search'
           .column.medium-3
             = select_tag :levels, options_for_select(@types, :id), multiple: true, class: 'js-mselect', data: { placeholder: 'Type' }
-          .column.medium-4
+          .column.medium-3
             = select_tag :domains_ids,  options_from_collection_for_select(@categories, :id, :name), multiple: true, class: 'js-mselect', data: { placeholder: 'Category' }
           .column.medium-2
-            = f.button :submit, 'Search', class: 'right -primary'
+            = f.button :submit, 'Search', class: 'right -primary -medium -search'
 
   #items_list
     = render partial: 'actors'
