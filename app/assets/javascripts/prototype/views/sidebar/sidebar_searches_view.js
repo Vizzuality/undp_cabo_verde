@@ -104,10 +104,6 @@
         var queryParams = model.get('uri');
         root.app.pubsub.trigger('apply:sidebarSearches',
           { queryParams: queryParams });
-        /* Now we need to close the pane, for that we could use this.hide(), but
-         * the go back button would stay present in the action toolbar. We then
-         * use an event to do so. */
-        root.app.pubsub.trigger('click:goBack');
       } else {
         console.warn('Unable to apply the search ' + searchId + 'because it ' +
           'couldn\'t be found in the collection');
