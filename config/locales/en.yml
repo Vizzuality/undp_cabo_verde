@@ -461,3 +461,6 @@ en:
     loading: Loading
     to_actors: "To Actors:"
     to_actions: "To Actions:"
+
+  search:
+    no_results: 'No results'

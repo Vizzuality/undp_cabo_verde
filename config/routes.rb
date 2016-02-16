@@ -54,8 +54,8 @@ Rails.application.routes.draw do
       post   'create_favourite',  on: :member
       delete 'destroy_favourite', on: :member
 
-      get   'membership', on: :member
-      get   'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
+      get 'membership', on: :member
+      get 'membership/:parent_id/edit', to: 'actor_relations#edit', as: :edit_actor_relation
     end
 
     resources :actor_micros, controller: 'actors', type: 'ActorMicro' do

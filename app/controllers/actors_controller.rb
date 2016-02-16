@@ -19,10 +19,12 @@ class ActorsController < ApplicationController
   before_action :set_memberships, only: [:show, :membership]
 
   def index
+    @search = Search::Actors.new(search_params)
+    @actors = @search.results
     @actors = if current_user && current_user.admin?
-                type_class.order(:name).filter_actors(actor_filters).page params[:page]
+                @actors.order(:name).filter_actors(actor_filters).page params[:page]
               else
-                type_class.order(:name).filter_actives.page params[:page]
+                @actors.order(:name).page params[:page]
               end
   end
 
@@ -139,7 +141,7 @@ class ActorsController < ApplicationController
     end
 
     def set_selection_index
-      @types      = type_class.types.map { |t| [t("types.#{t.constantize}", default: t.constantize), t.camelize] }
+      @types      = ['macro', 'meso', 'micro']
       @categories = Category.domain_categories
     end
 
@@ -180,6 +182,10 @@ class ActorsController < ApplicationController
 
     def actor_params
       params.require(type.underscore.to_sym).permit!
+    end
+
+    def search_params
+      params.permit(:search_term, domains_ids: [], levels: [])
     end
 
     def menu_highlight

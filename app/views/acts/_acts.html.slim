@@ -1,0 +1,37 @@
+- if @acts.present?
+  .section.table-container
+    - @acts.each do |act|
+      .table-row
+        .data-primary
+          span.data.-primary
+            = link_to act.name, act_path(act)
+          span.data
+            = "#{t('shared.created')}: #{act.created_at.to_formatted_s(:create_update_date).to_s} / "
+          span.data
+            = "#{t('shared.updated')}: #{act.updated_at.to_formatted_s(:create_update_date).to_s}"
+
+        .data-secondary
+          span.data
+            = t("types.#{act.type.constantize}")
+          span.data
+             = act.status
+          span.data.-linkdata.-disabled
+            = link_to edit_act_path(act) do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
+          span.data.-linkdata
+            = link_to edit_act_path(act) do
+              = image_tag "edit.svg", :class => "icon"
+              span
+                = t("shared.edit")
+          span.data.-linkdata
+            = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete do
+              = image_tag "delete.svg", :class => "icon"
+              span
+                = t('shared.delete')
+
+  = paginate @acts, remote: true
+- else
+  .section.table-container
+    h2 = t('search.no_results')
