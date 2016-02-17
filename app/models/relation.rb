@@ -4,7 +4,7 @@ class Relation
   end
 
   def get_relations
-  	@relations
+    @relations
   end
 
   private

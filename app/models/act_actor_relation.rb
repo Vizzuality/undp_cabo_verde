@@ -12,7 +12,7 @@ class ActActorRelation < ActiveRecord::Base
   end
 
   def parent_id
-  	actor_id
+    actor_id
   end
 
   def child_id
@@ -20,10 +20,10 @@ class ActActorRelation < ActiveRecord::Base
   end
 
   def find_parent_location
-  	Actor.find(self.parent_id).get_parent_main_location
+    Actor.find(self.parent_id).get_parent_main_location
   end
 
   def find_child_location
-  	Act.find(self.child_id).main_location
+    Act.find(self.child_id).main_location
   end
 end

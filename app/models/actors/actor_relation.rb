@@ -12,10 +12,10 @@ class ActorRelation < ActiveRecord::Base
   end
 
   def find_parent_location
-  	Actor.find(self.parent_id).main_location
+    Actor.find(self.parent_id).main_location
   end
 
   def find_child_location
-  	Actor.find(self.child_id).get_parent_main_location
+    Actor.find(self.child_id).get_parent_main_location
   end
 end

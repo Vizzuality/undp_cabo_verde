@@ -12,10 +12,10 @@ class ActRelation < ActiveRecord::Base
   end
 
   def find_parent_location
-  	Act.find(self.parent_id).main_location
+    Act.find(self.parent_id).main_location
   end
 
   def find_child_location
-  	Act.find(self.child_id).main_location
+    Act.find(self.child_id).main_location
   end
 end
