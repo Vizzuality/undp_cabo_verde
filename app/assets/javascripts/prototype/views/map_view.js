@@ -89,6 +89,8 @@
       this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
       this.listenTo(root.app.pubsub, 'filter:sidebarFilters',
         this.onSidebarFiltersChange);
+      this.listenTo(root.app.pubsub, 'filter:relations',
+        this.onFilteringRelations);
     },
 
     onMapRender: function(map) {
@@ -239,7 +241,6 @@
       this.router.navigate('/', { trigger: true });
 
       this.mapMarkersView.filterMarkers(options);
-      this.mapRelationsView.setFiltering(options);
     },
 
     onSidebarFiltersChange: function(options) {
@@ -257,6 +258,48 @@
         if(route === 'actors' || route === 'actions') {
           this.restoreOpenedMarkerState({ zoomToFit: true });
         }
+      }
+    },
+
+    onFilteringRelations: function(options) {
+      var openedMarkerInfo = this.getOpenedMarkerInfo();
+
+      if(options && _.isObject(options.only)) {
+        var model = openedMarkerInfo.type === 'actors' ? this.actorModel :
+          this.actionModel;
+        var relations = model.getVisibleRelations();
+        var relatedMarker = _.find(relations, function(relation) {
+          return relation.type === options.only.type &&
+            relation.id === options.only.id;
+        });
+        var relatedMarkerMainLocation = _.findWhere(relatedMarker.locations,
+          { main: true }) || relatedMarker.locations[0];
+
+        /* We only let the relation we want to highlight */
+        this.mapRelationsView.filterRelations(options);
+        /* We remove the highlight on all the markers */
+        this.mapMarkersView.resetMarkersHighlight();
+        /* We finally add the highlight only to the opened marker and the one
+         * which is described in the params */
+        this.mapMarkersView.highlightMarkers(openedMarkerInfo.type,
+          openedMarkerInfo.id, openedMarkerInfo.locationId);
+        this.mapMarkersView.highlightMarkers(relatedMarker.type,
+          relatedMarker.id, relatedMarkerMainLocation.id);
+      }
+      /* We restore the relations and markers highlight */
+      else {
+        var openedLeafletMarker = this.mapMarkersView.getLeafletMarkers(openedMarkerInfo.type,
+          openedMarkerInfo.id, openedMarkerInfo.locationId);
+        var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedLeafletMarker);
+
+        /* We highlight all the related markers */
+        this.mapMarkersView.highlightRelatedMarkers(openedLeafletMarker,
+          relatedMarkers);
+        /* We then remove all the relations */
+        this.mapRelationsView.removeRelations();
+        /* We render the relations of the opened marker */
+        this.mapRelationsView.renderRelations(openedLeafletMarker,
+          relatedMarkers);
       }
     },
 
@@ -377,8 +420,7 @@
               var openedMarker = this.mapMarkersView.getLeafletMarkers(openedMarkerInfo.type,
                 openedMarkerInfo.id, openedMarkerInfo.locationId);
 
-              if(openedMarker.length === 1) {
-                openedMarker = openedMarker[0];
+              if(openedMarker) {
                 var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedMarker);
                 this.mapMarkersView.highlightRelatedMarkers(openedMarker,
                   relatedMarkers);

@@ -17,7 +17,9 @@
 
     events: {
       'change .js-relationships-checkbox': 'triggerRelationshipsVisibility',
-      'click .js-relation': 'onRelationClick'
+      'click .js-relation': 'onRelationClick',
+      'mouseenter .js-relation': 'onRelationHover',
+      'mouseleave .js-relation': 'onRelationBlur'
     },
 
     template: HandlebarsTemplates['sidebar/sidebar_action_template'],
@@ -43,6 +45,20 @@
       var id   = +e.currentTarget.getAttribute('data-id'),
           type =  e.currentTarget.getAttribute('data-type');
       this.showEntity(type, id);
+    },
+
+    onRelationHover: function(e) {
+      var id   = +e.currentTarget.getAttribute('data-id'),
+          type =  e.currentTarget.getAttribute('data-type');
+      root.app.pubsub.trigger('filter:relations', {
+        only: { type: type, id: id }
+      });
+    },
+
+    onRelationBlur: function() {
+      root.app.pubsub.trigger('filter:relations', {
+        only: null
+      });
     },
 
     /* Method called right before the pane is toggled to a visible state */

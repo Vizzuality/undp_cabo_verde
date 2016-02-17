@@ -52,11 +52,13 @@
      * the markers matching the first two parameters if the locationId is
      * omitted */
     getLeafletMarkers: function(type, id, locationId) {
-      return _.filter(this.markers, function(m) {
+      var markers = _.filter(this.markers, function(m) {
         return m.options.type === type &&
           m.options.id === id &&
           (locationId && m.options.locationId === locationId || !locationId);
       });
+
+      return markers.length === 1 ? markers[0] : markers;
     },
 
     /* Return an array of the markers related (linked) with the marker passed as
@@ -91,7 +93,7 @@
         leafletMarker = this.getLeafletMarkers(relation.type, relation.id,
           mainLocation.id);
 
-        return leafletMarker.length === 1 && leafletMarker[0];
+        return leafletMarker;
       }, this));
     },
 
