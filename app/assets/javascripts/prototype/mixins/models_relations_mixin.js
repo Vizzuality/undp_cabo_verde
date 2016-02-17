@@ -127,7 +127,7 @@
 
         /* If the relation is connected to an entity whose type has been
          * filtered out, we then don't show it */
-        if(queryParams.types.length === 1 &&
+        if(queryParams && queryParams.types && queryParams.types.length === 1 &&
           queryParams.types[0] !== relation.type) {
             return false;
         }
