@@ -29,13 +29,6 @@
     initialize: function(options) {
       this.status = new Status();
       this.collection = new root.app.Collection.searchCollection();
-      this.setListeners();
-    },
-
-    setListeners: function() {
-      this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
-      this.listenTo(root.app.pubsub, 'show:searches', this.fetchDataAndRender);
-      this.listenTo(root.app.pubsub, 'save:sidebarFilters', this.fetchData);
     },
 
     onApply: function(e) {
@@ -61,6 +54,32 @@
       this.deleteSearch(searchId);
     },
 
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function(route, params) {
+      var deferred = $.Deferred();
+
+      if(!_.isEmpty(this.collection.models)) {
+        this.render();
+        this.setElement(this.$el);
+        deferred.resolve();
+      } else {
+        this.fetchData()
+          .done(function() {
+            this.render();
+            /* We reset the event handlers to take into account the new DOM
+             * elements */
+            this.setElement(this.$el);
+            deferred.resolve();
+          }.bind(this))
+          .fail(function() {
+            console.warn('Unable to fetch the model /actions/' + params[0]);
+            deferred.reject();
+          });
+      }
+
+      return deferred;
+    },
+
     /* Retrieve the list of searches, return a deferred object */
     fetchData: function() {
       var deferred = $.Deferred();
@@ -75,25 +94,10 @@
       return deferred;
     },
 
-    fetchDataAndRender: function() {
-      if(!this.collection.length) {
-        this.fetchData().done(this.render.bind(this));
-      } else {
-        this.render();
-      }
-    },
-
     render: function() {
       this.$el.html(this.template({
         searches: this.collection.toJSON()
       }));
-
-      /* We finally slide the pane to display the information */
-      this.show();
-
-      /* We reset the event handlers to take into account the new DOM elements
-       */
-      this.setElement(this.$el);
     },
 
     /* Apply the search by updating the URL */
@@ -102,8 +106,7 @@
       if(model.length) {
         model = model[0];
         var queryParams = model.get('uri');
-        root.app.pubsub.trigger('apply:sidebarSearches',
-          { queryParams: queryParams });
+        this.trigger('apply:searches', { queryParams: queryParams });
       } else {
         console.warn('Unable to apply the search ' + searchId + 'because it ' +
           'couldn\'t be found in the collection');

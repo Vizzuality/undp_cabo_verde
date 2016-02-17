@@ -10,7 +10,6 @@
 
     initialize: function(options) {
       this.router = options.router;
-      this.render();
     },
 
     onMapClick: function() {
@@ -25,6 +24,10 @@
       this.trigger('render:map', this.map);
     },
 
+    start: function() {
+      this.render();
+    },
+
     render: function() {
       L.mapbox.accessToken = root.app.Helper.globals.mapToken;
 
@@ -37,9 +40,9 @@
       this.map.on('click',   this.onMapClick.bind(this));
       this.map.on('zoomend', this.onZoomEnd.bind(this));
 
-      /* We make sure to trigger the event once the map_view's setListeners
-       * method is executed */
-      setTimeout(function() {this.onMapRendered();}.bind(this), 15);
+      /* We could directly trigger the event but as the map could be
+       * asynchronous, we prefer to let this structure */
+      this.onMapRendered();
     },
 
     /* Zoom to fit the passed markers */
