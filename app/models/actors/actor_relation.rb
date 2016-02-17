@@ -10,4 +10,12 @@ class ActorRelation < ActiveRecord::Base
     @dates = where(child_id: actor.id, parent_id: parent.id).pluck(:start_date, :end_date)
     @dates.flatten.map { |d| d.to_date.to_formatted_s(:long).to_s rescue nil } if @dates.present?
   end
+
+  def find_parent_location
+  	Actor.find(self.parent_id).main_location
+  end
+
+  def find_child_location
+  	Actor.find(self.child_id).get_parent_main_location
+  end
 end

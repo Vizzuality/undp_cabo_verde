@@ -13,7 +13,7 @@ class Search::Actors
   end
 
   def total_cnt
-    @query.count
+    @query.size
   end
 
   private
