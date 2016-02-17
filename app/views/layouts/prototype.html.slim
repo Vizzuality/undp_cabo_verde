@@ -115,9 +115,9 @@ html lang="en"
                 = t('front.account')
                 ul.popover-menu.js-account-popover._hidden
                   li.item
-                    = link_to t('front.log_in'), new_user_session_path
+                    = link_to t('front.log_in'), new_user_session_path, class: 'link'
                   li.item
-                    = link_to t('front.sign_in'), new_user_registration_path
+                    = link_to t('front.sign_in'), new_user_registration_path, class: 'link'
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection
