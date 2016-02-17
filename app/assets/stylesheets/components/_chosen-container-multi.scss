@@ -37,9 +37,10 @@
 
 
 .chosen-drop {
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  z-index: 1000 !important;
+  z-index: 1001 !important;
 }
 
 .chosen-results {
