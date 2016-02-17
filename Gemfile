@@ -53,7 +53,6 @@ gem 'raddocs'
 
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'teaspoon-mocha'
   gem 'rspec_api_documentation'
@@ -62,6 +61,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'web-console', '~> 2.0'
   gem 'foreman'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -88,6 +88,7 @@ gem 'faker'
 gem 'newrelic_rpm'
 
 # Server
+gem 'nokogiri', '>= 1.6.7.1'
 gem 'dotenv-rails'
 gem 'dalli'
 gem 'puma'
