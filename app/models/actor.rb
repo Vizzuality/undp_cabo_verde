@@ -33,7 +33,7 @@ class Actor < ActiveRecord::Base
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 
-  after_commit  :set_parent_location, on: [:create, :update], if: 'parents_locations and micro? and :persisted?'
+  after_commit  :set_parent_location, on: [:create, :update], if: 'localizations.empty? and parents_locations and micro? and :persisted?'
 
   validates :type, presence: true
   validates :name, presence: true
