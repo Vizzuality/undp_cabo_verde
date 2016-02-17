@@ -16,8 +16,8 @@
     el: '#sidebar-actor-view',
 
     events: {
-      'click .js-back': 'goBack',
-      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
+      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility',
+      'click .js-relation': 'onRelationClick'
     },
 
     template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
@@ -37,6 +37,12 @@
         this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sync:actorModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
+    },
+
+    onRelationClick: function(e) {
+      var id   = +e.currentTarget.getAttribute('data-id'),
+          type =  e.currentTarget.getAttribute('data-type');
+      this.showEntity(type, id);
     },
 
     /* Method called right before the pane is toggled to a visible state */
@@ -117,5 +123,7 @@
 
   /* We extend the view with method to show, hide and toggle the pane */
   _.extend(root.app.View.sidebarActorView.prototype, root.app.Mixin.visibility);
+  /* We extend the view the method showEntity */
+  _.extend(root.app.View.sidebarActorView.prototype, root.app.Mixin.showEntity);
 
 })(this);
