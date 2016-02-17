@@ -53,6 +53,8 @@
         router: this.router
       });
 
+      this.mapReady = false;
+
       this.setListeners();
 
       this.mapMapView.start();
@@ -60,6 +62,7 @@
 
     setListeners: function() {
       this.listenTo(this.router, 'change:queryParams', this.onFiltering);
+      this.listenTo(this.router, 'route', this.onRoute);
 
       this.listenTo(this.mapMapView, 'render:map', this.onMapRender);
       this.listenTo(this.mapMapView, 'click:map', this.onMapClick);
@@ -79,7 +82,6 @@
         this.onActorModelRemoteSync);
       this.listenTo(root.app.pubsub, 'sync:actionModel',
         this.onActionModelRemoteSync);
-      this.listenTo(root.app.pubsub, 'click:goBack', this.onGoBack);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.onRelationshipsVisibilityChange);
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
@@ -100,14 +102,11 @@
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
           this.restoreOpenedMarkerState({ zoomToFit: true });
+          this.mapReady = true;
         }.bind(this));
     },
 
     onMapClick: function() {
-      /* We forget about the last clicked marker because the user told the app
-       * he/she doesn't want anything from it anymore */
-      this.lastClickedMarker = null;
-
       this.mapMarkersView.resetMarkersHighlight();
       this.mapMarkersView.resetRelatedMarkers();
       this.mapRelationsView.removeRelations();
@@ -129,25 +128,10 @@
       this.mapMarkersView.resetRelatedMarkers();
 
       /* When the map is zoomed, because we compute once again the optimal
-       * position, we need to redraw the relations in two cases:
-       *  1/ The user opened a marker in the sidebar ie the URL has its
-             information
-          2/ The user just clicked on a marker, so we can use the variable
-             this.lastClickedMarker to retrieve it
-       */
+       * position, we need to redraw the relations in two cases */
       var route = this.router.getCurrentRoute();
       if(route.name === 'actions' || route.name === 'actors') {
         this.restoreOpenedMarkerState();
-      } else if(this.lastClickedMarker) {
-        var marker = this.lastClickedMarker;
-        var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(marker);
-        this.mapRelationsView.renderRelations(marker,
-          relatedMarkers);
-
-        /* We highlight once again the right markers */
-        this.mapMarkersView.highlightRelatedMarkers(marker, relatedMarkers);
-        this.mapMarkersView.highlightMarkers(marker.options.type,
-          marker.options.id);
       }
     },
 
@@ -163,45 +147,11 @@
     },
 
     onMarkerClick: function(marker) {
-      /* We save the last clicked marker in order to render once again the
-       * relations when the map is zoomed */
-      this.lastClickedMarker = marker;
-
-      this.mapMarkersView.resetMarkersHighlight();
-      this.mapMarkersView.resetRelatedMarkers();
-      this.mapMarkersView.highlightMarkers(marker.options.type,
-        marker.options.id);
-
-      this.mapRelationsView.removeRelations();
-
-      this.mapLegendView.updateLegendRelations(marker);
-
-      marker.closePopup();
-
-      this.fetchModel(marker.options.type, marker.options.id)
-        .then(function() {
-          this.router.navigate([
-            '/' + marker.options.type,
-            marker.options.id,
-            marker.options.locationId
-          ].join('/'), { trigger: true });
-
-          root.app.pubsub.trigger('show:' + marker.options.type.slice(0, -1), {
-            id: marker.options.id,
-            locationId: marker.options.locationId
-          });
-
-          var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(marker);
-          this.mapMarkersView.highlightRelatedMarkers(marker, relatedMarkers);
-          this.mapRelationsView.renderRelations(marker, relatedMarkers);
-          /* We zoom to fit the all the concerned markers */
-          var markersToFit = relatedMarkers;
-          if(markersToFit.length > 0) {
-            markersToFit = relatedMarkers.slice(0);
-            markersToFit.push(marker);
-          }
-          this.mapMapView.zoomToFit(markersToFit);
-        }.bind(this));
+      this.router.navigate([
+        '/' + marker.options.type,
+        marker.options.id,
+        marker.options.locationId
+      ].join('/'), { trigger: true });
     },
 
     onMarkerHover: function(marker) {
@@ -257,17 +207,6 @@
       this.actionModel.set(model.toJSON());
     },
 
-    onGoBack: function() {
-      this.map.closePopup();
-      this.mapMarkersView.resetMarkersHighlight();
-      this.mapMarkersView.resetRelatedMarkers();
-      this.mapRelationsView.removeRelations();
-      this.mapLegendView.updateLegendRelations();
-      /* We also forget the last clicked marker as the map is displayed without
-       * any highlighted */
-      this.lastClickedMarker = null;
-    },
-
     onRelationshipsVisibilityChange: function(options) {
       this.mapMarkersView.status.set({ relationshipsVisible: options.visible });
       this.mapMarkersView.toggleRelatedMarkersHighlight();
@@ -298,7 +237,6 @@
 
     onTimelineChange: function(options) {
       this.router.navigate('/', { trigger: true });
-      root.app.pubsub.trigger('click:goBack');
 
       this.mapMarkersView.filterMarkers(options);
       this.mapRelationsView.setFiltering(options);
@@ -306,6 +244,20 @@
 
     onSidebarFiltersChange: function(options) {
       this.mapMarkersView.filterMarkers(options);
+    },
+
+    onRoute: function(route, params) {
+      if(this.mapReady) {
+        this.map.closePopup();
+        this.mapMarkersView.resetMarkersHighlight();
+        this.mapMarkersView.resetRelatedMarkers();
+        this.mapRelationsView.removeRelations();
+        this.mapLegendView.updateLegendRelations();
+
+        if(route === 'actors' || route === 'actions') {
+          this.restoreOpenedMarkerState({ zoomToFit: true });
+        }
+      }
     },
 
     /* Fetch only the collections that are not filtered out and return a

@@ -28,28 +28,38 @@
       this.model = new root.app.Model.actorModel(null, {
         router: this.router
       });
-      /* The DOM element to receive the Handlbars template */
-      this.setListeners();
 
-      this.init();
+      this.setListeners();
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
-      this.listenTo(root.app.pubsub, 'show:action', this.hide);
-      this.listenTo(root.app.pubsub, 'show:actor', this.fetchDataAndRender);
       this.listenTo(root.app.pubsub, 'relationships:visibility',
         this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sync:actorModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
     },
 
-    /* Initialize the pane state (ie visibility and content) */
-    init: function() {
-      var route = this.router.getCurrentRoute();
-      if(route.name === 'actors') {
-        this.fetchDataAndRender(route.params[0]);
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function(route, params) {
+      var deferred = $.Deferred();
+
+      if(!_.isEmpty(this.model.attributes)) {
+        this.render();
+        deferred.resolve();
+      } else {
+        this.model.setId(params[0]);
+        this.model.fetch()
+          .done(function() {
+            this.render();
+            deferred.resolve();
+          }.bind(this))
+          .fail(function() {
+            console.warn('Unable to fetch the model /actors/' + params[0]);
+            deferred.reject();
+          });
       }
+
+      return deferred;
     },
 
     /* Trigger the visibility of the relationships (ie links) on the map */
@@ -84,18 +94,6 @@
       this.model.set(model.toJSON());
     },
 
-    /* Check if this.model has data. If so, call the render function, otherwise,
-     * fetch the data and then call render */
-    fetchDataAndRender: function() {
-      if(!_.isEmpty(this.model.attributes)) {
-        this.render();
-      } else {
-        this.model.setId(arguments[0]);
-        this.model.fetch()
-          .done(this.render.bind(this));
-      }
-    },
-
     /* Trigger an event through the pubsub object to inform about the new state
      * of the actor model */
     triggerModelSync: function() {
@@ -113,8 +111,6 @@
       /* We need to set again the listeners because some of them depends on the
        * elements that have just been rendered */
       this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
-      /* We finally slide the pane to display the information */
-      this.show();
     }
 
   });

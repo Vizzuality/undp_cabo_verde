@@ -48,10 +48,6 @@
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
-      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
-      this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
-      this.listenTo(root.app.pubsub, 'apply:sidebarSearches', this.onSetSearch);
       this.listenTo(this.status, 'change', this.applySearch);
     },
 
@@ -223,18 +219,6 @@
       }
     },
 
-    onActorShow: function() {
-      this.hide();
-    },
-
-    onActionShow: function() {
-      this.hide();
-    },
-
-    onClickGoBack: function() {
-      this.show();
-    },
-
     onClickSaveSearch: function() {
       this.applyFilters();
       var queryParams = location.search.replace('?', '');
@@ -249,7 +233,7 @@
         .done(function() {
           /* We send an event to tell the searches view that it needs to fetch
            * the collection again */
-          root.app.pubsub.trigger('save:sidebarFilters');
+          this.trigger('save:filters');
           /* We add an animation to tell the user that the search has been
            * successfully saved */
           this.saveButton.classList.add('success');
@@ -291,6 +275,13 @@
     },
 
     /* LOGIC */
+
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function() {
+      var deferred = $.Deferred();
+      deferred.resolve();
+      return deferred;
+    },
 
     /* Expand or contract a filter depending of its current state */
     expandFilter: function(filterRootElem) {
