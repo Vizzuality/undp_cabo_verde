@@ -91,7 +91,7 @@
     beforeShow: function(route, params) {
       var deferred = $.Deferred();
 
-      this.fetchData(params[0])
+      this.fetchData(+params[0])
         .then(function() {
           this.render();
           deferred.resolve();
