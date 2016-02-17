@@ -10,7 +10,8 @@ class Search::ActorsParams < Hash
       page: params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1,
       per_page: params[:per_page] && params[:per_page].to_i > 0 ? params[:per_page].to_i : 25,
       model_name: params[:model_name] || nil,
-      relation_name: params[:relation_name] || nil
+      relation_name: params[:relation_name] || nil,
+      search_term: params[:search_term] || nil
     }
 
     super(sanitized_params)

@@ -12,16 +12,19 @@ class ActorsController < ApplicationController
   before_action :actor_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit, :show, :create, :update]
+  before_action :set_selection_index, only: :index
   before_action :set_micro_selection, only: [:new, :create]
   before_action :set_parents, only: :membership
   before_action :set_parents_locations, only: [:show, :edit, :update]
   before_action :set_memberships, only: [:show, :membership]
 
   def index
+    @search = Search::Actors.new(search_params)
+    @actors = @search.results
     @actors = if current_user && current_user.admin?
-                type_class.order(:name).filter_actors(actor_filters).page params[:page]
+                @actors.order(:name).filter_actors(actor_filters).page params[:page]
               else
-                type_class.order(:name).filter_actives.page params[:page]
+                @actors.order(:name).page params[:page]
               end
   end
 
@@ -137,6 +140,11 @@ class ActorsController < ApplicationController
       @all_actions_to_select  = Act.order(:name).filter_actives
     end
 
+    def set_selection_index
+      @types      = ['macro', 'meso', 'micro']
+      @categories = Category.domain_categories
+    end
+
     def set_micro_selection
       @title_select  = ActorMicro.new.title_select
       @gender_select = ActorMicro.new.gender_select
@@ -174,6 +182,10 @@ class ActorsController < ApplicationController
 
     def actor_params
       params.require(type.underscore.to_sym).permit!
+    end
+
+    def search_params
+      params.permit(:search_term, domains_ids: [], levels: [])
     end
 
     def menu_highlight

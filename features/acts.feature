@@ -321,3 +321,15 @@ I want to manage an act
     And I click on overlapping ".indicator_relations"
     Then I should see tab "#indicator_relation_form" within ".tabs-content"
     Then I should not see "Indicator one"
+
+  Scenario: Search for acts
+    Given I am authenticated user
+    And third act
+    And first act by admin
+    When I go to the acts page
+    Then I should be on the acts page
+    And I should see "First act by admin"
+    When I fill in "search_term" with "one"
+    And I press "Search"
+    Then I should not see "First act by admin"
+    And I should see "Third one"

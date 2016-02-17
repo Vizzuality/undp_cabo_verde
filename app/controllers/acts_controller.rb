@@ -9,15 +9,18 @@ class ActsController < ApplicationController
   before_action :act_filters, only: :index
   before_action :set_type
   before_action :set_selection, only: [:new, :edit, :show, :create, :update]
+  before_action :set_selection_index, only: :index
   before_action :set_parents, only: :membership
   before_action :set_memberships, only: [:show, :membership]
 
   def index
+    @search = Search::Acts.new(search_params)
+    @acts = @search.results
     @acts = if current_user && current_user.admin?
-              type_class.filter_acts(act_filters).page params[:page]
-            else
-              type_class.filter_actives.page params[:page]
-            end
+                @acts.order(:name).filter_acts(act_filters).page params[:page]
+              else
+                @acts.order(:name).page params[:page]
+              end
   end
 
   def show
@@ -134,6 +137,11 @@ class ActsController < ApplicationController
       @indicator_relation_types       = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ]         }
     end
 
+    def set_selection_index
+      @types      = ['macro', 'meso', 'micro']
+      @categories = Category.domain_categories
+    end
+
     def set_parents
       # ToDo: change it to search function
       @all_macros = Act.filter_actives.not_macros_parents(@act)
@@ -160,6 +168,10 @@ class ActsController < ApplicationController
 
     def act_params
       params.require(type.underscore.to_sym).permit!
+    end
+
+    def search_params
+      params.permit(:search_term, domains_ids: [], levels: [])
     end
 
     def menu_highlight

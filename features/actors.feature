@@ -282,3 +282,15 @@ I want to manage an actor
      And I click on overlapping ".action_relations"
      Then I should see tab "#action_relation_form" within ".tabs-content"
      Then I should not see "First one"
+
+  Scenario: Search for actors
+    Given I am authenticated user
+    And person
+    And organization by admin
+    When I go to the actors page
+    Then I should be on the actors page
+    And I should see "Organization by admin"
+    When I fill in "search_term" with "one"
+    And I press "Search"
+    Then I should not see "Organization by admin"
+    And I should see "Person one"

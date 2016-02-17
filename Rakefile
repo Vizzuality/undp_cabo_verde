@@ -13,5 +13,5 @@ unless Rails.env.production?
     'no rspec available'
   end
 
-  task default: [:cucumber, :spec, :teaspoon]
+  task default: [:cucumber, :spec]
 end

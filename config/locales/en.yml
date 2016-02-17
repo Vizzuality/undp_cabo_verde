@@ -416,6 +416,8 @@ en:
     remove_indicator: 'Remove indicator'
     link_to_actions: 'Link to Actions'
     act: 'Action'
+    actions_associated: 'Actions'
+    tags: 'Tags'
 
     units:
       units: 'Units'
@@ -430,6 +432,7 @@ en:
     apply: Apply
     save_search: Save this search
     successfully_saved: Saved!
+    your_searches: Your Searches
     comments: Comments
     other_domains: '3xX'
     overall: Overall
@@ -467,6 +470,9 @@ en:
     loading: Loading
     to_actors: "To Actors:"
     to_actions: "To Actions:"
+
+  search:
+    no_results: 'No results'
     your_searches: Your Searches
     edit: Edit
     edit_account: "Edit account"

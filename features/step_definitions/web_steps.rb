@@ -68,6 +68,13 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field
   end
 end
 
+When /^(?:|I )fill in hidden field "([^"]*)" with "([^"]*)"(?: within "([^"]*)")?$/ do |field, value, selector|
+  with_scope(selector) do
+    page.execute_script("$('#{field} input').show()")
+    page.execute_script("$('#{field} input').val('#{value}')")
+  end
+end
+
 When /^(?:|I )select datetime "([^ ]*) ([^ ]*) ([^ ]*)" as the "([^"]*)"(?: within "([^"]*)")?$/ do |year, month, day, field, selector|
   with_scope(selector) do
     select(year,   :from => "#{field}_1i")
