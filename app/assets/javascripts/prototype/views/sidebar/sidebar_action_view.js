@@ -50,9 +50,15 @@
     onRelationHover: function(e) {
       var id   = +e.currentTarget.getAttribute('data-id'),
           type =  e.currentTarget.getAttribute('data-type');
-      root.app.pubsub.trigger('filter:relations', {
-        only: { type: type, id: id }
-      });
+
+      /* We make sure that the model has the information about the opened marker
+       * and not another one the user could have hovered */
+      this.fetchData(+this.router.getCurrentRoute().params[0])
+        .then(function() {
+          root.app.pubsub.trigger('filter:relations', {
+            only: { type: type, id: id }
+          });
+        });
     },
 
     onRelationBlur: function() {
@@ -61,25 +67,38 @@
       });
     },
 
-    /* Method called right before the pane is toggled to a visible state */
-    beforeShow: function(route, params) {
+    /* Sets the model id to the one passed as argument and fetches it, if not
+     * containing the right information already. Return a deferred object. */
+    fetchData: function(id) {
       var deferred = $.Deferred();
 
-      if(!_.isEmpty(this.model.attributes)) {
-        this.render();
+      if(!_.isEmpty(this.model.attributes) && this.model.get('id') === id) {
         deferred.resolve();
       } else {
-        this.model.setId(params[0]);
+        this.model.setId(id);
         this.model.fetch()
-          .done(function() {
-            this.render();
-            deferred.resolve();
-          }.bind(this))
+          .done(deferred.resolve)
           .fail(function() {
             console.warn('Unable to fetch the model /actions/' + params[0]);
             deferred.reject();
           });
       }
+
+      return deferred;
+    },
+
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function(route, params) {
+      var deferred = $.Deferred();
+
+      this.fetchData(params[0])
+        .then(function() {
+          this.render();
+          deferred.resolve();
+        }.bind(this))
+        .fail(function() {
+          deferred.reject();
+        });
 
       return deferred;
     },
