@@ -47,7 +47,6 @@
 
     initialize: function() {
       this.router = new root.app.Router();
-      Backbone.history.start({ pushState: false });
 
       this.mapView = new root.app.View.mapView({
         router: this.router
@@ -55,23 +54,10 @@
       this.sidebarView = new root.app.View.sidebarView({
         router: this.router
       });
-      this.sidebarActionToolbarView = new root.app.View.sidebarActionToolbarView({
-        router: this.router
-      });
-      this.filtersView = new root.app.View.sidebarFiltersView({
-        router: this.router
-      });
-      this.actorView = new root.app.View.sidebarActorView({
-        router: this.router
-      });
-      this.actionView = new root.app.View.sidebarActionView({
-        router: this.router
-      });
-      this.searchesView = new root.app.View.sidebarSearchesView({
-        router: this.router
-      });
 
       this.setListeners();
+
+      Backbone.history.start({ pushState: false });
     },
 
     /* Application-wide listeners which are not binded to any UI component */

@@ -71,6 +71,13 @@
           options.className += ' -hidden';
         }
 
+        /* We add data so then we can filter the relations depending on whom
+         * they're connected to */
+        options.destinationEntity = {
+          id:   relatedMarker.options.id,
+          type: relatedMarker.options.type
+        };
+
         line = L.polyline([ markerLatLng, relatedMarker.getLatLng() ], options);
 
         /* hiddenLine is an hidden line on top of the other, transparent, which
@@ -120,12 +127,20 @@
       }
     },
 
-    /* Save the filtering options passed as paramters */
-    setFiltering: function(options) {
-      if(_.isEmpty(options)) {
-        this.lastFilterDate = null;
-      } else if(options.date) {
-        this.lastFilterDate = options.date;
+    /* Filter the visible relations. Options can have the following params:
+     *  - only { id, type }: only show the relation from the current selected
+     *    actor/action to the entity matching the params
+     */
+    filterRelations: function(options) {
+      if(options && _.isObject(options.only)) {
+        var relations = this.relationsLayer.getLayers();
+        var relation = _.find(relations, function(relation) {
+          return relation.options.destinationEntity.type === options.only.type &&
+            relation.options.destinationEntity.id === options.only.id;
+        });
+        this.map.removeLayer(this.relationsLayer);
+        this.relationsLayer =  L.layerGroup([ relation ]);
+        this.relationsLayer.addTo(this.map);
       }
     }
 

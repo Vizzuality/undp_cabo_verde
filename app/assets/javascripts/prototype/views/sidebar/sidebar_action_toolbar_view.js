@@ -21,15 +21,11 @@
       this.router = options.router;
       this.$goBackButton = this.$el.find('.js-back');
       this.accountPopover = this.el.querySelector('.js-account-popover');
+
       this.setListeners();
-      this.init();
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'show:actor', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'show:action', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'show:searches', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'click:goBack', this.hideGoBackButton);
       this.listenTo(root.app.pubsub, 'click:document', this.hideAccountPopover);
     },
 
@@ -46,23 +42,13 @@
     onSearchesClick: function() {
       this.hideAccountPopover();
       this.goBack();
-      root.app.pubsub.trigger('show:searches');
-      /* TODO */
-      console.warn('This feature hasn\'t been fully implemented yet');
-    },
-
-    /* Set the initial visibility of the go back button */
-    init: function() {
-      var route = this.router.getCurrentRoute();
-      if(route.name === 'actors' || route.name === 'actions') {
-        this.showGoBackButton();
-      }
+      this.trigger('click:searches');
     },
 
     /* Reset the URL to its original state */
     goBack: function() {
-      this.router.navigate('/', { trigger: true });
-      root.app.pubsub.trigger('click:goBack');
+      this.trigger('click:goBack');
+      this.hideGoBackButton();
     },
 
     showGoBackButton: function() {
@@ -94,11 +80,6 @@
     hideAccountPopover: function() {
       this.toggleAccountPopover(false);
     }
-
-    // showSearches: function() {
-    //   root.app.pubsub.trigger('show:searches');
-    //   console.warn('Feature not yet implemented');
-    // }
 
   });
 
