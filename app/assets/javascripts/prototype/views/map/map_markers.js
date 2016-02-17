@@ -71,15 +71,7 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
-      var relations = _.each(_.union(model.get('actors').parents,
-        model.get('actors').children), function(relation) {
-          relation.type = 'actors';
-        });
-      relations.push(_.each(_.union(model.get('actions').parents,
-        model.get('actions').children), function(relation) {
-          relation.type = 'actions';
-        }));
-      relations = _.flatten(relations);
+      var relations = model.getVisibleRelations();
 
       var mainLocation, leafletMarker;
       return _.compact(_.map(relations, function(relation) {
