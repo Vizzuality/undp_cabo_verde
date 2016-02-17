@@ -112,7 +112,7 @@ class Actor < ActiveRecord::Base
   end
 
   def get_parent_main_location
-    get_locations.main_locations.first
+    get_locations.main_locations.first if get_locations.any?
   end
 
   def get_micro_locations
