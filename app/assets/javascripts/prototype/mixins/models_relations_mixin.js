@@ -125,6 +125,13 @@
 
         }
 
+        /* If the relation is connected to an entity whose type has been
+         * filtered out, we then don't show it */
+        if(queryParams.types.length === 1 &&
+          queryParams.types[0] !== relation.type) {
+            return false;
+        }
+
         /* If we reach this point, it's because the relation hasn't been
          * dismissed, we can then return it*/
         return true;
