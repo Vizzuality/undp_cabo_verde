@@ -1,0 +1,23 @@
+.search-module {
+  margin: 0 0 0 -5px !important;
+
+  >.column {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    #search_term {
+      border: 1px solid #ccc;
+    }
+
+    #levels_chosen,
+    #domains_ids_chosen {
+      input {
+        font-size: map-get($m-font-size, small) !important;
+      }
+    }
+
+    #search_button {
+      padding-left: 2rem;
+    }
+  }
+}
