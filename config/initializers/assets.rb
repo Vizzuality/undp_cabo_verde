@@ -13,4 +13,3 @@ Rails.application.config.assets.precompile += %w( vendor/modernizr.js )
 
 Rails.application.config.assets.precompile += %w( prototype.css )
 Rails.application.config.assets.precompile += %w( prototype.js )
-Rails.application.config.assets.precompile += %w( support/expect.self.js )
