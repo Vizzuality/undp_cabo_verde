@@ -219,6 +219,7 @@ var initPreviewMap = function(container) {
       countryField.options[countryField.selectedIndex].selected = false;
       countryField.querySelector('option[value="' +
         address.country_code.toUpperCase() + '"]').selected = true;
+      $(countryField).trigger('chosen:updated');
     }
   };
 

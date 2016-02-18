@@ -4,6 +4,7 @@ API::Engine.routes.draw do
   scope module: :v1, constraints: APIVersion.new(version: 1, current: true), defaults: { format: 'json' } do
     with_options only: :index do |list_index_only|
       list_index_only.resources :domains
+      list_index_only.resources :relations
     end
 
     with_options only: [:index, :show] do |list_show_only|

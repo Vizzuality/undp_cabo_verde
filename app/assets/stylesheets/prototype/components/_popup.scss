@@ -23,23 +23,13 @@
   .title {
     margin-top: 20px;
     margin-bottom: 5px;
-    width: calc(100% - 58px);
+    width: 100%;
     color: $color-10 !important;
   }
 
   .more-button {
     margin: 5px auto 0 auto;
     display: block;
-  }
-
-  .close-button {
-    width: 19px;
-    height: 19px;
-    display: block;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
   }
 
   &.-actors {
