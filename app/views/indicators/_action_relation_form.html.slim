@@ -22,12 +22,12 @@
           = @indicator.name
   .row
     .column.medium-4
-      = f.label :relation_type_id, t("* ") + t('acts.relation_name'), class: 'right inline', disabled: common_form?
+      = f.label :relation_type_id, "* " + t('acts.relation_name'), class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :relation_type_id, collection: @indicator_relation_types, as: :collection_select, label: false, input_html: { class: 'relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :act_id, t("* ") + t('indicators.act'), class: 'right inline', disabled: common_form?
+      = f.label :act_id, "* " + t('indicators.act'), class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :act_id, collection: preview ? @all_acts_to_select : @acts_to_select, as: :collection_select, label: false, input_html: { multiple: false, class: 'chosen-select collection_select relation_act_id' }, disabled: common_form?
   .row
