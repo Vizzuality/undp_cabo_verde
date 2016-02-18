@@ -62,6 +62,7 @@
       this.listenTo(this.searchesView, 'apply:searches', this.onApplySearches);
       this.listenTo(this.filtersView, 'save:filters', this.onSaveFilters);
       this.listenTo(this.searchesView, 'show:error', this.onErrorShow);
+      this.listenTo(this.filtersView, 'show:error', this.onErrorShow);
     },
 
     onRoute: function(route, params) {
