@@ -45,6 +45,8 @@ class Act < ActiveRecord::Base
   validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
   validates_length_of :other_domains,          minimum: 0, maximum: 3
 
+  validate :end_date_after_start_date, if: 'start_date and end_date'
+
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
@@ -247,6 +249,12 @@ class Act < ActiveRecord::Base
 
     def other_domain_invalid(attributes)
       attributes['name'].blank?
+    end
+
+    def end_date_after_start_date
+      if end_date < start_date
+        errors[:end_date] = 'End date must be after start date'
+      end
     end
 
     def filter_params(options)

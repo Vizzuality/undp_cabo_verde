@@ -12,6 +12,8 @@ class Localization < ActiveRecord::Base
   validates :long, presence: true
   validates :lat,  presence: true
 
+  validate :end_date_after_start_date, if: 'start_date and end_date'
+
   scope :main_locations, -> { where( main: true ) }
   scope :by_date,        -> (start_date, end_date) { filter_localizations(start_date, end_date) }
 
@@ -50,6 +52,12 @@ class Localization < ActiveRecord::Base
         unless location.update(main: false)
           return false
         end
+      end
+    end
+
+    def end_date_after_start_date
+      if end_date < start_date
+        errors[:end_date] = 'End date must be after start date'
       end
     end
 end
