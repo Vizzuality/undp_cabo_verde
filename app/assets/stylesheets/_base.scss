@@ -88,6 +88,7 @@ textarea:focus {
   &:disabled, .-disabled {
     color: $color-16;
     background-color: $color-1;
+    opacity: 1 !important;
   }
 }
 
