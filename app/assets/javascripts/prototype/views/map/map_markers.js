@@ -119,10 +119,6 @@
       this.trigger('open:marker', marker);
     },
 
-    onMarkerClose: function(marker) {
-      marker.closePopup();
-    },
-
     onPopupBlur: function(e, marker) {
       /* We close the popup when leaving it and not entering a marker */
       if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
@@ -505,9 +501,6 @@
 
       $popup.find('.js-more').on('click', function() {
         this.onMarkerOpen(marker); }.bind(this));
-
-      $popup.find('.js-close').on('click', function() {
-        this.onMarkerClose(marker); }.bind(this));
 
       $popup.on('mouseleave', function(e) {
         this.onPopupBlur(e, marker); }.bind(this));
