@@ -436,8 +436,7 @@ en:
     comments: Comments
     other_domains: '3xX'
     overall: Overall
-    relationships: Relationships
-    show_relationships_on_map: Show relationships on map
+    relationships_graph: Relationships graph
     socio_cultural_domains: '3x5'
     actor: Actor
     actors: Actors

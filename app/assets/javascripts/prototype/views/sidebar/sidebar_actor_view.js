@@ -9,14 +9,13 @@
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { isHidden: true, toggleRelationshipsActive: true }
+    defaults: { isHidden: true  }
   });
 
   root.app.View.sidebarActorView = Backbone.View.extend({
     el: '#sidebar-actor-view',
 
     events: {
-      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility',
       'click .js-relation': 'onRelationClick',
       'mouseenter .js-relation': 'onRelationHover',
       'mouseleave .js-relation': 'onRelationBlur'
@@ -35,8 +34,6 @@
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'relationships:visibility',
-        this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sync:actorModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
     },
@@ -103,24 +100,6 @@
       return deferred;
     },
 
-    /* Trigger the visibility of the relationships (ie links) on the map */
-    triggerRelationshipsVisibility: function(e) {
-      root.app.pubsub.trigger('relationships:visibility',
-        { visible: e.currentTarget.checked });
-    },
-
-    /* Toggle the relationships switch button
-     * options can be null/undefined or { visible: [boolean] } */
-    toggleRelationshipsVisibility: function(options) {
-      var isVisible = options.visible;
-      this.status.set('toggleRelationshipsActive', isVisible);
-      /* This method could be called even if the view hasn't been rendered yet
-       */
-      if(this.$relationshipsToggle) {
-        this.$relationshipsToggle.prop('checked', isVisible);
-      }
-    },
-
     /* Set the content of this.model with the content of the passed model
      * NOTE: as the view itself can trigger this method by the sync event of its
       * own model, we make the comprobation that the id of the passed model is
@@ -149,9 +128,6 @@
 
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
         this.status.toJSON()), { relations: relations })));
-      /* We need to set again the listeners because some of them depends on the
-       * elements that have just been rendered */
-      this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
     }
 
   });

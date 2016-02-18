@@ -52,6 +52,9 @@
       this.mapSliderView = new root.app.View.mapSliderView({
         router: this.router
       });
+      this.mapGraphView = new root.app.View.mapGraphView({
+        router: this.router
+      });
 
       this.mapReady = false;
 
@@ -72,8 +75,8 @@
       this.listenTo(this.mapMarkersView, 'click:marker', this.onMarkerClick);
       this.listenTo(this.mapMarkersView, 'open:marker', this.onMarkerOpen);
 
-      this.listenTo(this.mapButtonsView, 'toggle:relations',
-        this.onToggleRelations);
+      this.listenTo(this.mapButtonsView, 'toggle:graph',
+        this.onGraphVisibilityChange);
 
       this.listenTo(this.actorModel, 'sync', this.onActorModelSync);
       this.listenTo(this.actionModel, 'sync', this.onActionModelSync);
@@ -82,8 +85,6 @@
         this.onActorModelRemoteSync);
       this.listenTo(root.app.pubsub, 'sync:actionModel',
         this.onActionModelRemoteSync);
-      this.listenTo(root.app.pubsub, 'relationships:visibility',
-        this.onRelationshipsVisibilityChange);
       this.listenTo(root.app.pubsub, 'sidebar:visibility',
         this.onSidebarVisibilityChange);
       this.listenTo(root.app.pubsub, 'change:timeline', this.onTimelineChange);
@@ -97,6 +98,7 @@
       /* We set the object "this.map" for the markers and relations views */
       this.mapMarkersView.map   = map;
       this.mapRelationsView.map = map;
+      this.mapGraphView.map     = map;
       this.map                  = map;
 
       this.fetchFilteredCollections()
@@ -209,32 +211,19 @@
       this.actionModel.set(model.toJSON());
     },
 
-    onRelationshipsVisibilityChange: function(options) {
-      this.mapMarkersView.status.set({ relationshipsVisible: options.visible });
-      this.mapMarkersView.toggleRelatedMarkersHighlight();
+    onGraphVisibilityChange: function(options) {
+      if(options.visible) this.router.navigate('/', { trigger: true });
 
-      this.mapRelationsView.status.set({
-        relationshipsVisible: options.visible });
-      this.mapRelationsView.toggleRelationsVisibility();
-
-      this.mapLegendView.status.set({ relationshipsVisible: options.visible });
-      this.mapLegendView.toggleLegendPosition();
-
-      this.mapZoomButtonsView.status.set({
-        relationshipsVisible: options.visible });
-      this.mapZoomButtonsView.toggleButtonsPosition();
-
-      this.mapButtonsView.toggleRelationsButton(options);
+      this.mapRelationsView.status.set({ relationsVisible: !options.visible });
+      this.mapMarkersView.status.set({ markersVisible: !options.visible });
+      this.mapGraphView.status.set({ visible: options.visible });
+      this.mapLegendView.status.set({ graphVisible: options.visible });
+      this.mapZoomButtonsView.status.set({ graphVisible: options.visible });
     },
 
     onSidebarVisibilityChange: function(options) {
       this.mapButtonsView.status.set({ sidebarVisible: !options.isHidden });
       this.mapButtonsView.toggleButtonsPosition();
-    },
-
-    onToggleRelations: function(options) {
-      root.app.pubsub.trigger('relationships:visibility',
-        { visible: options.visible });
     },
 
     onTimelineChange: function(options) {

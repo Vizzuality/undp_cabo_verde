@@ -58,7 +58,10 @@
 
           &.-actor  > use { color: $color-6; fill: transparent; }
           &.-action > use { color: $color-7; fill: transparent; }
-          &.-monochrome > use { fill: $color-15; }
+          &.-monochrome > use { stroke: $color-15; }
+          &.-actors  > use { stroke: $color-6;  }
+          &.-actions > use { stroke: $color-7;  }
+          &.-mixed   > use { stroke: $color-19; }
         }
 
         &.title {
@@ -71,8 +74,8 @@
       }
     }
 
-    & > ul:not(ul:nth-of-type(3)) { flex-basis: 50%; }
-    & > ul:nth-of-type(3)         { flex-basis: 100%; margin-top: 20px; }
+    & > ul:not(ul:first-of-type) { flex-basis: 50%; }
+    & > ul:first-of-type         { flex-basis: 100%; margin-bottom: 20px; }
   }
 
   #map-slider {
