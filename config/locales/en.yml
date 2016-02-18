@@ -258,6 +258,7 @@ en:
     manager: 'Manager'
     user: 'Public'
     add_other_domain: 'Add domain'
+    no_entries: 'No entries'
 
   actors:
     actor: 'Actor'
