@@ -168,3 +168,8 @@ a {
   margin-bottom: 0;
 }
 
+p.select-parent-location {
+  @include font(helvetica, small, light, 1);
+  margin-bottom: 10px;
+}
+

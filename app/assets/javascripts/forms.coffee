@@ -124,6 +124,19 @@ jQuery ->
   $(document).on 'change', 'input.localization_main', (event) ->
     $('input.localization_main').not(this).prop('checked', false)
 
+  disableLocations = (el) ->
+    if el.selectedIndex == 0
+      $('.localization-form').each ->
+        $(this).show()
+        return
+      $('.add_location').show()
+    else
+      $('.localization-form').each ->
+        $(this).hide()
+        return
+      $('.add_location').hide()
+    return
+
   addChosen = ->
     # enable chosen js
     $('.chosen-select').chosen
@@ -135,6 +148,10 @@ jQuery ->
   $(document).on 'ready', () ->
     addChosen()
 
+    if $('.parent-location').length
+      parentSelect = $('.parent-location')[0]
+      disableLocations parentSelect
+
   $('form').submit ->
     $('#items_list .table-container').html('<h2>Loading...</h2>')
     return
@@ -142,3 +159,6 @@ jQuery ->
   $('.tags-select').select2
     tags: true
     tokenSeparators: [',']
+
+  $(document).on 'change', '.parent-location', (event) ->
+    disableLocations this
