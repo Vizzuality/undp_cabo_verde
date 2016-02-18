@@ -41,7 +41,7 @@
     - if common_form? && @actor.localizations.empty? && @actor.parent_location_id.nil?
       .row
         .column.medium-8.medium-offset-4
-          p.in-form-info.-cursive
+          p.in-form-info.-no-result
             = t('shared.no_entries')
     - elsif !@actor.new_record? && @actor.micro?
       .row
