@@ -62,7 +62,9 @@
       this.listenTo(this.searchesView, 'apply:searches', this.onApplySearches);
       this.listenTo(this.filtersView, 'save:filters', this.onSaveFilters);
       this.listenTo(this.searchesView, 'show:error', this.onErrorShow);
-      this.listenTo(this.filtersView, 'show:error', this.onErrorShow);
+      this.listenTo(this.filtersView,  'show:error', this.onErrorShow);
+      this.listenTo(this.searchesView, 'expire:session', this.onSessionExpire);
+      this.listenTo(this.filtersView,  'expire:session', this.onSessionExpire);
     },
 
     onRoute: function(route, params) {
@@ -141,6 +143,10 @@
 
     onErrorShow: function(message) {
       this.displayError(message);
+    },
+
+    onSessionExpire: function() {
+      this.actionToolbarView.logOut();
     },
 
     /* Switch the content of the sidebar by the one that have been asked by

@@ -9,11 +9,15 @@ class PrototypeController < ApplicationController
     gon.min_date = @start_date
     gon.max_date = @end_date
     if current_user
+      gon.logInUrl  = new_user_session_path
+      gon.signInUrl = new_user_registration_path
+
       if current_user.authentication_token
         gon.userToken = current_user.authentication_token
       else
         sign_out(current_user)
       end
+
     end
   end
 

@@ -86,6 +86,7 @@
         .error(function(err) {
           if(err.status === 422) {
             this.trigger('show:error', I18n.translate('front.session_expired'));
+            this.trigger('expire:session');
           } else {
             console.warn('Unable to retrieved the saved searches');
           }
