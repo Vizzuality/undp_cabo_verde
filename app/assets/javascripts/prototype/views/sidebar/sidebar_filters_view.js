@@ -224,10 +224,7 @@
       var queryParams = location.search.replace('?', '');
 
       /* We create and save the model that contains the search information */
-      var model = new (Backbone.Model.extend({
-        url: root.app.Helper.globals.apiUrl + 'favourites/?token=' +
-          gon.userToken
-      }))();
+      var model = new root.app.Model.searchModel();
       model.set('uri', queryParams);
       model.save()
         .done(function() {
@@ -241,9 +238,14 @@
             this.saveButton.classList.remove('success');
           }.bind(this), 3000);
         }.bind(this))
-        .fail(function() {
-          console.warn('Unable to save the search');
-        });
+        .fail(function(err) {
+          if(err.status === 422) {
+            this.trigger('show:error', I18n.translate('front.session_expired'));
+            this.trigger('expire:session');
+          } else {
+            console.warn('Unable to save the search');
+          }
+        }.bind(this));
     },
 
     on3x5Hover: function(e) {
@@ -611,6 +613,16 @@
           this.$el.append(arguments[1].dpDiv);
         }.bind(this)
       });
+    },
+
+    /* Disable the "save this search" button and tell the user to log in */
+    disableSaveSearchButton: function() {
+      var htmlContent = '<p>' +
+        I18n.translate('front.connect_to_save_search_html') + '</p>' +
+        '<button class="button -secondary">' +
+        I18n.translate('front.save_search') + '</button>';
+
+      this.saveButton.parentNode.innerHTML = htmlContent;
     }
 
   });

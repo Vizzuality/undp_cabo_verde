@@ -25,11 +25,11 @@
     }
 
     .result-selected {
-      color: #ccc;
+      color: $color-15;
       cursor: default;
 
       &.highlighted {
-        color: #ccc !important;
+        color: $color-15 !important;
         background-color: $color-7 !important;
       }
     }

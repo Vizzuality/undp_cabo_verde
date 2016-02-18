@@ -7,7 +7,7 @@
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { relationshipsVisible: true }
+    defaults: { markersVisible: true }
   });
 
   root.app.View.mapMarkersView = Backbone.View.extend({
@@ -23,6 +23,13 @@
       this.actionsCollection = options.actionsCollection;
       this.actorModel =  options.actorModel;
       this.actionModel = options.actionModel;
+
+      this.setListeners();
+    },
+
+    setListeners: function() {
+      this.listenTo(this.status, 'change:markersVisible',
+        this.toggleMarkersVisibility);
     },
 
     /* Return the marker (DOM element) corresponding to the type, id and
@@ -249,7 +256,7 @@
 
       this.computeMarkersOptimalPosition();
 
-      this.markersLayer.addTo(this.map);
+      this.addMarkersToMap();
     },
 
     /* Compute the position of each marker depending on the position of the
@@ -375,10 +382,6 @@
         }, this);
 
       }, this);
-
-      if(!this.map.hasLayer(this.optimalPositioningLayer)) {
-        this.optimalPositioningLayer.addTo(this.map);
-      }
     },
 
     /* Update the size of the markers according to the map's zoom level */
@@ -460,9 +463,7 @@
 
           /* We only highlight the marker if the relation is visible */
           if(relation) {
-            if(this.status.get('relationshipsVisible')) {
-              domMarker.classList.add('-active');
-            }
+            domMarker.classList.add('-active');
             domMarker.classList.add('js-related-marker');
           }
         }
@@ -520,8 +521,7 @@
     toggleRelatedMarkersHighlight: function() {
       var highlightedMarkers = this.el.querySelectorAll('.js-related-marker');
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
-        highlightedMarkers[i].classList.toggle('-active',
-          this.status.get('relationshipsVisible'));
+        highlightedMarkers[i].classList.toggle('-active', true);
       }
     },
 
@@ -586,10 +586,40 @@
       }
 
       this.markersLayer = L.layerGroup(this.markers);
-      this.markersLayer.addTo(this.map);
-
       this.computeMarkersOptimalPosition();
 
+      this.map.removeLayer(this.markersLayer);
+      this.map.removeLayer(this.optimalPositioningLayer);
+      this.addMarkersToMap();
+    },
+
+    /* Add the markers on the map if they can be shown */
+    addMarkersToMap: function() {
+      if(this.status.get('markersVisible')) {
+        if(this.markersLayer) {
+          this.markersLayer.addTo(this.map);
+        }
+        if(this.optimalPositioningLayer) {
+          this.optimalPositioningLayer.addTo(this.map);
+        }
+      }
+    },
+
+    /* Toggle the visibility of the markers on the map depending on if they can
+     * be shown */
+    toggleMarkersVisibility: function() {
+      if(this.markersLayer) {
+        if(this.status.get('markersVisible')) {
+          this.addMarkersToMap();
+        } else {
+          if(this.map.hasLayer(this.markersLayer)) {
+            this.map.removeLayer(this.markersLayer);
+          }
+          if(this.map.hasLayer(this.optimalPositioningLayer)) {
+            this.map.removeLayer(this.optimalPositioningLayer);
+          }
+        }
+      }
     }
 
   });

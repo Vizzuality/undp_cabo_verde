@@ -17,6 +17,21 @@ html lang="en"
         #map-legend
           ul
             li.title
+              = t('front.relationships')
+            li.js-actor-to-action
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActionIcon" x="0" y="4"
+              = t('front.actor_to_action')
+            li.js-actor-to-actor
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActorIcon" x="0" y="4"
+              = t('front.actor_to_actor')
+            li.js-action-to-action
+              svg.icon.-large.-monochrome
+                use xlink:href="#actionToActionIcon" x="0" y="4"
+              = t('front.action_to_action')
+          ul
+            li.title
               = t('front.actor')
             li
               svg.icon.-actor
@@ -45,21 +60,6 @@ html lang="en"
               svg.icon.-action
                 use xlink:href="#microMarkerIcon" x="-5" y="-3"
               | Micro
-          ul
-            li.title
-              = t('front.relationships')
-            li.js-actor-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActionIcon" x="0" y="4"
-              = t('front.actor_to_action')
-            li.js-actor-to-actor
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActorIcon" x="0" y="4"
-              = t('front.actor_to_actor')
-            li.js-action-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actionToActionIcon" x="0" y="4"
-              = t('front.action_to_action')
         #map-slider
           a.slider-controls.js-play-button
             .left
@@ -78,10 +78,11 @@ html lang="en"
 
         #map-buttons
           .checkbox.-reversed.-negative
-            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
+            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle"
             label class="label" for="map-relationships-toggle"
-              = t('front.relationships')
+              = t('front.relationships_graph')
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
+        .message.-error.global-error.js-global-error._hidden
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
             li.tab.-active data-tab="overall"

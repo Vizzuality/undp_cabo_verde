@@ -1,0 +1,45 @@
+{
+  "resource": "Relations",
+  "http_method": "GET",
+  "route": "/api/relations",
+  "description": "Getting a list of relations",
+  "explanation": null,
+  "parameters": [
+
+  ],
+  "response_fields": [
+
+  ],
+  "requests": [
+    {
+      "request_method": "GET",
+      "request_path": "/api/relations",
+      "request_body": null,
+      "request_headers": {
+        "Accept": "application/json; application/undp-cabo-verde-v1+json",
+        "Content-Type": "application/json",
+        "Host": "undp-cabo-verde.herokuapp.com",
+        "Cookie": ""
+      },
+      "request_query_parameters": {
+      },
+      "request_content_type": "application/json",
+      "response_status": 200,
+      "response_status_text": "OK",
+      "response_body": "{\n  \"relations\": [\n    {\n      \"parent_id\": 17,\n      \"child_id\": 18,\n      \"type\": \"Actor-Actor\",\n      \"start_location\": {\n        \"lat\": \"-29.176961338248937\",\n        \"long\": \"-70.88085168324233\"\n      },\n      \"end_location\": {\n        \"lat\": \"-22.91156055961892\",\n        \"long\": \"110.47247690097294\"\n      }\n    },\n    {\n      \"parent_id\": 18,\n      \"child_id\": 19,\n      \"type\": \"Actor-Actor\",\n      \"start_location\": {\n        \"lat\": \"-22.91156055961892\",\n        \"long\": \"110.47247690097294\"\n      },\n      \"end_location\": {\n        \"lat\": \"-88.19097327724486\",\n        \"long\": \"-20.304434460791583\"\n      }\n    },\n    {\n      \"parent_id\": 17,\n      \"child_id\": 20,\n      \"type\": \"Actor-Actor\",\n      \"start_location\": {\n        \"lat\": \"-29.176961338248937\",\n        \"long\": \"-70.88085168324233\"\n      },\n      \"end_location\": {\n        \"lat\": \"-29.176961338248937\",\n        \"long\": \"-70.88085168324233\"\n      }\n    },\n    {\n      \"parent_id\": 17,\n      \"child_id\": 17,\n      \"type\": \"Actor-Action\",\n      \"start_location\": {\n        \"lat\": \"-29.176961338248937\",\n        \"long\": \"-70.88085168324233\"\n      },\n      \"end_location\": {\n        \"lat\": \"-33.87849969675731\",\n        \"long\": \"-169.85156155044277\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
+      "response_headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8",
+        "ETag": "W/\"9680bbaf2617d168b56a4cec1cf6c8b8\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "X-Request-Id": "a324db12-e4d3-40c1-847c-56c181333e41",
+        "X-Runtime": "0.096944",
+        "Content-Length": "832"
+      },
+      "response_content_type": "application/json; charset=utf-8",
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/relations\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+    }
+  ]
+}

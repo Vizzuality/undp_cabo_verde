@@ -98,4 +98,12 @@
   #about-tab {
     height: calc(100% - 2 * 60px);
   }
+
+  & > .global-error {
+    position: absolute;
+    top: 120px;
+    left: 25px;
+    width: calc(100% - 25px * 2);
+    z-index: 1;
+  }
 }

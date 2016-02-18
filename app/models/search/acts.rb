@@ -13,7 +13,7 @@ class Search::Acts
   end
 
   def total_cnt
-    @query.count
+    @query.size
   end
 
   private

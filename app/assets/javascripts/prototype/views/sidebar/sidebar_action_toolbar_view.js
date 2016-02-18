@@ -20,6 +20,7 @@
     initialize: function(options) {
       this.router = options.router;
       this.$goBackButton = this.$el.find('.js-back');
+      this.account = this.el.querySelector('.js-account');
       this.accountPopover = this.el.querySelector('.js-account-popover');
 
       this.setListeners();
@@ -79,6 +80,24 @@
     /* Hide the account popover */
     hideAccountPopover: function() {
       this.toggleAccountPopover(false);
+    },
+
+    /* Display the account as if the user wouldn't be connected */
+    logOut: function() {
+      var htmlContent = '';
+
+      var items = [
+        { name: I18n.translate('front.log_in'),  url: gon.logInUrl  },
+        { name: I18n.translate('front.sign_in'), url: gon.signInUrl }
+      ];
+
+      _.each(items, function(item) {
+        htmlContent += '<li class="item"><a href="' + item.url + '">' +
+          item.name + '</a></li>';
+      });
+
+      this.accountPopover.innerHTML = htmlContent;
+      this.account.childNodes[0].textContent = I18n.translate('front.account');
     }
 
   });
