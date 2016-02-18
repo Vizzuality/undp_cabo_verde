@@ -149,6 +149,7 @@
 
     onSessionExpire: function() {
       this.actionToolbarView.logOut();
+      this.filtersView.disableSaveSearchButton();
     },
 
     /* Switch the content of the sidebar by the one that have been asked by

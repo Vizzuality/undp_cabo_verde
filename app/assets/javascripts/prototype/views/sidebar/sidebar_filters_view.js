@@ -613,6 +613,16 @@
           this.$el.append(arguments[1].dpDiv);
         }.bind(this)
       });
+    },
+
+    /* Disable the "save this search" button and tell the user to log in */
+    disableSaveSearchButton: function() {
+      var htmlContent = '<p>' +
+        I18n.translate('front.connect_to_save_search_html') + '</p>' +
+        '<button class="button -secondary">' +
+        I18n.translate('front.save_search') + '</button>';
+
+      this.saveButton.parentNode.innerHTML = htmlContent;
     }
 
   });
