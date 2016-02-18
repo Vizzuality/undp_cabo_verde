@@ -1,0 +1,11 @@
+.in-form-info {
+  @include font(helvetica, small, light, 1);
+  margin-bottom: 10px;
+
+  &.-cursive {
+    font-style: italic;
+    color: $color-16;
+    text-align: center;
+    margin: 20px 0;
+  }
+}
