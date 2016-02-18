@@ -30,15 +30,24 @@
     .row
       .column.medium-8.medium-offset-4
         h2.form-title= t('localizations.localizations')
+    
     - unless @actor.new_record? || @actor.meso_or_macro?
       - unless common_form?
         .row
           .column.medium-8.medium-offset-4
-            p.select-parent-location
+            p.in-form-info
               = t('localizations.select_parent_location')
+        
+    - if common_form? && @actor.localizations.empty? && @actor.parent_location_id.nil?
+      .row
+        .column.medium-8.medium-offset-4
+          p.in-form-info.-cursive
+            = t('shared.no_entries')
+    - elsif !@actor.new_record? && @actor.micro?
       .row
         .column.medium-8.medium-offset-4
           = form.input :parent_location_id, collection: @parent_locations, include_blank: "Own Location", as: :select, label: false, input_html: { class: 'parent-location chosen-select' }, disabled: common_form?
+
 
     = form.fields_for :localizations do |localizations_form|
       = render 'localizations/form', f: localizations_form
