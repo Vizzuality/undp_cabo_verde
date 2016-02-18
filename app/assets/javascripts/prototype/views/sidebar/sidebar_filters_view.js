@@ -48,10 +48,6 @@
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'show:actor', this.onActorShow);
-      this.listenTo(root.app.pubsub, 'show:action', this.onActionShow);
-      this.listenTo(root.app.pubsub, 'click:goBack', this.onClickGoBack);
-      this.listenTo(root.app.pubsub, 'apply:sidebarSearches', this.onSetSearch);
       this.listenTo(this.status, 'change', this.applySearch);
     },
 
@@ -223,33 +219,18 @@
       }
     },
 
-    onActorShow: function() {
-      this.hide();
-    },
-
-    onActionShow: function() {
-      this.hide();
-    },
-
-    onClickGoBack: function() {
-      this.show();
-    },
-
     onClickSaveSearch: function() {
       this.applyFilters();
       var queryParams = location.search.replace('?', '');
 
       /* We create and save the model that contains the search information */
-      var model = new (Backbone.Model.extend({
-        url: root.app.Helper.globals.apiUrl + 'favourites/?token=' +
-          gon.userToken
-      }))();
+      var model = new root.app.Model.searchModel();
       model.set('uri', queryParams);
       model.save()
         .done(function() {
           /* We send an event to tell the searches view that it needs to fetch
            * the collection again */
-          root.app.pubsub.trigger('save:sidebarFilters');
+          this.trigger('save:filters');
           /* We add an animation to tell the user that the search has been
            * successfully saved */
           this.saveButton.classList.add('success');
@@ -257,9 +238,14 @@
             this.saveButton.classList.remove('success');
           }.bind(this), 3000);
         }.bind(this))
-        .fail(function() {
-          console.warn('Unable to save the search');
-        });
+        .fail(function(err) {
+          if(err.status === 422) {
+            this.trigger('show:error', I18n.translate('front.session_expired'));
+            this.trigger('expire:session');
+          } else {
+            console.warn('Unable to save the search');
+          }
+        }.bind(this));
     },
 
     on3x5Hover: function(e) {
@@ -291,6 +277,13 @@
     },
 
     /* LOGIC */
+
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function() {
+      var deferred = $.Deferred();
+      deferred.resolve();
+      return deferred;
+    },
 
     /* Expand or contract a filter depending of its current state */
     expandFilter: function(filterRootElem) {
@@ -620,6 +613,16 @@
           this.$el.append(arguments[1].dpDiv);
         }.bind(this)
       });
+    },
+
+    /* Disable the "save this search" button and tell the user to log in */
+    disableSaveSearchButton: function() {
+      var htmlContent = '<p>' +
+        I18n.translate('front.connect_to_save_search_html') + '</p>' +
+        '<button class="button -secondary">' +
+        I18n.translate('front.save_search') + '</button>';
+
+      this.saveButton.parentNode.innerHTML = htmlContent;
     }
 
   });

@@ -104,12 +104,23 @@ class Actor < ActiveRecord::Base
   end
 
   def get_locations
-    locations = if micro? && localizations.blank?
-                  # Get location from parent_location_id (main parent location) unless parent_location_id present get all parents main locations
-                  parent_location_id.present? ? Localization.where(id: parent_location_id) : get_all_parents_locations
-                else
-                  localizations.filter_actives
-                end
+    if micro?
+      get_micro_locations
+    else
+      localizations.filter_actives
+    end
+  end
+
+  def get_parent_main_location
+    get_locations.main_locations.first if get_locations.any?
+  end
+
+  def get_micro_locations
+    if localizations.blank?
+      parent_location_id.present? ? Localization.where(id: parent_location_id) : get_all_parents_locations
+    else
+      parent_location_id.present? ? Localization.where(id: parent_location_id) : localizations.filter_actives
+    end
   end
 
   def get_all_parents_locations

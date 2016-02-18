@@ -37,9 +37,9 @@
   <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
   {{#if relations.actors}}
     {{{t 'front.to_actors'}}}
-    <ul class="visual-list -standard">
+    <ul class="visual-list -standard relations">
       {{#each relations.actors}}
-        <li class="item">
+        <li class="item js-relation" data-id="{{id}}" data-type="actors">
           <svg class="icon -actor">
             {{#compare level  "===" "macro"}}
               <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
@@ -68,9 +68,9 @@
   {{/if}}
   {{#if relations.actions}}
     {{{t 'front.to_actions'}}}
-    <ul class="visual-list -standard">
+    <ul class="visual-list -standard relations">
       {{#each relations.actions}}
-        <li class="item">
+        <li class="item js-relation" data-id="{{id}}" data-type="actions">
           <svg class="icon -action">
             {{#compare level  "===" "macro"}}
               <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
@@ -94,8 +94,6 @@
       {{/each}}
     </ul>
   {{/if}}
-  <br/>
-  <div class="checkbox"><input type="checkbox" class="js-relationships-checkbox" id="sidebar-relationships-map" {{#if toggleRelationshipsActive}}checked="checked"{{/if}} /><label class="label" for="sidebar-relationships-map">{{{t 'front.show_relationships_on_map'}}}</label></div>
 </div>
 <div class="content -secondary">
   <div class="comments">

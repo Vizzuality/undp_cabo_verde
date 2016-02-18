@@ -26,17 +26,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 186,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 189,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 187,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 188,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
+      "response_body": "{\n  \"domains\": [\n    {\n      \"id\": 41,\n      \"name\": \"Category OD\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 44,\n      \"name\": \"Category OD 2\",\n      \"type\": \"Other domains\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 42,\n      \"name\": \"Category SCD\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    },\n    {\n      \"id\": 43,\n      \"name\": \"Category SCD 2\",\n      \"type\": \"Socio cultural domain\",\n      \"icon_identifier\": null\n    }\n  ],\n  \"meta\": {\n    \"size\": 4\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"ae15bbcbc2f53ab3b362014516b84941\"",
+        "ETag": "W/\"a4213383b2f5f8a31d7981f6b5be7929\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "db5b92b3-ec6c-47a4-bedf-57c4c6385782",
-        "X-Runtime": "0.048569",
-        "Content-Length": "365"
+        "X-Request-Id": "958699f4-3b2a-4d4f-a691-4f87971c54f0",
+        "X-Runtime": "0.042147",
+        "Content-Length": "361"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/domains\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""

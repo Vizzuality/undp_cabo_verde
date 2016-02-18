@@ -6,7 +6,7 @@
   root.app.View = root.app.View || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { relationshipsVisible: true }
+    defaults: { graphVisible: false }
   });
 
   root.app.View.mapZoomButtonsView = Backbone.View.extend({
@@ -15,6 +15,13 @@
 
     initialize: function() {
       this.status = new Status();
+
+      this.setListeners();
+    },
+
+    setListeners: function() {
+      this.listenTo(this.status, 'change:graphVisible',
+        this.toggleButtonsPosition);
     },
 
     /* Reduce the visible portion of the legend or not depending on if the
@@ -25,7 +32,7 @@
       }
 
       this.zoomButtons.classList.toggle('-slided',
-        !this.status.get('relationshipsVisible'));
+        this.status.get('graphVisible'));
     }
 
   });

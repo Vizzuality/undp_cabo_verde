@@ -9,15 +9,16 @@
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { isHidden: true, toggleRelationshipsActive: true }
+    defaults: { isHidden: true  }
   });
 
   root.app.View.sidebarActorView = Backbone.View.extend({
     el: '#sidebar-actor-view',
 
     events: {
-      'click .js-back': 'goBack',
-      'change .js-relationships-checkbox': 'triggerRelationshipsVisibility'
+      'click .js-relation': 'onRelationClick',
+      'mouseenter .js-relation': 'onRelationHover',
+      'mouseleave .js-relation': 'onRelationBlur'
     },
 
     template: HandlebarsTemplates['sidebar/sidebar_actor_template'],
@@ -28,46 +29,75 @@
       this.model = new root.app.Model.actorModel(null, {
         router: this.router
       });
-      /* The DOM element to receive the Handlbars template */
-      this.setListeners();
 
-      this.init();
+      this.setListeners();
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'click:goBack', this.hide);
-      this.listenTo(root.app.pubsub, 'show:action', this.hide);
-      this.listenTo(root.app.pubsub, 'show:actor', this.fetchDataAndRender);
-      this.listenTo(root.app.pubsub, 'relationships:visibility',
-        this.toggleRelationshipsVisibility);
       this.listenTo(root.app.pubsub, 'sync:actorModel', this.populateModelFrom);
       this.listenTo(this.model, 'sync', this.triggerModelSync);
     },
 
-    /* Initialize the pane state (ie visibility and content) */
-    init: function() {
-      var route = this.router.getCurrentRoute();
-      if(route.name === 'actors') {
-        this.fetchDataAndRender(route.params[0]);
-      }
+    onRelationClick: function(e) {
+      var id   = +e.currentTarget.getAttribute('data-id'),
+          type =  e.currentTarget.getAttribute('data-type');
+      this.showEntity(type, id);
     },
 
-    /* Trigger the visibility of the relationships (ie links) on the map */
-    triggerRelationshipsVisibility: function(e) {
-      root.app.pubsub.trigger('relationships:visibility',
-        { visible: e.currentTarget.checked });
+    onRelationHover: function(e) {
+      var id   = +e.currentTarget.getAttribute('data-id'),
+          type =  e.currentTarget.getAttribute('data-type');
+
+      /* We make sure that the model has the information about the opened marker
+       * and not another one the user could have hovered */
+      this.fetchData(+this.router.getCurrentRoute().params[0])
+        .then(function() {
+          root.app.pubsub.trigger('filter:relations', {
+            only: { type: type, id: id }
+          });
+        });
     },
 
-    /* Toggle the relationships switch button
-     * options can be null/undefined or { visible: [boolean] } */
-    toggleRelationshipsVisibility: function(options) {
-      var isVisible = options.visible;
-      this.status.set('toggleRelationshipsActive', isVisible);
-      /* This method could be called even if the view hasn't been rendered yet
-       */
-      if(this.$relationshipsToggle) {
-        this.$relationshipsToggle.prop('checked', isVisible);
+    onRelationBlur: function() {
+      root.app.pubsub.trigger('filter:relations', {
+        only: null
+      });
+    },
+
+    /* Sets the model id to the one passed as argument and fetches it, if not
+     * containing the right information already. Return a deferred object. */
+    fetchData: function(id) {
+      var deferred = $.Deferred();
+
+      if(!_.isEmpty(this.model.attributes) && this.model.get('id') === id) {
+        deferred.resolve();
+      } else {
+        this.model.setId(id);
+        this.model.fetch()
+          .done(deferred.resolve)
+          .fail(function() {
+            console.warn('Unable to fetch the model /actors/' + params[0]);
+            deferred.reject();
+          });
       }
+
+      return deferred;
+    },
+
+    /* Method called right before the pane is toggled to a visible state */
+    beforeShow: function(route, params) {
+      var deferred = $.Deferred();
+
+      this.fetchData(+params[0])
+        .then(function() {
+          this.render();
+          deferred.resolve();
+        }.bind(this))
+        .fail(function() {
+          deferred.reject();
+        });
+
+      return deferred;
     },
 
     /* Set the content of this.model with the content of the passed model
@@ -84,18 +114,6 @@
       this.model.set(model.toJSON());
     },
 
-    /* Check if this.model has data. If so, call the render function, otherwise,
-     * fetch the data and then call render */
-    fetchDataAndRender: function() {
-      if(!_.isEmpty(this.model.attributes)) {
-        this.render();
-      } else {
-        this.model.setId(arguments[0]);
-        this.model.fetch()
-          .done(this.render.bind(this));
-      }
-    },
-
     /* Trigger an event through the pubsub object to inform about the new state
      * of the actor model */
     triggerModelSync: function() {
@@ -110,16 +128,13 @@
 
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
         this.status.toJSON()), { relations: relations })));
-      /* We need to set again the listeners because some of them depends on the
-       * elements that have just been rendered */
-      this.$relationshipsToggle = this.$el.find('.js-relationships-checkbox');
-      /* We finally slide the pane to display the information */
-      this.show();
     }
 
   });
 
   /* We extend the view with method to show, hide and toggle the pane */
   _.extend(root.app.View.sidebarActorView.prototype, root.app.Mixin.visibility);
+  /* We extend the view the method showEntity */
+  _.extend(root.app.View.sidebarActorView.prototype, root.app.Mixin.showEntity);
 
 })(this);

@@ -6,7 +6,7 @@
   root.app.View = root.app.View || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { relationshipsVisible: true }
+    defaults: { graphVisible: false }
   });
 
   root.app.View.mapLegendView = Backbone.View.extend({
@@ -21,13 +21,45 @@
       this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
       this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
       this.$actionToActionLegend = this.$el.find('.js-action-to-action');
+
+      this.setListeners();
     },
 
-    /* Reduce the visible portion of the legend or not depending on if the
-     * relations are visible on the map */
-    toggleLegendPosition: function() {
+    setListeners: function() {
+      this.listenTo(this.status, 'change:graphVisible', this.toggleLegendState);
+    },
+
+    // /* Reduce the visible portion of the legend or not depending on if the
+    //  * relations are visible on the map */
+    // toggleLegendPosition: function() {
+    //   this.el.classList.toggle('-reduced',
+    //     !this.status.get('relationshipsVisible'));
+    // },
+
+    toggleLegendState: function() {
+      /* We update the action to action icon */
+      this.$actionToActionLegend.find('svg')[0].classList.toggle('-actions',
+        this.status.get('graphVisible'));
+      this.$actionToActionLegend.find('svg')[0].classList.toggle('-monochrome',
+        !this.status.get('graphVisible'));
+
+      /* We update the actor to actor icon */
+      this.$actorToActorLegend.find('svg')[0].classList.toggle('-actors',
+        this.status.get('graphVisible'));
+      this.$actorToActorLegend.find('svg')[0].classList.toggle('-monochrome',
+        !this.status.get('graphVisible'));
+
+      /* We update the actor to action icon */
+      this.$actorToActionLegend.find('svg')[0].classList.toggle('-mixed',
+        this.status.get('graphVisible'));
+      this.$actorToActionLegend.find('svg')[0].classList.toggle('-monochrome',
+        !this.status.get('graphVisible'));
+      this.$actorToActionLegend.find('svg > use')[0].setAttribute('xlink:href',
+        this.status.get('graphVisible') ? '#actorToActorIcon' :
+        '#actorToActionIcon');
+
       this.el.classList.toggle('-reduced',
-        !this.status.get('relationshipsVisible'));
+        this.status.get('graphVisible'));
     },
 
     /* Dynamically hide a part of the relations depending on the active marker

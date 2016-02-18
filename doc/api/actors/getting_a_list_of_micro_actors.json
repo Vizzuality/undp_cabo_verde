@@ -36,17 +36,17 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 37,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 47,\n          \"lat\": \"-55.65254668094785\",\n          \"long\": \"-105.45366642183012\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 85,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 93,\n          \"name\": \"Education, Books, Baby, Grocery, Electronics & Jewelery\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:05.183Z\"\n  }\n}",
+      "response_body": "{\n  \"actors\": [\n    {\n      \"id\": 77,\n      \"name\": \"Director of Department\",\n      \"level\": \"micro\",\n      \"locations\": [\n        {\n          \"id\": 79,\n          \"lat\": \"-2.952565063035337\",\n          \"long\": \"-35.416872613825916\",\n          \"main\": true\n        }\n      ],\n      \"socio_cultural_domains\": [\n        {\n          \"id\": 181,\n          \"name\": \"Category two\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        },\n        {\n          \"id\": 189,\n          \"name\": \"Education, Shoes, Beauty, Garden, Movies & Home\",\n          \"type\": \"Socio cultural domain\",\n          \"icon_identifier\": null\n        }\n      ],\n      \"other_domains\": [\n\n      ]\n    }\n  ],\n  \"meta\": {\n    \"size\": 1,\n    \"cache_date\": \"2015-09-01T10:00:07.385Z\"\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"77586b32857d74b4b564117d5e4f43d2\"",
+        "ETag": "W/\"8ee6a2ddec112689325fad0cc12a1757\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "e43dd417-6047-4023-b2dd-472409142bc6",
-        "X-Runtime": "0.030321",
-        "Content-Length": "486"
+        "X-Request-Id": "1cec33ec-002f-46e1-8822-7a71eed47d19",
+        "X-Runtime": "0.019595",
+        "Content-Length": "480"
       },
       "response_content_type": "application/json; charset=utf-8",
       "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/actors?levels[]=micro\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
