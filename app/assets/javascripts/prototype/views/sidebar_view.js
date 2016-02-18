@@ -65,6 +65,8 @@
       this.listenTo(this.filtersView,  'show:error', this.onErrorShow);
       this.listenTo(this.searchesView, 'expire:session', this.onSessionExpire);
       this.listenTo(this.filtersView,  'expire:session', this.onSessionExpire);
+      this.listenTo(this.searchesView, 'hide',
+        this.actionToolbarView.hideGoBackButton.bind(this.actionToolbarView));
     },
 
     onRoute: function(route, params) {

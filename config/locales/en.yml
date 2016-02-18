@@ -471,6 +471,7 @@ en:
     to_actors: "To Actors:"
     to_actions: "To Actions:"
     session_expired: Your session expired. Please log in again.
+    no_saved_search: You haven't saved any search yet
 
   search:
     no_results: 'No results'
