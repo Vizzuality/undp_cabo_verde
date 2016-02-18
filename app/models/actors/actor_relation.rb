@@ -6,7 +6,7 @@ class ActorRelation < ActiveRecord::Base
 
   belongs_to :relation_type
 
-  validate :end_date_after_start_date, if: 'start_date and end_date'
+  validates_with EndDateValidator
 
   def self.get_dates(actor, parent)
     @dates = where(child_id: actor.id, parent_id: parent.id).pluck(:start_date, :end_date)
@@ -20,12 +20,4 @@ class ActorRelation < ActiveRecord::Base
   def find_child_location
     Actor.find(self.child_id).get_parent_main_location
   end
-
-  private
-
-    def end_date_after_start_date
-      if end_date < start_date
-        errors[:end_date] = 'End date must be after start date'
-      end
-    end
 end

@@ -8,7 +8,7 @@ class ActIndicatorRelation < ActiveRecord::Base
 
   has_many :measurements, dependent: :destroy
 
-  validate :end_date_after_start_date, if: 'start_date and end_date'
+  validates_with EndDateValidator
 
   accepts_nested_attributes_for :measurements, allow_destroy: true
 
@@ -24,12 +24,4 @@ class ActIndicatorRelation < ActiveRecord::Base
   def target_unit_name
     unit.name
   end
-
-  private
-
-    def end_date_after_start_date
-      if end_date < start_date
-        errors[:end_date] = 'End date must be after start date'
-      end
-    end
 end
