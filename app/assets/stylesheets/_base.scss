@@ -86,6 +86,15 @@ textarea:focus {
   @include font(helvetica, null, light, null);
 
   &:disabled, .-disabled {
+
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+
+
+    -webkit-text-fill-color: $color-16;
+    -webkit-opacity: 1;
+
     color: $color-16;
     background-color: $color-1;
     opacity: 1 !important;
