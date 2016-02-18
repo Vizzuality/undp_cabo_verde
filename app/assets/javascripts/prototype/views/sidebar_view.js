@@ -44,6 +44,7 @@
 
       /* Cache */
       this.$toggleSwitch = this.$el.find('.toggleswitch');
+      this.globalError = this.el.querySelector('.js-global-error');
 
       this.setListeners();
     },
@@ -60,6 +61,7 @@
       this.listenTo(this.actionToolbarView, 'click:goBack', this.onClickGoBack);
       this.listenTo(this.searchesView, 'apply:searches', this.onApplySearches);
       this.listenTo(this.filtersView, 'save:filters', this.onSaveFilters);
+      this.listenTo(this.searchesView, 'show:error', this.onErrorShow);
     },
 
     onRoute: function(route, params) {
@@ -83,16 +85,18 @@
       }
 
       /* We hide all the panes except the one selected */
-      this.onlyShowPane(selectedPane, route, params);
-
-      /* We toggle the "go back" button depending on the pane that is shown */
-      this.actionToolbarView[ (showGoBackButton ? 'show' : 'hide') +
-        'GoBackButton' ]();
+      this.onlyShowPane(selectedPane, route, params)
+        .done(function() {
+          /* We toggle the "go back" button depending on the pane that is shown
+           */
+          this.actionToolbarView[ (showGoBackButton ? 'show' : 'hide') +
+            'GoBackButton' ]();
+        }.bind(this));
     },
 
     onSearchesClick: function() {
-      this.onlyShowPane(this.searchesView);
-      this.actionToolbarView.showGoBackButton();
+      this.onlyShowPane(this.searchesView)
+        .done(this.actionToolbarView.showGoBackButton.bind(this.actionToolbarView));
     },
 
     onClickGoBack: function() {
@@ -113,17 +117,29 @@
 
     /* Hide all the panes except the one passed as argument. If it's hidden,
      * make it visible. route and params are URL route and URL params.
-     * NOTE: this method can be asynchronous */
+     * Return a deferred object. */
     onlyShowPane: function(pane, route, params) {
+      var deferred = $.Deferred();
+
       /* We hide all the panes except the one selected */
       _.invoke(_.without(this.panes, pane), 'hide');
       /* We show the pane after making sure it's ready */
       pane.beforeShow(route, params)
-        .then(pane.show.bind(pane));
+        .done(function() {
+          pane.show();
+          deferred.resolve();
+        })
+        .fail(deferred.reject);
+
+      return deferred;
     },
 
     onApplySearches: function(options) {
       this.filtersView.onSetSearch(options);
+    },
+
+    onErrorShow: function(message) {
+      this.displayError(message);
     },
 
     /* Switch the content of the sidebar by the one that have been asked by
@@ -158,6 +174,19 @@
       root.app.pubsub.trigger('sidebar:visibility', {
         isHidden: this.status.get('isHidden')
       });
+    },
+
+    /* Display an error message in the sidebar containing the passed message */
+    displayError: function(message) {
+      this.globalError.textContent = message;
+      this.globalError.classList.remove('_hidden');
+
+
+      /* We hide it 2s later */
+      if(this.errorTimeout) clearTimeout(this.errorTimeout);
+      this.errorTimeout = setTimeout(function() {
+        this.globalError.classList.add('_hidden');
+      }.bind(this), 3000);
     }
 
   });

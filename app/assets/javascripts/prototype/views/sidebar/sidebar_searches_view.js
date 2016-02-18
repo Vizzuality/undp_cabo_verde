@@ -71,10 +71,7 @@
             this.setElement(this.$el);
             deferred.resolve();
           }.bind(this))
-          .fail(function() {
-            console.warn('Unable to fetch the model /actions/' + params[0]);
-            deferred.reject();
-          });
+          .fail(deferred.reject);
       }
 
       return deferred;
@@ -86,10 +83,14 @@
 
       this.collection.fetch()
         .done(deferred.resolve)
-        .error(function() {
+        .error(function(err) {
+          if(err.status === 422) {
+            this.trigger('show:error', I18n.translate('front.session_expired'));
+          } else {
+            console.warn('Unable to retrieved the saved searches');
+          }
           deferred.reject();
-          console.warn('Unable to retrieved the saved searches');
-        });
+        }.bind(this));
 
       return deferred;
     },
