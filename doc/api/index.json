@@ -239,6 +239,18 @@
           "method": "put"
         }
       ]
+    },
+    {
+      "name": "Relations",
+      "examples": [
+        {
+          "description": "Getting a list of relations",
+          "link": "relations/getting_a_list_of_relations.json",
+          "groups": "all",
+          "route": "/api/relations",
+          "method": "get"
+        }
+      ]
     }
   ]
 }

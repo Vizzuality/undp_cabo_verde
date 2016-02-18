@@ -71,10 +71,7 @@
             this.setElement(this.$el);
             deferred.resolve();
           }.bind(this))
-          .fail(function() {
-            console.warn('Unable to fetch the model /actions/' + params[0]);
-            deferred.reject();
-          });
+          .fail(deferred.reject);
       }
 
       return deferred;
@@ -86,10 +83,15 @@
 
       this.collection.fetch()
         .done(deferred.resolve)
-        .error(function() {
+        .error(function(err) {
+          if(err.status === 422) {
+            this.trigger('show:error', I18n.translate('front.session_expired'));
+            this.trigger('expire:session');
+          } else {
+            console.warn('Unable to retrieved the saved searches');
+          }
           deferred.reject();
-          console.warn('Unable to retrieved the saved searches');
-        });
+        }.bind(this));
 
       return deferred;
     },
@@ -122,11 +124,21 @@
         model.destroy({
           url: root.app.Helper.globals.apiUrl + 'favourites/' +
             model.get('id') + '?token=' + gon.userToken
-        });
-        this.render();
+        })
+          .done(this.render.bind(this))
+          .error(function(err) {
+            if(err.status === 422) {
+              this.trigger('show:error', I18n.translate('front.session_expired'));
+              this.trigger('expire:session');
+              this.trigger('hide');
+              this.hide();
+            } else {
+              console.warn('Unable to delete the search ' + searchId);
+            }
+          }.bind(this));
       } else {
-        console.warn('Unable to delete the search ' + searchId + 'because it ' +
-          'couldn\'t be found in the collection');
+        console.warn('Unable to delete the search ' + searchId +
+          ' because it ' + 'couldn\'t be found in the collection');
       }
     },
 
@@ -142,9 +154,18 @@
             url: root.app.Helper.globals.apiUrl + 'favourites/' +
               model.get('id') + '?token=' + gon.userToken
           })
-          .fail(function() {
-            console.warn('Unable to change the name of the search ' + searchId);
-          });
+          .error(function(err) {
+            if(err.status === 422) {
+              this.trigger('show:error',
+                I18n.translate('front.session_expired'));
+              this.trigger('expire:session');
+              this.trigger('hide');
+              this.hide();
+            } else {
+              console.warn('Unable to change the name of the search ' +
+                searchId);
+            }
+          }.bind(this));
       } else {
         console.warn('Unable to edit the search\'s name ' + searchId +
           'because the model associated to it couldn\'t be found in the ' +

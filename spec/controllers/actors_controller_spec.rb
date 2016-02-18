@@ -5,7 +5,6 @@ RSpec.describe ActorsController, type: :controller do
     @user      = create(:random_user)
     @adminuser = create(:adminuser)
     FactoryGirl.create(:admin)
-    # FactoryGirl.create(:manager_user, user_id: @user.id)
 
     @field = create(:operational_field)
     @macro = create(:actor_macro, user_id: @user.id, active: false)

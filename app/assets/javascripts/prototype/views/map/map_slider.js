@@ -93,6 +93,14 @@
         { date: this.timelineScale.invert(position) });
     },
 
+    onTimelineBrushStart: function() {
+      document.body.classList.add('_grabbing');
+    },
+
+    onTimelineBrushEnd: function() {
+      document.body.classList.remove('_grabbing');
+    },
+
     /* LOGIC */
 
     /* Init the slider's features */
@@ -119,6 +127,8 @@
         .x(this.timelineScale)
         .extent([this.minDate, this.minDate])
         .clamp([true, false])
+        .on('brushstart', this.onTimelineBrushStart.bind(this))
+        .on('brushend', this.onTimelineBrushEnd.bind(this))
         .on('brush', this.onTimelineBrush.bind(this));
 
       d3.select(this.svgSlider)
