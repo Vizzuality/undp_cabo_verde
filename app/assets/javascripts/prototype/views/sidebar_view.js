@@ -53,8 +53,6 @@
       this.listenTo(this.status, 'change:isHidden', this.triggerVisibility);
       this.listenTo(this.tabNavigationView, 'tab:change', this.switchContent);
       this.$toggleSwitch.on('click', this.toggle.bind(this));
-      // this.listenTo(root.app.pubsub, 'show:actor', this.show);
-      // this.listenTo(root.app.pubsub, 'show:action', this.show);
       this.listenTo(this.router, 'route', this.onRoute);
       this.listenTo(this.actionToolbarView, 'click:searches',
         this.onSearchesClick);
@@ -71,17 +69,20 @@
 
     onRoute: function(route, params) {
       var selectedPane     = null,
-          showGoBackButton = false;
+          showGoBackButton = false,
+          forceShowSidebar = false;
 
       switch(route) {
         case 'actors':
           selectedPane = this.actorView;
           showGoBackButton = true;
+          forceShowSidebar = true;
           break;
 
         case 'actions':
           selectedPane = this.actionView;
           showGoBackButton = true;
+          forceShowSidebar = true;
           break;
 
         default:
@@ -97,6 +98,10 @@
           this.actionToolbarView[ (showGoBackButton ? 'show' : 'hide') +
             'GoBackButton' ]();
         }.bind(this));
+
+      /* In case the user wants to see an actor or an action, we open the
+       * sidebar */
+      if(forceShowSidebar) this.show();
     },
 
     onSearchesClick: function() {
