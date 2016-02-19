@@ -126,6 +126,10 @@
         return relation.type;
       });
 
+      /* If there's no relation, we set the variable to null so the Handlebars
+       * template understands it */
+      relations = _.isEmpty(relations) ? null : relations;
+
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
         this.status.toJSON()), { relations: relations })));
     }
