@@ -473,6 +473,7 @@ en:
     to_actions: "To Actions:"
     session_expired: Your session expired. Please log in again.
     no_saved_search: You haven't saved any search yet
+    relationships: Relationships
 
   search:
     no_results: 'No results'
