@@ -42,7 +42,14 @@
       var relations = this.collection.toJSON();
 
       var startLatLng, endLatLng, colorClass;
-      this.relationsLayer = L.layerGroup(_.map(relations, function(relation) {
+      this.relationsLayer = L.layerGroup(_.compact(_.map(relations,
+        function(relation) {
+        /* We make sure we have the start and end locations */
+        if(_.isEmpty(relation.start_location) ||
+          _.isEmpty(relation.end_location)) {
+          return;
+        }
+
         startLatLng = L.latLng(relation.start_location.lat,
           relation.start_location.long);
         endLatLng = L.latLng(relation.end_location.lat,
@@ -63,7 +70,7 @@
         return L.polyline([startLatLng, endLatLng], {
           className: 'map-line ' + colorClass
         });
-      }));
+      })));
     },
 
     /* Toggle the visibility of all the relations */
