@@ -34,65 +34,67 @@
       {{/each}}
     </ul>
   {{/if}}
-  <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
-  {{#if relations.actors}}
-    {{{t 'front.to_actors'}}}
-    <ul class="visual-list -standard relations">
-      {{#each relations.actors}}
-        <li class="item js-relation" data-id="{{id}}" data-type="actors">
-          <svg class="icon -actor">
-            {{#compare level  "===" "macro"}}
-              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
-            {{else}}
-              {{#compare level  "===" "meso"}}
-                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+  {{#if relations}}
+    <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
+    {{#if relations.actors}}
+      {{{t 'front.to_actors'}}}
+      <ul class="visual-list -standard relations">
+        {{#each relations.actors}}
+          <li class="item js-relation" data-id="{{id}}" data-type="actors">
+            <svg class="icon -actor">
+              {{#compare level  "===" "macro"}}
+                <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
               {{else}}
-                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+                {{#compare level  "===" "meso"}}
+                  <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+                {{else}}
+                  <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+                {{/compare}}
               {{/compare}}
-            {{/compare}}
-          </svg>
-          {{name}}
-          {{#if this.info}}
-            {{#compare this.hierarchy "===" "parents"}}
-              <span class="_greyed">- {{this.info.title_reverse}}</span>
-            {{else}}
-              <span class="_greyed">- {{this.info.title}}</span>
-            {{/compare}}
-          {{/if}}
-        </li>
-      {{/each}}
-    </ul>
-    {{#if relations.actions}}
-    <br/>
+            </svg>
+            {{name}}
+            {{#if this.info}}
+              {{#compare this.hierarchy "===" "parents"}}
+                <span class="_greyed">- {{this.info.title_reverse}}</span>
+              {{else}}
+                <span class="_greyed">- {{this.info.title}}</span>
+              {{/compare}}
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+      {{#if relations.actions}}
+      <br/>
+      {{/if}}
     {{/if}}
-  {{/if}}
-  {{#if relations.actions}}
-    {{{t 'front.to_actions'}}}
-    <ul class="visual-list -standard relations">
-      {{#each relations.actions}}
-        <li class="item js-relation" data-id="{{id}}" data-type="actions">
-          <svg class="icon -action">
-            {{#compare level  "===" "macro"}}
-              <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
-            {{else}}
-              {{#compare level  "===" "meso"}}
-                <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+    {{#if relations.actions}}
+      {{{t 'front.to_actions'}}}
+      <ul class="visual-list -standard relations">
+        {{#each relations.actions}}
+          <li class="item js-relation" data-id="{{id}}" data-type="actions">
+            <svg class="icon -action">
+              {{#compare level  "===" "macro"}}
+                <use x="-6" xlink:href="#{{level}}MarkerIcon" y="-6"></use>
               {{else}}
-                <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+                {{#compare level  "===" "meso"}}
+                  <use x="-4.5" xlink:href="#{{level}}MarkerIcon" y="-5"></use>
+                {{else}}
+                  <use x="-5" xlink:href="#{{level}}MarkerIcon" y="-3"></use>
+                {{/compare}}
               {{/compare}}
-            {{/compare}}
-          </svg>
-          {{name}}
-          {{#if this.info}}
-            {{#compare this.hierarchy "===" "parents"}}
-              <span class="_greyed">- {{this.info.title_reverse}}</span>
-            {{else}}
-              <span class="_greyed">- {{this.info.title}}</span>
-            {{/compare}}
-          {{/if}}
-        </li>
-      {{/each}}
-    </ul>
+            </svg>
+            {{name}}
+            {{#if this.info}}
+              {{#compare this.hierarchy "===" "parents"}}
+                <span class="_greyed">- {{this.info.title_reverse}}</span>
+              {{else}}
+                <span class="_greyed">- {{this.info.title}}</span>
+              {{/compare}}
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
   {{/if}}
 </div>
 <div class="content -secondary">
