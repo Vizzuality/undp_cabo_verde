@@ -50,6 +50,11 @@
     /* Set the string passed as argument as the query params of the URL without
      * any transformation and retrieve the params from it right after */
     setRawQueryParams: function(rawQueryParams) {
+      /* We reset the URL first */
+      history.replaceState(null, null, '?');
+      /* Then we silently reset the model */
+      this.queryParams.clear({ silent: true });
+      /* Finally we apply the desired params */
       history.replaceState(null, null, rawQueryParams);
       this.retrieveQueryParams();
     },
