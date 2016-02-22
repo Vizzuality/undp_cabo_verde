@@ -50,6 +50,11 @@
     /* Set the string passed as argument as the query params of the URL without
      * any transformation and retrieve the params from it right after */
     setRawQueryParams: function(rawQueryParams) {
+      /* We reset the URL first */
+      history.replaceState(null, null, '?');
+      /* Then we silently reset the model */
+      this.queryParams.clear({ silent: true });
+      /* Finally we apply the desired params */
       history.replaceState(null, null, rawQueryParams);
       this.retrieveQueryParams();
     },
@@ -105,7 +110,8 @@
         return;
       }
 
-      var pairs = query.split('&');
+      var pairs = query.split('&'),
+          params = {};
       _.each(pairs, function(pair) {
         if(pair.split('=').length !== 2) {
           console.warn('Invalid query parameter: ' + pair);
@@ -119,9 +125,11 @@
             key = key.replace('[]', '');
           }
 
-          this.queryParams.set(key, value);
+          params[key] = value;
         }
-      }, this);
+      });
+
+      this.queryParams.set(params);
     }
 
   });

@@ -111,27 +111,8 @@
       }
     },
 
-    onMarkerBlur: function(e) {
-      /* We close the popup only when the cursor leaves the marker and
-       * doesn't enter the popup */
-      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
-        '.leaflet-marker-icon') &&
-        !root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
-        '.leaflet-popup')) {
-        e.target.closePopup();
-      }
-    },
-
     onMarkerOpen: function(marker) {
       this.trigger('open:marker', marker);
-    },
-
-    onPopupBlur: function(e, marker) {
-      /* We close the popup when leaving it and not entering a marker */
-      if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
-        '.leaflet-marker-icon')) {
-        marker.closePopup();
-      }
     },
 
     /* Only add the markers of the collections that haven't been filtered out */
@@ -212,7 +193,7 @@
           markerOptions.otherDomains = _.map(entity.other_domains,
             function(c) { return c.id; });
 
-          marker = L.marker([location.lat, location.long], markerOptions);
+          marker = new L.CustomMarker([location.lat, location.long], markerOptions);
 
           this.markersLayer.addLayer(marker);
 
@@ -226,11 +207,10 @@
              '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
              I18n.translate('front.loading') +
              '</message>');
-          marker.bindPopup(popup);
+          marker.bindPopup(popup, { showOnMouseOver: true });
 
           marker.on('click', this.onMarkerClick.bind(this));
           marker.on('mouseover', this.onMarkerHover.bind(this));
-          marker.on('mouseout', this.onMarkerBlur.bind(this));
         }, this);
       }, this);
     },
@@ -496,15 +476,21 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
+      /* This event is not documented inside Leaflet's documentation, but
+       * trying to attach the event listener of the button right after the
+       * "setContent" call fails randomly as it seems that's there's a kind of
+       * delay for the event to be thrown (ie. the DOM is already updated and
+       * accessible but the event listener can't be attached; waiting for the
+       * event to be thrown proved that the issue is adressed) */
+      popup.on('contentupdate', function() {
+        var $popup = this.$el.find('.leaflet-popup');
+
+
+        $popup.find('.js-more').on('click', function() {
+          this.onMarkerOpen(marker); }.bind(this));
+      }.bind(this));
+
       popup.setContent(this.popupTemplate(model.toJSON()));
-
-      var $popup = this.$el.find('.leaflet-popup');
-
-      $popup.find('.js-more').on('click', function() {
-        this.onMarkerOpen(marker); }.bind(this));
-
-      $popup.on('mouseleave', function(e) {
-        this.onPopupBlur(e, marker); }.bind(this));
     },
 
     /* Remove a special class from the markers which were related (linked) to

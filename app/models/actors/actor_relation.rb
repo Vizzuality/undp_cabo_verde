@@ -6,6 +6,8 @@ class ActorRelation < ActiveRecord::Base
 
   belongs_to :relation_type
 
+  validates_with EndDateValidator
+
   def self.get_dates(actor, parent)
     @dates = where(child_id: actor.id, parent_id: parent.id).pluck(:start_date, :end_date)
     @dates.flatten.map { |d| d.to_date.to_formatted_s(:long).to_s rescue nil } if @dates.present?

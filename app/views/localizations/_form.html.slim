@@ -22,6 +22,7 @@
                                 'data-max-date': Date.today,
                                 'data-blank-date': true,
                                 class: 'js-datepicker location_end_date', disabled: common_form?
+      = f.error :end_date, id: 'user_name_error'
 
   .row
     .column.medium-4

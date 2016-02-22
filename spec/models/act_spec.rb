@@ -47,7 +47,7 @@ RSpec.describe Act, type: :model do
     expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name can't be blank")
   end
 
-  context "act domain validation" do
+  context "act domain and end_date validation" do
     it 'act domain validation min 1 domain' do
       @act_reject = build(:act_micro, socio_cultural_domains: [], user_id: @user.id)
 
@@ -64,6 +64,14 @@ RSpec.describe Act, type: :model do
 
       @act_reject.valid?
       expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Socio cultural domains is too long (maximum is 3 characters)")
+    end
+
+    it 'act end_date validation' do
+      @cat_1 = create(:operational_field, name: 'Cat 1')
+      @act_reject = build(:act_micro, socio_cultural_domains: [@cat_1], start_date: Time.zone.now, end_date: Time.zone.now.change(month: '01'), user_id: @user.id)
+
+      @act_reject.valid?
+      expect {@act_reject.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: End date End date must be after start date")
     end
   end
 
