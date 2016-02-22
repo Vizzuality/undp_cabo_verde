@@ -53,10 +53,10 @@ var showDatepicker = function() {
     }
     $(dateFields[i]).datepicker({
       minDate: minDate,
-      maxDate: maxDate,
+      maxDate: null,
       dateFormat: 'yy-mm-dd',
       yearRange: dateFields[i].getAttribute('data-min-date').split('-')[0] + ':' +
-        dateFields[i].getAttribute('data-max-date').split('-')[0],
+        'c+10',
       changeMonth: true,
       changeYear: true
     });

@@ -7,6 +7,12 @@ RSpec.describe ActActorRelation, type: :model do
     @meso  = create(:act_meso, user_id: @user.id)
     @micro = create(:act_micro, user_id: @user.id)
     @actor = create(:actor_macro, acts: [@macro, @meso, @micro])
+
+    @relation_type = create(:act_actor_relation_type)
+  end
+
+  let!(:act_actor_params_invalid_end_date) do
+    { actor_id: @actor.id, act_id: @micro.id, relation_type_id: @relation_type.id, start_date: Time.zone.now, end_date: Time.zone.now.change(month: '01') }
   end
 
   it 'Create Relation act actor' do
@@ -47,5 +53,12 @@ RSpec.describe ActActorRelation, type: :model do
   it 'Get relations end_date' do
     @relation = ActActorRelation.last.update_attributes(end_date: Time.zone.now)
     expect(ActActorRelation.get_dates(@micro, @actor)).to eq([nil, "September  1, 2015"])
+  end
+
+  it 'end_date validation' do
+    @relation = ActActorRelation.create(act_actor_params_invalid_end_date)
+
+    @relation.valid?
+    expect {@relation.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: End date End date must be after start date")
   end
 end

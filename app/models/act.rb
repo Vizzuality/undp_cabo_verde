@@ -45,6 +45,8 @@ class Act < ActiveRecord::Base
   validates_length_of :socio_cultural_domains, minimum: 0, maximum: 3
   validates_length_of :other_domains,          minimum: 0, maximum: 3
 
+  validates_with EndDateValidator
+
   # Begin scopes
   scope :not_macros_parents, -> (child) { where(type: 'ActMacro').
                                           where('id NOT IN (SELECT parent_id FROM act_relations WHERE child_id=?)',
