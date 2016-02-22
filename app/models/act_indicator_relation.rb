@@ -8,6 +8,8 @@ class ActIndicatorRelation < ActiveRecord::Base
 
   has_many :measurements, dependent: :destroy
 
+  validates_with EndDateValidator
+
   accepts_nested_attributes_for :measurements, allow_destroy: true
 
   def self.get_dates(act, indicator)

@@ -12,6 +12,8 @@ class Localization < ActiveRecord::Base
   validates :long, presence: true
   validates :lat,  presence: true
 
+  validates_with EndDateValidator
+
   scope :main_locations, -> { where( main: true ) }
   scope :by_date,        -> (start_date, end_date) { filter_localizations(start_date, end_date) }
 
