@@ -476,12 +476,21 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
+      /* This event is not documented inside Leaflet's documentation, but
+       * trying to attach the event listener of the button right after the
+       * "setContent" call fails randomly as it seems that's there's a kind of
+       * delay for the event to be thrown (ie. the DOM is already updated and
+       * accessible but the event listener can't be attached; waiting for the
+       * event to be thrown proved that the issue is adressed) */
+      popup.on('contentupdate', function() {
+        var $popup = this.$el.find('.leaflet-popup');
+
+
+        $popup.find('.js-more').on('click', function() {
+          this.onMarkerOpen(marker); }.bind(this));
+      }.bind(this));
+
       popup.setContent(this.popupTemplate(model.toJSON()));
-
-      var $popup = this.$el.find('.leaflet-popup');
-
-      $popup.find('.js-more').on('click', function() {
-        this.onMarkerOpen(marker); }.bind(this));
     },
 
     /* Remove a special class from the markers which were related (linked) to
