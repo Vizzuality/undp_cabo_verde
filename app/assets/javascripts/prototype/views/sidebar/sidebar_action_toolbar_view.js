@@ -20,16 +20,13 @@
     initialize: function(options) {
       this.router = options.router;
       this.$goBackButton = this.$el.find('.js-back');
+      this.account = this.el.querySelector('.js-account');
       this.accountPopover = this.el.querySelector('.js-account-popover');
+
       this.setListeners();
-      this.init();
     },
 
     setListeners: function() {
-      this.listenTo(root.app.pubsub, 'show:actor', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'show:action', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'show:searches', this.showGoBackButton);
-      this.listenTo(root.app.pubsub, 'click:goBack', this.hideGoBackButton);
       this.listenTo(root.app.pubsub, 'click:document', this.hideAccountPopover);
     },
 
@@ -46,23 +43,13 @@
     onSearchesClick: function() {
       this.hideAccountPopover();
       this.goBack();
-      root.app.pubsub.trigger('show:searches');
-      /* TODO */
-      console.warn('This feature hasn\'t been fully implemented yet');
-    },
-
-    /* Set the initial visibility of the go back button */
-    init: function() {
-      var route = this.router.getCurrentRoute();
-      if(route.name === 'actors' || route.name === 'actions') {
-        this.showGoBackButton();
-      }
+      this.trigger('click:searches');
     },
 
     /* Reset the URL to its original state */
     goBack: function() {
-      this.router.navigate('/', { trigger: true });
-      root.app.pubsub.trigger('click:goBack');
+      this.trigger('click:goBack');
+      this.hideGoBackButton();
     },
 
     showGoBackButton: function() {
@@ -93,12 +80,25 @@
     /* Hide the account popover */
     hideAccountPopover: function() {
       this.toggleAccountPopover(false);
-    }
+    },
 
-    // showSearches: function() {
-    //   root.app.pubsub.trigger('show:searches');
-    //   console.warn('Feature not yet implemented');
-    // }
+    /* Display the account as if the user wouldn't be connected */
+    logOut: function() {
+      var htmlContent = '';
+
+      var items = [
+        { name: I18n.translate('front.log_in'),  url: gon.logInUrl  },
+        { name: I18n.translate('front.sign_in'), url: gon.signInUrl }
+      ];
+
+      _.each(items, function(item) {
+        htmlContent += '<li class="item"><a href="' + item.url + '">' +
+          item.name + '</a></li>';
+      });
+
+      this.accountPopover.innerHTML = htmlContent;
+      this.account.childNodes[0].textContent = I18n.translate('front.account');
+    }
 
   });
 

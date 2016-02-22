@@ -13,7 +13,7 @@ class Search::Actors
   end
 
   def total_cnt
-    @query.count
+    @query.size
   end
 
   private
@@ -26,12 +26,16 @@ class Search::Actors
     # Table name LOCATIONS
     # Model name Localizations
     def initialize_query
-      @query = Actor.filter_actives.recent
+      @query = Actor.recent
 
       @query = @query.where(type: @levels) if @levels
 
       if @domains.present?
         @query = @query.joins(:categories).where({ categories: { id: @domains }})
+      end
+
+      if @search_term.present?
+        @query = @query.where("actors.name ILIKE ? OR actors.short_name ILIKE ? OR actors.observation ILIKE ?", "%#{@search_term}%", "%#{@search_term}%", "%#{@search_term}%")
       end
 
       if @start_date || @end_date

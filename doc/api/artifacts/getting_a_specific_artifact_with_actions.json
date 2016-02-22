@@ -13,7 +13,7 @@
   "requests": [
     {
       "request_method": "GET",
-      "request_path": "/api/artifacts/20",
+      "request_path": "/api/artifacts/18",
       "request_body": null,
       "request_headers": {
         "Accept": "application/json; application/undp-cabo-verde-v1+json",
@@ -26,20 +26,20 @@
       "request_content_type": "application/json",
       "response_status": 200,
       "response_status_text": "OK",
-      "response_body": "{\n  \"artifact\": {\n    \"id\": 20,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Faustino Bogan\",\n    \"actions\": [\n      {\n        \"id\": 18,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 78,\n            \"lat\": \"31.70212271872326\",\n            \"long\": \"-138.5066533847885\",\n            \"main\": true\n          }\n        ],\n        \"socio_cultural_domains\": [\n          {\n            \"id\": 195,\n            \"name\": \"Category SCD\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          },\n          {\n            \"id\": 196,\n            \"name\": \"Economy, Toys, Books, Shoes, Industrial & Outdoors\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          }\n        ],\n        \"other_domains\": [\n          {\n            \"id\": 194,\n            \"name\": \"Category OD\",\n            \"type\": \"Other domains\",\n            \"icon_identifier\": null\n          }\n        ]\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
+      "response_body": "{\n  \"artifact\": {\n    \"id\": 18,\n    \"name\": \"Indicator of Organization\",\n    \"alternative_name\": \"Gina Daugherty I\",\n    \"actions\": [\n      {\n        \"id\": 52,\n        \"name\": \"Action of Organization\",\n        \"level\": \"macro\",\n        \"locations\": [\n          {\n            \"id\": 119,\n            \"lat\": \"20.005317952071692\",\n            \"long\": \"-151.08503756608567\",\n            \"main\": true\n          }\n        ],\n        \"socio_cultural_domains\": [\n          {\n            \"id\": 256,\n            \"name\": \"Category SCD\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          },\n          {\n            \"id\": 257,\n            \"name\": \"Economy, Outdoors, Sports, Beauty, Home & Books\",\n            \"type\": \"Socio cultural domain\",\n            \"icon_identifier\": null\n          }\n        ],\n        \"other_domains\": [\n          {\n            \"id\": 255,\n            \"name\": \"Category OD\",\n            \"type\": \"Other domains\",\n            \"icon_identifier\": null\n          }\n        ]\n      }\n    ],\n    \"comments\": [\n\n    ]\n  }\n}",
       "response_headers": {
         "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "X-Content-Type-Options": "nosniff",
         "Content-Type": "application/json; charset=utf-8",
-        "ETag": "W/\"e1b237f10315212a15ab3acb251991e0\"",
+        "ETag": "W/\"cd34deaa05c0fce566ffc24f14e7ce58\"",
         "Cache-Control": "max-age=0, private, must-revalidate",
-        "X-Request-Id": "80231103-8912-40dc-aeb8-ca2494181610",
-        "X-Runtime": "0.043581",
-        "Content-Length": "607"
+        "X-Request-Id": "0908699a-74e1-4837-b850-2735a3b57e85",
+        "X-Runtime": "0.030837",
+        "Content-Length": "609"
       },
       "response_content_type": "application/json; charset=utf-8",
-      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/20\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
+      "curl": "curl \"http://umdp-cabo-verde.herokuapp.com/api/artifacts/18\" -X GET \\\n\t-H \"Accept: application/json; application/undp-cabo-verde-v1+json\" \\\n\t-H \"Content-Type: application/json\" \\\n\t-H \"Host: undp-cabo-verde.herokuapp.com\" \\\n\t-H \"Cookie: \""
     }
   ]
 }

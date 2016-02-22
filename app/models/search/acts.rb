@@ -13,7 +13,7 @@ class Search::Acts
   end
 
   def total_cnt
-    @query.count
+    @query.size
   end
 
   private
@@ -24,13 +24,17 @@ class Search::Acts
     end
 
     def initialize_query
-      @query = Act.filter_actives.recent
+      @query = Act.recent
 
       @query = @query.where(type: @levels) if @levels
 
       if @domains.present?
         @query = @query.joins(:categories).
           where({ categories: { id: @domains }})
+      end
+
+      if @search_term.present?
+        @query = @query.where("acts.name ILIKE ? OR acts.alternative_name ILIKE ? OR acts.short_name ILIKE ? OR acts.description ILIKE ?", "%#{@search_term}%", "%#{@search_term}%", "%#{@search_term}%", "%#{@search_term}%")
       end
 
       if @start_date || @end_date

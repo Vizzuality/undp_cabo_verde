@@ -6,36 +6,18 @@
     .button-collection
       = render 'index_tabs'
 
-  .section.table-container
-    - @acts.each do |act|
-      .table-row
-        .data-primary
-          span.data.-primary
-            = link_to act.name, act_path(act)
-          span.data
-            = "#{t('shared.created')}: #{act.created_at.to_formatted_s(:create_update_date).to_s} / "
-          span.data
-            = "#{t('shared.updated')}: #{act.updated_at.to_formatted_s(:create_update_date).to_s}"
+  .section.search-section
+    = simple_form_for acts_path, method: :get, remote: true, id: 'acts_search' do |f|
+      .form-inputs
+        .row.search-module
+          .column.medium-4
+            = search_field_tag :search_term, params[:search], as: :search, placeholder: 'Search'
+          .column.medium-3
+            = select_tag :levels, options_for_select(@types, :id), multiple: true, class: 'js-mselect', data: { placeholder: 'Type' }
+          .column.medium-3
+            = select_tag :domains_ids,  options_from_collection_for_select(@categories, :id, :name), multiple: true, class: 'js-mselect', data: { placeholder: 'Category' }
+          .column.medium-2
+            = f.button :submit, 'Search', class: 'column right -primary search_button'
 
-        .data-secondary
-          span.data
-            = t("types.#{act.type.constantize}")
-          span.data
-             = act.status
-          span.data.-linkdata.-disabled
-            = link_to edit_act_path(act) do
-              = image_tag "map.svg", :class => "icon"
-              span
-                = t("shared.view_map")
-          span.data.-linkdata
-            = link_to edit_act_path(act) do
-              = image_tag "edit.svg", :class => "icon"
-              span
-                = t("shared.edit")
-          span.data.-linkdata
-            = link_to act_path(act), data: { confirm: t('shared.confirm_message') }, method: :delete do
-              = image_tag "delete.svg", :class => "icon"
-              span
-                = t('shared.delete')
-                
-  = paginate @acts
+  #items_list
+    = render partial: 'acts'

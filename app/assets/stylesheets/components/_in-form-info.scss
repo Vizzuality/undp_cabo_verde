@@ -1,0 +1,12 @@
+.in-form-info {
+  color: $color-3;
+  @include font(helvetica, small, light, 1);
+  margin-bottom: 10px;
+
+  &.-no-result {
+    font-style: italic;
+    color: $color-16;
+    text-align: center;
+    margin: 20px 0;
+  }
+}

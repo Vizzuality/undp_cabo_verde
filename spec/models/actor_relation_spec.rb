@@ -12,6 +12,10 @@ RSpec.describe ActorRelation, type: :model do
     { parent_id: @meso.id, child_id: @micro.id, relation_type_id: @relation_type.id }
   end
 
+  let!(:meso_micro_params_invalid_end_date) do
+    { parent_id: @meso.id, child_id: @micro.id, relation_type_id: @relation_type.id, start_date: Time.zone.now, end_date: Time.zone.now.change(month: '01') }
+  end
+
   it 'Create Relation meso micro' do
     expect(@meso.name).to eq('Department one')
     expect(@micro.name).to eq('Person one')
@@ -32,5 +36,12 @@ RSpec.describe ActorRelation, type: :model do
     @relation = ActorRelation.create!(meso_micro_params)
     @dates = ActorRelation.get_dates(@micro, @meso)
     expect(@dates).to eq([nil, nil])
+  end
+
+  it 'end_date validation' do
+    @relation = ActorRelation.create(meso_micro_params_invalid_end_date)
+
+    @relation.valid?
+    expect {@relation.save!}.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: End date End date must be after start date")
   end
 end

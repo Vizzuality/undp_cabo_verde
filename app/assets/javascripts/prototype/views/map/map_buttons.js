@@ -14,7 +14,7 @@
     el: '#map-buttons',
 
     events: {
-      'change .js-relationships-checkbox': 'onRelationsToggle'
+      'change .js-relationships-checkbox': 'onGraphToggle'
     },
 
     initialize: function() {
@@ -23,8 +23,8 @@
       this.relationsButton = this.el.querySelector('.js-relationships-checkbox');
     },
 
-    onRelationsToggle: function(e) {
-      this.trigger('toggle:relations', { visible: e.currentTarget.checked });
+    onGraphToggle: function(e) {
+      this.trigger('toggle:graph', { visible: e.currentTarget.checked });
     },
 
     /* Move the buttons to the right when the sidebar is hidden or to the left

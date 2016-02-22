@@ -8,7 +8,7 @@
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { relationshipsVisible: true }
+    defaults: { relationsVisible: true }
   });
 
   root.app.View.mapRelationsView = Backbone.View.extend({
@@ -22,6 +22,13 @@
       this.actionsCollection = options.actionsCollection;
       this.actorModel =  options.actorModel;
       this.actionModel = options.actionModel;
+
+      this.setListeners();
+    },
+
+    setListeners: function() {
+      this.listenTo(this.status, 'change:relationsVisible',
+        this.toggleRelationsVisibility);
     },
 
     onRelationHover: function(relation, title) {
@@ -38,7 +45,7 @@
       if(this.map.hasLayer(this.relationsLayer)) {
         this.map.removeLayer(this.relationsLayer);
       }
-      this.markerWithRelations = null;
+      this.relationsLayer = null;
       this.relatedMarkers = null;
     },
 
@@ -47,7 +54,6 @@
     renderRelations: function(marker, relatedMarkers) {
       var markerLatLng = marker.getLatLng();
 
-      this.markerWithRelations = marker;
       this.relatedMarkers = relatedMarkers;
 
       var line, hiddenLine;
@@ -67,9 +73,12 @@
           options.dashArray = '3, 6';
         }
 
-        if(!this.status.get('relationshipsVisible')) {
-          options.className += ' -hidden';
-        }
+        /* We add data so then we can filter the relations depending on whom
+         * they're connected to */
+        options.destinationEntity = {
+          id:   relatedMarker.options.id,
+          type: relatedMarker.options.type
+        };
 
         line = L.polyline([ markerLatLng, relatedMarker.getLatLng() ], options);
 
@@ -107,25 +116,44 @@
       }, this))));
 
       /* We finally add the relations to the map */
-      this.relationsLayer.addTo(this.map);
+      this.addRelationsToMap();
     },
 
-    /* Toggle the visibility of the map's relations */
-    toggleRelationsVisibility: function() {
-      if(!this.status.get('relationshipsVisible') &&
-        this.map.hasLayer(this.relationsLayer)) {
+    /* Filter the visible relations. Options can have the following params:
+     *  - only { id, type }: only show the relation from the current selected
+     *    actor/action to the entity matching the params
+     */
+    filterRelations: function(options) {
+      if(options && _.isObject(options.only)) {
+        var relations = this.relationsLayer.getLayers();
+        var relation = _.find(relations, function(relation) {
+          return relation.options.destinationEntity.type === options.only.type &&
+            relation.options.destinationEntity.id === options.only.id;
+        });
         this.map.removeLayer(this.relationsLayer);
-      } else if(this.markerWithRelations && this.relatedMarkers) {
-        this.renderRelations(this.markerWithRelations, this.relatedMarkers);
+        this.relationsLayer =  L.layerGroup([ relation ]);
+        this.addRelationsToMap();
       }
     },
 
-    /* Save the filtering options passed as paramters */
-    setFiltering: function(options) {
-      if(_.isEmpty(options)) {
-        this.lastFilterDate = null;
-      } else if(options.date) {
-        this.lastFilterDate = options.date;
+    /* Add the relations on the map if they can be shown */
+    addRelationsToMap: function() {
+      if(this.status.get('relationsVisible')) {
+        this.relationsLayer.addTo(this.map);
+      }
+    },
+
+    /* Toggle the visibility of the relations on the map depending on if they
+     * can be shown */
+    toggleRelationsVisibility: function() {
+      if(this.relationsLayer) {
+        if(this.status.get('relationsVisible')) {
+          this.addRelationsToMap();
+        } else {
+          if(this.map.hasLayer(this.relationsLayer)) {
+            this.map.removeLayer(this.relationsLayer);
+          }
+        }
       }
     }
 

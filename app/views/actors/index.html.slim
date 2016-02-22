@@ -6,58 +6,18 @@
     .button-collection
       = render 'index_tabs'
 
-  .section.table-container
-    - @actors.each do |actor|
-      .table-row
-        .data-primary
-          span.data.-primary
-            = link_to actor.name, actor_path(actor)
-          span.data
-            = "#{t('shared.created')}: #{actor.created_at.to_formatted_s(:create_update_date).to_s} / "
-          span.data
-            = "#{t('shared.updated')}: #{actor.updated_at.to_formatted_s(:short).to_s}"
-          / Sample for favourites links implementation on BO
-          / #####
-          / 1. Add to the top of the controller that you wish to add to favourites feature:
-          /    include FavouriteActions
-          /    before_action :current_object,  only: [:create_favourite, :destroy_favourite]
-          / 2. on controller bottom in private section define current_object like:
-          /    def current_object
-          /      @object = Actor.find(params[:id])
-          /    end
-          / 3. Define in abilities like:
-          /    can [:create_favourite, :destroy_favourite], ::Actor
-          / 4. Define the routes like:
-          /    resources :actors do
-          /      post   'create_favourite',  on: :member
-          /      delete 'destroy_favourite', on: :member
-          /    end
-          / 5. Add to your template the partial for favourites links:
-          /    div
-          /      span.data
-          /        - if current_user
-          /          div id="#{actor.id}-favourites-buttons"
-          /            = render partial: 'shared/favourites_buttons', locals: { object: actor }
-          / ##### That is it ;)
-        .data-secondary
-          span.data
-            = t("types.#{actor.type.constantize}")
-          span.data
-             = actor.status
-          span.data.-linkdata.-disabled
-            = link_to edit_actor_path(actor) do
-              = image_tag "map.svg", :class => "icon"
-              span
-                = t("shared.view_map")
-          span.data.-linkdata
-            = link_to edit_actor_path(actor) do
-              = image_tag "edit.svg", :class => "icon"
-              span
-                = t("shared.edit")
-          span.data.-linkdata
-            = link_to actor_path(actor), data: { confirm: t('shared.confirm_message') }, method: :delete do
-              = image_tag "delete.svg", :class => "icon"
-              span
-                = t('shared.delete')
+  .section.search-section
+    = simple_form_for actors_path, method: :get, remote: true, id: 'actors_search' do |f|
+      .form-inputs
+        .row.search-module
+          .column.medium-4
+            = search_field_tag :search_term, params[:search], placeholder: 'Search'
+          .column.medium-3
+            = select_tag :levels, options_for_select(@types, :id), multiple: true, class: 'js-mselect', data: { placeholder: 'Type' }
+          .column.medium-3
+            = select_tag :domains_ids,  options_from_collection_for_select(@categories, :id, :name), multiple: true, class: 'js-mselect', data: { placeholder: 'Category' }
+          .column.medium-2
+            = f.button :submit, 'Search', class: 'column right -primary search_button'
 
-  = paginate @actors
+  #items_list
+    = render partial: 'actors'
