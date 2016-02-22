@@ -1,5 +1,8 @@
 .popup {
   color: $color-10;
+  /* The next rule shouldn't be removed: without it, the user wouldn't be able
+   * to open and then hover the popups on the map */
+  pointer-events: all !important;
 
   & > .leaflet-popup-content-wrapper {
     box-shadow: none;

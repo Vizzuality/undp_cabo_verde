@@ -111,27 +111,8 @@
       }
     },
 
-    onMarkerBlur: function(e) {
-      /* We close the popup only when the cursor leaves the marker and
-       * doesn't enter the popup */
-      if(!root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
-        '.leaflet-marker-icon') &&
-        !root.app.Helper.utils.getClosestParent(e.originalEvent.relatedTarget,
-        '.leaflet-popup')) {
-        e.target.closePopup();
-      }
-    },
-
     onMarkerOpen: function(marker) {
       this.trigger('open:marker', marker);
-    },
-
-    onPopupBlur: function(e, marker) {
-      /* We close the popup when leaving it and not entering a marker */
-      if(!root.app.Helper.utils.getClosestParent(e.relatedTarget,
-        '.leaflet-marker-icon')) {
-        marker.closePopup();
-      }
     },
 
     /* Only add the markers of the collections that haven't been filtered out */
@@ -212,7 +193,7 @@
           markerOptions.otherDomains = _.map(entity.other_domains,
             function(c) { return c.id; });
 
-          marker = L.marker([location.lat, location.long], markerOptions);
+          marker = new L.CustomMarker([location.lat, location.long], markerOptions);
 
           this.markersLayer.addLayer(marker);
 
@@ -226,11 +207,10 @@
              '<use xlink:href="#waitIcon" x="0" y="0" /></svg>' +
              I18n.translate('front.loading') +
              '</message>');
-          marker.bindPopup(popup);
+          marker.bindPopup(popup, { showOnMouseOver: true });
 
           marker.on('click', this.onMarkerClick.bind(this));
           marker.on('mouseover', this.onMarkerHover.bind(this));
-          marker.on('mouseout', this.onMarkerBlur.bind(this));
         }, this);
       }, this);
     },
@@ -502,9 +482,6 @@
 
       $popup.find('.js-more').on('click', function() {
         this.onMarkerOpen(marker); }.bind(this));
-
-      $popup.on('mouseleave', function(e) {
-        this.onPopupBlur(e, marker); }.bind(this));
     },
 
     /* Remove a special class from the markers which were related (linked) to
