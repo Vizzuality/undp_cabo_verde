@@ -110,7 +110,8 @@
         return;
       }
 
-      var pairs = query.split('&');
+      var pairs = query.split('&'),
+          params = {};
       _.each(pairs, function(pair) {
         if(pair.split('=').length !== 2) {
           console.warn('Invalid query parameter: ' + pair);
@@ -124,9 +125,11 @@
             key = key.replace('[]', '');
           }
 
-          this.queryParams.set(key, value);
+          params[key] = value;
         }
-      }, this);
+      });
+
+      this.queryParams.set(params);
     }
 
   });
