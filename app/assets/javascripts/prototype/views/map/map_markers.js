@@ -7,7 +7,7 @@
   root.app.pubsub = root.app.pubsub || {};
 
   var Status = Backbone.Model.extend({
-    defaults: { relationshipsVisible: true }
+    defaults: { markersVisible: true }
   });
 
   root.app.View.mapMarkersView = Backbone.View.extend({
@@ -23,6 +23,13 @@
       this.actionsCollection = options.actionsCollection;
       this.actorModel =  options.actorModel;
       this.actionModel = options.actionModel;
+
+      this.setListeners();
+    },
+
+    setListeners: function() {
+      this.listenTo(this.status, 'change:markersVisible',
+        this.toggleMarkersVisibility);
     },
 
     /* Return the marker (DOM element) corresponding to the type, id and
@@ -52,11 +59,13 @@
      * the markers matching the first two parameters if the locationId is
      * omitted */
     getLeafletMarkers: function(type, id, locationId) {
-      return _.filter(this.markers, function(m) {
+      var markers = _.filter(this.markers, function(m) {
         return m.options.type === type &&
           m.options.id === id &&
           (locationId && m.options.locationId === locationId || !locationId);
       });
+
+      return markers.length === 1 ? markers[0] : markers;
     },
 
     /* Return an array of the markers related (linked) with the marker passed as
@@ -69,15 +78,7 @@
       var model = marker.options.type === 'actors' ? this.actorModel :
         this.actionModel;
 
-      var relations = _.each(_.union(model.get('actors').parents,
-        model.get('actors').children), function(relation) {
-          relation.type = 'actors';
-        });
-      relations.push(_.each(_.union(model.get('actions').parents,
-        model.get('actions').children), function(relation) {
-          relation.type = 'actions';
-        }));
-      relations = _.flatten(relations);
+      var relations = model.getVisibleRelations();
 
       var mainLocation, leafletMarker;
       return _.compact(_.map(relations, function(relation) {
@@ -91,7 +92,7 @@
         leafletMarker = this.getLeafletMarkers(relation.type, relation.id,
           mainLocation.id);
 
-        return leafletMarker.length === 1 && leafletMarker[0];
+        return leafletMarker;
       }, this));
     },
 
@@ -123,10 +124,6 @@
 
     onMarkerOpen: function(marker) {
       this.trigger('open:marker', marker);
-    },
-
-    onMarkerClose: function(marker) {
-      marker.closePopup();
     },
 
     onPopupBlur: function(e, marker) {
@@ -259,7 +256,7 @@
 
       this.computeMarkersOptimalPosition();
 
-      this.markersLayer.addTo(this.map);
+      this.addMarkersToMap();
     },
 
     /* Compute the position of each marker depending on the position of the
@@ -385,10 +382,6 @@
         }, this);
 
       }, this);
-
-      if(!this.map.hasLayer(this.optimalPositioningLayer)) {
-        this.optimalPositioningLayer.addTo(this.map);
-      }
     },
 
     /* Update the size of the markers according to the map's zoom level */
@@ -470,9 +463,7 @@
 
           /* We only highlight the marker if the relation is visible */
           if(relation) {
-            if(this.status.get('relationshipsVisible')) {
-              domMarker.classList.add('-active');
-            }
+            domMarker.classList.add('-active');
             domMarker.classList.add('js-related-marker');
           }
         }
@@ -512,9 +503,6 @@
       $popup.find('.js-more').on('click', function() {
         this.onMarkerOpen(marker); }.bind(this));
 
-      $popup.find('.js-close').on('click', function() {
-        this.onMarkerClose(marker); }.bind(this));
-
       $popup.on('mouseleave', function(e) {
         this.onPopupBlur(e, marker); }.bind(this));
     },
@@ -533,8 +521,7 @@
     toggleRelatedMarkersHighlight: function() {
       var highlightedMarkers = this.el.querySelectorAll('.js-related-marker');
       for(var i = 0, j = highlightedMarkers.length; i < j; i++) {
-        highlightedMarkers[i].classList.toggle('-active',
-          this.status.get('relationshipsVisible'));
+        highlightedMarkers[i].classList.toggle('-active', true);
       }
     },
 
@@ -599,10 +586,40 @@
       }
 
       this.markersLayer = L.layerGroup(this.markers);
-      this.markersLayer.addTo(this.map);
-
       this.computeMarkersOptimalPosition();
 
+      this.map.removeLayer(this.markersLayer);
+      this.map.removeLayer(this.optimalPositioningLayer);
+      this.addMarkersToMap();
+    },
+
+    /* Add the markers on the map if they can be shown */
+    addMarkersToMap: function() {
+      if(this.status.get('markersVisible')) {
+        if(this.markersLayer) {
+          this.markersLayer.addTo(this.map);
+        }
+        if(this.optimalPositioningLayer) {
+          this.optimalPositioningLayer.addTo(this.map);
+        }
+      }
+    },
+
+    /* Toggle the visibility of the markers on the map depending on if they can
+     * be shown */
+    toggleMarkersVisibility: function() {
+      if(this.markersLayer) {
+        if(this.status.get('markersVisible')) {
+          this.addMarkersToMap();
+        } else {
+          if(this.map.hasLayer(this.markersLayer)) {
+            this.map.removeLayer(this.markersLayer);
+          }
+          if(this.map.hasLayer(this.optimalPositioningLayer)) {
+            this.map.removeLayer(this.optimalPositioningLayer);
+          }
+        }
+      }
     }
 
   });

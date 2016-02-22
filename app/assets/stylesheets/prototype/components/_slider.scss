@@ -25,6 +25,7 @@
 
   .handle {
     fill: $color-2;
+    cursor: grab;
     &.-hidden { display: none; }
   }
 

@@ -17,6 +17,21 @@ html lang="en"
         #map-legend
           ul
             li.title
+              = t('front.relationships')
+            li.js-actor-to-action
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActionIcon" x="0" y="4"
+              = t('front.actor_to_action')
+            li.js-actor-to-actor
+              svg.icon.-large.-monochrome
+                use xlink:href="#actorToActorIcon" x="0" y="4"
+              = t('front.actor_to_actor')
+            li.js-action-to-action
+              svg.icon.-large.-monochrome
+                use xlink:href="#actionToActionIcon" x="0" y="4"
+              = t('front.action_to_action')
+          ul
+            li.title
               = t('front.actor')
             li
               svg.icon.-actor
@@ -45,21 +60,6 @@ html lang="en"
               svg.icon.-action
                 use xlink:href="#microMarkerIcon" x="-5" y="-3"
               | Micro
-          ul
-            li.title
-              = t('front.relationships')
-            li.js-actor-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActionIcon" x="0" y="4"
-              = t('front.actor_to_action')
-            li.js-actor-to-actor
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActorIcon" x="0" y="4"
-              = t('front.actor_to_actor')
-            li.js-action-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actionToActionIcon" x="0" y="4"
-              = t('front.action_to_action')
         #map-slider
           a.slider-controls.js-play-button
             .left
@@ -72,16 +72,17 @@ html lang="en"
             svg
               g transform="translate(12 11)"
                 / Firefox needs the height and width being specified
-                rect.timeline.js-timeline x="0" y="0" height="3" width="260"
+                rect.timeline.js-timeline x="0" y="0" height="3" width="260" rx="1.5" ry="1.5"
                 g.handle-container
                   circle.handle r="7.5" cx="0" cy="1.5"
 
         #map-buttons
           .checkbox.-reversed.-negative
-            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle" checked="checked"
+            input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle"
             label class="label" for="map-relationships-toggle"
-              = t('front.relationships')
+              = t('front.relationships_graph')
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
+        .message.-error.global-error.js-global-error._hidden
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"
         ul.tab-navigation role="tablist"
             li.tab.-active data-tab="overall"
@@ -115,9 +116,9 @@ html lang="en"
                 = t('front.account')
                 ul.popover-menu.js-account-popover._hidden
                   li.item
-                    = link_to t('front.log_in'), new_user_session_path
+                    = link_to t('front.log_in'), new_user_session_path, class: 'link'
                   li.item
-                    = link_to t('front.sign_in'), new_user_registration_path
+                    = link_to t('front.sign_in'), new_user_registration_path, class: 'link'
               svg.icon.-marginleft width="24" height="24"
                 use xlink:href="#logInIcon" x="0" y="0"
           .pane-collection

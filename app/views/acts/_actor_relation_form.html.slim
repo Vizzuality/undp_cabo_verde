@@ -23,12 +23,12 @@
           = @act.name
   .row
     .column.medium-4
-      = f.label :relation_type_id, t('acts.current_action') + '*', class: 'right inline', disabled: common_form?
+      = f.label :relation_type_id, "* " + t('acts.current_action'), class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :relation_type_id, collection: @actor_relation_types, as: :collection_select, label: false, input_html: { class: 'chosen-select relation_type_id' }, disabled: common_form?
   .row
     .column.medium-4
-      = f.label :actor_id, t('actors.actor') + '*', class: 'right inline', disabled: common_form?
+      = f.label :actor_id, "* " + t('actors.actor'), class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :actor_id, collection: preview ? @all_actors_to_select : @actors_to_select, as: :collection_select, label: false, input_html: { multiple: false, class: 'chosen-select collection_select relation_actor_id' }, disabled: common_form?
   .row
