@@ -80,6 +80,8 @@
 
 	_getParent: function(element, className) {
 
+    if(!element) return false;
+
 		var parent = element.parentNode;
 
 		while (parent !== null) {
