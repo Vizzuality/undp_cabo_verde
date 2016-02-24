@@ -4,10 +4,6 @@
   border-bottom: 1px solid $color-13;
   margin-top: -1px;
 
-  &.-first-preview {
-    border-top: none;
-  }
-
   >.relationtype {
     margin-bottom: 8px;
     @include font(helvetica, xxsmall, light, 1);
