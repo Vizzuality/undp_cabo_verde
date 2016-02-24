@@ -3,8 +3,8 @@
 - if preview
   .row
     .column.medium-8.medium-offset-4
-      .relation-preview class=('-first-preview' if relation_index < 1)
-        p.relationtype= f.object.relation_type.try(:title)
+      .relation-preview
+        p.relationtype= f.object.relation_type.try(:title_reverse)
         p.relationtitle= link_to f.object.actor.name, actor_path(f.object.actor)
         p.relationbuttons
           = link_to t('relations.view'), "#", id: "actors-relation-#{f.object.id}",
@@ -12,6 +12,7 @@
           - unless common_form?
             = link_to t('relations.remove_relation'), "#", class: "remove_fields_preview", 'data-delete-pair': "delete-#{f.object.id}"
 .form-inputs.form-inputs-actor.form-inputs-relations.action-actor-relation class=[('hide' if preview), ('-first-form' if relation_index < 1)] id=("expanded-actors-relation-#{f.object.id}" if preview)
+
   .row
     .column.medium-4
       = f.label t('acts.current_action'), class: 'right inline', disabled: common_form?
