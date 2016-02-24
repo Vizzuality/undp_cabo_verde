@@ -81,6 +81,9 @@ html lang="en"
             input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle"
             label class="label" for="map-relationships-toggle"
               = t('front.relationships_graph')
+        #map-zoom-to-fit
+          svg.icon.js-zoom-to-fit.-disabled title="#{ t('front.zoom_to_fit') }"
+            use xlink:href="#zoomToFitIcon" x="-2" y="-2"
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         .message.-error.global-error.js-global-error._hidden
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"

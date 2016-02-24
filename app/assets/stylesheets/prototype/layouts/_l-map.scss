@@ -162,4 +162,21 @@
     height: 180px;
     & > .icon { margin-top: 42px; }
   }
+
+  #map-zoom-to-fit {
+    position: absolute;
+    left: 67px;
+    bottom: 0;
+    transform: translateY(-217px);
+
+    & > .icon {
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      transition: opacity .4s, transform .4s;
+
+      &.-disabled { cursor: default; opacity: .4; }
+      &.-slided   { transform: translateY(110px); }
+    }
+  }
 }

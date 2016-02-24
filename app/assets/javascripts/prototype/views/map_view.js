@@ -78,6 +78,9 @@
       this.listenTo(this.mapButtonsView, 'toggle:graph',
         this.onGraphVisibilityChange);
 
+      this.listenTo(this.mapZoomButtonsView, 'click:zoomToFit',
+        this.onZoomToFitButtonClick);
+
       this.listenTo(this.actorModel, 'sync', this.onActorModelSync);
       this.listenTo(this.actionModel, 'sync', this.onActionModelSync);
 
@@ -243,6 +246,7 @@
         this.mapMarkersView.resetRelatedMarkers();
         this.mapRelationsView.removeRelations();
         this.mapLegendView.updateLegendRelations();
+        this.mapZoomButtonsView.disableZoomToFit();
 
         if(route === 'actors' || route === 'actions') {
           this.restoreOpenedMarkerState({ zoomToFit: true });
@@ -289,6 +293,12 @@
         /* We render the relations of the opened marker */
         this.mapRelationsView.renderRelations(openedLeafletMarker,
           relatedMarkers);
+      }
+    },
+
+    onZoomToFitButtonClick: function() {
+      if(this.markersToFit !== null) {
+        this.mapMapView.zoomToFit(this.markersToFit);
       }
     },
 
@@ -417,13 +427,17 @@
                   relatedMarkers);
 
                 if(options.zoomToFit) {
-                  /* We zoom to fit the all the concerned markers */
-                  var markersToFit = relatedMarkers;
-                  if(markersToFit.length > 0) {
-                    markersToFit = relatedMarkers.slice(0);
-                    markersToFit.push(openedMarker);
+                  /* We want the button to be enabled only in case the user
+                   * loaded the page or clicked on a marker, not when the user
+                   * clicks on the map */
+                  this.markersToFit = relatedMarkers;
+                  if(this.markersToFit.length > 0) {
+                    this.mapZoomButtonsView.enableZoomToFit();
+                    this.markersToFit = relatedMarkers.slice(0);
+                    this.markersToFit.push(openedMarker);
+                  } else {
+                    this.markersToFit = null;
                   }
-                  this.mapMapView.zoomToFit(markersToFit);
                 }
               } else {
                 console.warn('Unable to find the Leaflet marker corresponding' +
