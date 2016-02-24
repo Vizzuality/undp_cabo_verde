@@ -54,6 +54,14 @@
       if(_.uniq(latLngs).length > 1) {
         this.map.fitBounds(latLngs, { padding: L.point(30, 30) });
       }
+    },
+
+    /* Center the map to the latLng object or array of coordinates passed as
+     * argument */
+    centerMap: function(latLng) {
+      if(this.map) {
+        this.map.panTo(latLng);
+      }
     }
   });
 

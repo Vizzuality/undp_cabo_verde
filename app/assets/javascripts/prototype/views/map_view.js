@@ -108,7 +108,10 @@
         .then(function() {
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
-          this.restoreOpenedMarkerState({ zoomToFit: true });
+          this.restoreOpenedMarkerState({
+            zoomToFit: true,
+            centerMap: true
+          });
           this.mapReady = true;
         }.bind(this));
     },
@@ -399,6 +402,7 @@
      * its markers, its related markers and display the relations betweeen them
      * The following options can be passed to the method:
      *  * zoomToFit: fit the related markers inside the view
+     *  * centerMap: center the map on the selected marker if exists
      */
     restoreOpenedMarkerState: function(options) {
       options = options || {};
@@ -420,6 +424,10 @@
                 openedMarkerInfo.id, openedMarkerInfo.locationId);
 
               if(openedMarker) {
+                if(options.centerMap) {
+                  this.mapMapView.centerMap(openedMarker.getLatLng());
+                }
+
                 var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedMarker);
                 this.mapMarkersView.highlightRelatedMarkers(openedMarker,
                   relatedMarkers);
