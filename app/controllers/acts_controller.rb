@@ -131,7 +131,7 @@ class ActsController < ApplicationController
       @all_indicators_to_select = Indicator.order(:name).filter_actives
 
       @units                  = Unit.order(:name)
-      @actor_relation_types           = RelationType.order(:title).includes_actor_act_relations.collect     { |rt| [ rt.title, rt.id ]         }
+      @actor_relation_types           = RelationType.order(:title).includes_actor_act_relations.collect     { |rt| [ rt.title_reverse, rt.id ] }
       @action_relation_types          = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title, rt.id ]         }
       @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title_reverse, rt.id ] }
       @indicator_relation_types       = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ]         }
