@@ -7,6 +7,13 @@ class RelationArraySerializer < BaseSerializer
   def attributes
     data = super
     data['type']           = type
+    titles = [
+      object.relation_type.title,
+      object.relation_type.title_reverse
+    ]
+    data['relation_type_text'] = titles.join(" - ")
+    # make slug in format text-other-text
+    data['relation_type_slug'] = titles.join("-").downcase.gsub(" ", "-")
     data['start_location'] = parent_location
     data['end_location']   = child_location
     data
