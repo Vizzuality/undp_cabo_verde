@@ -42,15 +42,32 @@
       var relations = this.collection.toJSON();
 
       var relationTypes = _.keys(_.groupBy(relations, function(relation) {
+        /* If the relation is symmetrical, the same label is repeated twice,
+         * we then remove the second part to make it simpler */
+        var label  = relation.relation_type_text,
+            labels = label.replace(/\s/g, '').toLowerCase().split('-');
+
+        if(labels[0] === labels[1]) label = label.split('-')[0].trim();
+
+        return label;
+      }));
+
+      var relationSlugTypes = _.keys(_.groupBy(relations, function(relation) {
         return relation.relation_type_slug;
       }));
 
-      var relationColors = this.getColorScale(relationTypes.length);
+      var relationColors = this.getColorScale(relationSlugTypes.length);
 
-      var relationTypeToColor = {};
-      for(var i = 0, j = relationTypes.length; i < j; i++) {
+      var relationTypeToColor = {},
+          relationSlugTypeToColor = {};
+      for(var i = 0, j = relationSlugTypes.length; i < j; i++) {
         relationTypeToColor[relationTypes[i]] = relationColors[i];
+        relationSlugTypeToColor[relationSlugTypes[i]] = relationColors[i];
       }
+
+      /* We save the type of lines associated with their color in order to
+       * update the legend later */
+      this.relationTypeToColor = relationTypeToColor;
 
       var startLatLng, endLatLng, line;
       this.relationsLayer = L.layerGroup(_.compact(_.map(relations,
@@ -68,7 +85,7 @@
 
         line = L.polyline([startLatLng, endLatLng]);
 
-        line.options.color   = relationTypeToColor[relation.relation_type_slug];
+        line.options.color   = relationSlugTypeToColor[relation.relation_type_slug];
         line.options.weight  = 2;
         line.options.opacity = 1;
 
@@ -84,12 +101,14 @@
         if(this.relationsLayer) {
           if(!this.map.hasLayer(this.relationsLayer)) {
             this.relationsLayer.addTo(this.map);
+            this.trigger('update:legend', this.relationTypeToColor);
           }
         } else {
           this.fetchRelations()
             .then(this.render.bind(this))
             .then(function() {
               this.relationsLayer.addTo(this.map);
+              this.trigger('update:legend', this.relationTypeToColor);
             }.bind(this));
         }
       } else {
@@ -98,14 +117,6 @@
         }
       }
     },
-
-    /* Return colorCount different CSS HSL colors by making variation of the
-     * hue, and avoiding a large spectrum of the blue one (to avoid conflicts
-     * with the basemap) and a small portion of the red and green so we don't
-     * have too similar colors. The colors grey and red will be always outputed:
-     * the first because it can't be obtained from a hue variation and the
-     * second because of the nature of the algorithm. The saturation is set at
-     * 100% and lightness at 40% to have colors darker then their hues. */
 
     /* Return colorCount different HSL colors by making variations of the hue,
      * saturation and lightness (HSL) according to the parameters set by the
@@ -128,7 +139,7 @@
        *    example colors that can't be obtained by just changing the hue like
        *    black and white) */
       var hueRange   = [ [ 0, 80 ], [ 95, 120 ], [ 150, 210 ], [ 270, 320 ] ],
-          saturation = 100,
+          saturation = function(hue, index) { return index % 2 ? 80 : 100; },
           lightness  = function(hue, index) { return index % 2 ? 70 : 55; },
           colors     = [ 'hsl(0, 0%, 70%)' ];
 
@@ -155,11 +166,11 @@
           if(hue > hueRange[k][1]) hue += hueRange[k + 1][0] - hueRange[k][1];
         }
 
-        /* Now we have the hue, we compute the saturation and lightness */
-        if(typeof saturation === 'function') saturation = saturation(hue, i);
-        if(typeof lightness  === 'function') lightness  = lightness (hue, i);
-
-        colors.push('hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)');
+        colors.push('hsl(' + hue + ', ' +
+          (typeof saturation === 'function' ? saturation(hue, i) : saturation) +
+          '%, ' +
+          (typeof lightness  === 'function' ? lightness (hue, i) : lightness) +
+          '%)');
       }
 
       return colors;

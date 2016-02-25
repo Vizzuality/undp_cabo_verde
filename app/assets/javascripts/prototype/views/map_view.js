@@ -81,6 +81,9 @@
       this.listenTo(this.mapZoomButtonsView, 'click:zoomToFit',
         this.onZoomToFitButtonClick);
 
+      this.listenTo(this.mapGraphView, 'update:legend',
+        this.onGraphLegendUpdate);
+
       this.listenTo(this.actorModel, 'sync', this.onActorModelSync);
       this.listenTo(this.actionModel, 'sync', this.onActionModelSync);
 
@@ -303,6 +306,10 @@
       if(this.markersToFit !== null) {
         this.mapMapView.zoomToFit(this.markersToFit);
       }
+    },
+
+    onGraphLegendUpdate: function(options) {
+      this.mapLegendView.showAlternativeLegend(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a

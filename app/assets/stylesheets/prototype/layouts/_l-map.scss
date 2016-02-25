@@ -20,62 +20,120 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
     width: 180px;
     background-color: $color-1;
     padding: 15px 22px 0 3px;
-    transform: translateY(0);
-    transition: transform .4s;
 
-    &.-reduced { transform: translateY(110px); }
+    & > .standard-legend {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      opacity: 1;
+      transition: opacity .4s;
 
-    & > ul {
-      margin: 0;
-      padding: 0;
+      &.-hidden { opacity: 0; }
 
-      & > li {
-        list-style-type: none;
-        color: $color-10;
-        font-size: 13px;
-        line-height: 20px;
-        opacity: 1;
-        transition: opacity .3s;
+      & > ul {
+        margin: 0;
+        padding: 0;
 
-        > .icon {
-          width: 12px;
-          height: 12px;
-          display: inline-block;
-          padding-top: 1px;
-          margin-right: 5px;
+        & > li {
+          list-style-type: none;
+          color: $color-10;
+          font-size: 13px;
+          line-height: 20px;
+          opacity: 1;
+          transition: opacity .3s;
 
-          &.-large {
-            width: 30px;
-            padding-top: 2px;
-            margin-right: 10px;
+          > .icon {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            padding-top: 1px;
+            margin-right: 5px;
+
+            &.-large {
+              width: 30px;
+              padding-top: 2px;
+              margin-right: 10px;
+            }
+
+            &.-actor  > use { color: $color-6; fill: transparent; }
+            &.-action > use { color: $color-7; fill: transparent; }
+            &.-monochrome > use { stroke: $color-15; }
+            &.-actors  > use { stroke: $color-6;  }
+            &.-actions > use { stroke: $color-7;  }
+            &.-mixed   > use { stroke: $color-19; }
           }
 
-          &.-actor  > use { color: $color-6; fill: transparent; }
-          &.-action > use { color: $color-7; fill: transparent; }
-          &.-monochrome > use { stroke: $color-15; }
-          &.-actors  > use { stroke: $color-6;  }
-          &.-actions > use { stroke: $color-7;  }
-          &.-mixed   > use { stroke: $color-19; }
-        }
+          &.title {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+          }
 
-        &.title {
-          font-weight: 700;
-          text-transform: uppercase;
-          margin-bottom: 10px;
+          &.-disabled { opacity: .3; }
         }
+      }
 
-        &.-disabled { opacity: .3; }
+      & > ul:not(ul:first-of-type) { flex-basis: 50%; }
+      & > ul:first-of-type {
+        flex-basis: 100%;
+        margin-bottom: 20px;
       }
     }
 
-    & > ul:not(ul:first-of-type) { flex-basis: 50%; }
-    & > ul:first-of-type         { flex-basis: 100%; margin-bottom: 20px; }
+    & > .alternative-legend {
+      position: absolute;
+      top: 15px;
+      left: 3px;
+      opacity: 1;
+      transition: opacity .4s;
+      width: calc(100% - 22px);
+      height: calc(100% - 15px);
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+
+      &.-hidden { opacity: 0; }
+
+      & > ul {
+        margin: 0;
+        padding: 0;
+
+        & > li {
+          list-style-type: none;
+          color: $color-10;
+          font-size: 13px;
+          line-height: 20px;
+          display: flex;
+          justify-content: space-between;
+
+          &.title {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+          }
+
+          > .icon {
+            height: 12px;
+            display: block;
+            padding-top: 1px;
+            flex-basis: 30px;
+
+            &.-large {
+              width: 30px;
+              padding-top: 2px;
+              margin-right: 10px;
+            }
+          }
+
+          > .label {
+            flex-basis: calc(100% - 35px);
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
   }
 
   #map-slider {
@@ -129,9 +187,6 @@
     bottom: 0;
     background: none;
     transform: translateY(-213px);
-    transition: transform .4s;
-
-    &.-slided { transform: translateY(-103px); }
 
     & > *,
     & > *:hover {
@@ -173,10 +228,9 @@
       width: 26px;
       height: 26px;
       cursor: pointer;
-      transition: opacity .4s, transform .4s;
+      transition: opacity .4s;
 
       &.-disabled { cursor: default; opacity: .4; }
-      &.-slided   { transform: translateY(110px); }
     }
   }
 }
