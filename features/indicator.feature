@@ -102,7 +102,7 @@ I want to manage an indicator
      When I go to the edit indicator page for "Indicator one"
      And I click on overlapping ".add_action"
      And I select from the following hidden field ".relation_act_id" with "First act by admin" within ".indicator_act_indicator_relations_act_id"
-     And I select from the following field ".relation_type_id" with "contains"
+     And I select from the following field ".relation_type_id" with "belongs to"
      When I fill in the following field ".relation_start_date" with "1990-03-10"
      When I fill in the following field ".relation_end_date" with "2010-03-10"
      And I press "Update"

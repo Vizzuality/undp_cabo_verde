@@ -78,6 +78,12 @@
       this.listenTo(this.mapButtonsView, 'toggle:graph',
         this.onGraphVisibilityChange);
 
+      this.listenTo(this.mapZoomButtonsView, 'click:zoomToFit',
+        this.onZoomToFitButtonClick);
+
+      this.listenTo(this.mapGraphView, 'update:legend',
+        this.onGraphLegendUpdate);
+
       this.listenTo(this.actorModel, 'sync', this.onActorModelSync);
       this.listenTo(this.actionModel, 'sync', this.onActionModelSync);
 
@@ -105,7 +111,10 @@
         .then(function() {
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
-          this.restoreOpenedMarkerState({ zoomToFit: true });
+          this.restoreOpenedMarkerState({
+            zoomToFit: true,
+            centerMap: true
+          });
           this.mapReady = true;
         }.bind(this));
     },
@@ -243,6 +252,7 @@
         this.mapMarkersView.resetRelatedMarkers();
         this.mapRelationsView.removeRelations();
         this.mapLegendView.updateLegendRelations();
+        this.mapZoomButtonsView.disableZoomToFit();
 
         if(route === 'actors' || route === 'actions') {
           this.restoreOpenedMarkerState({ zoomToFit: true });
@@ -290,6 +300,16 @@
         this.mapRelationsView.renderRelations(openedLeafletMarker,
           relatedMarkers);
       }
+    },
+
+    onZoomToFitButtonClick: function() {
+      if(this.markersToFit !== null) {
+        this.mapMapView.zoomToFit(this.markersToFit);
+      }
+    },
+
+    onGraphLegendUpdate: function(options) {
+      this.mapLegendView.showAlternativeLegend(options);
     },
 
     /* Fetch only the collections that are not filtered out and return a
@@ -389,6 +409,7 @@
      * its markers, its related markers and display the relations betweeen them
      * The following options can be passed to the method:
      *  * zoomToFit: fit the related markers inside the view
+     *  * centerMap: center the map on the selected marker if exists
      */
     restoreOpenedMarkerState: function(options) {
       options = options || {};
@@ -410,6 +431,10 @@
                 openedMarkerInfo.id, openedMarkerInfo.locationId);
 
               if(openedMarker) {
+                if(options.centerMap) {
+                  this.mapMapView.centerMap(openedMarker.getLatLng());
+                }
+
                 var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedMarker);
                 this.mapMarkersView.highlightRelatedMarkers(openedMarker,
                   relatedMarkers);
@@ -417,13 +442,17 @@
                   relatedMarkers);
 
                 if(options.zoomToFit) {
-                  /* We zoom to fit the all the concerned markers */
-                  var markersToFit = relatedMarkers;
-                  if(markersToFit.length > 0) {
-                    markersToFit = relatedMarkers.slice(0);
-                    markersToFit.push(openedMarker);
+                  /* We want the button to be enabled only in case the user
+                   * loaded the page or clicked on a marker, not when the user
+                   * clicks on the map */
+                  this.markersToFit = relatedMarkers;
+                  if(this.markersToFit.length > 0) {
+                    this.mapZoomButtonsView.enableZoomToFit();
+                    this.markersToFit = relatedMarkers.slice(0);
+                    this.markersToFit.push(openedMarker);
+                  } else {
+                    this.markersToFit = null;
                   }
-                  this.mapMapView.zoomToFit(markersToFit);
                 }
               } else {
                 console.warn('Unable to find the Leaflet marker corresponding' +

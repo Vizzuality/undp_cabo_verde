@@ -15,51 +15,53 @@ html lang="en"
         #map
         = link_to (image_tag 'undp-logo-gradient.png', id: "logo"), "/prototype"
         #map-legend
-          ul
-            li.title
-              = t('front.relationships')
-            li.js-actor-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActionIcon" x="0" y="4"
-              = t('front.actor_to_action')
-            li.js-actor-to-actor
-              svg.icon.-large.-monochrome
-                use xlink:href="#actorToActorIcon" x="0" y="4"
-              = t('front.actor_to_actor')
-            li.js-action-to-action
-              svg.icon.-large.-monochrome
-                use xlink:href="#actionToActionIcon" x="0" y="4"
-              = t('front.action_to_action')
-          ul
-            li.title
-              = t('front.actor')
-            li
-              svg.icon.-actor
-                use xlink:href="#macroMarkerIcon" x="-6" y="-6"
-              | Macro
-            li
-              svg.icon.-actor
-                use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
-              | Meso
-            li
-              svg.icon.-actor
-                use xlink:href="#microMarkerIcon" x="-5" y="-3"
-              | Micro
-          ul
-            li.title
-              = t('front.action')
-            li
-              svg.icon.-action
-                use xlink:href="#macroMarkerIcon" x="-6" y="-6"
-              | Macro
-            li
-              svg.icon.-action
-                use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
-              | Meso
-            li
-              svg.icon.-action
-                use xlink:href="#microMarkerIcon" x="-5" y="-3"
-              | Micro
+          .standard-legend.js-standard-legend
+            ul
+              li.title
+                = t('front.relationships')
+              li.js-actor-to-action
+                svg.icon.-large.-monochrome
+                  use xlink:href="#actorToActionIcon" x="0" y="6"
+                = t('front.actor_to_action')
+              li.js-actor-to-actor
+                svg.icon.-large.-monochrome
+                  use xlink:href="#actorToActorIcon" x="0" y="6"
+                = t('front.actor_to_actor')
+              li.js-action-to-action
+                svg.icon.-large.-monochrome
+                  use xlink:href="#actionToActionIcon" x="0" y="6"
+                = t('front.action_to_action')
+            ul
+              li.title
+                = t('front.actor')
+              li
+                svg.icon.-actor
+                  use xlink:href="#macroMarkerIcon" x="-6" y="-6"
+                | Macro
+              li
+                svg.icon.-actor
+                  use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
+                | Meso
+              li
+                svg.icon.-actor
+                  use xlink:href="#microMarkerIcon" x="-5" y="-3"
+                | Micro
+            ul
+              li.title
+                = t('front.action')
+              li
+                svg.icon.-action
+                  use xlink:href="#macroMarkerIcon" x="-6" y="-6"
+                | Macro
+              li
+                svg.icon.-action
+                  use xlink:href="#mesoMarkerIcon" x="-4.5" y="-4"
+                | Meso
+              li
+                svg.icon.-action
+                  use xlink:href="#microMarkerIcon" x="-5" y="-3"
+                | Micro
+          .alternative-legend.-hidden.js-alternative-legend
         #map-slider
           a.slider-controls.js-play-button
             .left
@@ -81,6 +83,9 @@ html lang="en"
             input type="checkbox" class="js-relationships-checkbox" id="map-relationships-toggle"
             label class="label" for="map-relationships-toggle"
               = t('front.relationships_graph')
+        #map-zoom-to-fit
+          svg.icon.js-zoom-to-fit.-disabled title="#{ t('front.zoom_to_fit') }"
+            use xlink:href="#zoomToFitIcon" x="-2" y="-2"
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         .message.-error.global-error.js-global-error._hidden
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"

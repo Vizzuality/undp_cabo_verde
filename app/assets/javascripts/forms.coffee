@@ -45,7 +45,7 @@ jQuery ->
 
   cloneCount = 1
 
-  $(document).on 'click', '.add_actors_fields, .add_actions_fields, .add_indicators_fields', (event) ->
+  $(document).on 'click', '.add_actors_fields, .add_actions_fields', (event) ->
     time       = new Date().getTime()
     regexp     = new RegExp($(this).data('id'), 'g')
 
