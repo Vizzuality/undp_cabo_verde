@@ -222,7 +222,7 @@ I want to manage an act
     When I go to the edit act page for "First one"
     And I click on hidden ".add_actor" on "#actor_relation_form" within ".tabs-content"
     And I select from the following hidden field ".relation_actor_id" with "Person one"
-    And I select from the following hidden field ".relation_type_id" with "implements"
+    And I select from the following hidden field ".relation_type_id" with "implemented by"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
@@ -260,7 +260,7 @@ I want to manage an act
     And act_indicator_relation_types
     When I go to the edit act page for "First one"
     And I click on overlapping ".indicator_relations"
-    And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
+    And I click on hidden ".add_indicators_fields" on "#indicator_relation_form" within ".tabs-content"
     And I select from the following hidden field ".relation_indicator_id" with "Indicator one"
     And I select from the following field ".relation_type_id" with "contains"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
@@ -282,7 +282,7 @@ I want to manage an act
     And action with indicator relations
     And indicator
     When I go to the edit act page for "Action with indicator"
-    And I click on hidden ".add_indicator" on "#indicator_relation_form" within ".tabs-content"
+    And I click on hidden ".add_indicators_fields" on "#indicator_relation_form" within ".tabs-content"
     And I select from the following hidden field ".relation_indicator_id" with "Indicator one"
     Then I should not be able to select from the following field ".relation_indicator_id" with "Indicator one with relation"
 
