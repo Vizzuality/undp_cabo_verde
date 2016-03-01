@@ -21,6 +21,8 @@
       this.$actorToActionLegend = this.$el.find('.js-actor-to-action');
       this.$actorToActorLegend = this.$el.find('.js-actor-to-actor');
       this.$actionToActionLegend = this.$el.find('.js-action-to-action');
+      this.$standardLegend = this.$el.find('.js-standard-legend');
+      this.$alternativeLegend = this.$el.find('.js-alternative-legend');
 
       this.setListeners();
     },
@@ -37,29 +39,27 @@
     // },
 
     toggleLegendState: function() {
-      /* We update the action to action icon */
-      this.$actionToActionLegend.find('svg')[0].classList.toggle('-actions',
-        this.status.get('graphVisible'));
-      this.$actionToActionLegend.find('svg')[0].classList.toggle('-monochrome',
-        !this.status.get('graphVisible'));
+      if(!this.status.get('graphVisible')) {
+        this.$alternativeLegend.addClass('-hidden');
+        this.$standardLegend.removeClass('-hidden');
+      }
+    },
 
-      /* We update the actor to actor icon */
-      this.$actorToActorLegend.find('svg')[0].classList.toggle('-actors',
-        this.status.get('graphVisible'));
-      this.$actorToActorLegend.find('svg')[0].classList.toggle('-monochrome',
-        !this.status.get('graphVisible'));
+    showAlternativeLegend: function(options) {
+      var html = '<ul>';
+      html += '<li class="title">' + I18n.translate('front.relationships') +
+        '</li>';
 
-      /* We update the actor to action icon */
-      this.$actorToActionLegend.find('svg')[0].classList.toggle('-mixed',
-        this.status.get('graphVisible'));
-      this.$actorToActionLegend.find('svg')[0].classList.toggle('-monochrome',
-        !this.status.get('graphVisible'));
-      this.$actorToActionLegend.find('svg > use')[0].setAttribute('xlink:href',
-        this.status.get('graphVisible') ? '#actorToActorIcon' :
-        '#actorToActionIcon');
+      _.map(options, function(color, title) {
+        html += '<li><svg class="icon -large">' +
+          '<use xlink:href="#actorToActorIcon" x="0" y="6" stroke="' +
+          color + '"/></svg><span class="label">' + title + '</span></li>';
+      });
 
-      this.el.classList.toggle('-reduced',
-        this.status.get('graphVisible'));
+      html += '</ul>';
+
+      this.$alternativeLegend.html(html).removeClass('-hidden');
+      this.$standardLegend.addClass('-hidden');
     },
 
     /* Dynamically hide a part of the relations depending on the active marker
