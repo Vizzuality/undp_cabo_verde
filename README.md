@@ -9,7 +9,7 @@
 
 ## SETUP ##
 
-**Just execute the script file in `bin/setup**
+**Just execute the script file in `bin/setup`**
 
   Depends on UNDP Cabo Verde [repository](https://github.com/Vizzuality/undp_cabo_verde)
 
