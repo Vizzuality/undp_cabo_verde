@@ -21,13 +21,20 @@ class Act < ActiveRecord::Base
   has_many :indicators, through: :act_indicator_relations, dependent: :destroy
 
   # Categories
-  has_and_belongs_to_many :categories
-  has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
-  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category', limit: 3
-  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category', limit: 3
-  has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
+  has_many :acts_categories
+  has_many :categories, through: :acts_categories
+  has_many :organization_types, -> { where(type: 'OrganizationType') },
+    through: :acts_categories, source: :category
+  has_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') },
+    through: :acts_categories, source: :category
+  has_many :other_domains, -> { where(type: 'OtherDomain') },
+    through: :acts_categories, source: :category
+  has_many :operational_fields, -> { where(type: 'OperationalField') },
+    through: :acts_categories, source: :category
+
   # For merged domains
-  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
+  has_many :merged_domains, -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) },
+    through: :acts_categories, source: :category
 
   accepts_nested_attributes_for :act_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :act_relations_as_parent, allow_destroy: true, reject_if: :child_invalid

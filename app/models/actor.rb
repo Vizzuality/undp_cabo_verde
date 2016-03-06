@@ -18,13 +18,20 @@ class Actor < ActiveRecord::Base
   has_many :acts, through: :act_actor_relations, dependent: :destroy
 
   # Categories
-  has_and_belongs_to_many :categories
-  has_and_belongs_to_many :organization_types,     -> { where(type: 'OrganizationType')    }, class_name: 'Category'
-  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category', limit: 3
-  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category', limit: 3
-  has_and_belongs_to_many :operational_fields,     -> { where(type: 'OperationalField')    }, class_name: 'Category', limit: 1
+  has_many :actors_categories
+  has_many :categories, through: :actors_categories
+  has_many :organization_types, -> { where(type: 'OrganizationType') },
+    through: :actors_categories, source: :category
+  has_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') },
+    through: :actors_categories, source: :category
+  has_many :other_domains, -> { where(type: 'OtherDomain') },
+    through: :actors_categories, source: :category
+  has_many :operational_fields, -> { where(type: 'OperationalField') },
+    through: :actors_categories, source: :category
+
   # For merged domains
-  has_and_belongs_to_many :merged_domains,         -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) }, class_name: 'Category', limit: 3
+  has_many :merged_domains, -> { where(type: ['OtherDomain', 'SocioCulturalDomain']) },
+    through: :actors_categories, source: :category
 
   accepts_nested_attributes_for :actor_relations_as_child,  allow_destroy: true, reject_if: :parent_invalid
   accepts_nested_attributes_for :actor_relations_as_parent, allow_destroy: true, reject_if: :child_invalid
