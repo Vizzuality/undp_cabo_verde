@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get  'dashboard', to: 'users#dashboard', as: :dashboard
 
   scope :manage do
-    resources :users, except: [:destroy, :new, :create] do
+    resources :users, except: [:new, :create] do
       patch 'deactivate',   on: :member
       patch 'activate',     on: :member
       patch 'make_admin',   on: :member
