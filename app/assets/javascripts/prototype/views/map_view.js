@@ -120,12 +120,7 @@
     },
 
     onMapClick: function() {
-      this.mapMarkersView.resetMarkersHighlight();
-      this.mapMarkersView.resetRelatedMarkers();
-      this.mapRelationsView.removeRelations();
-      this.mapLegendView.updateLegendRelations();
-
-      this.restoreOpenedMarkerState();
+      this.router.navigate('/', { trigger: true });
     },
 
     onMapZoom: function() {
