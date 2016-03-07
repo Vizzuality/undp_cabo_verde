@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215103633) do
+ActiveRecord::Schema.define(version: 20160306231010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20160215103633) do
   add_index "actors", ["type"], name: "index_actors_on_type", using: :btree
   add_index "actors", ["user_id"], name: "index_actors_on_user_id", using: :btree
 
-  create_table "actors_categories", id: false, force: :cascade do |t|
+  create_table "actors_categories", force: :cascade do |t|
     t.integer "category_id"
     t.integer "actor_id"
   end
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20160215103633) do
   add_index "acts", ["type"], name: "index_acts_on_type", using: :btree
   add_index "acts", ["user_id"], name: "index_acts_on_user_id", using: :btree
 
-  create_table "acts_categories", id: false, force: :cascade do |t|
+  create_table "acts_categories", force: :cascade do |t|
     t.integer "category_id"
     t.integer "act_id"
   end
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20160215103633) do
 
   add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
-  create_table "categories_indicators", id: false, force: :cascade do |t|
+  create_table "categories_indicators", force: :cascade do |t|
     t.integer "category_id"
     t.integer "indicator_id"
   end

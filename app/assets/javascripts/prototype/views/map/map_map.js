@@ -32,8 +32,8 @@
       L.mapbox.accessToken = root.app.Helper.globals.mapToken;
 
       this.map = L.mapbox.map('map', 'undp-caboverde.b3dd420c', {
-        center: [14.91, -23.51],
-        zoom: 13
+        center: [20.5, 26],
+        zoom: 3
       });
 
       this.map.zoomControl.setPosition('bottomleft');

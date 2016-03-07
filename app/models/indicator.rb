@@ -9,11 +9,15 @@ class Indicator < ActiveRecord::Base
   has_many :acts, through: :act_indicator_relations, dependent: :destroy
 
   # Categories
-  has_and_belongs_to_many :categories
-  has_and_belongs_to_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') }, class_name: 'Category'
-  has_and_belongs_to_many :other_domains,          -> { where(type: 'OtherDomain')         }, class_name: 'Category'
+  has_many :categories_indicators
+  has_many :categories, through: :categories_indicators
+  has_many :socio_cultural_domains, -> { where(type: 'SocioCulturalDomain') },
+    through: :categories_indicators, source: :category
+  has_many :other_domains, -> { where(type: 'OtherDomain') },
+    through: :categories_indicators, source: :category
 
-  accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true, reject_if: :act_invalid
+  accepts_nested_attributes_for :act_indicator_relations, allow_destroy: true,
+    reject_if: :act_invalid
 
   before_update :deactivate_dependencies, if: '!active and active_changed?'
 

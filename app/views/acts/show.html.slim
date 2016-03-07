@@ -18,7 +18,7 @@
             .column.medium-4
               = f.label :name, class: 'right inline', disabled: common_form?
             .column.medium-8
-              = f.input :name, label: false, disabled: common_form?
+              = f.input :name, label: false, as: :text, disabled: common_form?
 
     = render partial: f
 

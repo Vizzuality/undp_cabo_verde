@@ -24,7 +24,7 @@ class Search::Acts
     end
 
     def initialize_query
-      @query = Act.recent
+      @query = Act.all
 
       @query = @query.where(type: @levels) if @levels
 
