@@ -26,7 +26,7 @@ class Search::Actors
     # Table name LOCATIONS
     # Model name Localizations
     def initialize_query
-      @query = Actor.recent
+      @query = Actor.all
 
       @query = @query.where(type: @levels) if @levels
 
