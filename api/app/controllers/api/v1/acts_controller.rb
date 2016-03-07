@@ -5,7 +5,7 @@ module API::V1
 
     def index
       @search = Search::Acts.new(params)
-      @acts = @search.results.filter_actives
+      @acts = @search.results.filter_actives.order(:name)
       respond_with @acts, each_serializer: ActArraySerializer, root: 'actions', search_filter: @search_filter, meta: { size: @search.total_cnt, cache_date: @acts.last_max_update }
     end
 
