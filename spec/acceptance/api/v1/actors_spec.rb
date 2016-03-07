@@ -28,13 +28,13 @@ resource 'Actors' do
                         localizations: [@location, @location_2], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name,
                         categories: [@category_1, @category_2, @category_3])
-      actors << create(:actor_macro, name: 'Education Institution', localizations: [@location_3],
+      actors << create(:actor_macro, name: 'Cool Education Institution', localizations: [@location_3],
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
-      actors << create(:actor_meso,  name: 'Department of Education',
+      actors << create(:actor_meso,  name: 'Big Department of Education',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
                         localizations: [@location_4], short_name: Faker::Name.name,
                         legal_status: Faker::Name.name, other_names: Faker::Name.name, categories: [@category_1, @category_2])
-      actors << create(:actor_micro, name: 'Director of Department',
+      actors << create(:actor_micro, name: 'A Director of Department',
                         user: @user, observation: Faker::Lorem.paragraph(2, true, 4),
                         localizations: [@location_5], gender: 2,
                         title: 2, categories: [@category_2])
@@ -57,7 +57,7 @@ resource 'Actors' do
           expect(status).to eq(200)
           expect(actor_1['level']).to eq('micro')
           expect(actor_2['level']).to eq('meso')
-          expect(actor_3['name']).to  eq('Education Institution')
+          expect(actor_3['name']).to  eq('Cool Education Institution')
           expect(actor_3['level']).to eq('macro')
           expect(actor_4['name']).to  eq('Economy Organization')
 
@@ -141,10 +141,10 @@ resource 'Actors' do
             response_actors = JSON.parse(response_body)['actors']
             expect(status).to eq(200)
             expect(response_actors.size).to eq(4)
-            expect(response_actors[0]['locations'].size).to eq(2)
+            expect(response_actors[0]['locations'].size).to eq(1)
             expect(response_actors[1]['locations'].size).to eq(1)
             expect(response_actors[2]['locations'].size).to eq(1)
-            expect(response_actors[3]['locations'].size).to eq(1)
+            expect(response_actors[3]['locations'].size).to eq(2)
           end
         end
       end
@@ -342,9 +342,9 @@ resource 'Actors' do
           expect(actor['actors']['parents'][0]['info']['title_reverse']).to eq('belongs to')
           # Relations object details for children
           expect(actor['actors']['children'][0]['id']).not_to be_nil
-          expect(actor['actors']['children'][0]['name']).to   eq('Education Institution')
+          expect(actor['actors']['children'][0]['name']).to   eq('Cool Education Institution')
           expect(actor['actors']['children'][0]['level']).to  eq('macro')
-          expect(actor['actors']['children'][1]['name']).to   eq('Department of Education')
+          expect(actor['actors']['children'][1]['name']).to   eq('Big Department of Education')
           expect(actor['actors']['children'][1]['level']).to  eq('meso')
 
           expect(actor['actors']['children'][1]['locations'].size).to eq(1)
