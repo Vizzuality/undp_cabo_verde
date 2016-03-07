@@ -24,10 +24,10 @@ resource 'Acts' do
                         description: Faker::Lorem.paragraph(2, true, 4),
                         short_name: Faker::Name.name, budget: '2000',
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_meso,  name: 'Indicator of Education', budget: '2000', localizations: [@location_1],
+      actions << create(:act_meso,  name: 'Big Indicator of Education', budget: '2000', localizations: [@location_1],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), short_name: Faker::Name.name,
                         alternative_name: Faker::Name.name, categories: [@category_1, @category_2])
-      actions << create(:act_micro, name: 'Indicator of Department', budget: '2000', localizations: [@location_2],
+      actions << create(:act_micro, name: 'An Indicator of Department', budget: '2000', localizations: [@location_2],
                         user: @user, description: Faker::Lorem.paragraph(2, true, 4), categories: [@category_2])
 
       actions.each do |a|
@@ -47,7 +47,7 @@ resource 'Acts' do
           expect(status).to eq(200)
           expect(actor_1['level']).to eq('micro')
           expect(actor_2['level']).to eq('meso')
-          expect(actor_2['name']).to  eq('Indicator of Education')
+          expect(actor_2['name']).to  eq('Big Indicator of Education')
           expect(actor_3['level']).to eq('macro')
           expect(actor_3['name']).to  eq('Indicator of Organization')
 
@@ -176,9 +176,9 @@ resource 'Acts' do
 
           # Relations object details for children
           expect(action['actions']['children'][0]['id']).not_to    be_nil
-          expect(action['actions']['children'][0]['name']).to      eq('Indicator of Education')
+          expect(action['actions']['children'][0]['name']).to      eq('Big Indicator of Education')
           expect(action['actions']['children'][0]['level']).to     eq('meso')
-          expect(action['actions']['children'][1]['name']).to      eq('Indicator of Department')
+          expect(action['actions']['children'][1]['name']).to      eq('An Indicator of Department')
           expect(action['actions']['children'][1]['level']).to     eq('micro')
 
           expect(action['actions']['children'][1]['locations'].size).to eq(1)
