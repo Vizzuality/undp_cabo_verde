@@ -372,6 +372,7 @@ en:
     register: 'Register'
     settings: 'Settings'
     units: 'Units'
+    prototype: 'Public Interface'
 
   relations:
     relations: 'Relations'

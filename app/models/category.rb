@@ -5,8 +5,12 @@ class Category < ActiveRecord::Base
   belongs_to :parent,   class_name: 'Category'
   has_many   :children, class_name: 'Category', foreign_key: :parent_id
 
-  has_and_belongs_to_many :actors
-  has_and_belongs_to_many :acts
+  has_many :acts_categories
+  has_many :acts, through: :acts_categories
+
+  has_many :actors_categories
+  has_many :actors, through: :actors_categories
+
   has_and_belongs_to_many :indicators
 
   validates :type, presence: true
