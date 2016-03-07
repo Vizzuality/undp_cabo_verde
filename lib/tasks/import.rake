@@ -127,9 +127,9 @@ namespace :import do
             user_id: user.id
           })
         ],
-        merged_domains: Category.where(name: row[7].strip.titleize,
-                         type: "SocioCulturalDomain") +
-                        Category.where(name: row[8] && row[8].split(",").map(&:titleize),
+        socio_cultural_domains: Category.where(name: row[7].strip.titleize,
+                         type: "SocioCulturalDomain"),
+        other_domains: Category.where(name: row[8] && row[8].split(",").map(&:titleize),
                           type: "OtherDomain")
       )
     end
@@ -173,11 +173,9 @@ namespace :import do
         legal_status: row[10] && row[10].strip,
         localizations: location,
         comments: comment,
-        merged_domains: Category.where(name: row[12].titleize,
-                         type: "SocioCulturalDomain") +
-                        Category.where(name: row[12].titleize,
-                                       type: 'SocioCulturalDomain') +
-                        Category.where(name: row[13] && row[13].titleize,
+        socio_cultural_domains: Category.where(name: row[12].titleize,
+                         type: "SocioCulturalDomain"),
+        other_domains: Category.where(name: row[13] && row[13].titleize,
                                        type: 'OtherDomain'),
         organization_types: Category.where(name: row[9],
                                    type: 'OrganizationType'),
@@ -233,9 +231,9 @@ namespace :import do
         description: row[11].presence,
         budget: row[12].presence,
         budget_cents: 0,
-        merged_domains: Category.where(name: row[14] && row[14].titleize,
-                         type: "SocioCulturalDomain") +
-                    Category.where(name: row[15] && row[15].split(",").map(&:titleize),
+        socio_cultural_domains: Category.where(name: row[14] && row[14].titleize,
+                         type: "SocioCulturalDomain"),
+        other_domains: Category.where(name: row[15] && row[15].split(",").map(&:titleize),
                                    type: "OtherDomain")
       )
     end
