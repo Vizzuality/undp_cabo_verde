@@ -1,5 +1,6 @@
 nav
   ul.inline-list
+    li = link_to t('navbar.prototype'), "/prototype"
     - if current_user && current_user.admin?
       li = link_to t('navbar.users'), users_path, class: "#{'is-active' if menu_highlight?(:users)}"
 
@@ -10,7 +11,7 @@ nav
 
       li.dropdown-anchor
         a class='label'
-          = t('navbar.settings')
+          = t('navbar.settings').upcase
         ul class='dropdown-list'
           li.arrowhelper
           - if (can? :manage, Category)
