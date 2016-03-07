@@ -106,7 +106,7 @@ namespace :import do
     table = CSV.read(file)
     table.shift
     table.each do |row|
-      ActorMicro.create!(
+      a = ActorMicro.new(
         user_id: user.id,
         active: true,
         name: row[0] && row[0].strip,
@@ -132,6 +132,7 @@ namespace :import do
         other_domains: Category.where(name: row[8] && row[8].split(",").map(&:titleize),
                           type: "OtherDomain")
       )
+      a.save(validate: false)
     end
     puts "#{ActorMicro.all.count} actors in the database"
   end
@@ -163,7 +164,7 @@ namespace :import do
                 else
                   []
                 end
-      Actor.create!(
+      a = Actor.new(
         user_id: user.id,
         active: true,
         type: "Actor"+row[11].titleize,
@@ -182,6 +183,7 @@ namespace :import do
         operational_fields: Category.where(name: row[8].titleize,
                                    type: 'OperationalField')
       )
+      a.save(validate: false)
     end
     puts "#{Actor.where(type: ['ActorMeso', 'ActorMacro']).
       count} actors in the database"
@@ -214,7 +216,7 @@ namespace :import do
                 else
                   []
                 end
-      Act.create(
+      a = Act.new(
         user_id: user.id,
         name: row[0] && row[0].strip,
         alternative_name: row[1] && row[1].strip,
@@ -236,6 +238,7 @@ namespace :import do
         other_domains: Category.where(name: row[15] && row[15].split(",").map(&:titleize),
                                    type: "OtherDomain")
       )
+      a.save(validate: false)
     end
     puts "#{Act.count} actions in the database"
   end
