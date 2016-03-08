@@ -26,6 +26,55 @@
         background-color: $color-13;
         padding-bottom: 0;
       }
+
+      & > .title.-secondary {
+        margin-bottom: 6px;
+      }
+
+      & > .tags {
+        margin-bottom: 16px;
+
+        & > .tag {
+          display: inline-block;
+          padding: 4px 5px 0 5px;
+          margin-right: 10px;
+          border: 1px solid $color-4;
+          border-radius: 2px;
+          color: $color-4;
+          line-height: 20px;
+          text-transform: capitalize;
+        }
+      }
+
+      & > p {
+        margin-top: 0;
+        font-size: 12px;
+        margin-bottom: 16px;
+
+        & > .medium { font-size: 16px; }
+        & > .big    { font-size: 30px; }
+        & > .light  { font-weight: 300; }
+      }
+
+      & > .visual-list.-textual {
+        margin-bottom: 15px;
+        padding-left:5px;
+
+        &.-notick {
+          padding-left: 0;
+          list-style-type: none;
+        }
+
+        & > .item {
+          display: list-item;
+          margin-bottom: 5px;
+          font-size: 12px;
+
+          &.-nomargin { margin: 0; }
+
+          & > .title { margin-top: 0; }
+        }
+      }
     }
 
     &.-hidden {
