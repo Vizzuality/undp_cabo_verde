@@ -26,7 +26,7 @@ class ActorSerializer < BaseSerializer
     if object.meso_or_macro?
       data['scale']         = object.operational_field_txt if object.macro?
       data['short_name']    = object.short_name
-      data['legal_status']  = object.legal_status.titleize
+      data['legal_status']  = object.legal_status.try(:titleize)
       data['other_names']   = object.other_names
     elsif object.micro?
       data['title']         = object.title_txt
