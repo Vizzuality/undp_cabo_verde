@@ -7,6 +7,7 @@
   root.app.Model = root.app.Model || {};
   root.app.Mixin = root.app.Mixin || {};
   root.app.pubsub = root.app.pubsub || {};
+  root.app.Helper = root.app.Helper || {};
 
   var Status = Backbone.Model.extend({
     defaults: { isHidden: true }
@@ -126,12 +127,19 @@
         return relation.type;
       });
 
+      var dates = {
+        startDate: this.model.toJSON().start_date ?
+          root.app.Helper.utils.formatDate(this.model.toJSON().start_date) : 'NC',
+        endDate: this.model.toJSON().end_date ?
+          root.app.Helper.utils.formatDate(this.model.toJSON().end_date) : 'NC',
+      };
+
       /* If there's no relation, we set the variable to null so the Handlebars
        * template understands it */
       relations = _.isEmpty(relations) ? null : relations;
 
       this.$el.html(this.template(_.extend(_.extend(this.model.toJSON(),
-        this.status.toJSON()), { relations: relations })));
+        this.status.toJSON()), { relations: relations, dates: dates })));
     }
 
   });
