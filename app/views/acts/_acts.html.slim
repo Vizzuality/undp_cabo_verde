@@ -15,11 +15,12 @@
             = t("types.#{act.type.constantize}")
           span.data
              = act.status
-          span.data.-linkdata.-disabled
-            = link_to edit_act_path(act) do
-              = image_tag "map.svg", :class => "icon"
-              span
-                = t("shared.view_map")
+          span.data.-linkdata
+            - if act.localizations.any?
+              = link_to prototype_path(anchor: "actions/#{act.id}/#{act.localizations.first.id}"), target: "_blank" do
+                = image_tag "map.svg", :class => "icon"
+                span
+                  = t("shared.view_map")
           span.data.-linkdata
             = link_to edit_act_path(act) do
               = image_tag "edit.svg", :class => "icon"
