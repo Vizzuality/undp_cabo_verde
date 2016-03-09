@@ -30,8 +30,7 @@ I want to manage units
     When I go to the units page
     Then I should see "Euro"
     And I should see "Delete"
-    And I should see ".unit_name"
-  
+
   @javascript
   Scenario: Admin User can remove user unit
     Given unit by user
