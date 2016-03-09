@@ -82,6 +82,18 @@
       return startDate && endDate && date >= startDate && date <= endDate ||
         startDate && !endDate && date >= startDate ||
         !startDate && endDate && date <= endDate;
+    },
+
+    /* Return a string date with the format MM/DD/YYYY from a string with format
+     * YYYY-MM-DD */
+    formatDate: function(date) {
+      var res = null;
+
+      if(date) {
+        res = [date.split('-')[1], date.split('-')[2], date.split('-')[0]].join('/');
+      }
+
+      return res;
     }
 
   };

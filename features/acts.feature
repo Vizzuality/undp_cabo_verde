@@ -74,12 +74,11 @@ I want to manage an act
     Then I should be on the act page for "Act by admin"
     And I should have one act
 
-  Scenario: User can not edit not owned act
+  Scenario: User can edit not owned act
     Given I am authenticated user
     And first act by admin
     When I go to the edit act page for "First act by admin"
-    Then I should be on the home page
-    And I should see "You are not authorized to access this page."
+    Then I should be on the edit act page for "First act by admin"
 
   Scenario: Adminuser can remove not owned act
     Given user

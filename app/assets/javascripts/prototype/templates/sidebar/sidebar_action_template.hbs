@@ -1,7 +1,53 @@
 <div class="content">
-  <h1 class="title">{{name}}</h1>
+  <h1 class="title">
+    {{name}}
+    {{#if alternative_name}}
+      <div class="subtitle">{{alternative_name}} {{#if short_name}}({{short_name}}){{/if}}</div>
+    {{else}}
+      {{#if short_name}}
+        <div class="subtitle">({{short_name}})</div>
+      {{/if}}
+    {{/if}}
+  </h1>
+
+  <div class="tags">
+    <div class="tag">{{event_or_activity}}</div>
+    <div class="tag">{{human_or_natural}}</div>
+  </div>
+
+
+  {{#if budget}}
+    <h2 class="title -secondary">{{{t 'front.budget'}}}</h2>
+    <p><span class="medium light">{{budget.currency_symbol}}</span> <span class="big light">{{budget.value}}</span></p>
+  {{/if}}
+
+  <ul class="visual-list -textual -notick">
+    <li class="item -nomargin">
+      <h2 class="title -secondary">{{{t 'front.start_date'}}}</h2>
+      {{dates.startDate}}
+    </li>
+    <li class="item -nomargin">
+      <h2 class="title -secondary">{{{t 'front.end_date'}}}</h2>
+      {{dates.endDate}}
+    </li>
+  </ul>
+
+  {{#if description}}
+    <h2 class="title -secondary">{{{t 'front.description'}}}</h2>
+    <p>{{description}}</p>
+  {{/if}}
+
+  {{#if organization_types}}
+    <h2 class="title -secondary">{{{t 'front.organization_types'}}}</h2>
+    <ul class="visual-list -textual">
+      {{#each organization_types}}
+        <li class="item">{{name}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
   {{#if socio_cultural_domains}}
-    <h2 class="title -secondary">{{{t 'front.3x5'}}}</h2>
+    <h2 class="title -secondary -normalcase">{{{t 'front.3x5'}}}</h2>
     <ul class="visual-list">
       {{#each socio_cultural_domains}}
         <li class="item" title="{{name}}">
@@ -18,7 +64,7 @@
     </ul>
   {{/if}}
   {{#if other_domains}}
-    <h2 class="title -secondary">{{{t 'front.3xX'}}}</h2>
+    <h2 class="title -secondary -normalcase">{{{t 'front.3xX'}}}</h2>
     <ul class="visual-list">
       {{#each other_domains}}
         <li class="item" title="{{name}}">
@@ -34,6 +80,7 @@
       {{/each}}
     </ul>
   {{/if}}
+
   {{#if relations}}
     <h2 class="title -secondary">{{{t 'front.relationships'}}}</h2>
     {{#if relations.actors}}

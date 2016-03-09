@@ -17,11 +17,15 @@
     color: $color-4;
   }
 
+  &.-normalcase {
+    text-transform: none;
+  }
+
   & > .subtitle {
     display: block;
     margin-top: 5px;
     font-size: 14px;
-    font-style: italic;
+    font-weight: 500;
     color: $color-4;
   }
 }

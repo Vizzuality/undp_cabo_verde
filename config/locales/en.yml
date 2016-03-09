@@ -372,7 +372,7 @@ en:
     register: 'Register'
     settings: 'Settings'
     units: 'Units'
-    prototype: 'Public Interface'
+    prototype: 'Visualise Data'
 
   relations:
     relations: 'Relations'
@@ -476,6 +476,12 @@ en:
     no_saved_search: You haven't saved any search yet
     relationships: Relationships
     zoom_to_fit: Zoom to fit
+    legal_status: Legal status
+    organization_types: Organization types
+    observation: Observation
+    gender: Gender
+    description: Description
+    budget: Budget
 
   search:
     no_results: 'No results'

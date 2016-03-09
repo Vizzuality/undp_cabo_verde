@@ -1,7 +1,36 @@
 <div class="content">
-  <h1 class="title">{{name}}</h1>
+  <h1 class="title">
+    {{name}}
+    {{#if other_names}}
+      <div class="subtitle">{{other_names}} {{#if short_name}}({{short_name}}){{/if}}</div>
+    {{else}}
+      {{#if short_name}}
+        <div class="subtitle">({{short_name}})</div>
+      {{/if}}
+    {{/if}}
+  </h1>
+
+  {{#if gender}}
+    <h2 class="title -secondary">{{{t 'front.gender'}}}</h2>
+    <p>{{gender}}</p>
+  {{/if}}
+
+  {{#if legal_status}}
+    <h2 class="title -secondary">{{{t 'front.legal_status'}}}</h2>
+    <p>{{legal_status}}</p>
+  {{/if}}
+
+  {{#if organization_types}}
+    <h2 class="title -secondary">{{{t 'front.organization_types'}}}</h2>
+    <ul class="visual-list -textual">
+      {{#each organization_types}}
+        <li class="item">{{name}}</item>
+      {{/each}}
+    </ul>
+  {{/if}}
+
   {{#if socio_cultural_domains}}
-    <h2 class="title -secondary">{{{t 'front.3x5'}}}</h2>
+    <h2 class="title -secondary -normalcase">{{{t 'front.3x5'}}}</h2>
     <ul class="visual-list">
       {{#each socio_cultural_domains}}
         <li class="item" title="{{name}}">
@@ -18,7 +47,7 @@
     </ul>
   {{/if}}
   {{#if other_domains}}
-    <h2 class="title -secondary">{{{t 'front.3xX'}}}</h2>
+    <h2 class="title -secondary -normalcase">{{{t 'front.3xX'}}}</h2>
     <ul class="visual-list">
       {{#each other_domains}}
         <li class="item" title="{{name}}">
@@ -95,6 +124,10 @@
         {{/each}}
       </ul>
     {{/if}}
+  {{/if}}
+  {{#if observation}}
+    <h2 class="title -secondary">{{{t 'front.observation'}}}</h2>
+    <p>{{observation}}</p>
   {{/if}}
 </div>
 <div class="content -secondary">
