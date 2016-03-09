@@ -8,23 +8,23 @@ module Abilities
       can :update,    ::User, id: user.id
 
       if user.activated?
-        can :manage, ::Actor,         user_id: user.id
-        can :manage, ::ActorMicro,    user_id: user.id
-        can :manage, ::ActorMeso,     user_id: user.id
-        can :manage, ::ActorMacro,    user_id: user.id
-        can :manage, ::ActorRelation, user_id: user.id
-        can :manage, ::Act,           user_id: user.id
-        can :manage, ::ActMicro,      user_id: user.id
-        can :manage, ::ActMeso,       user_id: user.id
-        can :manage, ::ActMacro,      user_id: user.id
-        can :manage, ::ActRelation,   user_id: user.id
-        can :manage, ::Localization,  user_id: user.id
-        can :manage, ::Comment,       user_id: user.id
-        can :manage, ::Unit,          user_id: user.id
-        can :manage, ::Indicator,            user_id: user.id
-        can :manage, ::ActIndicatorRelation, user_id: user.id
-        can :manage, ::Measurement,          user_id: user.id
-        can :manage, ::ActActorRelation,     user_id: user.id
+        can :manage, ::Actor
+        can :manage, ::ActorMicro
+        can :manage, ::ActorMeso
+        can :manage, ::ActorMacro
+        can :manage, ::ActorRelation
+        can :manage, ::Act
+        can :manage, ::ActMicro
+        can :manage, ::ActMeso
+        can :manage, ::ActMacro
+        can :manage, ::ActRelation
+        can :manage, ::Localization
+        can :manage, ::Comment
+        can :manage, ::Unit
+        can :manage, ::Indicator
+        can :manage, ::ActIndicatorRelation
+        can :manage, ::Measurement
+        can :manage, ::ActActorRelation
         can :manage, ::Favourite,            user_id: user.id
 
         can [:activate, :deactivate], ::Comment, user_id: user.id
