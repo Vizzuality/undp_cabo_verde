@@ -45,12 +45,11 @@ I want to manage an indicator
     Then I should have one indicator
     And I should be on the indicator page for "New Indicator"
 
-  Scenario: User can not edit not owned indicator
+  Scenario: User can edit not owned indicator
     Given I am authenticated user
     And indicator by admin
     When I go to the edit indicator page for "Indicator by admin"
-    Then I should be on the home page
-    And I should see "You are not authorized to access this page."
+    Then I should be on the edit indicator page for "Indicator by admin"
 
   Scenario: Adminuser can remove not owned indicator
     Given user

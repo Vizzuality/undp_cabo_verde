@@ -19,7 +19,7 @@ module Abilities
         can :manage, ::ActMacro
         can :manage, ::ActRelation
         can :manage, ::Localization
-        can :manage, ::Comment
+        can :manage, ::Comment, user_id: user.id
         can :manage, ::Unit
         can :manage, ::Indicator
         can :manage, ::ActIndicatorRelation

@@ -24,13 +24,13 @@ I want to manage units
     And I should not see "Euro"
     And I should not have units
 
-  Scenario: User can not edit not owned unit
+  Scenario: User can edit not owned unit
     Given I am authenticated user
     And unit by admin user
     When I go to the units page
     Then I should see "Euro"
-    And I should not see "Delete"
-    And I should not see ".unit_name"
+    And I should see "Delete"
+    And I should see ".unit_name"
   
   @javascript
   Scenario: Admin User can remove user unit

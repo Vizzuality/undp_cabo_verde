@@ -97,12 +97,11 @@ I want to manage an actor
     And I should have one actor
     And I should have six domains
 
-  Scenario: User can not edit not owned actor
+  Scenario: User can edit not owned actor
     Given I am authenticated user
     And organization by admin
     When I go to the edit actor page for "Organization by admin"
-    Then I should be on the home page
-    And I should see "You are not authorized to access this page."
+    Then I should be on the edit actor page for "Organization by admin"
 
   Scenario: Adminuser can remove not owned actor
     Given user
