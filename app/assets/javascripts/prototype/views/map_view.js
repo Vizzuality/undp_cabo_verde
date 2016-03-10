@@ -441,7 +441,14 @@
                    * loaded the page or clicked on a marker, not when the user
                    * clicks on the map */
                   this.markersToFit = relatedMarkers;
-                  if(this.markersToFit.length > 0) {
+
+                  /* We need to make sure that the markers to fit doesn't have
+                   * all the same location with the selected marker */
+                  var latLngs = _.uniq(_.map(_.union(this.markersToFit, [ openedMarker ]), function(m) {
+                   return m.options.originalLatLng || m.getLatLng();
+                  }));
+
+                  if(latLngs.length > 1) {
                     this.mapZoomButtonsView.enableZoomToFit();
                     this.markersToFit = relatedMarkers.slice(0);
                     this.markersToFit.push(openedMarker);
