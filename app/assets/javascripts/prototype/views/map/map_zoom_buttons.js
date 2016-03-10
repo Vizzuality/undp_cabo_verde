@@ -14,13 +14,15 @@
     el: '.l-map',
 
     events: {
-      'click .js-zoom-to-extent': 'onZoomToExtent'
+      'click .js-zoom-to-extent': 'onZoomToExtent',
+      'click .js-zoom-to-selection': 'onZoomToSelection'
     },
 
     initialize: function() {
       this.status = new Status();
 
       this.zoomToExtentButton = document.querySelector('.js-zoom-to-extent');
+      this.zoomToSelectionButton = document.querySelector('.js-zoom-to-selection');
     },
 
     onZoomToExtent: function(e) {
@@ -29,14 +31,30 @@
       }
     },
 
-    /* Enable the button zoom to fit */
+    onZoomToSelection: function(e) {
+      if(!this.zoomToSelectionButton.classList.contains('-disabled')) {
+        this.trigger('click:zoomToSelection');
+      }
+    },
+
+    /* Enable the button zoom to extent */
     enableZoomToExtent: function() {
       this.zoomToExtentButton.classList.remove('-disabled');
     },
 
-    /* Disable the button zoom to fit */
+    /* Disable the button zoom to extent */
     disableZoomToExtent: function() {
       this.zoomToExtentButton.classList.add('-disabled');
+    },
+
+    /* Enable the button zoom to selection */
+    enableZoomToSelection: function() {
+      this.zoomToSelectionButton.classList.remove('-disabled');
+    },
+
+    /* Disable the button zoom to selection */
+    disableZoomToSelection: function() {
+      this.zoomToSelectionButton.classList.add('-disabled');
     }
 
   });

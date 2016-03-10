@@ -80,6 +80,8 @@
 
       this.listenTo(this.mapZoomButtonsView, 'click:zoomToExtent',
         this.onZoomToExtentButtonClick);
+      this.listenTo(this.mapZoomButtonsView, 'click:zoomToSelection',
+        this.onZoomToSelectionButtonClick);
 
       this.listenTo(this.mapGraphView, 'update:legend',
         this.onGraphLegendUpdate);
@@ -112,7 +114,6 @@
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
           this.restoreOpenedMarkerState({
-            zoomToExtent: true,
             centerMap: true
           });
           this.mapReady = true;
@@ -248,9 +249,10 @@
         this.mapRelationsView.removeRelations();
         this.mapLegendView.updateLegendRelations();
         this.mapZoomButtonsView.disableZoomToExtent();
+        this.mapZoomButtonsView.disableZoomToSelection();
 
         if(route === 'actors' || route === 'actions') {
-          this.restoreOpenedMarkerState({ zoomToExtent: true });
+          this.restoreOpenedMarkerState();
         }
       }
     },
@@ -300,6 +302,12 @@
     onZoomToExtentButtonClick: function() {
       if(this.markersToFit !== null) {
         this.mapMapView.zoomToFit(this.markersToFit);
+      }
+    },
+
+    onZoomToSelectionButtonClick: function() {
+      if(this.openedMarker) {
+        this.mapMapView.zoomToMarker(this.openedMarker);
       }
     },
 
@@ -403,7 +411,6 @@
     /* If the information of a marker is available in the sidebar, highlight
      * its markers, its related markers and display the relations betweeen them
      * The following options can be passed to the method:
-     *  * zoomToExtent: fit the related markers inside the view
      *  * centerMap: center the map on the selected marker if exists
      */
     restoreOpenedMarkerState: function(options) {
@@ -422,39 +429,39 @@
           this.fetchModel(openedMarkerInfo.type, openedMarkerInfo.id)
             .then(function() {
               /* We search for the opened marker */
-              var openedMarker = this.mapMarkersView.getLeafletMarkers(openedMarkerInfo.type,
+              this.openedMarker = this.mapMarkersView.getLeafletMarkers(openedMarkerInfo.type,
                 openedMarkerInfo.id, openedMarkerInfo.locationId);
 
-              if(openedMarker) {
+              if(this.openedMarker) {
                 if(options.centerMap) {
-                  this.mapMapView.centerMap(openedMarker.getLatLng());
+                  this.mapMapView.centerMap(this.openedMarker.getLatLng());
                 }
 
-                var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(openedMarker);
-                this.mapMarkersView.highlightRelatedMarkers(openedMarker,
+                this.mapZoomButtonsView.enableZoomToSelection();
+
+                var relatedMarkers = this.mapMarkersView.getRelatedLeafletMarkers(this.openedMarker);
+                this.mapMarkersView.highlightRelatedMarkers(this.openedMarker,
                   relatedMarkers);
-                this.mapRelationsView.renderRelations(openedMarker,
+                this.mapRelationsView.renderRelations(this.openedMarker,
                   relatedMarkers);
 
-                if(options.zoomToExtent) {
-                  /* We want the button to be enabled only in case the user
-                   * loaded the page or clicked on a marker, not when the user
-                   * clicks on the map */
-                  this.markersToFit = relatedMarkers;
+                /* We want the button to be enabled only in case the user
+                 * loaded the page or clicked on a marker, not when the user
+                 * clicks on the map */
+                this.markersToFit = relatedMarkers;
 
-                  /* We need to make sure that the markers to fit doesn't have
-                   * all the same location with the selected marker */
-                  var latLngs = _.uniq(_.map(_.union(this.markersToFit, [ openedMarker ]), function(m) {
-                   return m.options.originalLatLng || m.getLatLng();
-                  }));
+                /* We need to make sure that the markers to fit doesn't have
+                 * all the same location with the selected marker */
+                var latLngs = _.uniq(_.map(_.union(this.markersToFit, [ this.openedMarker ]), function(m) {
+                 return m.options.originalLatLng || m.getLatLng();
+                }));
 
-                  if(latLngs.length > 1) {
-                    this.mapZoomButtonsView.enableZoomToExtent();
-                    this.markersToFit = relatedMarkers.slice(0);
-                    this.markersToFit.push(openedMarker);
-                  } else {
-                    this.markersToFit = null;
-                  }
+                if(latLngs.length > 1) {
+                  this.mapZoomButtonsView.enableZoomToExtent();
+                  this.markersToFit = relatedMarkers.slice(0);
+                  this.markersToFit.push(this.openedMarker);
+                } else {
+                  this.markersToFit = null;
                 }
               } else {
                 console.warn('Unable to find the Leaflet marker corresponding' +

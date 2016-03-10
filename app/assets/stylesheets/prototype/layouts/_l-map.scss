@@ -229,6 +229,7 @@
       height: 26px;
       cursor: pointer;
       transition: opacity .4s;
+      margin-right: 2px;
 
       &.-disabled { cursor: default; opacity: .4; }
     }
