@@ -14,12 +14,12 @@
             = t("types.#{actor.type.constantize}")
           span.data
              = actor.status
-          span.data.-linkdata
-            - if actor.localizations.any?
-              = link_to prototype_path(anchor: "actors/#{actor.id}/#{actor.localizations.first.id}"), target: "_blank" do
-                = image_tag "map.svg", :class => "icon"
-                span
-                  = t("shared.view_map")
+          span.data.-linkdata class=('-disabled' unless actor.localizations.any?)
+            - path = actor.localizations.any? ? prototype_path(anchor: "actors/#{actor.id}/#{actor.localizations.first.id}") : "#"
+            = link_to path, target: "_blank" do
+              = image_tag "map.svg", :class => "icon"
+              span
+                = t("shared.view_map")
           span.data.-linkdata
             = link_to edit_actor_path(actor) do
               = image_tag "edit.svg", :class => "icon"
