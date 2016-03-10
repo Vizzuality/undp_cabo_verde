@@ -114,7 +114,7 @@
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
           this.restoreOpenedMarkerState({
-            centerMap: true
+            zoomToSelection: true
           });
           this.mapReady = true;
         }.bind(this));
@@ -411,7 +411,7 @@
     /* If the information of a marker is available in the sidebar, highlight
      * its markers, its related markers and display the relations betweeen them
      * The following options can be passed to the method:
-     *  * centerMap: center the map on the selected marker if exists
+     *  * zoomToSelection: zoom and center the map on the selected marker
      */
     restoreOpenedMarkerState: function(options) {
       options = options || {};
@@ -433,8 +433,8 @@
                 openedMarkerInfo.id, openedMarkerInfo.locationId);
 
               if(this.openedMarker) {
-                if(options.centerMap) {
-                  this.mapMapView.centerMap(this.openedMarker.getLatLng());
+                if(options.zoomToSelection) {
+                  this.mapMapView.zoomToMarker(this.openedMarker);
                 }
 
                 this.mapZoomButtonsView.enableZoomToSelection();
