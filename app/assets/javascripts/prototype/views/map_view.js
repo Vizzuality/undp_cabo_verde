@@ -78,8 +78,8 @@
       this.listenTo(this.mapButtonsView, 'toggle:graph',
         this.onGraphVisibilityChange);
 
-      this.listenTo(this.mapZoomButtonsView, 'click:zoomToFit',
-        this.onZoomToFitButtonClick);
+      this.listenTo(this.mapZoomButtonsView, 'click:zoomToExtent',
+        this.onZoomToExtentButtonClick);
 
       this.listenTo(this.mapGraphView, 'update:legend',
         this.onGraphLegendUpdate);
@@ -112,7 +112,7 @@
           this.mapMarkersView.addFilteredMarkers();
           this.mapLegendView.updateLegendRelations();
           this.restoreOpenedMarkerState({
-            zoomToFit: true,
+            zoomToExtent: true,
             centerMap: true
           });
           this.mapReady = true;
@@ -247,10 +247,10 @@
         this.mapMarkersView.resetRelatedMarkers();
         this.mapRelationsView.removeRelations();
         this.mapLegendView.updateLegendRelations();
-        this.mapZoomButtonsView.disableZoomToFit();
+        this.mapZoomButtonsView.disableZoomToExtent();
 
         if(route === 'actors' || route === 'actions') {
-          this.restoreOpenedMarkerState({ zoomToFit: true });
+          this.restoreOpenedMarkerState({ zoomToExtent: true });
         }
       }
     },
@@ -297,7 +297,7 @@
       }
     },
 
-    onZoomToFitButtonClick: function() {
+    onZoomToExtentButtonClick: function() {
       if(this.markersToFit !== null) {
         this.mapMapView.zoomToFit(this.markersToFit);
       }
@@ -403,7 +403,7 @@
     /* If the information of a marker is available in the sidebar, highlight
      * its markers, its related markers and display the relations betweeen them
      * The following options can be passed to the method:
-     *  * zoomToFit: fit the related markers inside the view
+     *  * zoomToExtent: fit the related markers inside the view
      *  * centerMap: center the map on the selected marker if exists
      */
     restoreOpenedMarkerState: function(options) {
@@ -436,7 +436,7 @@
                 this.mapRelationsView.renderRelations(openedMarker,
                   relatedMarkers);
 
-                if(options.zoomToFit) {
+                if(options.zoomToExtent) {
                   /* We want the button to be enabled only in case the user
                    * loaded the page or clicked on a marker, not when the user
                    * clicks on the map */
@@ -449,7 +449,7 @@
                   }));
 
                   if(latLngs.length > 1) {
-                    this.mapZoomButtonsView.enableZoomToFit();
+                    this.mapZoomButtonsView.enableZoomToExtent();
                     this.markersToFit = relatedMarkers.slice(0);
                     this.markersToFit.push(openedMarker);
                   } else {
