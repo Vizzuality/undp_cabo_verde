@@ -41,30 +41,32 @@ RSpec.describe Ability, type: :model do
     end
   end
 
-  #context 'manager' do
-  #  it 'can manage objects' do
-  #    [User].each do |model|
-  #      Abilities::ManagerUser.any_instance.should_receive(:can).with(:update, model, id: @manageruser.id)
-  #    end
-  #    [Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro,
-  #     ActMeso, ActMacro, ActRelation, Localization, Comment,
-  #     Indicator, ActActorRelation, ActIndicatorRelation, Measurement, Unit, Favourite].each do |model|
-  #      Abilities::ManagerUser.any_instance.should_receive(:can).with(:manage, model, user_id: @manageruser.id)
-  #    end
-  #    Abilities::ManagerUser.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @manageruser.id)
-  #    Abilities::ManagerUser.any_instance.should_receive(:can).with(:dashboard, User)
-  #    Abilities::ManagerUser.any_instance.should_receive(:can).with(:create, OtherDomain)
-  #    [Actor, ActorMacro, ActorMeso, ActorMicro].each do |model|
-  #      Abilities::ManagerUser.any_instance.should_receive(:can).with([:create_favourite, :destroy_favourite], model)
-  #    end
-  #    Abilities::ManagerUser.any_instance.should_receive(:cannot).with([:activate, :deactivate], Localization)
+  context 'manager' do
+    it 'can manage objects' do
+      [User].each do |model|
+        Abilities::ManagerUser.any_instance.should_receive(:can).with(:update, model, id: @manageruser.id)
+      end
+      [Actor, ActorMicro, ActorMeso, ActorMacro, ActorRelation, Act, ActMicro,
+       ActMeso, ActMacro, ActRelation, Localization,
+       Indicator, ActActorRelation, ActIndicatorRelation, Measurement, Unit].each do |model|
+        Abilities::ManagerUser.any_instance.should_receive(:can).with(:manage, model)
+      end
+       Abilities::ManagerUser.any_instance.should_receive(:can).with(:manage, Comment, user_id: @manageruser.id)
+       Abilities::ManagerUser.any_instance.should_receive(:can).with(:manage, Favourite, user_id: @manageruser.id)
+       Abilities::ManagerUser.any_instance.should_receive(:can).with([:activate, :deactivate], Comment, user_id: @manageruser.id)
+       Abilities::ManagerUser.any_instance.should_receive(:can).with(:dashboard, User)
+       Abilities::ManagerUser.any_instance.should_receive(:can).with(:create, OtherDomain)
+      [Actor, ActorMacro, ActorMeso, ActorMicro].each do |model|
+        Abilities::ManagerUser.any_instance.should_receive(:can).with([:create_favourite, :destroy_favourite], model)
+      end
+      Abilities::ManagerUser.any_instance.should_receive(:cannot).with([:activate, :deactivate], Localization)
 
-  #    Abilities::ManagerUser.any_instance.should_receive(:can).with(:read, :all)
-  #    Abilities::ManagerUser.any_instance.should_receive(:cannot).with(:make_user, User, id: @manageruser.id)
-  #    Abilities::ManagerUser.any_instance.should_receive(:cannot).with(:read, RelationType)
-  #    Abilities::ManagerUser.new @manageruser
-  #  end
-  #end
+      Abilities::ManagerUser.any_instance.should_receive(:can).with(:read, :all)
+      Abilities::ManagerUser.any_instance.should_receive(:cannot).with(:make_user, User, id: @manageruser.id)
+      Abilities::ManagerUser.any_instance.should_receive(:cannot).with(:read, RelationType)
+      Abilities::ManagerUser.new @manageruser
+    end
+  end
 
   context 'user' do
     it 'can manage objects' do

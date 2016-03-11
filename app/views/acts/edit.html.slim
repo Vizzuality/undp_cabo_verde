@@ -34,4 +34,5 @@
         = link_to t('shared.delete'), act_path(@act), data: { confirm: t('shared.confirm_message') }, method: :delete, class: 'button -secondary'
         - if current_user
           = render 'shared/deactivatable_links', location: @act
+        = link_to t('shared.cancel'), @act, class: 'button -secondary'
         = f.button :submit, t('shared.update'), class: '-primary'
