@@ -14,29 +14,47 @@
     el: '.l-map',
 
     events: {
-      'click .js-zoom-to-fit': 'onZoomToFit'
+      'click .js-zoom-to-extent': 'onZoomToExtent',
+      'click .js-zoom-to-selection': 'onZoomToSelection'
     },
 
     initialize: function() {
       this.status = new Status();
 
-      this.zoomToFitButton = document.querySelector('.js-zoom-to-fit');
+      this.zoomToExtentButton = document.querySelector('.js-zoom-to-extent');
+      this.zoomToSelectionButton = document.querySelector('.js-zoom-to-selection');
     },
 
-    onZoomToFit: function(e) {
-      if(!this.zoomToFitButton.classList.contains('-disabled')) {
-        this.trigger('click:zoomToFit');
+    onZoomToExtent: function(e) {
+      if(!this.zoomToExtentButton.classList.contains('-disabled')) {
+        this.trigger('click:zoomToExtent');
       }
     },
 
-    /* Enable the button zoom to fit */
-    enableZoomToFit: function() {
-      this.zoomToFitButton.classList.remove('-disabled');
+    onZoomToSelection: function(e) {
+      if(!this.zoomToSelectionButton.classList.contains('-disabled')) {
+        this.trigger('click:zoomToSelection');
+      }
     },
 
-    /* Disable the button zoom to fit */
-    disableZoomToFit: function() {
-      this.zoomToFitButton.classList.add('-disabled');
+    /* Enable the button zoom to extent */
+    enableZoomToExtent: function() {
+      this.zoomToExtentButton.classList.remove('-disabled');
+    },
+
+    /* Disable the button zoom to extent */
+    disableZoomToExtent: function() {
+      this.zoomToExtentButton.classList.add('-disabled');
+    },
+
+    /* Enable the button zoom to selection */
+    enableZoomToSelection: function() {
+      this.zoomToSelectionButton.classList.remove('-disabled');
+    },
+
+    /* Disable the button zoom to selection */
+    disableZoomToSelection: function() {
+      this.zoomToSelectionButton.classList.add('-disabled');
     }
 
   });
