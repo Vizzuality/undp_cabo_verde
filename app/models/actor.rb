@@ -266,8 +266,11 @@ class Actor < ActiveRecord::Base
     end
 
     def includes_actor_relations_belongs(child)
-      # relation_type_id: 2 for belongs to actor - actor relation
-      ActorRelation.where(relation_type_id: 2, child_id: child.id).pluck(:parent_id)
+      # Parent Location is defined as: "Contains" - "Belongs To"
+      ActorRelation.joins(:relation_type).
+        where("LOWER(relation_types.title) = :parent_relation OR LOWER(relation_types.title_reverse) = :parent_relation", parent_relation: "contains").
+        where(child_id: child.id).pluck(:parent_id)
+
     end
 
     def get_parents
