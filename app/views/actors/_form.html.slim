@@ -30,14 +30,14 @@
     .row
       .column.medium-8.medium-offset-4
         h2.form-title= t('localizations.localizations')
-    
+
     - unless @actor.new_record? || @actor.meso_or_macro?
       - unless common_form?
         .row
           .column.medium-8.medium-offset-4
             p.in-form-info
               = t('localizations.select_parent_location')
-        
+
     - if common_form? && @actor.localizations.empty? && @actor.parent_location_id.nil?
       .row
         .column.medium-8.medium-offset-4

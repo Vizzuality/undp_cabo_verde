@@ -111,7 +111,7 @@ Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde
     -H "Accept: application/json; application/gfwc-v1+json" \
     -H "Content-Type: application/json"
 
-  Getting a specific country
+  Getting a specific actor
 
     curl "http://localhost:5000/api/actors/1" -X GET \
     -H "Accept: application/json; application/undp-cabo-verde-v1+json" \
@@ -126,6 +126,32 @@ Please check all of [these points](https://github.com/Vizzuality/undp_cabo_verde
 ```ruby
   rake docs:generate
 ```
+
+### Favourites Feature ###
+
+Sample for favourites links implementation on BO
+
+1. Add to the top of the controller that you wish to add to favourites feature:
+   include FavouriteActions
+   before_action :current_object,  only: [:create_favourite, :destroy_favourite]
+2. on controller bottom in private section define current_object like:
+   def current_object
+     @object = Actor.find(params[:id])
+   end
+3. Define in abilities like:
+   can [:create_favourite, :destroy_favourite], ::Actor
+4. Define the routes like:
+   resources :actors do
+     post   'create_favourite',  on: :member
+     delete 'destroy_favourite', on: :member
+   end
+5. Add to your template the partial for favourites links:
+   div
+     span.data
+       - if current_user
+         div id="#{actor.id}-favourites-buttons"
+           = render partial: 'shared/favourites_buttons', locals: { object: actor }
+
 
 ## DEPLOYMENT ##
 

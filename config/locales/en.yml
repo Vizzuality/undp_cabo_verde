@@ -475,7 +475,8 @@ en:
     session_expired: Your session expired. Please log in again.
     no_saved_search: You haven't saved any search yet
     relationships: Relationships
-    zoom_to_fit: Zoom to fit
+    zoom_to_extent: Zoom to extent of relationships
+    zoom_to_selection: Zoom to selection
     legal_status: Legal status
     organization_types: Organization types
     observation: Observation

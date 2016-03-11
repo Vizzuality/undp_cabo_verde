@@ -84,8 +84,14 @@ html lang="en"
             label class="label" for="map-relationships-toggle"
               = t('front.relationships_graph')
         #map-zoom-to-fit
-          svg.icon.js-zoom-to-fit.-disabled title="#{ t('front.zoom_to_fit') }"
-            use xlink:href="#zoomToFitIcon" x="-2" y="-2"
+          svg.icon.js-zoom-to-extent.-disabled title="#{ t('front.zoom_to_extent') }"
+            use xlink:href="#zoomToExtentIcon" x="-2" y="-2"
+          ul.popover-menu.zoom-to-extent
+            li.item = t('front.zoom_to_extent')
+          svg.icon.js-zoom-to-selection.-disabled title="#{ t('front.zoom_to_selection') }"
+            use xlink:href="#zoomToSelectionIcon" x="-2" y="-2"
+          ul.popover-menu.zoom_to_selection
+            li.item = t('front.zoom_to_selection')
       aside.l-sidebar#sidebar aria-hidden="false" role="navigation"
         .message.-error.global-error.js-global-error._hidden
         a.toggleswitch href="#sidebar" role="button" aria-label="sidebar" aria-controls="navigation" aria-expanded="true"

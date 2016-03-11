@@ -56,6 +56,11 @@
       }
     },
 
+    /* Zoom to the passed marker */
+    zoomToMarker: function(marker) {
+      this.map.setView(marker.options.originalLatLng || marker.getLatLng(), 16);
+    },
+
     /* Center the map to the latLng object or array of coordinates passed as
      * argument */
     centerMap: function(latLng) {
