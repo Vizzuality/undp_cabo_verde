@@ -229,9 +229,45 @@
       height: 26px;
       cursor: pointer;
       transition: opacity .4s;
-      margin-right: 2px;
+
+      /* Fix weird positioning bug */
+      &:nth-of-type(2) {
+        position: relative;
+        left: -2px;
+      }
 
       &.-disabled { cursor: default; opacity: .4; }
+
+      &:hover + .popover-menu {
+        display: block;
+      }
+    }
+
+    & > .popover-menu {
+      width: 150px;
+      top: -10px;
+      bottom: auto;
+      left: 13px;;
+      transform: translate(-50%, -100%);
+      display: none;
+
+      &:nth-of-type(2) {
+        left: 41px;
+      }
+
+      &:after { /* The tip */
+        bottom: -10px;
+        top: auto;
+        border: 5px solid transparent;
+        border-top-color: $color-5;
+      }
+
+      & > .item {
+        padding: 5px 20px;
+        background-color: $color-5;
+        color: $color-10;
+        line-height: 20px;
+      }
     }
   }
 }
