@@ -61,6 +61,11 @@
               = f.label :organization_type_ids, class: 'right inline'
             .column.medium-8
               = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }
+              - if (can? :create, Category)
+                p.add-hint
+                  | Don’t see a category that fits with your data?&nbsp;
+                  = link_to 'Add a new one.', new_category_path, :target => "_blank"
+
 
     = render partial: f
 

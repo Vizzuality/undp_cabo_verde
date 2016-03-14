@@ -55,6 +55,10 @@
           = form.label :organization_type_ids, class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, :input_html => {:multiple => true, class: ((OrganizationType.count > 4) ? "js-mselect" : "")}, disabled: common_form?
+          - if (can? :create, Category)
+            p.add-hint
+              | Don’t see a category that fits with your data?&nbsp;
+              = link_to 'Add a new one.', new_category_path, :target => "_blank"
       / Categories
       / SCD's
       .row
@@ -114,7 +118,7 @@
             - unless common_form?
               p.text-right.add-button
                 / Add more css classes to 'add_actor', sample 'add_actor your_class_name'
-                = add_actor_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_fields add_actor add_actors_fields'
+                = add_actor_relation_path t('relations.add_relation'), form, :act_actor_relations, 'add_actor add_actors_fields'
 
           div#action_relation_form.content
             = form.fields_for :act_relations_as_child do |action_parents_form|

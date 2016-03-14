@@ -26,6 +26,10 @@
       font-weight: map-get($m-font-weight, light) !important;
       width: 200px !important;
       padding: 7px 0px 0px 3px !important;
+
+      &:disabled {
+        display: none !important;
+      }
     }
   }
 }

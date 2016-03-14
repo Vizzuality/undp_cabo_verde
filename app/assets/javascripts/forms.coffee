@@ -109,10 +109,11 @@ jQuery ->
 
   $(document).on 'click', '.add_other_domain', (event) ->
     domains_form   = $('.form-inputs-other-domains:visible')
-    domains_select = $('.domains-chose')
-    if (domains_form.length == 2)
-      $(this).hide()
-    if (domains_select.val().length > 1)
+    sc_domains = $('.sc-domains-chose').val() || []
+    o_domains = $('.o-domains-chose').val() || []
+    total_length = sc_domains.length + o_domains.length
+
+    if ((total_length + domains_form.length) == 3)
       $(this).hide()
     event.preventDefault()
 
