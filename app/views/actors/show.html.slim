@@ -69,6 +69,11 @@
                 label: false, input_html: { multiple: true,
                 class: ((OrganizationType.count > 4) ? "js-mselect" : "") },
                 disabled: true
+              - if (can? :create, Category)
+                p.add-hint
+                  | Don’t see a category that fits with your data?&nbsp;
+                  = link_to 'Add a new one.', new_category_path, :target => "_blank"
+
 
     = render partial: f
 

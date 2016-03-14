@@ -257,7 +257,7 @@ en:
     admin: 'Admin'
     manager: 'Manager'
     user: 'Public'
-    add_other_domain: 'Add domain'
+    add_other_domain: 'Add a new domain'
     no_entries: 'No entries'
 
   actors:
@@ -288,7 +288,8 @@ en:
     current_actor: 'Current actor'
     to_current_actor: 'To current actor'
     to_actor: 'To actor'
-    relation_name: 'Relation title'
+    relation_name: 'Relation'
+    reverse_relation_name: 'Reverse relation'
     main: 'Main location'
 
   acts:

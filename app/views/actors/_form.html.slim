@@ -19,6 +19,12 @@
           = form.label :other_domain_ids, '* ' + t('categories.other_domains'), class: 'right inline', disabled: common_form?
         .column.medium-8
           = form.input :other_domain_ids, collection: @other_domains, as: ((Category.od_categories.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((Category.od_categories.count > 4) ? "domains-chose o-domains-chose" : "") }, disabled: common_form?
+          p.add-hint
+            | Add at least one of 3x5 or 3xX and at most three.
+            br
+            | If you don't see what you are looking for, add a new domain
+              from the link below.
+
       - unless common_form?
         .row
           .column
