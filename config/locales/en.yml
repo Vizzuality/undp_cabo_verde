@@ -257,7 +257,7 @@ en:
     admin: 'Admin'
     manager: 'Manager'
     user: 'Public'
-    add_other_domain: 'Add domain'
+    add_other_domain: 'Add a new domain'
     no_entries: 'No entries'
 
   actors:

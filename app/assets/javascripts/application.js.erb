@@ -295,12 +295,11 @@ var showHideDomainLink = function() {
 
   var domainsValues   = scDomainsValuesLength + odDomainsValuesLength;
 
-  if (domainsValues && domainsValues < 3 && domainsValues > 0) {
+  if (domainsValues < 3 && domainsValues >= 0) {
     $('.add_other_domain').show();
   } else {
     $('.add_other_domain').hide();
   };
-
   var toggleDomainLink;
   var changeMultiselect;
 
@@ -311,19 +310,19 @@ var showHideDomainLink = function() {
     var odDomainsValuesLength = odDomainsValues ? odDomainsValues.length : 0;
 
     var domainsValues = scDomainsValuesLength + odDomainsValuesLength;
-    var targetVal     = $(event.currentTarget).val();
+    var targetVal     = $(event.currentTarget).val() || [];
 
     if ($(event.currentTarget).hasClass('sc-domains-chose')) {
-      if (targetVal && (targetVal.length + odDomainsValuesLength) > 2) {
+      if ((targetVal.length + odDomainsValuesLength) > 2) {
         $('.add_other_domain').hide();
         $('.form-inputs-other-domains').remove();
-      } else if (targetVal && (targetVal.length + odDomainsValuesLength) > 0) {
+      } else if ((targetVal.length + odDomainsValuesLength) >= 0) {
         if ((targetVal.length + odDomainsValuesLength) == 2 && $('.form-inputs-other-domains:visible').length > 1) {
           $('.add_other_domain').hide();
           $('.form-inputs-other-domains:visible:last').remove();
         } else if ((targetVal.length + odDomainsValuesLength) > 1 && $('.form-inputs-other-domains:visible').length > 0) {
           $('.add_other_domain').hide();
-        } else if ((targetVal.length + odDomainsValuesLength) > 0) {
+        } else if ((targetVal.length + odDomainsValuesLength) >= 0) {
           $('.add_other_domain').show();
         }
       } else {
@@ -331,16 +330,16 @@ var showHideDomainLink = function() {
         $('.form-inputs-other-domains').remove();
       }
     } else if ($(event.currentTarget).hasClass('o-domains-chose')) {
-      if (targetVal && (targetVal.length + scDomainsValuesLength) > 2) {
+      if ((targetVal.length + scDomainsValuesLength) > 2) {
         $('.add_other_domain').hide();
         $('.form-inputs-other-domains').remove();
-      } else if (targetVal && (targetVal.length + scDomainsValuesLength) > 0) {
+      } else if ((targetVal.length + scDomainsValuesLength) >= 0) {
         if ((targetVal.length + scDomainsValuesLength) == 2 && $('.form-inputs-other-domains:visible').length == 2) {
           $('.add_other_domain').hide();
           $('.form-inputs-other-domains:visible:last').remove();
         } else if ((targetVal.length + scDomainsValuesLength) > 1 && $('.form-inputs-other-domains:visible').length > 0) {
           $('.add_other_domain').hide();
-        } else if ((targetVal.length + scDomainsValuesLength) > 0) {
+        } else if ((targetVal.length + scDomainsValuesLength) >= 0) {
           $('.add_other_domain').show();
         }
       } else {
