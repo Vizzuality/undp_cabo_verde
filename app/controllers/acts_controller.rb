@@ -133,7 +133,7 @@ class ActsController < ApplicationController
       @units                  = Unit.order(:name)
       @actor_relation_types           = RelationType.order(:title).includes_actor_act_relations.collect     { |rt| [ rt.title_reverse, rt.id ] }
       @action_relation_types          = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title, rt.id ]         }
-      @action_relation_children_types = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title_reverse, rt.id ] }
+      @action_reverse_relation_types = RelationType.order(:title).includes_act_relations.collect           { |rt| [ rt.title_reverse, rt.id ] }
       @indicator_relation_types       = RelationType.order(:title).includes_act_indicator_relations.collect { |rt| [ rt.title, rt.id ]         }
     end
 

@@ -26,7 +26,7 @@
           = @act.name
   .row
     .column.medium-4
-      = f.label :relation_type_id, "* " + t('acts.current_action'),
+      = f.label :relation_type_id, "* " + t('acts.relation_name'),
         class: 'right inline', disabled: common_form?
     .column.medium-8
       = f.input :relation_type_id, collection: @actor_relation_types,
