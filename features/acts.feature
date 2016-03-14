@@ -176,7 +176,7 @@ I want to manage an act
     Then I should see "Third one" within ".current-action-wrapper"
     When I click on ".switch_parent_form"
     And I select from the following hidden field ".relation_parent_id" with "Second one"
-    And I select from the following hidden field ".relation_type_id" with "contains"
+    And I select from the following hidden field ".relation_type_id" with "belongs to"
     When I fill in the following field ".relation_start_date" with "1990-03-10"
     When I fill in the following field ".relation_end_date" with "2010-03-10"
     And I press "Update"
