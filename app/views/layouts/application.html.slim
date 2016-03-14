@@ -15,18 +15,18 @@ html lang='en'
             = link_to (image_tag 'undp-logo.png'), "/"
           = render 'shared/navbar'
 
-      - if notice or alert
+      - if notice || alert
         .l-alerts
           .row: .small-12.medium-12.large-12.columns
             - if alert
               .alert-box.alert data-alert='true'
-                div 
+                div
                   = image_tag 'alert.svg', class: 'circle-icon'
                   = alert
                 a.close href='#' &times;
             - else
               .alert-box.success data-alert='true'
-                div 
+                div
                   = image_tag 'success.svg', class: 'circle-icon'
                   = notice
                 a.close href='#' &times;
