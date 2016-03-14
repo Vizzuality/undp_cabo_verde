@@ -38,6 +38,10 @@
               = f.label :operational_field, class: 'right inline', required: true
             .column.medium-8
               = f.input :operational_field, collection: @operational_fields, as: :collection_select, label: false, required: true, input_html: { class: 'chosen-select' }
+            - if (can? :create, Category)
+              p.add-hint
+                | Don’t see an operational field that fits with your data?&nbsp;
+                = link_to 'Add a new one.', new_category_path, :target => "_blank"
         #form-actor.meso.macro._hidden
           .row
             .column.medium-4
@@ -59,6 +63,11 @@
               = f.label :organization_type_ids, class: 'right inline'
             .column.medium-8
               = f.input :organization_type_ids, collection: @organization_types, as: ((OrganizationType.count > 4) ? :select : :check_boxes), label: false, input_html: { multiple: true, class: ((OrganizationType.count > 4) ? "js-mselect" : "") }
+              - if (can? :create, Category)
+                p.add-hint
+                  | Don’t see an organization type that fits with your data?&nbsp;
+                  = link_to 'Add a new one.', new_category_path, :target => "_blank"
+
     = render partial: f
 
     .row.footer-helper
