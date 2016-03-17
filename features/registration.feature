@@ -13,5 +13,5 @@ I want to register
     And I press "Register"
     Then I should be on the root page
     And I should see "Welcome! You have signed up successfully."
-    And I should see "Welcome to UNDP – Climate Action Intelligence Tool"
+    And I should see "Welcome to UNDP – Action Intelligence Tool"
     And I should have an user
