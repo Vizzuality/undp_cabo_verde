@@ -164,7 +164,7 @@ var removeMarkerFrom = function(map, marker) {
 /* Return the address associated to coordinates with the Nominatim service. It
  * uses the promise architecture to execute code when the information is
  * available. */
-var retrieveAddressFrom = function(lat, lng) {
+var retrieveAddressFromLatLng = function(lat, lng) {
   var deferred = $.Deferred();
 
   var ajax = $.ajax({
@@ -183,6 +183,33 @@ var retrieveAddressFrom = function(lat, lng) {
     deferred.resolve(res);
   }).fail(function() {
       console.warn('Unable to retrieve the address from the Nominatim service');
+    });
+
+  return deferred.promise();
+};
+
+
+/* Return the coordinates associated to city and country with the Nominatim
+ * service. It uses the promise architecture to execute code when the
+ * information is available. */
+var retrieveAddressFromCityCountry = function(city, country) {
+  var deferred = $.Deferred();
+
+  var ajax = $.ajax({
+    url: 'http://nominatim.openstreetmap.org/search',
+    data: {
+      format: 'json',
+      limit: 1,
+      city: city,
+      country: country
+    }
+  });
+
+  ajax.done(function(data) {
+    var res = data.length && data[0] || {};
+    deferred.resolve(res);
+  }).fail(function() {
+      console.warn('Unable to retrieve the coordinates from the Nominatim service');
     });
 
   return deferred.promise();
@@ -241,24 +268,47 @@ var initPreviewMap = function(container) {
           lng = e.latlng.lng;
       if(marker) { removeMarkerFrom(map, marker); }
       marker = dropMarkerOn(map, lat, lng);
-      retrieveAddressFrom(lat, lng).done(function(address) {
+      retrieveAddressFromLatLng(lat, lng).done(function(address) {
         autocompleteInputs(address, { force: true });
       });
     });
 
-    /* When the user fills the inputs, we try to autocomplete the others */
-    var inputsListener = function() {
+    /* When the user fills the lat and lng, we try to autocomplete the others
+     * fields */
+    var coordinatesChange = function() {
       if(latField.value.length === 0 || lngField.value.length === 0) {
         return;
       }
-      retrieveAddressFrom(latField.value,
+      retrieveAddressFromLatLng(latField.value,
         lngField.value).done(autocompleteInputs);
       /* We add a marker to the location */
       if(marker) { removeMarkerFrom(map, marker); }
       marker = dropMarkerOn(map, latField.value, lngField.value);
     };
-    $(latField).on('change', inputsListener);
-    $(lngField).on('change', inputsListener);
+    $(latField).on('change', coordinatesChange);
+    $(lngField).on('change', coordinatesChange);
+
+    /* When the user fills the city and country, we update the coordinates and
+     * then the map */
+    var cityCountryChange = function() {
+      if(cityField.value.length === 0 || countryField.value.length === 0) {
+        return;
+      }
+
+      retrieveAddressFromCityCountry(cityField.value,
+        countryField.options[countryField.selectedIndex].text)
+        .done(function(info) {
+          if(info.lat && info.lon) {
+            latField.value = info.lat;
+            lngField.value = info.lon;
+            /* We add a marker to the location */
+            if(marker) { removeMarkerFrom(map, marker); }
+            marker = dropMarkerOn(map, latField.value, lngField.value);
+          }
+        });
+    };
+    $(cityField).on('change', cityCountryChange);
+    $(countryField).on('change', cityCountryChange);
   }
 };
 
