@@ -1,15 +1,19 @@
 class Search::Acts
   attr_reader :page, :per_page
 
-  def initialize(options)
+  def initialize(options, paged=true)
     @id = 1
+    @paged = paged
     initialize_params(options)
     initialize_query
   end
 
   def results
-    @query.limit(@per_page).
-      offset(@per_page * (@page-1)).all
+    if @paged
+      @query = @query.limit(@per_page).
+      offset(@per_page * (@page-1))
+    end
+    @query.all
   end
 
   def total_cnt

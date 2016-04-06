@@ -4,7 +4,7 @@ module API::V1
     before_action :set_search_filter, only: [:index, :show]
 
     def index
-      @search = Search::Actors.new(params)
+      @search = Search::Actors.new(params, paged)
       @actors = @search.results.filter_actives.order(:name)
       respond_with @actors, each_serializer: ActorArraySerializer, root: 'actors', search_filter: @search_filter, meta: { size: @search.total_cnt, cache_date: @actors.last_max_update }
     end
@@ -25,6 +25,10 @@ module API::V1
         @search_filter['domains_ids'] = params[:domains_ids] if params[:domains_ids].present?
         @search_filter['start_date']  = params[:start_date]  if params[:start_date].present?
         @search_filter['end_date']    = params[:end_date]    if params[:end_date].present?
+      end
+
+      def paged
+        params[:page].present?
       end
   end
 end

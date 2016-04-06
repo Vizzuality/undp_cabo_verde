@@ -4,9 +4,10 @@ module API::V1
     before_action :set_search_filter, only: [:index, :show]
 
     def index
-      @search = Search::Acts.new(params)
+      @search = Search::Acts.new(params, paged)
       @acts = @search.results.filter_actives.order(:name)
-      respond_with @acts, each_serializer: ActArraySerializer, root: 'actions', search_filter: @search_filter, meta: { size: @search.total_cnt, cache_date: @acts.last_max_update }
+      respond_with @acts, each_serializer: ActArraySerializer, root: 'actions',
+        search_filter: @search_filter, meta: { size: @search.total_cnt, cache_date: @acts.last_max_update }
     end
 
     def show
@@ -25,6 +26,10 @@ module API::V1
         @search_filter['domains_ids'] = params[:domains_ids] if params[:domains_ids].present?
         @search_filter['start_date']  = params[:start_date]  if params[:start_date].present?
         @search_filter['end_date']    = params[:end_date]    if params[:end_date].present?
+      end
+
+      def paged
+        params[:page].present?
       end
   end
 end
